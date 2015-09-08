@@ -1,5 +1,5 @@
 # Spring Mvc Tomcat Seed
-[![Build Status](https://travis-ci.org/Lorac/spring-mvc-tomcat-seed.svg?branch=master)](https://travis-ci.org/Lorac/spring-mvc-tomcat-seed)   
+[![build status](https://ci.gitlab.com/projects/7180/status.png?ref=master)](https://ci.gitlab.com/projects/7180?ref=master)
 Run with 
 ```
 mvn install tomcat7:run
