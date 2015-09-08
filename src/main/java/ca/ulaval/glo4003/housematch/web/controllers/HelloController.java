@@ -1,4 +1,4 @@
-package com.springapp.mvc;
+package ca.ulaval.glo4003.housematch.web.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
