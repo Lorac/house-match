@@ -1,3 +1,6 @@
-School project GLO-4003
-=======================
-Buy or sell your house on our website
+# Buy or Sell your house
+[![build status](https://ci.gitlab.com/projects/7180/status.png?ref=master)](https://ci.gitlab.com/projects/7180?ref=master)
+Run with 
+```
+mvn install tomcat7:run
+```
