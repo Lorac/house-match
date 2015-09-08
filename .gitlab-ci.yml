@@ -1,0 +1,4 @@
+run-test:
+  stage: test
+  script:
+    - mvn clean test
