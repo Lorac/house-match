@@ -34,13 +34,13 @@
             <id>guboi72</id>
         </developer>
         <developer>
-            <email>	ericsim90@gmail.com</email>
+            <email>ericsim90@gmail.com</email>
             <name>Éric Simard</name>
             <url>https://gitlab.com/u/ericsim</url>
             <id>ericsim</id>
         </developer>
         <developer>
-            <email>o.robert@hotmail.com</email>
+            <email>olivier.robert.91@gmail.com</email>
             <name>Olivier Robert</name>
             <url>https://gitlab.com/u/olivierr91</url>
             <id>olivierr91</id>
@@ -50,6 +50,12 @@
             <name>Marie-Hélène Bouchard</name>
             <url>https://gitlab.com/u/dkatanari</url>
             <id>dkatanari</id>
+        </developer>
+		<developer>
+            <email>antoine.giasson.2@gmail.com</email>
+            <name>Antoine Giasson</name>
+            <url>https://gitlab.com/u/antoine-giasson-2</url>
+            <id>antoine-giasson-2</id>
         </developer>
     </developers>
 
