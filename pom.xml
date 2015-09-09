@@ -11,7 +11,7 @@
         <tomcat7Version>7.0.64</tomcat7Version>
         <slf4jVersion>1.7.12</slf4jVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <checkstyle.config.location>src/main/resources/checkstyle.xml</checkstyle.config.location>
+        <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
     </properties>
 
     <prerequisites>
