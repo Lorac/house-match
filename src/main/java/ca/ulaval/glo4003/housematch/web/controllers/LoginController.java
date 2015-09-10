@@ -11,15 +11,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public ModelAndView displayLogin() {
-        ModelAndView model = new ModelAndView("login");
-        return model;
+    public final ModelAndView displayLogin() {
+        return new ModelAndView("login", "loginFormViewModel", new LoginFormViewModel());
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView executeLogin(@ModelAttribute("loginForm") LoginFormViewModel loginFormViewModel) {
+    public final ModelAndView executeLogin(@ModelAttribute("loginForm") final LoginFormViewModel loginFormViewModel) {
         ModelAndView model = new ModelAndView("home");
-        model.addObject("loginForm", loginFormViewModel.username);
+        model.addObject("loginForm", loginFormViewModel.getUsername());
         return model;
     }
 
