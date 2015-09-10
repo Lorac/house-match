@@ -1,4 +1,4 @@
-package com.springapp.mvc;
+package ca.ulaval.glo4003.housematch.web.controllers;
 
 import org.junit.Before;
 import org.junit.Test;
