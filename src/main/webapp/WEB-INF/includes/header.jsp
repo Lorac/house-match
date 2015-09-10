@@ -6,6 +6,9 @@
 <!-- Bootstrap core CSS -->
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- Common CSS -->
+<link href="/resources/css/site.css" rel="stylesheet">
+
 
 
   
