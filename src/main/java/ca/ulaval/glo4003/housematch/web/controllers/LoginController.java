@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping(value = "/login")
 public class LoginController {
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public final ModelAndView displayLogin() {
         return new ModelAndView("login", "loginFormViewModel", new LoginFormViewModel());
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public final ModelAndView executeLogin(@ModelAttribute("loginForm") final LoginFormViewModel loginFormViewModel) {
         ModelAndView model = new ModelAndView("home");
         model.addObject("loginForm", loginFormViewModel.getUsername());
