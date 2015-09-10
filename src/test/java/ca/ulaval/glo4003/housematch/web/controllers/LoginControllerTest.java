@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -35,6 +36,13 @@ public class LoginControllerTest {
         mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
+    }
+
+    @Test
+    public void whenUserTryToLoginWithGoodCredentialShouldRenderTheHomepage() throws Exception {
+        mockMvc.perform(post("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("home"));
     }
 
 }
