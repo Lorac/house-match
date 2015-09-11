@@ -1,7 +1,4 @@
-checkstyle:
-  script:
-    - mvn checkstyle:check
 run-test:
   stage: test
   script:
-    - mvn clean test
+    - mvn clean test checkstyle:check
