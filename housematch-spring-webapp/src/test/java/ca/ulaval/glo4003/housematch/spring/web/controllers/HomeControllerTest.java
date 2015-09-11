@@ -14,15 +14,14 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.hamcrest.Matchers.hasProperty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration("classpath:mvc-dispatcher-servlet.xml")
-public class LoginControllerTest {
+public class HomeControllerTest {
 
     private MockMvc mockMvc;
 
@@ -36,30 +35,11 @@ public class LoginControllerTest {
 
     @Test
     public void loginControllerShouldRenderLoginView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get("/login").accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get("/").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name("login"));
-    }
-
-    @Test
-    public void loginControllerShouldRenderLoginViewWithUsernameAndPassword() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get("/login").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
-
-        results.andExpect(model().attribute("loginFormViewModel", hasProperty("username")));
-        results.andExpect(model().attribute("loginFormViewModel", hasProperty("password")));
-
-    }
-
-    @Test
-    public void whenUserTryToLoginWithGoodCredentialShouldRenderTheHomepage() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post("/login").requestAttr("home", "/");
-        mockMvc.perform(postRequest)
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
+        results.andExpect(view().name("home"));
     }
 
 }

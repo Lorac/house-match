@@ -67,13 +67,15 @@
     </dependencies>
 
     <build>
+        <finalName>HouseMatch</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <url>http://localhost:8080/</url>
+                    <url>http://localhost:8080/HouseMatch</url>
+                    <path>/</path>
                 </configuration>
             </plugin>
         </plugins>

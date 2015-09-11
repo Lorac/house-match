@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LoginController {
@@ -16,9 +17,13 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public final ModelAndView executeLogin(@ModelAttribute("loginForm") final LoginFormViewModel loginFormViewModel) {
-        ModelAndView model = new ModelAndView("home");
-        model.addObject("loginForm", loginFormViewModel.getUsername());
+    public final ModelAndView executeLogin(
+            @ModelAttribute("loginFormViewModel") final LoginFormViewModel loginForm,
+            RedirectAttributes redirectAttributes) {
+
+        ModelAndView model = new ModelAndView("redirect:/");
+        redirectAttributes.addFlashAttribute("username", loginForm.getUsername());
+
         return model;
     }
 

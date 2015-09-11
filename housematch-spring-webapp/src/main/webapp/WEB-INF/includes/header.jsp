@@ -3,12 +3,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
 <meta name="description" content="HouseMatch">
 
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+
 <!-- Bootstrap core CSS -->
 <link href="/resources/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Common CSS -->
 <link href="/resources/css/site.css" rel="stylesheet">
-
-
-
-  
