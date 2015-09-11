@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:housematch-spring-webapp/src/main/webapp/WEB-INF/mvc-dispatcher-servlet.xml")
+@ContextConfiguration("classpath:mvc-dispatcher-servlet.xml")
 public class LoginControllerTest {
 
     private MockMvc mockMvc;
