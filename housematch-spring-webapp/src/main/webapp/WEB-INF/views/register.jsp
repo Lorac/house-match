@@ -1,47 +1,83 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <html>
-	<head>
-		<%@ include file="../includes/header.jsp" %>
-		
-		<title>HouseMatch - Register</title>
-	</head>
+<head>
+<%@include file="../includes/header.jsp"%>
 
-	<body>
-		<div class="container">
-			<h2>Register</h2>
-			<form:form role="form" method="POST" action="/users/registerUser" modelAttribute="user">
-				<div class="form-group">
-					<c:if test="${not empty message}">
-							<div class="alert alert-danger" style="margin-top: 10px;" role="alert">${message.message}</div>
-					</c:if>
-				</div>
-				<div class="form-group">
-					<form:label path="email">Email</form:label>
-					<form:input class="form-control" type="email" path="email" value="${user.email}" required="required" />
-				</div>
-				<div class="form-group">
-					<form:label path="password">Password</form:label>
-					<form:input class="form-control" path="password" value="${user.password}" required="required" />
-				</div>
+<!-- Custom styles for this page -->
+<link href="/resources/css/login.css" rel="stylesheet">
 
-				<div class="form-group">
-					<b>Role</b>
-					<td>
-						<form:select class="form-control" path="role">
-						<form:options items="${user.registerableRoles}"></form:options>
-						</form:select>
-					</td>
-				</div>
 
-				<div class="form-group">
-					<input type="submit" value="Register" class="btn btn-primary"></input>
-				</div>
-			</form:form>
-		</div>
+<title>HouseMatch - Login</title>
+</head>
 
-		<%@include file="../includes/footer.jsp"%>
+<body>
 
-	</body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="#" id="login-form-link" onclick="javascript: window.location.href = '/login'">Login</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="#" class="active" id="register-form-link">Register</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form:form id="register-form" role="form" commandName="registerForm" action="register"
+                                    method="POST">
+                                    <div class="form-group">
+                                        <c:if test="${not empty message.message}">
+                                            <div class="alert alert-danger" style="margin-top: 10px;" role="alert">${message.message}</div>
+                                        </c:if>
+                                    </div>
+                                    <div class="form-group">
+                                        <form:input type="text" path="username" class="form-control" tabindex="1"
+                                            placeholder="Username" />
+                                    </div>
+                                    <div class="form-group">
+                                        <form:input type="email" path="email" class="form-control" tabindex="2"
+                                            placeholder="Email address" />
+                                    </div>
+                                    <div class="form-group">
+                                        <form:input type="password" path="password" class="form-control" tabindex="3"
+                                            placeholder="Password" />
+                                    </div>
+                                    <div class="form-group">
+                                        <b>Role</b>
+                                        <form:select path="role" class="form-control" tabindex="4">
+                                            <form:options items="${registerableRoles}"></form:options>
+                                        </form:select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit"
+                                                    tabindex="4" class="form-control btn btn-register"
+                                                    value="Register Now">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%@include file="../includes/footer.jsp"%>
+    <script src="/resources/js/login.js"></script>
+
+</body>
 </html>

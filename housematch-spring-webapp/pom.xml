@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>HouseMatch</artifactId>
         <groupId>ca.ulaval.glo4003</groupId>
@@ -16,7 +15,12 @@
 
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
-            <artifactId>housematch-domain</artifactId>
+            <artifactId>housematch-core</artifactId>
+            <version>0.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.ulaval.glo4003</groupId>
+            <artifactId>housematch-inmemory-persist</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
 
@@ -55,6 +59,13 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- JavaServer Pages Components -->
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
         </dependency>
     </dependencies>
 
