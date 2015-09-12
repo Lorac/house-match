@@ -50,7 +50,6 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
     public final ModelAndView displayRegister() {
-        RegisterFormViewModel register = new RegisterFormViewModel(userService.getRegisterableUserRoles());
         return new ModelAndView("register", "registerForm",
                 new RegisterFormViewModel(userService.getRegisterableUserRoles()));
     }
