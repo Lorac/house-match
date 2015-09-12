@@ -1,219 +1,219 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>ca.ulaval.glo4003</groupId>
-	<artifactId>HouseMatch</artifactId>
-	<packaging>pom</packaging>
-	<version>0.2-SNAPSHOT</version>
-	<modules>
-		<module>housematch-spring-webapp</module>
-		<module>housematch-domain</module>
-	</modules>
-	<name>HouseMatch</name>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ca.ulaval.glo4003</groupId>
+    <artifactId>HouseMatch</artifactId>
+    <packaging>pom</packaging>
+    <version>0.2-SNAPSHOT</version>
+    <modules>
+        <module>housematch-spring-webapp</module>
+        <module>housematch-domain</module>
+    </modules>
+    <name>HouseMatch</name>
 
-	<properties>
-		<spring.version>4.2.1.RELEASE</spring.version>
-		<tomcat7Version>7.0.64</tomcat7Version>
-		<slf4jVersion>1.7.12</slf4jVersion>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
-	</properties>
+    <properties>
+        <spring.version>4.2.1.RELEASE</spring.version>
+        <tomcat7Version>7.0.64</tomcat7Version>
+        <slf4jVersion>1.7.12</slf4jVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
+    </properties>
 
-	<prerequisites>
-		<maven>3.0.5</maven>
-	</prerequisites>
+    <prerequisites>
+        <maven>3.0.5</maven>
+    </prerequisites>
 
-	<scm>
-		<url>https://gitlab.com/GLO-4003/house-match</url>
-		<connection>scm:git:git@gitlab.com:GLO-4003/house-match.git</connection>
-		<developerConnection>scm:git:git@gitlab.com:GLO-4003/house-match.git</developerConnection>
-		<tag>0.1</tag>
-	</scm>
+    <scm>
+        <url>https://gitlab.com/GLO-4003/house-match</url>
+        <connection>scm:git:git@gitlab.com:GLO-4003/house-match.git</connection>
+        <developerConnection>scm:git:git@gitlab.com:GLO-4003/house-match.git</developerConnection>
+        <tag>0.1</tag>
+    </scm>
 
-	<developers>
-		<developer>
-			<email>maxime.roussinbelanger@gmail.com</email>
-			<name>Maxime Roussin-Bélanger</name>
-			<url>https://gitlab.com/u/maxime-roussinbelanger</url>
-			<id>mroussin</id>
-		</developer>
-		<developer>
-			<email>guboi72@gmail.com</email>
-			<name>Guillaume Boily</name>
-			<url>https://gitlab.com/u/guboi72</url>
-			<id>guboi72</id>
-		</developer>
-		<developer>
-			<email>ericsim90@gmail.com</email>
-			<name>Éric Simard</name>
-			<url>https://gitlab.com/u/ericsim</url>
-			<id>ericsim</id>
-		</developer>
-		<developer>
-			<email>olivier.robert.91@gmail.com</email>
-			<name>Olivier Robert</name>
-			<url>https://gitlab.com/u/olivierr91</url>
-			<id>olivierr91</id>
-		</developer>
-		<developer>
-			<email>dkatanari@gmail.com</email>
-			<name>Marie-Hélène Bouchard</name>
-			<url>https://gitlab.com/u/dkatanari</url>
-			<id>dkatanari</id>
-		</developer>
-		<developer>
-			<email>antoine.giasson.2@gmail.com</email>
-			<name>Antoine Giasson</name>
-			<url>https://gitlab.com/u/antoine-giasson-2</url>
-			<id>antoine-giasson-2</id>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <email>maxime.roussinbelanger@gmail.com</email>
+            <name>Maxime Roussin-Bélanger</name>
+            <url>https://gitlab.com/u/maxime-roussinbelanger</url>
+            <id>mroussin</id>
+        </developer>
+        <developer>
+            <email>guboi72@gmail.com</email>
+            <name>Guillaume Boily</name>
+            <url>https://gitlab.com/u/guboi72</url>
+            <id>guboi72</id>
+        </developer>
+        <developer>
+            <email>ericsim90@gmail.com</email>
+            <name>Éric Simard</name>
+            <url>https://gitlab.com/u/ericsim</url>
+            <id>ericsim</id>
+        </developer>
+        <developer>
+            <email>olivier.robert.91@gmail.com</email>
+            <name>Olivier Robert</name>
+            <url>https://gitlab.com/u/olivierr91</url>
+            <id>olivierr91</id>
+        </developer>
+        <developer>
+            <email>dkatanari@gmail.com</email>
+            <name>Marie-Hélène Bouchard</name>
+            <url>https://gitlab.com/u/dkatanari</url>
+            <id>dkatanari</id>
+        </developer>
+        <developer>
+            <email>antoine.giasson.2@gmail.com</email>
+            <name>Antoine Giasson</name>
+            <url>https://gitlab.com/u/antoine-giasson-2</url>
+            <id>antoine-giasson-2</id>
+        </developer>
+    </developers>
 
-	<dependencyManagement>
-		<dependencies>
+    <dependencyManagement>
+        <dependencies>
 
-			<!-- Logging Components -->
+            <!-- Logging Components -->
 
-			<dependency>
-				<groupId>org.slf4j</groupId>
-				<artifactId>slf4j-simple</artifactId>
-				<version>${slf4jVersion}</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4jVersion}</version>
+                <scope>provided</scope>
+            </dependency>
 
-			<!-- Spring Framework Components -->
+            <!-- Spring Framework Components -->
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-core</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-web</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-web</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-webmvc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-test</artifactId>
-				<version>${spring.version}</version>
-				<scope>test</scope>
-			</dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>${spring.version}</version>
+                <scope>test</scope>
+            </dependency>
 
-			<!-- Servlet Components -->
+            <!-- Servlet Components -->
 
-			<dependency>
-				<groupId>javax.servlet</groupId>
-				<artifactId>javax.servlet-api</artifactId>
-				<version>3.1.0</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
+            </dependency>
 
-		</dependencies>
-	</dependencyManagement>
+        </dependencies>
+    </dependencyManagement>
 
-	<dependencies>
+    <dependencies>
 
-		<!-- Common Components -->
+        <!-- Common Components -->
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.4</version>
+        </dependency>
 
-		<!-- Test Components -->
+        <!-- Test Components -->
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			<version>2.0.2-beta</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>2.0.2-beta</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<finalName>HouseMatch</finalName>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.tomcat.maven</groupId>
-					<artifactId>tomcat7-maven-plugin</artifactId>
-					<version>2.2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+    <build>
+        <finalName>HouseMatch</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.3</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.18.1</version>
-				<configuration>
-					<includes>
-						<include>**/*Tests.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.2</version>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>2.16</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.puppycrawl.tools</groupId>
-						<artifactId>checkstyle</artifactId>
-						<version>6.10.1</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<id>checkstyle</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<failOnViolation>true</failOnViolation>
-							<failsOnError>true</failsOnError>
-							<encoding>UTF-8</encoding>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Tests.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.16</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>6.10.1</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>checkstyle</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <failOnViolation>true</failOnViolation>
+                            <failsOnError>true</failsOnError>
+                            <encoding>UTF-8</encoding>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
