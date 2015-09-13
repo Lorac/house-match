@@ -14,7 +14,7 @@ public class InMemoryUserRepository implements UserRepository {
     @Override
     public void persist(User newUser) {
         for (User user : users) {
-            if (user.getUsername().compareToIgnoreCase(user.getUsername()) == 0) {
+            if (user.getUsername().compareToIgnoreCase(newUser.getUsername()) == 0) {
                 throw new UserAlreadyExistsException(
                         String.format("A user with username '%s' already exists.", user.getUsername()));
             }

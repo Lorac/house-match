@@ -10,7 +10,7 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Login</title>
+<title>HouseMatch - Register</title>
 </head>
 
 <body>
@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <b>Role</b>
                                         <form:select path="role" class="form-control" tabindex="4">
-                                            <form:options items="${registerableRoles}"></form:options>
+                                            <form:options items="${registerableRoles}" itemLabel="displayName"></form:options>
                                         </form:select>
                                     </div>
                                     <div class="form-group">

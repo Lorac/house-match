@@ -49,9 +49,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public final ModelAndView displayRegister() {
-        return new ModelAndView("register", "registerForm",
-                new RegisterFormViewModel(userService.getRegisterableUserRoles()));
+    public final ModelAndView displayRegister(ModelMap model) {
+        model.addAttribute("registerableRoles", userService.getRegisterableUserRoles());
+        model.put("registerForm", new RegisterFormViewModel());
+        return new ModelAndView("register",  model);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
@@ -62,8 +63,7 @@ public class UserController {
                     registerForm.getRole());
         } catch (UserAlreadyExistsException e) {
             model.put("message", new MessageViewModel(e.getMessage()));
-            model.put("registerForm", registerForm);
-            return new ModelAndView("register", model);
+            return displayRegister(model);
         }
 
         session.setAttribute("username", registerForm.getUsername());

@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
-import java.util.ArrayList;
-
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class RegisterFormViewModel {
@@ -10,15 +8,6 @@ public class RegisterFormViewModel {
     private String password;
     private String email;
     private UserRole role;
-    private ArrayList<UserRole> registerableRoles;
-
-    public RegisterFormViewModel() {
-
-    }
-
-    public RegisterFormViewModel(final ArrayList<UserRole> registerableRoles) {
-        this.registerableRoles = registerableRoles;
-    }
 
     public String getUsername() {
         return username;
@@ -42,10 +31,6 @@ public class RegisterFormViewModel {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public ArrayList<UserRole> getRegisterableRoles() {
-        return registerableRoles;
     }
 
     public UserRole getRole() {
