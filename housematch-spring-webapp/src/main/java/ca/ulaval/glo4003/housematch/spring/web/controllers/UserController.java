@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.persistence.XmlUserRepository;
 import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
@@ -29,8 +28,8 @@ public class UserController {
 
     private UserService userService;
 
-    public UserController() {
-        this.userService = new UserService(new XmlUserRepository());
+    public UserController(final UserService userService) {
+        this.userService = userService;
     }
 
     @ModelAttribute("registerableRoles")
