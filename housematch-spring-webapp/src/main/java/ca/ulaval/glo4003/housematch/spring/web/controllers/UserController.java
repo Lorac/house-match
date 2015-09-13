@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping(value = "/")
@@ -44,7 +45,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap model, HttpSession session,
-            HttpServletRequest request) {
+            HttpServletRequest request, RedirectAttributes redirectAttributes) {
         try {
             userService.validateUserCredentials(loginForm.getUsername(), loginForm.getPassword());
         } catch (UserNotFoundException | InvalidPasswordException e) {
@@ -54,7 +55,7 @@ public class UserController {
         }
 
         session.setAttribute("username", loginForm.getUsername());
-        return new ModelAndView("home", model);
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -65,7 +66,7 @@ public class UserController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session,
-            HttpServletRequest request) {
+            HttpServletRequest request, RedirectAttributes redirectAttributes) {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
@@ -76,6 +77,6 @@ public class UserController {
         }
 
         session.setAttribute("username", registerForm.getUsername());
-        return new ModelAndView("home", model);
+        return new ModelAndView("redirect:/");
     }
 }

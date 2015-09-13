@@ -48,18 +48,10 @@ public class UserControllerTest {
         MockHttpServletRequestBuilder getRequest = get("/login").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(model().attribute("loginFormViewModel", hasProperty("username")));
-        results.andExpect(model().attribute("loginFormViewModel", hasProperty("password")));
+        results.andExpect(model().attribute("loginForm", hasProperty("username")));
+        results.andExpect(model().attribute("loginForm", hasProperty("password")));
 
     }
 
-    @Test
-    public void whenUserTryToLoginWithGoodCredentialShouldRenderTheHomepage() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post("/login").requestAttr("home", "/");
-        mockMvc.perform(postRequest)
-                .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/"))
-                .andExpect(redirectedUrl("/"));
-    }
 
 }
