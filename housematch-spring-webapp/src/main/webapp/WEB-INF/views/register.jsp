@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-login">
+                <div class="panel">
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-6">
@@ -53,7 +53,7 @@
                                             placeholder="Password" />
                                     </div>
                                     <div class="form-group">
-                                        <b>Role</b>
+                                        <label>Register as:</label>
                                         <form:select path="role" class="form-control" tabindex="4">
                                             <form:options items="${registerableRoles}" itemLabel="displayName"></form:options>
                                         </form:select>
@@ -62,7 +62,7 @@
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3">
                                                 <input type="submit" name="register-submit" id="register-submit"
-                                                    tabindex="4" class="form-control btn btn-register"
+                                                    tabindex="4" class="form-control btn"
                                                     value="Register Now">
                                             </div>
                                         </div>
