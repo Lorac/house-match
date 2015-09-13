@@ -3,7 +3,11 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -13,6 +17,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import ca.ulaval.glo4003.housematch.services.UserService;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -24,13 +31,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
 
     private MockMvc mockMvc;
-
-    @Autowired
-    private WebApplicationContext webApplicationContext;
+    
+    @Mock
+    private UserService userServiceMock;
+    
+    @InjectMocks
+    UserController userControllerTest;
 
     @Before
     public void init() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).dispatchOptions(true).build();
+        MockitoAnnotations.initMocks(this);
+        
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("/WEB-INF/views/");
+        viewResolver.setSuffix(".jsp");
+        
+        this.mockMvc = MockMvcBuilders.standaloneSetup(userControllerTest).setViewResolvers(viewResolver).build();
     }
 
     @Test

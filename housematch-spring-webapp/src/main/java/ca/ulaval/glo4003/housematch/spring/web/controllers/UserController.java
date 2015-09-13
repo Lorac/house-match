@@ -28,6 +28,10 @@ public class UserController {
 
     private UserService userService;
 
+    protected UserController() {
+        //Required for Mockito
+    }
+
     public UserController(final UserService userService) {
         this.userService = userService;
     }

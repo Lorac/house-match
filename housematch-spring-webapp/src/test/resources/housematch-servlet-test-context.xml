@@ -13,14 +13,4 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven />
 
-	<bean id="userController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserController"> <!-- TODO: Mock -->
-        <constructor-arg ref="userService" />
-    </bean>
-
-    <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
-        <constructor-arg ref="xmlUserRepository" />
-    </bean>
-
-    <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.XmlUserRepository">
-    </bean>
 </beans>
