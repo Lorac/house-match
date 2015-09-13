@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class XmlUserRepository implements UserRepository {
 
@@ -38,7 +38,6 @@ public class XmlUserRepository implements UserRepository {
         } catch (NoSuchElementException e) {
             throw new UserNotFoundException(String.format("Cannot find user with username '%s'.", username));
         }
-
     }
 
     private void marshall() {

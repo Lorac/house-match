@@ -29,7 +29,7 @@ public class XmlRepositoryMarshaller {
         file = new File(filePath);
 
         if (!file.exists() || !file.isFile()) {
-            throw new FileNotFoundException(String.format("File '%s' was not found."));
+            throw new FileNotFoundException(String.format("File '%s' was not found.", file.getPath()));
         }
 
         unmarshall();

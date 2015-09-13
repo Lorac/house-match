@@ -1,14 +1,5 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
+
 @Controller
 @RequestMapping(value = "/")
 public class UserController {
@@ -29,7 +29,7 @@ public class UserController {
     private UserService userService;
 
     protected UserController() {
-        //Required for Mockito
+        // Required for Mockito
     }
 
     public UserController(final UserService userService) {
@@ -73,7 +73,7 @@ public class UserController {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
-        } catch (UserAlreadyExistsException e) {
+        } catch (UserAlreadyExistsException | IllegalArgumentException e) {
             model.put("registerForm", registerForm);
             model.put("message", new MessageViewModel(e.getMessage()));
             return new ModelAndView("register", model);

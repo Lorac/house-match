@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class User {
     private String username;
@@ -12,10 +14,10 @@ public class User {
     }
 
     public User(final String username, final String email, final String password, final UserRole role) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+        setRole(role);
     }
 
     public String getUsername() {
@@ -23,6 +25,9 @@ public class User {
     }
 
     public void setUsername(String username) {
+        if (StringUtils.isBlank(username)) {
+            throw new IllegalArgumentException("Username cannot be blank.");
+        }
         this.username = username;
     }
 
@@ -31,6 +36,12 @@ public class User {
     }
 
     public void setEmail(String email) {
+        if (StringUtils.isBlank(email)) {
+            throw new IllegalArgumentException("Email cannot be blank.");
+        } else if (!EmailValidator.getInstance(false).isValid(email)) {
+            throw new IllegalArgumentException("The email format is not valid.");
+        }
+
         this.email = email;
     }
 
@@ -39,6 +50,9 @@ public class User {
     }
 
     public void setPassword(String password) {
+        if (StringUtils.isBlank(password)) {
+            throw new IllegalArgumentException("Password cannot be blank.");
+        }
         this.password = password;
     }
 
