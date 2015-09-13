@@ -57,12 +57,19 @@ public class User {
     }
 
     @Override
+    public int hashCode() {
+        return username.hashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof User))
+        if (!(obj instanceof User)) {
             return false;
-        if (obj == this)
+        }
+        if (obj == this) {
             return true;
-        
+        }
+
         User user = (User) obj;
         return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
     }
