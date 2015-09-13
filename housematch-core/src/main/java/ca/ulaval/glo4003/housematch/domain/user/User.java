@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 public class User {
     private String username;
     private String email;
@@ -41,7 +43,7 @@ public class User {
     }
 
     public void validatePassword(String password) {
-        if (this.password.compareTo(password) != 0) {
+        if (this.password.equals(password)) {
             throw new InvalidPasswordException("Password does not match.");
         }
     }
@@ -52,5 +54,13 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public boolean isSame(User user) {
+        return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
+    }
+
+    public boolean hasSameUsername(String username) {
+        return this.username.equalsIgnoreCase(username);
     }
 }
