@@ -56,11 +56,18 @@ public class User {
         this.role = role;
     }
 
-    public boolean compareTo(User user) {
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof User))
+            return false;
+        if (obj == this)
+            return true;
+        
+        User user = (User) obj;
         return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
     }
 
-    public boolean compareToUsername(String username) {
+    public boolean hasSameUsername(String username) {
         return this.username.equalsIgnoreCase(username);
     }
 }

@@ -22,7 +22,7 @@ public class XmlUserRepository implements UserRepository {
     @Override
     public void persist(User newUser) {
 
-        if (users.stream().anyMatch(u -> u.compareTo(newUser))) {
+        if (users.stream().anyMatch(u -> u.equals(newUser))) {
             throw new UserAlreadyExistsException(
                     String.format("A user with username '%s' already exists.", newUser.getUsername()));
         }
@@ -34,7 +34,7 @@ public class XmlUserRepository implements UserRepository {
     @Override
     public User getByUsername(String username) {
         try {
-            return users.stream().filter(u -> u.compareToUsername(username)).findFirst().get();
+            return users.stream().filter(u -> u.hasSameUsername(username)).findFirst().get();
         } catch (NoSuchElementException e) {
             throw new UserNotFoundException(String.format("Cannot find user with username '%s'.", username));
         }
