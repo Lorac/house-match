@@ -67,7 +67,7 @@ public class User {
         return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
     }
 
-    public boolean hasSameUsername(String username) {
+    public boolean isUsernameEqual(String username) {
         return this.username.equalsIgnoreCase(username);
     }
 }
