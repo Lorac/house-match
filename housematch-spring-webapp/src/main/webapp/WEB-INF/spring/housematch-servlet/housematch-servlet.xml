@@ -10,19 +10,8 @@
         <property name="prefix" value="/WEB-INF/views/" />
         <property name="suffix" value=".jsp" />
     </bean>
-
-    <bean id="userController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserController">
-        <constructor-arg ref="userService" />
-    </bean>
-
-    <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
-        <constructor-arg ref="xmlUserRepository" />
-    </bean>
-
-    <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.XmlUserRepository">
-    </bean>
-
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven />
 
+	<import resource="/housematch-xml-persistence.xml"/>
 </beans>

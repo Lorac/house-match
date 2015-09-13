@@ -10,7 +10,7 @@ import javax.xml.bind.Unmarshaller;
 
 public class XmlRepositoryMarshaller {
 
-    private static final String XML_RESOURCE_FILE_PATH = "/xml/housematch.xml";
+    private static final String XML_RESOURCE_FILE_PATH = "/housematch-data.xml";
     private static final Object XML_MARSHALL_LOCK = new Object();
     private static final Object INITIALIZATION_LOCK = new Object();
 
