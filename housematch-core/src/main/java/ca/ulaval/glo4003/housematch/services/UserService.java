@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.services;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -29,8 +30,8 @@ public class UserService {
         userRepository.persist(user);
     }
 
-    public ArrayList<UserRole> getRegisterableUserRoles() {
-        ArrayList<UserRole> registerableUserRoles = new ArrayList<UserRole>();
+    public List<UserRole> getRegisterableUserRoles() {
+        List<UserRole> registerableUserRoles = new ArrayList<UserRole>();
         for (UserRole userRole : UserRole.values()) {
             if (userRole.isRegisterable()) {
                 registerableUserRoles.add(userRole);
