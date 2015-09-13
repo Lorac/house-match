@@ -1,15 +1,22 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
 
-public class InMemoryUserRepository implements UserRepository {
+public class XmlUserRepository implements UserRepository {
 
-    private ArrayList<User> users = new ArrayList<User>();
+    private XmlRepositoryMarshaller xmlRepositoryMarshaller = XmlRepositoryMarshaller.getInstance();
+    private List<User> users = new ArrayList<User>();
+
+    public XmlUserRepository() {
+        XmlRootNodeAssembler xmlRootNode = xmlRepositoryMarshaller.getRootNode();
+        users = xmlRootNode.getUsers();
+    }
 
     @Override
     public void persist(User newUser) {
@@ -21,12 +28,13 @@ public class InMemoryUserRepository implements UserRepository {
         }
 
         users.add(newUser);
+        marshall();
     }
 
     @Override
     public User getByUsername(String username) {
         for (User user : users) {
-            if (user.getUsername().compareTo(user.getUsername()) == 0) {
+            if (user.getUsername().compareTo(username) == 0) {
                 return user;
             }
         }
@@ -34,4 +42,9 @@ public class InMemoryUserRepository implements UserRepository {
         throw new UserNotFoundException(String.format("Cannot find user with username '%s'.", username));
     }
 
+    private void marshall() {
+        XmlRootNodeAssembler rootXmlNode = xmlRepositoryMarshaller.getRootNode();
+        rootXmlNode.setUsers(users);
+        xmlRepositoryMarshaller.marshall();
+    }
 }

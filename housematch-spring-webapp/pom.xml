@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
-            <artifactId>housematch-inmemory-persist</artifactId>
+            <artifactId>housematch-xml-persistence</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
 

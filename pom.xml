@@ -8,7 +8,7 @@
     <modules>
         <module>housematch-spring-webapp</module>
         <module>housematch-core</module>
-        <module>housematch-inmemory-persist</module>
+        <module>housematch-xml-persistence</module>
     </modules>
     <name>HouseMatch</name>
 
@@ -124,6 +124,14 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>jstl</artifactId>
                 <version>1.2</version>
+            </dependency>
+
+            <!-- Java Architecture For XML Binding Components -->
+
+            <dependency>
+                <groupId>javax.xml.bind</groupId>
+                <artifactId>jaxb-api</artifactId>
+                <version>2.2.12</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

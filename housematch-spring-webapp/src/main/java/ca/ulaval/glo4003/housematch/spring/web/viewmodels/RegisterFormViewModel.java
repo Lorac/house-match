@@ -9,6 +9,10 @@ public class RegisterFormViewModel {
     private String email;
     private UserRole role;
 
+    public RegisterFormViewModel() {
+
+    }
+
     public String getUsername() {
         return username;
     }

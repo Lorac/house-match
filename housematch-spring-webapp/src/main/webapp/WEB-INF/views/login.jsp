@@ -41,7 +41,7 @@
                                         </c:if>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputEmail" class="sr-only">Username</label>
+                                        <label for="inputUsername" class="sr-only">Username</label>
                                         <form:input path="username" id="inputUsername" class="form-control" tabindex="1"
                                             placeholder="Username" />
                                     </div>
