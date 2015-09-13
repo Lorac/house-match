@@ -23,18 +23,18 @@ public class UserTest {
 
     @Test
     public void whenComparingTheSameUserItShouldBeTheSameUser() {
-        assertTrue(user.isSame(user));
+        assertTrue(user.compareTo(user));
     }
 
     @Test
     public void whenComparingDifferentUsersItShouldBeDifferentUser() {
         User anotherUser = new User(ANOTHER_USERNAME, EMAIL, PASSWORD, A_ROLE);
-        assertFalse(user.isSame(anotherUser));
+        assertFalse(user.compareTo(anotherUser));
     }
 
     @Test
     public void whenComparingUserWithUsernameDifferentCapitalizationItShouldStillBeTheSameUser() {
         User anotherUser = new User(CAPITALIZE_USER, EMAIL, PASSWORD, A_ROLE);
-        assertTrue(user.isSame(anotherUser));
+        assertTrue(user.compareTo(anotherUser));
     }
 }

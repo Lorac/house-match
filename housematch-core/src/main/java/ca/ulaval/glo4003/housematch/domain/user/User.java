@@ -43,7 +43,7 @@ public class User {
     }
 
     public void validatePassword(String password) {
-        if (this.password.equals(password)) {
+        if (!this.password.equals(password)) {
             throw new InvalidPasswordException("Password does not match.");
         }
     }
@@ -56,11 +56,11 @@ public class User {
         this.role = role;
     }
 
-    public boolean isSame(User user) {
+    public boolean compareTo(User user) {
         return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
     }
 
-    public boolean hasSameUsername(String username) {
+    public boolean compareToUsername(String username) {
         return this.username.equalsIgnoreCase(username);
     }
 }
