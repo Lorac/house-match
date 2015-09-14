@@ -7,18 +7,18 @@ import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.net.URISyntaxException;
 
-public class XmlRepositoryMarshaller {
+public class XmlMarshaller {
 
     private static final String XML_RESOURCE_FILE_PATH = "/housematch-data.xml";
     private static final Object XML_MARSHALL_LOCK = new Object();
     private static final Object INITIALIZATION_LOCK = new Object();
 
-    private static XmlRepositoryMarshaller instance = null;
+    private static XmlMarshaller instance = null;
 
     private File file;
     private XmlRootNodeAssembler xmlRootNode;
 
-    protected XmlRepositoryMarshaller() {
+    protected XmlMarshaller() {
         String filePath = null;
         try {
             filePath = getClass().getResource(XML_RESOURCE_FILE_PATH).toURI().getPath();
@@ -34,11 +34,11 @@ public class XmlRepositoryMarshaller {
         unmarshall();
     }
 
-    public static synchronized XmlRepositoryMarshaller getInstance() {
+    public static synchronized XmlMarshaller getInstance() {
         if (instance == null) {
             synchronized (INITIALIZATION_LOCK) {
                 if (instance == null) {
-                    instance = new XmlRepositoryMarshaller();
+                    instance = new XmlMarshaller();
                 }
             }
         }
