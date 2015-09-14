@@ -6,7 +6,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -14,13 +13,13 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 public class HomeControllerTest extends ControllerTest {
 
-    @InjectMocks
-    private HomeController homeControllerTest;
+    private HomeController homeController;
 
     @Before
     public void init() {
         super.init();
-        this.mockMvc = MockMvcBuilders.standaloneSetup(homeControllerTest).setViewResolvers(viewResolver).build();
+        homeController = new HomeController();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
     }
 
     @Test
