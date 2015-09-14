@@ -15,8 +15,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.junit.Before;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.Test;
 
 public class XmlMarshallerTest {
