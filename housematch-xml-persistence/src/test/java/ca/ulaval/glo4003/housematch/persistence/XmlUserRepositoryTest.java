@@ -30,7 +30,7 @@ public class XmlUserRepositoryTest {
     }
 
     private void stubMethods() {
-        when(xmlMarshallerMock.getRootNode()).thenReturn(xmlRootNodeAssemblerMock);
+        when(xmlMarshallerMock.getRootNodeAssembler()).thenReturn(xmlRootNodeAssemblerMock);
         when(xmlRootNodeAssemblerMock.getUsers()).thenReturn(new ArrayList<User>());
     }
 

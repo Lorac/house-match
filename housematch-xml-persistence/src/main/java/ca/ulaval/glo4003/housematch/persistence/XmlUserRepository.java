@@ -11,22 +11,22 @@ import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
 
 public class XmlUserRepository implements UserRepository {
 
-    private XmlMarshaller xmlMarshaller;
+    private XmlRepositoryMarshaller xmlRepositoryMarshaller;
     private XmlRootNodeAssembler xmlRootNodeAssembler;
     private List<User> users = new ArrayList<User>();
 
     public XmlUserRepository() {
-        xmlMarshaller = XmlMarshaller.getInstance();
+        xmlRepositoryMarshaller = XmlRepositoryMarshaller.getInstance();
         initRepository();
     }
 
-    public XmlUserRepository(final XmlMarshaller xmlMarchaller) {
-        this.xmlMarshaller = xmlMarchaller;
+    public XmlUserRepository(final XmlRepositoryMarshaller xmlRepositoryMarshaller) {
+        this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository();
     }
 
-    private void initRepository() {
-        xmlRootNodeAssembler = xmlMarshaller.getRootNode();
+    protected void initRepository() {
+        xmlRootNodeAssembler = xmlRepositoryMarshaller.getRootNodeAssembler();
         users = xmlRootNodeAssembler.getUsers();
     }
 
@@ -50,8 +50,8 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    private void marshall() {
+    protected void marshall() {
         xmlRootNodeAssembler.setUsers(users);
-        xmlMarshaller.marshall();
+        xmlRepositoryMarshaller.marshall();
     }
 }

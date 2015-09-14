@@ -1,77 +1,67 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.net.URISyntaxException;
 
 public class XmlMarshaller {
 
-    private static final String XML_RESOURCE_FILE_PATH = "/housematch-data.xml";
     private static final Object XML_MARSHALL_LOCK = new Object();
-    private static final Object INITIALIZATION_LOCK = new Object();
 
-    private static XmlMarshaller instance = null;
+    private Marshaller marshaller;
+    private Unmarshaller unmarshaller;
+    private XmlRootNodeAssembler xmlRootNodeAssembler;
 
-    private File file;
-    private XmlRootNodeAssembler xmlRootNode;
+    public XmlMarshaller() {
+        initDefaultMarshallers();
+    }
 
-    protected XmlMarshaller() {
-        String filePath = null;
+    private void initDefaultMarshallers() {
+        JAXBContext jaxbContext;
         try {
-            filePath = getClass().getResource(XML_RESOURCE_FILE_PATH).toURI().getPath();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
+            jaxbContext = JAXBContext.newInstance(XmlRootNodeAssembler.class);
+        } catch (JAXBException e) {
+            throw new MarshallingException("JAXB context initialization failed.", e);
         }
-        file = new File(filePath);
-
-        if (!file.exists() || !file.isFile()) {
-            throw new FileNotFoundException(String.format("File '%s' was not found.", file.getPath()));
+        try {
+            marshaller = jaxbContext.createMarshaller();
+        } catch (JAXBException e) {
+            throw new MarshallingException("Marshaller initialization failed.", e);
         }
-
-        unmarshall();
+        try {
+            unmarshaller = jaxbContext.createUnmarshaller();
+        } catch (JAXBException e) {
+            throw new MarshallingException("Unmarshaller initialization failed.", e);
+        }
     }
 
-    public static synchronized XmlMarshaller getInstance() {
-        if (instance == null) {
-            synchronized (INITIALIZATION_LOCK) {
-                if (instance == null) {
-                    instance = new XmlMarshaller();
-                }
-            }
-        }
-
-        return instance;
+    public XmlMarshaller(final Marshaller marshaller, final Unmarshaller unmarshaller) {
+        this.marshaller = marshaller;
+        this.unmarshaller = unmarshaller;
     }
 
-    public XmlRootNodeAssembler getRootNode() {
-        return xmlRootNode;
+    public XmlRootNodeAssembler getRootNodeAssembler() {
+        return xmlRootNodeAssembler;
     }
 
-    public void marshall() {
+    public void marshall(OutputStream outputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
-                JAXBContext jaxbContext = JAXBContext.newInstance(XmlRootNodeAssembler.class);
-                Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
-
-                jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-
-                jaxbMarshaller.marshal(xmlRootNode, file);
+                marshaller.marshal(xmlRootNodeAssembler, outputStream);
             }
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to marshall objects to XML repository.", e);
         }
     }
 
-    public void unmarshall() {
+    public void unmarshall(InputStream inputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
-                JAXBContext jaxbContext = JAXBContext.newInstance(XmlRootNodeAssembler.class);
-                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
-                xmlRootNode = (XmlRootNodeAssembler) jaxbUnmarshaller.unmarshal(file);
+                xmlRootNodeAssembler = (XmlRootNodeAssembler) unmarshaller.unmarshal(inputStream);
             }
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to unmarshall objects from XML repository.", e);
