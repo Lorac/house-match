@@ -46,8 +46,8 @@ public class XmlRepositoryMarshaller {
         unmarshal();
     }
 
-    public XmlRootNodeAssembler getRootNodeAssembler() {
-        return xmlMarshaller.getRootNodeAssembler();
+    public XmlRootElementWrapper getRootElementWrapper() {
+        return xmlMarshaller.getRootElementWrapper();
     }
 
     protected void marshal() {

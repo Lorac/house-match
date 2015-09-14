@@ -14,7 +14,7 @@ public class XmlMarshaller {
 
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
-    private XmlRootNodeAssembler xmlRootNodeAssembler;
+    private XmlRootElementWrapper xmlRootElementWrapper;
 
     public XmlMarshaller() {
         initDefaultMarshallers();
@@ -23,7 +23,7 @@ public class XmlMarshaller {
     private void initDefaultMarshallers() {
         JAXBContext jaxbContext;
         try {
-            jaxbContext = JAXBContext.newInstance(XmlRootNodeAssembler.class);
+            jaxbContext = JAXBContext.newInstance(XmlRootElementWrapper.class);
         } catch (JAXBException e) {
             throw new MarshallingException("JAXB context initialization failed.", e);
         }
@@ -44,14 +44,14 @@ public class XmlMarshaller {
         this.unmarshaller = unmarshaller;
     }
 
-    public XmlRootNodeAssembler getRootNodeAssembler() {
-        return xmlRootNodeAssembler;
+    public XmlRootElementWrapper getRootElementWrapper() {
+        return xmlRootElementWrapper;
     }
 
     public void marshal(OutputStream outputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
-                marshaller.marshal(xmlRootNodeAssembler, outputStream);
+                marshaller.marshal(xmlRootElementWrapper, outputStream);
             }
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to marshall objects to XML repository.", e);
@@ -61,7 +61,7 @@ public class XmlMarshaller {
     public void unmarshal(InputStream inputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
-                xmlRootNodeAssembler = (XmlRootNodeAssembler) unmarshaller.unmarshal(inputStream);
+                xmlRootElementWrapper = (XmlRootElementWrapper) unmarshaller.unmarshal(inputStream);
             }
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to unmarshall objects from XML repository.", e);

@@ -22,7 +22,7 @@ public class XmlUserRepositoryTest {
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
-    private XmlRootNodeAssembler xmlRootNodeAssemblerMock;
+    private XmlRootElementWrapper xmlRootElementWrapperMock;
     private XmlUserRepository xmlUserRepository;
 
     @Before
@@ -33,13 +33,13 @@ public class XmlUserRepositoryTest {
     }
 
     private void stubMethods() {
-        when(xmlRepositoryMarshallerMock.getRootNodeAssembler()).thenReturn(xmlRootNodeAssemblerMock);
-        when(xmlRootNodeAssemblerMock.getUsers()).thenReturn(new ArrayList<User>());
+        when(xmlRepositoryMarshallerMock.getRootElementWrapper()).thenReturn(xmlRootElementWrapperMock);
+        when(xmlRootElementWrapperMock.getUsers()).thenReturn(new ArrayList<User>());
     }
 
     private void initMocks() {
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
-        xmlRootNodeAssemblerMock = mock(XmlRootNodeAssembler.class);
+        xmlRootElementWrapperMock = mock(XmlRootElementWrapper.class);
     }
 
     @Test

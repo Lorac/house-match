@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 @XmlRootElement(name = "HouseMatch")
-public class XmlRootNodeAssembler {
+public class XmlRootElementWrapper {
 
     private List<User> users;
 
-    protected XmlRootNodeAssembler() {
+    protected XmlRootElementWrapper() {
         // Required for JAXB
     }
 

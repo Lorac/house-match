@@ -20,7 +20,7 @@ import org.junit.Test;
 public class XmlMarshallerTest {
 
     private XmlMarshaller xmlMarshaller;
-    private XmlRootNodeAssembler xmlRootNodeAssemblerMock;
+    private XmlRootElementWrapper xmlRootElementWrapperMock;
     private Marshaller marshallerMock;
     private Unmarshaller unmarshallerMock;
     private InputStream inputStreamMock;
@@ -47,15 +47,15 @@ public class XmlMarshallerTest {
     }
 
     @Test
-    public void unmarshalMethodUnmarshallsTheSpecifiedInputStreamToAnXmlRootNodeAssembler() throws JAXBException {
-        when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(xmlRootNodeAssemblerMock);
+    public void unmarshalMethodUnmarshallsTheSpecifiedInputStreamToAnXmlRootElementWrapper() throws JAXBException {
+        when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(xmlRootElementWrapperMock);
         xmlMarshaller.unmarshal(inputStreamMock);
-        assertSame(xmlRootNodeAssemblerMock, xmlMarshaller.getRootNodeAssembler());
+        assertSame(xmlRootElementWrapperMock, xmlMarshaller.getRootElementWrapper());
     }
 
     @Test
-    public void marshalMethodMarshallsTheSpecifiedXmlRootNodeAssemblerToAnOutputStream() throws JAXBException {
+    public void marshalMethodMarshallsTheSpecifiedXmlRootElementWrapperToAnOutputStream() throws JAXBException {
         xmlMarshaller.marshal(outputStreamMock);
-        verify(marshallerMock, times(1)).marshal(xmlRootNodeAssemblerMock, outputStreamMock);
+        verify(marshallerMock, times(1)).marshal(xmlRootElementWrapperMock, outputStreamMock);
     }
 }
