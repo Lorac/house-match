@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <label>Register as:</label>
                                         <form:select path="role" class="form-control" tabindex="4">
-                                            <form:options items="${registerableRoles}" itemLabel="displayName"></form:options>
+                                            <form:options items="${registrableRoles}" itemLabel="displayName"></form:options>
                                         </form:select>
                                     </div>
                                     <div class="form-group">

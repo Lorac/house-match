@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import ca.ulaval.glo4003.housematch.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +17,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import ca.ulaval.glo4003.housematch.services.UserService;
-
 import static org.hamcrest.Matchers.hasProperty;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,21 +27,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class UserControllerTest {
 
     private MockMvc mockMvc;
-    
+
     @Mock
     private UserService userServiceMock;
-    
+
     @InjectMocks
-    UserController userControllerTest;
+    private UserController userControllerTest;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        
+
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
-        
+
         this.mockMvc = MockMvcBuilders.standaloneSetup(userControllerTest).setViewResolvers(viewResolver).build();
     }
 

@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-import java.io.File;
-import java.net.URISyntaxException;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.File;
+import java.net.URISyntaxException;
 
 public class XmlRepositoryMarshaller {
 

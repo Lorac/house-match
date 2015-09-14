@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-import java.util.List;
+import ca.ulaval.glo4003.housematch.domain.user.User;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import ca.ulaval.glo4003.housematch.domain.user.User;
+import java.util.List;
 
 @XmlRootElement(name = "HouseMatch")
 public class XmlRootNodeAssembler {
