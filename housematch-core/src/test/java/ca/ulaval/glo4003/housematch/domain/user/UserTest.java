@@ -66,22 +66,22 @@ public class UserTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setUsernameMethodUsingBlankExpressionThrowsIllegalArgumentException() {
+    public void settingUsernameUsingBlankExpressionThrowsIllegalArgumentException() {
         user.setUsername(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setEmailMethodUsingAnInvalidEmailFormatThrowsIllegalArgumentException() {
+    public void settingEmailUsingAnInvalidEmailFormatThrowsIllegalArgumentException() {
         user.setEmail(SAMPLE_INVALID_EMAIL);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setEmailMethodUsingBlankExpressionThrowsIllegalArgumentException() {
+    public void settingEmailUsingBlankExpressionThrowsIllegalArgumentException() {
         user.setEmail(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void setPasswordMethodUsingBlankExpressionThrowsIllegalArgumentException() {
+    public void settingPasswordUsingBlankExpressionThrowsIllegalArgumentException() {
         user.setPassword(SAMPLE_BLANK_EXPRESSION);
     }
 
@@ -91,7 +91,7 @@ public class UserTest {
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void validatePasswordMethodUsingAWrongPasswordThrowsInvalidPasswordException() {
+    public void validatingWrongPasswordThrowsInvalidPasswordException() {
         user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
 }
