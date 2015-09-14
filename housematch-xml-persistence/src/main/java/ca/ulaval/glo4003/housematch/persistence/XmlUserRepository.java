@@ -38,7 +38,7 @@ public class XmlUserRepository implements UserRepository {
         }
 
         users.add(newUser);
-        marshall();
+        marshal();
     }
 
     @Override
@@ -50,8 +50,8 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    protected void marshall() {
+    protected void marshal() {
         xmlRootNodeAssembler.setUsers(users);
-        xmlRepositoryMarshaller.marshall();
+        xmlRepositoryMarshaller.marshal();
     }
 }

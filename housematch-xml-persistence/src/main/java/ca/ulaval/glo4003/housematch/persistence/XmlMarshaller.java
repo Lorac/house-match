@@ -48,7 +48,7 @@ public class XmlMarshaller {
         return xmlRootNodeAssembler;
     }
 
-    public void marshall(OutputStream outputStream) {
+    public void marshal(OutputStream outputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
                 marshaller.marshal(xmlRootNodeAssembler, outputStream);
@@ -58,7 +58,7 @@ public class XmlMarshaller {
         }
     }
 
-    public void unmarshall(InputStream inputStream) {
+    public void unmarshal(InputStream inputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
                 xmlRootNodeAssembler = (XmlRootNodeAssembler) unmarshaller.unmarshal(inputStream);
@@ -66,5 +66,13 @@ public class XmlMarshaller {
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to unmarshall objects from XML repository.", e);
         }
+    }
+
+    public Marshaller getMarshaller() {
+        return marshaller;
+    }
+
+    public Unmarshaller getUnmarshaller() {
+        return unmarshaller;
     }
 }

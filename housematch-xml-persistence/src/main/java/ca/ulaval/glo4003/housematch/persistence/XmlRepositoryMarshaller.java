@@ -43,17 +43,17 @@ public class XmlRepositoryMarshaller {
 
     protected void initRepository() {
         openXmlResourceFile();
-        unmarshall();
+        unmarshal();
     }
 
     public XmlRootNodeAssembler getRootNodeAssembler() {
         return xmlMarshaller.getRootNodeAssembler();
     }
 
-    protected void marshall() {
+    protected void marshal() {
         try {
             OutputStream outputStream = FileUtils.openOutputStream(file);
-            xmlMarshaller.marshall(outputStream);
+            xmlMarshaller.marshal(outputStream);
             outputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
@@ -61,10 +61,10 @@ public class XmlRepositoryMarshaller {
         }
     }
 
-    private void unmarshall() {
+    private void unmarshal() {
         try {
             InputStream inputStream = FileUtils.openInputStream(file);
-            xmlMarshaller.unmarshall(inputStream);
+            xmlMarshaller.unmarshal(inputStream);
             inputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
