@@ -6,15 +6,15 @@ public enum UserRole {
     BUYER("Buyer", true);
 
     private final String displayName;
-    private final Boolean isRegistrable;
+    private final Boolean isPubliclyRegistrable;
 
-    UserRole(final String displayName, final Boolean isRegistrable) {
+    UserRole(final String displayName, final Boolean isPubliclyRegistrable) {
         this.displayName = displayName;
-        this.isRegistrable = isRegistrable;
+        this.isPubliclyRegistrable = isPubliclyRegistrable;
     }
 
-    public Boolean isRegistrable() {
-        return this.isRegistrable;
+    public Boolean isPubliclyRegistrable() {
+        return this.isPubliclyRegistrable;
     }
 
     public String getDisplayName() {

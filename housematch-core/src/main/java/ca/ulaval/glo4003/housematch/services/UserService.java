@@ -30,9 +30,9 @@ public class UserService {
         userRepository.persist(user);
     }
 
-    public List<UserRole> getRegistrableUserRoles() {
+    public List<UserRole> getPubliclyRegistrableUserRoles() {
         List<UserRole> userRoles = Arrays.asList(UserRole.values());
 
-        return userRoles.stream().filter(UserRole::isRegistrable).collect(Collectors.toList());
+        return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 }
