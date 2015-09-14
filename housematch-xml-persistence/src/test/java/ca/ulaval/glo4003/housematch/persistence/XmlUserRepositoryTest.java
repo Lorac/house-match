@@ -18,7 +18,7 @@ public class XmlUserRepositoryTest {
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
-    private XmlMarshaller xmlMarshallerMock;
+    private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
     private XmlRootNodeAssembler xmlRootNodeAssemblerMock;
     private XmlUserRepository xmlUserRepository;
 
@@ -26,16 +26,16 @@ public class XmlUserRepositoryTest {
     public void init() {
         initMocks();
         stubMethods();
-        xmlUserRepository = new XmlUserRepository(xmlMarshallerMock);
+        xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock);
     }
 
     private void stubMethods() {
-        when(xmlMarshallerMock.getRootNodeAssembler()).thenReturn(xmlRootNodeAssemblerMock);
+        when(xmlRepositoryMarshallerMock.getRootNodeAssembler()).thenReturn(xmlRootNodeAssemblerMock);
         when(xmlRootNodeAssemblerMock.getUsers()).thenReturn(new ArrayList<User>());
     }
 
     private void initMocks() {
-        xmlMarshallerMock = mock(XmlMarshaller.class);
+        xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
         xmlRootNodeAssemblerMock = mock(XmlRootNodeAssembler.class);
     }
 
