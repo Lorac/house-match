@@ -40,14 +40,14 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void userIsAddedToRepositoryOnPersist() throws Exception {
+    public void persistMethodPersistsUserToRepository() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
     }
 
     @Test
-    public void repositoryRetrievesUserByUsername() {
+    public void getByUsernameRetrievesUserByUsername() {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));

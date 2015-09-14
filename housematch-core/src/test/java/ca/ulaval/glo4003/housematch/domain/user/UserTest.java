@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class UserTest {
 
@@ -28,68 +28,70 @@ public class UserTest {
     }
 
     @Test
-    public void usersWithTheSameUsernameShouldBeEqual() {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+    public void equalsMethodShouldConsiderUsersWithTheSameUsernameAsEqual() {
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
+                ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
     @Test
-    public void usersWithDifferentUsernameShouldNotBeEqual() {
+    public void equalsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
     }
 
     @Test
-    public void usersHavingDifferentUsernameCapitalizationShouldBeEqual() {
+    public void equalsMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
     @Test
-    public void usersWithTheSameUsernameShouldConsiderUsernameAsEqual() {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+    public void isUsernameEqualMethodShouldConsiderUsersWithTheSameUsernameAsEqual() {
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
+                ANOTHER_SAMPLE_ROLE);
         assertTrue(user.isUsernameEqual(anotherUser.getUsername()));
     }
 
     @Test
-    public void usersWithDifferentUsernameShouldNotConsiderUsernameAsEqual() {
+    public void isUsernameEqualMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.isUsernameEqual(anotherUser.getUsername()));
     }
 
     @Test
-    public void usersHavingDifferentUsernameCapitalizationShouldConsiderUsernameAsEqual() {
+    public void isUsernameEqualMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationEqual() {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.isUsernameEqual(anotherUser.getUsername()));
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void settingUsernameUsingBlankExpressionThrowsIllegalArgumentException() {
+    public void setUsernameMethodUsingBlankExpressionThrowsIllegalArgumentException() {
         user.setUsername(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void settingEmailUsingAnInvalidEmailFormatThrowsIllegalArgumentException() {
+    public void setEmailMethodUsingAnInvalidEmailFormatThrowsIllegalArgumentException() {
         user.setEmail(SAMPLE_INVALID_EMAIL);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void settingEmailUsingBlankExpressionThrowsIllegalArgumentException() {
+    public void setEmailMethodUsingBlankExpressionThrowsIllegalArgumentException() {
         user.setEmail(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void settingPasswordUsingBlankExpressionThrowsIllegalArgumentException() {
+    public void setPasswordMethodUsingBlankExpressionThrowsIllegalArgumentException() {
         user.setPassword(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test
-    public void passwordValidationValidatesTheRightPassword() {
+    public void validatePasswordMethodValidatesTheRightPassword() {
         user.validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void passwordValidationUsingWrongPasswordThrowsInvalidPasswordException() {
+    public void validatePasswordMethodUsingAWrongPasswordThrowsInvalidPasswordException() {
         user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
 }

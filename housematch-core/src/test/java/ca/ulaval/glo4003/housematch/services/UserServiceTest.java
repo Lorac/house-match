@@ -59,7 +59,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getRegistrableUserRolesReturnsAListOfRegistrableUserRoles() {
+    public void getRegistrableUserRolesMethodReturnsAListOfRegistrableUserRoles() {
         List<UserRole> userRoles = userService.getRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isRegistrable()));
