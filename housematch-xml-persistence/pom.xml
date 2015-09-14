@@ -1,24 +1,25 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>ca.ulaval.glo4003</groupId>
-    <artifactId>HouseMatch</artifactId>
-    <version>0.2-SNAPSHOT</version>
-  </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>ca.ulaval.glo4003</groupId>
+        <artifactId>HouseMatch</artifactId>
+        <version>0.2-SNAPSHOT</version>
+    </parent>
 
-  <artifactId>housematch-xml-persistence</artifactId>
-  
-   <dependencies>
+    <artifactId>housematch-xml-persistence</artifactId>
+
+    <dependencies>
 
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
             <artifactId>housematch-core</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
-        
+
         <dependency>
-                <groupId>javax.xml.bind</groupId>
-                <artifactId>jaxb-api</artifactId>
-            </dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
     </dependencies>
 </project>
