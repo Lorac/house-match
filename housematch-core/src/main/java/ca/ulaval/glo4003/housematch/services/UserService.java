@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.housematch.services;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class UserService {
 

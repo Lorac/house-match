@@ -23,7 +23,7 @@ public class XmlUserRepositoryTest {
     private XmlUserRepository xmlUserRepository;
 
     @Before
-    public void init() throws Exception {
+    public void init() {
         initMocks();
         stubMethods();
         xmlUserRepository = new XmlUserRepository(xmlMarshallerMock);
