@@ -23,7 +23,7 @@ public class UserTest {
     private User user;
 
     @Before
-    public void setUp() throws Exception {
+    public void init() throws Exception {
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
