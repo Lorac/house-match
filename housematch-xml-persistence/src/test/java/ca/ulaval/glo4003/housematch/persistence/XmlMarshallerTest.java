@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.housematch.persistence;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -56,6 +55,6 @@ public class XmlMarshallerTest {
     @Test
     public void marshalMethodMarshallsTheSpecifiedXmlRootElementWrapperToAnOutputStream() throws JAXBException {
         xmlMarshaller.marshal(outputStreamMock);
-        verify(marshallerMock, times(1)).marshal(xmlRootElementWrapperMock, outputStreamMock);
+        verify(marshallerMock).marshal(xmlRootElementWrapperMock, outputStreamMock);
     }
 }

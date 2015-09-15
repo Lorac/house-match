@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -43,19 +42,19 @@ public class UserServiceTest {
     public void validateUserCredentialsMethodValidatesPasswordFromTheUserObject() {
         when(userRepositoryMock.getByUsername(anyString())).thenReturn(userMock);
         userService.validateUserCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
-        verify(userMock, times(1)).validatePassword(SAMPLE_PASSWORD);
+        verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test
     public void getUserByUsernameMethodRetrievesUserByUsernameFromRepository() {
         userService.getUserByUsername(SAMPLE_USERNAME);
-        verify(userRepositoryMock, times(1)).getByUsername(SAMPLE_USERNAME);
+        verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
     }
 
     @Test
     public void createUserMethodPersistsNewUserToRepository() {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        verify(userRepositoryMock, times(1)).persist(any(User.class));
+        verify(userRepositoryMock).persist(any(User.class));
     }
 
     @Test

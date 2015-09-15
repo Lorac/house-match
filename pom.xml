@@ -14,8 +14,6 @@
 
     <properties>
         <spring.version>4.2.1.RELEASE</spring.version>
-        <tomcat7Version>7.0.64</tomcat7Version>
-        <slf4jVersion>1.7.12</slf4jVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
     </properties>
@@ -78,7 +76,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>${slf4jVersion}</version>
+                <version>1.7.12</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -149,7 +147,7 @@
         <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.4.0</version>
+            <version>1.4.1</version>
         </dependency>
 
         <dependency>
