@@ -86,12 +86,12 @@ public class UserTest {
     }
 
     @Test
-    public void validatePasswordMethodValidatesTheRightPassword() {
+    public void validatingTheRightPasswordDoesNotThrowAnException() {
         user.validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void validatingWrongPasswordThrowsInvalidPasswordException() {
+    public void validatingTheWrongPasswordThrowsInvalidPasswordException() {
         user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
 }
