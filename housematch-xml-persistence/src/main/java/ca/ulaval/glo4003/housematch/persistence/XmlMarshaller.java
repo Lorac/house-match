@@ -8,22 +8,23 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-public class XmlMarshaller {
+public class XmlMarshaller<T> {
 
     private static final Object XML_MARSHALL_LOCK = new Object();
 
     private Marshaller marshaller;
     private Unmarshaller unmarshaller;
-    private XmlRootElementWrapper xmlRootElementWrapper;
+    private Class<T> type;
 
-    public XmlMarshaller() {
+    public XmlMarshaller(final Class<T> type) {
+        this.type = type;
         initDefaultMarshallers();
     }
 
     private void initDefaultMarshallers() {
         JAXBContext jaxbContext;
         try {
-            jaxbContext = JAXBContext.newInstance(XmlRootElementWrapper.class);
+            jaxbContext = JAXBContext.newInstance(type);
         } catch (JAXBException e) {
             throw new MarshallingException("JAXB context initialization failed.", e);
         }
@@ -44,27 +45,24 @@ public class XmlMarshaller {
         this.unmarshaller = unmarshaller;
     }
 
-    public XmlRootElementWrapper getRootElementWrapper() {
-        return xmlRootElementWrapper;
-    }
-
-    public void marshal(OutputStream outputStream) {
+    public void marshal(T element, OutputStream outputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
-                marshaller.marshal(xmlRootElementWrapper, outputStream);
+                marshaller.marshal(element, outputStream);
             }
         } catch (JAXBException e) {
-            throw new MarshallingException("Failed to marshall objects to XML repository.", e);
+            throw new MarshallingException("Failed to marshall objects to the specified output stream.", e);
         }
     }
 
-    public void unmarshal(InputStream inputStream) {
+    @SuppressWarnings("unchecked")
+    public T unmarshal(InputStream inputStream) {
         try {
             synchronized (XML_MARSHALL_LOCK) {
-                xmlRootElementWrapper = (XmlRootElementWrapper) unmarshaller.unmarshal(inputStream);
+                return (T) unmarshaller.unmarshal(inputStream);
             }
         } catch (JAXBException e) {
-            throw new MarshallingException("Failed to unmarshall objects from XML repository.", e);
+            throw new MarshallingException("Failed to unmarshall objects from the specified input stream.", e);
         }
     }
 

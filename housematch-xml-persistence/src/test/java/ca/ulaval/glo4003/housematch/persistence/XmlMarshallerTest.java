@@ -18,8 +18,8 @@ import org.junit.Test;
 
 public class XmlMarshallerTest {
 
-    private XmlMarshaller xmlMarshaller;
-    private XmlRootElementWrapper xmlRootElementWrapperMock;
+    private XmlMarshaller<Object> xmlMarshaller;
+    private static final Object SAMPLE_OBJECT = new Object();
     private Marshaller marshallerMock;
     private Unmarshaller unmarshallerMock;
     private InputStream inputStreamMock;
@@ -28,7 +28,7 @@ public class XmlMarshallerTest {
     @Before
     public void init() {
         initMocks();
-        xmlMarshaller = new XmlMarshaller(marshallerMock, unmarshallerMock);
+        xmlMarshaller = new XmlMarshaller<Object>(marshallerMock, unmarshallerMock);
     }
 
     public void initMocks() {
@@ -40,21 +40,21 @@ public class XmlMarshallerTest {
 
     @Test
     public void xmlMarshallerCorrectlyInstantiatesUsingDefaultMarshallers() {
-        xmlMarshaller = new XmlMarshaller();
+        xmlMarshaller = new XmlMarshaller<Object>(Object.class);
         assertNotNull(xmlMarshaller.getMarshaller());
         assertNotNull(xmlMarshaller.getUnmarshaller());
     }
 
     @Test
     public void unmarshalMethodUnmarshallsTheSpecifiedInputStreamToAnXmlRootElementWrapper() throws JAXBException {
-        when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(xmlRootElementWrapperMock);
-        xmlMarshaller.unmarshal(inputStreamMock);
-        assertSame(xmlRootElementWrapperMock, xmlMarshaller.getRootElementWrapper());
+        when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(SAMPLE_OBJECT);
+        Object unmarshalledObject = xmlMarshaller.unmarshal(inputStreamMock);
+        assertSame(SAMPLE_OBJECT, unmarshalledObject);
     }
 
     @Test
     public void marshalMethodMarshallsTheSpecifiedXmlRootElementWrapperToAnOutputStream() throws JAXBException {
-        xmlMarshaller.marshal(outputStreamMock);
-        verify(marshallerMock).marshal(xmlRootElementWrapperMock, outputStreamMock);
+        xmlMarshaller.marshal(SAMPLE_OBJECT, outputStreamMock);
+        verify(marshallerMock).marshal(SAMPLE_OBJECT, outputStreamMock);
     }
 }

@@ -9,23 +9,18 @@ import java.net.URISyntaxException;
 
 import org.apache.commons.io.FileUtils;
 
-public class XmlRepositoryMarshaller {
+public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper> {
 
     private static final String XML_RESOURCE_FILE_PATH = "/housematch-data.xml";
     private static final Object INITIALIZATION_LOCK = new Object();
 
     private static XmlRepositoryMarshaller instance = null;
 
-    private XmlMarshaller xmlMarshaller;
+    private XmlRootElementWrapper xmlRootElementWrapper;
     private File file;
 
     public XmlRepositoryMarshaller() {
-        this.xmlMarshaller = new XmlMarshaller();
-        initRepository();
-    }
-
-    public XmlRepositoryMarshaller(final XmlMarshaller xmlMarchaller) {
-        this.xmlMarshaller = xmlMarchaller;
+        super(XmlRootElementWrapper.class);
         initRepository();
     }
 
@@ -46,14 +41,10 @@ public class XmlRepositoryMarshaller {
         unmarshal();
     }
 
-    public XmlRootElementWrapper getRootElementWrapper() {
-        return xmlMarshaller.getRootElementWrapper();
-    }
-
     protected void marshal() {
         try {
             OutputStream outputStream = FileUtils.openOutputStream(file);
-            xmlMarshaller.marshal(outputStream);
+            super.marshal(xmlRootElementWrapper, outputStream);
             outputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
@@ -64,7 +55,7 @@ public class XmlRepositoryMarshaller {
     private void unmarshal() {
         try {
             InputStream inputStream = FileUtils.openInputStream(file);
-            xmlMarshaller.unmarshal(inputStream);
+            xmlRootElementWrapper = super.unmarshal(inputStream);
             inputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
@@ -83,5 +74,9 @@ public class XmlRepositoryMarshaller {
         if (!file.exists() || !file.isFile()) {
             throw new FileNotFoundException(String.format("File '%s' was not found.", file.getPath()));
         }
+    }
+
+    public XmlRootElementWrapper getRootElementWrapper() {
+        return xmlRootElementWrapper;
     }
 }
