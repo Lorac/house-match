@@ -10,9 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";

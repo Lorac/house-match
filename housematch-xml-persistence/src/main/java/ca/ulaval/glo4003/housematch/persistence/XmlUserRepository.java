@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
 
 public class XmlUserRepository implements UserRepository {
 

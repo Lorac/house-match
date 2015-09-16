@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.ulaval.glo4003.housematch.domain.DomainException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.services.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
@@ -73,7 +73,7 @@ public class UserController {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
-        } catch (UserAlreadyExistsException | IllegalArgumentException e) {
+        } catch (DomainException e) {
             model.put("registerForm", registerForm);
             model.put("message", new MessageViewModel(e.getMessage()));
             return new ModelAndView("register", model);

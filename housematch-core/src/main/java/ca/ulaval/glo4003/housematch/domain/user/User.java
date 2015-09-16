@@ -4,6 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.validator.routines.EmailValidator;
 
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
+
 public class User {
     private String username;
     private String email;
@@ -26,7 +28,7 @@ public class User {
 
     public void setUsername(String username) {
         if (StringUtils.isBlank(username)) {
-            throw new IllegalArgumentException("Username cannot be blank.");
+            throw new InvalidValueException("Username cannot be blank.");
         }
         this.username = username;
     }
@@ -37,9 +39,9 @@ public class User {
 
     public void setEmail(String email) {
         if (StringUtils.isBlank(email)) {
-            throw new IllegalArgumentException("Email cannot be blank.");
+            throw new InvalidValueException("Email cannot be blank.");
         } else if (!EmailValidator.getInstance(false).isValid(email)) {
-            throw new IllegalArgumentException("The email format is not valid.");
+            throw new InvalidValueException("The email format is not valid.");
         }
 
         this.email = email;
@@ -51,7 +53,7 @@ public class User {
 
     public void setPassword(String password) {
         if (StringUtils.isBlank(password)) {
-            throw new IllegalArgumentException("Password cannot be blank.");
+            throw new InvalidValueException("Password cannot be blank.");
         }
         this.password = password;
     }
