@@ -47,22 +47,22 @@ public class UserTest {
     }
 
     @Test
-    public void isUsernameEqualMethodShouldConsiderUsersWithTheSameUsernameAsEqual() {
+    public void usernameEqualsMethodShouldConsiderUsersWithTheSameUsernameAsEqual() {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
-        assertTrue(user.isUsernameEqual(anotherUser.getUsername()));
+        assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void isUsernameEqualMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
+    public void usernameEqualsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        assertFalse(user.isUsernameEqual(anotherUser.getUsername()));
+        assertFalse(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void isUsernameEqualMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationEqual() {
+    public void usernameEqualsMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        assertTrue(user.isUsernameEqual(anotherUser.getUsername()));
+        assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test(expected = IllegalArgumentException.class)

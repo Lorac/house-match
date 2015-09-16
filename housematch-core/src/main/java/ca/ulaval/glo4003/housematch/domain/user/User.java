@@ -90,7 +90,7 @@ public class User {
         return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
     }
 
-    public boolean isUsernameEqual(String username) {
+    public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
     }
 }

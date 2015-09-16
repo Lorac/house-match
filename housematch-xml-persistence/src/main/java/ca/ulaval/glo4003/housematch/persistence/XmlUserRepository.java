@@ -44,7 +44,7 @@ public class XmlUserRepository implements UserRepository {
     @Override
     public User getByUsername(String username) {
         try {
-            return users.stream().filter(u -> u.isUsernameEqual(username)).findFirst().get();
+            return users.stream().filter(u -> u.usernameEquals(username)).findFirst().get();
         } catch (NoSuchElementException e) {
             throw new UserNotFoundException(String.format("Cannot find user with username '%s'.", username));
         }
