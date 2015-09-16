@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
+
 public class UserTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
@@ -65,23 +67,23 @@ public class UserTest {
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void settingUsernameUsingBlankExpressionThrowsIllegalArgumentException() {
+    @Test(expected = InvalidValueException.class)
+    public void settingUsernameUsingBlankExpressionThrowsInvalidValueException() {
         user.setUsername(SAMPLE_BLANK_EXPRESSION);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void settingEmailUsingAnInvalidEmailFormatThrowsIllegalArgumentException() {
+    @Test(expected = InvalidValueException.class)
+    public void settingEmailUsingAnInvalidEmailFormatThrowsInvalidValueException() {
         user.setEmail(SAMPLE_INVALID_EMAIL);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void settingEmailUsingBlankExpressionThrowsIllegalArgumentException() {
+    @Test(expected = InvalidValueException.class)
+    public void settingEmailUsingBlankExpressionThrowsInvalidValueException() {
         user.setEmail(SAMPLE_BLANK_EXPRESSION);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void settingPasswordUsingBlankExpressionThrowsIllegalArgumentException() {
+    @Test(expected = InvalidValueException.class)
+    public void settingPasswordUsingBlankExpressionThrowsInvalidValueException() {
         user.setPassword(SAMPLE_BLANK_EXPRESSION);
     }
 
