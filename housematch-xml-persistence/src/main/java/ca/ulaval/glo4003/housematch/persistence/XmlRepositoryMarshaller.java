@@ -1,17 +1,15 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.net.URISyntaxException;
-
-import org.apache.commons.io.FileUtils;
 
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper> {
 
-    private static final String XML_RESOURCE_FILE_PATH = "/housematch-data.xml";
     private static final Object INITIALIZATION_LOCK = new Object();
 
     private static XmlRepositoryMarshaller instance = null;
@@ -21,7 +19,6 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper
 
     public XmlRepositoryMarshaller() {
         super(XmlRootElementWrapper.class);
-        initRepository();
     }
 
     public static synchronized XmlRepositoryMarshaller getInstance() {
@@ -37,7 +34,6 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper
     }
 
     protected void initRepository() {
-        openXmlResourceFile();
         unmarshal();
     }
 
@@ -63,20 +59,11 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper
         }
     }
 
-    private void openXmlResourceFile() {
-        String filePath = null;
-        try {
-            filePath = getClass().getResource(XML_RESOURCE_FILE_PATH).toURI().getPath();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(String.format("Failed to get resource URI of '%s'.", XML_RESOURCE_FILE_PATH), e);
-        }
-        file = new File(filePath);
-        if (!file.exists() || !file.isFile()) {
-            throw new FileNotFoundException(String.format("File '%s' was not found.", file.getPath()));
-        }
-    }
-
     public XmlRootElementWrapper getRootElementWrapper() {
         return xmlRootElementWrapper;
+    }
+
+    public void setDataSource(File dataSource) {
+        this.file = dataSource;
     }
 }

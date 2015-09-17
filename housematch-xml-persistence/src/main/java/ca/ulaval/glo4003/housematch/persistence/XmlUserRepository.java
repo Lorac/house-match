@@ -1,22 +1,25 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 public class XmlUserRepository implements UserRepository {
 
-    private XmlRepositoryMarshaller xmlRepositoryMarshaller;
+    private final XmlRepositoryMarshaller xmlRepositoryMarshaller;
     private XmlRootElementWrapper xmlRootElementWrapper;
     private List<User> users = new ArrayList<User>();
 
-    public XmlUserRepository() {
+    public XmlUserRepository(final File file) {
         xmlRepositoryMarshaller = XmlRepositoryMarshaller.getInstance();
+        xmlRepositoryMarshaller.setDataSource(file);
+        xmlRepositoryMarshaller.initRepository();
         initRepository();
     }
 
