@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -51,17 +52,17 @@ public class UserControllerTest extends ControllerTest {
     
     @Test
     public void logoutControllerRendersLoginPageUponLogout() throws Exception {
-    	MockHttpServletRequestBuilder getRequest = get("/logout").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+    	MockHttpServletRequestBuilder postRequest = post("/logout").accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(postRequest);
         
-        //results.andExpect(status().isOk());
         results.andExpect(view().name("login"));
+        results.andExpect(status().isOk());
     }
     
     @Test
     public void logoutControllerRemovesSessionsAttributes() throws Exception {
-    	MockHttpServletRequestBuilder getRequest = get("/login").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+    	MockHttpServletRequestBuilder postRequest = post("/logout").accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(postRequest);
         
         //Find how to test the user session logout
         
