@@ -84,7 +84,7 @@ public class UserController {
         return new ModelAndView("redirect:/");
     }
     
-    @RequestMapping()
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public final ModelAndView logoutUser(SessionStatus status) {
     	
     	status.setComplete();
