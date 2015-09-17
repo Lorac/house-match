@@ -8,18 +8,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.junit.Assert;
+import java.util.HashMap;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import ca.ulaval.glo4003.housematch.services.UserService;
 
 public class UserControllerTest extends ControllerTest {
-
+	@Autowired WebApplicationContext wac; 
+    @Autowired MockHttpSession session;
+	
     private UserService userServiceMock;
     private UserController userController;
 
@@ -59,13 +66,4 @@ public class UserControllerTest extends ControllerTest {
         results.andExpect(status().isOk());
     }
     
-    @Test
-    public void logoutControllerRemovesSessionsAttributes() throws Exception {
-    	MockHttpServletRequestBuilder postRequest = post("/logout").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(postRequest);
-        
-        //Find how to test the user session logout
-        
-        Assert.fail();
-    }
 }
