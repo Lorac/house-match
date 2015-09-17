@@ -4,6 +4,9 @@
 
 <html>
 <body>
+	<c:set var="homeActive" value="active" scope="request"/>
+	<jsp:include page="_navigation.jsp"/>
+	
     <h1>${sessionScope.username}</h1>
 </body>
 </html>

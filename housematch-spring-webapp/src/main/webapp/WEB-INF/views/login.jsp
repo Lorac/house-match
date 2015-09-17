@@ -1,7 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
 <html>
 <head>
 <%@include file="../includes/header.jsp"%>
@@ -14,6 +13,8 @@
 </head>
 
 <body>
+	<c:set var="loginActive" value="active" scope="request"/>
+	<jsp:include page="_navigation.jsp"/>
 
     <div class="container">
         <div class="row">
