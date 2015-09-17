@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -84,9 +85,9 @@ public class UserController {
     }
     
     @RequestMapping()
-    public final ModelAndView logoutUser() {
+    public final ModelAndView logoutUser(SessionStatus status) {
     	
-    	//TODO : insert actual session ending code
+    	status.setComplete();
     	
     	return new ModelAndView("login");
     }

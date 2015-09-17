@@ -47,4 +47,14 @@ public class UserControllerTest extends ControllerTest {
         results.andExpect(model().attribute("loginForm", hasProperty("password")));
 
     }
+    
+    @Test
+    public void logoutControllerRendersLoginPageUponLogout() {
+    	//TODO 
+    }
+    
+    @Test
+    public void logoutControllerRemovesSessionsAttributes() {
+    	//TODO
+    }
 }
