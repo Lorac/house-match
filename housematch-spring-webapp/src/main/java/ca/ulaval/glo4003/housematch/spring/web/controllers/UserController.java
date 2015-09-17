@@ -10,6 +10,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,6 +25,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 
 @Controller
+@SessionAttributes({"username"})
 @RequestMapping(value = "/")
 public class UserController {
 
@@ -83,10 +85,10 @@ public class UserController {
         session.setAttribute("username", registerForm.getUsername());
         return new ModelAndView("redirect:/");
     }
-    
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public final ModelAndView logoutUser(SessionStatus status) {
-    	status.setComplete();
-    	return new ModelAndView("login");
+        status.setComplete();
+        return new ModelAndView("login", "loginForm", new LoginFormViewModel());
     }
 }
