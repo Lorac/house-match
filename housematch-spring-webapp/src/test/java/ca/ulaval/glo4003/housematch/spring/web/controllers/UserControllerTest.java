@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.hamcrest.Matchers.hasProperty;
-import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.mockito.Mockito.mock;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -17,7 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ca.ulaval.glo4003.housematch.services.UserService;
 
 public class UserControllerTest extends ControllerTest {
-
+	
     private UserService userServiceMock;
     private UserController userController;
 
@@ -47,4 +48,14 @@ public class UserControllerTest extends ControllerTest {
         results.andExpect(model().attribute("loginForm", hasProperty("password")));
 
     }
+    
+    @Test
+    public void logoutControllerRendersLoginPageUponLogout() throws Exception {
+    	MockHttpServletRequestBuilder getRequest = get("/logout").accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(getRequest);
+        
+        results.andExpect(view().name("login"));
+        results.andExpect(status().isOk());
+    }
+    
 }
