@@ -82,4 +82,12 @@ public class UserController {
         session.setAttribute("username", registerForm.getUsername());
         return new ModelAndView("redirect:/");
     }
+    
+    @RequestMapping()
+    public final ModelAndView logoutUser() {
+    	
+    	//TODO : insert actual session ending code
+    	
+    	return new ModelAndView("login");
+    }
 }
