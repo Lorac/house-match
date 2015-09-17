@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+- Sample namespace-based configuration
+-
+-->
+
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <global-method-security pre-post-annotations="enabled"/>
+
+    <http pattern="/resources/**" security="none"/>
+    <http pattern="/logout.jsp" security="none"/>
+
+    <http>
+        <intercept-url pattern="/admin/**" access="authenticated"/>
+        <!--
+            Allow all other requests. In a real application you should
+            adopt a whitelisting approach where access is not allowed by default
+        -->
+        <intercept-url pattern="/**" access="permitAll"/>
+        <form-login/>
+        <logout logout-success-url="/logout.jsp" delete-cookies="JSESSIONID"/>
+
+        <!-- Uncomment to limit the number of sessions a user can have -->
+        <session-management invalid-session-url="/timeout.jsp">
+            <concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>
+        </session-management>
+
+    </http>
+
+    <beans:bean id="customAuthenticationProvider"
+                class="ca.ulaval.glo4003.housematch.spring.web.security.CustomAuthenticationProvider">
+        <beans:property name="userService" ref="userService"/>
+    </beans:bean>
+
+
+    <authentication-manager>
+        <authentication-provider ref="customAuthenticationProvider"/>
+    </authentication-manager>
+
+</beans:beans>
