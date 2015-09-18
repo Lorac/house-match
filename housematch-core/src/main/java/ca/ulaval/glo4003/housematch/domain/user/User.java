@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
+    private boolean activation;
 
     public User() {
     }
@@ -20,6 +21,7 @@ public class User {
         setEmail(email);
         setPassword(password);
         setRole(role);
+        activation = false;
     }
 
     public String getUsername() {
@@ -70,6 +72,14 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public void setActivation(boolean activation) {
+        this.activation = activation;
+    }
+
+    public boolean isActivated() {
+        return activation;
     }
 
     @Override

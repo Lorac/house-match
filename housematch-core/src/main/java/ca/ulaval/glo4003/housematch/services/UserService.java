@@ -35,4 +35,9 @@ public class UserService {
 
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
+
+    public void activateUser(String username) {
+        User user = getUserByUsername(username);
+        user.setActivation(true);
+    }
 }

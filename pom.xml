@@ -9,6 +9,7 @@
         <module>housematch-spring-webapp</module>
         <module>housematch-core</module>
         <module>housematch-xml-persistence</module>
+        <module>housematch-emailer</module>
     </modules>
     <name>HouseMatch</name>
 
