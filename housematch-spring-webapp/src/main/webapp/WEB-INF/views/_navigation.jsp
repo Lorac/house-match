@@ -5,6 +5,7 @@
         <li class="${homeActive}"><a href="/">Home</a></li>
         <li class="${loginActive}"><a href="/login">Login</a></li>
         <li class="${registerActive}"><a href="/register">Register</a></li>
+        <li><a href="/logout">Logout</a></li>
       </ul>
     </div>
   </div>
