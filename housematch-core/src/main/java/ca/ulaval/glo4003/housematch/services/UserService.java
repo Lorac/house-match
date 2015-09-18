@@ -21,6 +21,11 @@ public class UserService {
         user.validatePassword(password);
     }
 
+    public void validateRole(String username, String role) {
+        User user = getUserByUsername(username);
+        user.validateRole(role);
+    }
+
     public User getUserByUsername(String username) {
         return userRepository.getByUsername(username);
     }

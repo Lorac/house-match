@@ -91,4 +91,35 @@ public class UserController {
         status.setComplete();
         return new ModelAndView("login", "loginForm", new LoginFormViewModel());
     }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    public final ModelAndView adminRequest(HttpSession session, ModelMap model) {
+        try {
+            userService.validateRole(session.getAttribute("username").toString(), "Administrator");
+        } catch (DomainException e) {
+            model.put("message", new MessageViewModel("User does not have access to this role"));
+            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+        }
+        return new ModelAndView("adminPage", model);
+    }
+    @RequestMapping(value = "/buyer", method = RequestMethod.GET)
+    public final ModelAndView buyerRequest(HttpSession session, ModelMap model) {
+        try {
+            userService.validateRole(session.getAttribute("username").toString(), "Buyer");
+        } catch (DomainException e) {
+            model.put("message", new MessageViewModel("User does not have access to this role"));
+            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+        }
+        return new ModelAndView("buyerPage", model);
+    }
+    @RequestMapping(value = "/seller", method = RequestMethod.GET)
+    public final ModelAndView sellerRequest(HttpSession session, ModelMap model) {
+        try {
+            userService.validateRole(session.getAttribute("username").toString(), "Seller");
+        } catch (DomainException e) {
+            model.put("message", new MessageViewModel("User does not have access to this role"));
+            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+        }
+        return new ModelAndView("sellerPage", model);
+    }
 }
