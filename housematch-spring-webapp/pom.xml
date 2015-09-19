@@ -67,6 +67,11 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
+        <dependency>
+        	<groupId>ca.ulaval.glo4003</groupId>
+        	<artifactId>housematch-emailer</artifactId>
+        	<version>0.2-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.email;
 
 import java.util.Properties;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -15,6 +16,11 @@ public class EmailSender {
 
     public EmailSender(final Properties emailProperties) {
         Session session = Session.getInstance(emailProperties);
+        mimeMessage = new MimeMessage(session);
+    }
+
+    public EmailSender(final Properties emailProperties, final Authenticator enailAuthenticator) {
+        Session session = Session.getDefaultInstance(emailProperties, enailAuthenticator);
         mimeMessage = new MimeMessage(session);
     }
 
