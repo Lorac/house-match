@@ -7,12 +7,8 @@
         <constructor-arg ref="userService"/>
     </bean>
 
-    <bean id="fileBean" class="java.io.File">
-        <constructor-arg index="0" type="java.lang.String" value="classpath:/housematch-data.xml" />
-    </bean>
-
     <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.XmlUserRepository">
-        <constructor-arg type="java.io.File" ref="fileBean"/>
+        <constructor-arg type="java.lang.String" value="housematch-data.xml"/>
     </bean>
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">

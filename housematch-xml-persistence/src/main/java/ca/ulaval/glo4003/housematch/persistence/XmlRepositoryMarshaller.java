@@ -63,7 +63,8 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper
         return xmlRootElementWrapper;
     }
 
-    public void setDataSource(File dataSource) {
-        this.file = dataSource;
+    public void setDataSource(String dataSource) {
+        String path = getClass().getClassLoader().getResource(dataSource).getPath();
+        this.file = new File(path);
     }
 }
