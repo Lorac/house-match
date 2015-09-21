@@ -38,6 +38,4 @@ public class EmailSender {
     public void setBody(String body) throws MessagingException {
         mimeMessage.setText(body);
     }
-
-
 }
