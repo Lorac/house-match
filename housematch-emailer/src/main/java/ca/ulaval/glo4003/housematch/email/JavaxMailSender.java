@@ -1,24 +1,22 @@
 package ca.ulaval.glo4003.housematch.email;
 
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 
-
 public class JavaxMailSender {
 
-    private final EmailSender emailSender;
+    private EmailSender emailSender;
 
-    public JavaxMailSender(EmailSender emailSender) {
+    public JavaxMailSender(final EmailSender emailSender) {
         this.emailSender = emailSender;
     }
 
     public void send(Message message, User user) throws CannotSendEmailException {
         try {
-        	emailSender.addRecipient(MimeMessage.RecipientType.TO, user.getEmail());
+            emailSender.addRecipient(MimeMessage.RecipientType.TO, user.getEmail());
             emailSender.setFrom(new InternetAddress("noreply@ca.ulaval.ift6002.sputnik.com"));
             emailSender.setSubject(message.getSubject());
             emailSender.setBody("Hello, " + user.getUsername() + ".\n\nPlease verify your email address "

@@ -12,12 +12,12 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
-	
-	private Properties emailProperties;
+
+    private Properties emailProperties;
     private MimeMessage mimeMessage;
 
     public EmailSender(final Properties emailProperties) {
-    	this.emailProperties = emailProperties;
+        this.emailProperties = emailProperties;
         Session session = Session.getInstance(emailProperties, new MailAuthenticator());
         mimeMessage = new MimeMessage(session);
     }
@@ -41,7 +41,7 @@ public class EmailSender {
     public void setBody(String body) throws MessagingException {
         mimeMessage.setText(body);
     }
-    
+
     private class MailAuthenticator extends Authenticator {
 
         private static final String USERNAME = "username";
