@@ -28,7 +28,6 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 public class UserController {
 
     private UserService userService;
-    private ValidationMail validationMail;
 
     protected UserController() {
         // Required for Mockito
@@ -72,10 +71,10 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session,
             HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        new ValidationMail().sendValidationEmail();
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
-            validationMail.sendValidationEmail();
         } catch (DomainException e) {
             model.put("registerForm", registerForm);
             model.put("message", new MessageViewModel(e.getMessage()));

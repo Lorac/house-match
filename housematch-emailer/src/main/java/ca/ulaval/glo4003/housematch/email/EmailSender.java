@@ -14,13 +14,8 @@ public class EmailSender {
 
     private MimeMessage mimeMessage;
 
-    public EmailSender(final Properties emailProperties) {
-        Session session = Session.getInstance(emailProperties);
-        mimeMessage = new MimeMessage(session);
-    }
-
-    public EmailSender(final Properties emailProperties, final Authenticator enailAuthenticator) {
-        Session session = Session.getDefaultInstance(emailProperties, enailAuthenticator);
+    public EmailSender(final Properties emailProperties, final Authenticator emailAuthenticator) {
+        Session session = Session.getInstance(emailProperties, emailAuthenticator);
         mimeMessage = new MimeMessage(session);
     }
 
