@@ -9,28 +9,30 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.internet.InternetAddress;
 
 public class ValidationMail {
-    protected static final String AUTH_USERNAME = "test@gmail.com";
-    protected static final String AUTH_PASSWORD = "password";
+    protected static final String AUTH_USERNAME = "housematchb5@gmail.com";
+    protected static final String AUTH_PASSWORD = "glo-4003";
+    protected static final String LINK = "un lien";
     protected static final String PORT = "587";
     protected static final String HOST = "smtp.gmail.com";
 
-    public void sendValidationEmail() {
+    public void sendValidationEmail(String username, String email) {
         Properties emailProperties = new Properties();
-        emailProperties.put("mail.smtp.auth", "true");
-        emailProperties.put("mail.smtp.starttls.enable", "true");
-        emailProperties.put("mail.smtp.host", HOST);
-        emailProperties.put("mail.smtp.port", PORT);
         Authenticator emailAuthenticator = new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(AUTH_USERNAME, AUTH_PASSWORD);
             }
         };
         EmailSender emailSender = new EmailSender(emailProperties, emailAuthenticator);
+        emailProperties.put("mail.smtp.auth", "true");
+        emailProperties.put("mail.smtp.starttls.enable", "true");
+        emailProperties.put("mail.smtp.host", HOST);
+        emailProperties.put("mail.smtp.port", PORT);
         try {
-            emailSender.addRecipient(Message.RecipientType.TO, "test@gmail.com");
-            emailSender.setFrom(new InternetAddress("test@gmail.com"));
-            emailSender.setSubject("User validation");
-            emailSender.setBody("Click the following link to validate your email :");
+            emailSender.addRecipient(Message.RecipientType.TO, email);
+            emailSender.setFrom(new InternetAddress(AUTH_USERNAME));
+            emailSender.setSubject("Welcome to HouseMatch!");
+            emailSender.setBody("Hello, " + username + ".\n\nPlease verify your email address "
+                    + "by clicking the following link :\n" + LINK + "\n\n\n\nCheers,\nThe HouseMatch team.");
             emailSender.send();
         } catch (MessagingException e) {
             e.printStackTrace();

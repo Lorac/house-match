@@ -71,7 +71,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session,
             HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        new ValidationMail().sendValidationEmail();
+        new ValidationMail().sendValidationEmail(registerForm.getUsername(), registerForm.getEmail());
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
