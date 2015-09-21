@@ -5,17 +5,20 @@ import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
-
+	
+	private Properties emailProperties;
     private MimeMessage mimeMessage;
 
-    public EmailSender(final Properties emailProperties, final Authenticator emailAuthenticator) {
-        Session session = Session.getInstance(emailProperties, emailAuthenticator);
+    public EmailSender(final Properties emailProperties) {
+    	this.emailProperties = emailProperties;
+        Session session = Session.getInstance(emailProperties, new MailAuthenticator());
         mimeMessage = new MimeMessage(session);
     }
 
@@ -37,5 +40,17 @@ public class EmailSender {
 
     public void setBody(String body) throws MessagingException {
         mimeMessage.setText(body);
+    }
+    
+    private class MailAuthenticator extends Authenticator {
+
+        private static final String USERNAME = "username";
+        private static final String PASSWORD = "password";
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(emailProperties.get(USERNAME).toString(),
+                    emailProperties.get(PASSWORD).toString());
+        }
     }
 }
