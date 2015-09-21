@@ -98,6 +98,6 @@ public class UserControllerTest extends ControllerTest {
         ResultActions results = mockMvc.perform(getRequest);
         
         results.andExpect(view().name("login"));
-        results.andExpect(status().isOk());
+        results.andExpect(status().isForbidden());
     }
 }
