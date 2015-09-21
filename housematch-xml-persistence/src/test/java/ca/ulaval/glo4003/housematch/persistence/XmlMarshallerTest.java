@@ -28,7 +28,7 @@ public class XmlMarshallerTest {
     @Before
     public void init() {
         initMocks();
-        xmlMarshaller = new XmlMarshaller<Object>(marshallerMock, unmarshallerMock);
+        xmlMarshaller = new XmlMarshaller<>(marshallerMock, unmarshallerMock);
     }
 
     public void initMocks() {
@@ -40,7 +40,7 @@ public class XmlMarshallerTest {
 
     @Test
     public void xmlMarshallerCorrectlyInstantiatesUsingDefaultMarshallers() {
-        xmlMarshaller = new XmlMarshaller<Object>(Object.class);
+        xmlMarshaller = new XmlMarshaller<>(Object.class);
         assertNotNull(xmlMarshaller.getMarshaller());
         assertNotNull(xmlMarshaller.getUnmarshaller());
     }

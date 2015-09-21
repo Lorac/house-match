@@ -34,7 +34,7 @@ public class XmlUserRepositoryTest {
 
     private void stubMethods() {
         when(xmlRepositoryMarshallerMock.getRootElementWrapper()).thenReturn(xmlRootElementWrapperMock);
-        when(xmlRootElementWrapperMock.getUsers()).thenReturn(new ArrayList<User>());
+        when(xmlRootElementWrapperMock.getUsers()).thenReturn(new ArrayList<>());
     }
 
     private void initMocks() {
