@@ -3,8 +3,10 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -93,33 +95,46 @@ public class UserController {
     }
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public final ModelAndView adminRequest(HttpSession session, ModelMap model) {
+    public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
         try {
             userService.validateRole(session.getAttribute("username").toString(), "Administrator");
         } catch (DomainException e) {
+            //model.put("message", new MessageViewModel("User does not have access to this role"));
+            //return new ModelAndView("login", "loginForm", new LoginFormViewModel());
             model.put("message", new MessageViewModel("User does not have access to this role"));
-            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
         return new ModelAndView("adminPage", model);
     }
     @RequestMapping(value = "/buyer", method = RequestMethod.GET)
-    public final ModelAndView buyerRequest(HttpSession session, ModelMap model) {
+    public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
         try {
             userService.validateRole(session.getAttribute("username").toString(), "Buyer");
         } catch (DomainException e) {
+            //model.put("message", new MessageViewModel("User does not have access to this role"));
+            //return new ModelAndView("login", "loginForm", new LoginFormViewModel());
             model.put("message", new MessageViewModel("User does not have access to this role"));
-            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
         return new ModelAndView("buyerPage", model);
     }
     @RequestMapping(value = "/seller", method = RequestMethod.GET)
-    public final ModelAndView sellerRequest(HttpSession session, ModelMap model) {
+    public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
         try {
             userService.validateRole(session.getAttribute("username").toString(), "Seller");
         } catch (DomainException e) {
+           // model.put("message", new MessageViewModel("User does not have access to this role"));
+            //return new ModelAndView("login", "loginForm", new LoginFormViewModel());
             model.put("message", new MessageViewModel("User does not have access to this role"));
-            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
         return new ModelAndView("sellerPage", model);
+    }
+    private ModelAndView handleHttpErrorView(HttpServletResponse response, ModelMap model, HttpStatus status,
+            String message) {
+        ModelAndView redirectViewModel = new ModelAndView("error");
+        model.put("message", new MessageViewModel(message));
+        response.setStatus(status.value());
+        return redirectViewModel;
     }
 }

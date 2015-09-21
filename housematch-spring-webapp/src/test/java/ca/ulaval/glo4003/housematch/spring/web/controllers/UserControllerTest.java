@@ -75,8 +75,8 @@ public class UserControllerTest extends ControllerTest {
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest.session(mockSession));
         
-        results.andExpect(view().name("login"));
-        results.andExpect(status().isOk());
+        results.andExpect(view().name("error"));
+        results.andExpect(status().isForbidden());
     }
     
     @Test
