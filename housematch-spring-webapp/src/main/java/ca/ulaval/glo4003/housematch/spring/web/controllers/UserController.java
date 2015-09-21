@@ -25,7 +25,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 
 @Controller
-@SessionAttributes({"username"})
+@SessionAttributes({ "username" })
 @RequestMapping(value = "/")
 public class UserController {
 
@@ -95,31 +95,43 @@ public class UserController {
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public final ModelAndView adminRequest(HttpSession session, ModelMap model) {
         try {
-            userService.validateRole(session.getAttribute("username").toString(), "Administrator");
+            validateUserRole("Administrator", session);
         } catch (DomainException e) {
-            model.put("message", new MessageViewModel("User does not have access to this role"));
-            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+            return redirectToLoginAfterUnsuccessfullAccess(e, model);
         }
         return new ModelAndView("adminPage", model);
     }
+
     @RequestMapping(value = "/buyer", method = RequestMethod.GET)
     public final ModelAndView buyerRequest(HttpSession session, ModelMap model) {
         try {
-            userService.validateRole(session.getAttribute("username").toString(), "Buyer");
+            validateUserRole("Buyer", session);
         } catch (DomainException e) {
-            model.put("message", new MessageViewModel("User does not have access to this role"));
-            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+            return redirectToLoginAfterUnsuccessfullAccess(e, model);
         }
         return new ModelAndView("buyerPage", model);
     }
+
     @RequestMapping(value = "/seller", method = RequestMethod.GET)
     public final ModelAndView sellerRequest(HttpSession session, ModelMap model) {
         try {
-            userService.validateRole(session.getAttribute("username").toString(), "Seller");
-        } catch (DomainException e) {
-            model.put("message", new MessageViewModel("User does not have access to this role"));
-            return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+            validateUserRole("Seller", session);
+        } catch (DomainException | NullPointerException e) {
+            return redirectToLoginAfterUnsuccessfullAccess(e, model);
         }
         return new ModelAndView("sellerPage", model);
+    }
+
+    private void validateUserRole(String role, HttpSession session) {
+        if (session.getAttribute("username") == null) {
+            throw new DomainException("Anonymous user cannot see restricted pages.");
+        } else {
+            userService.validateRole(session.getAttribute("username").toString(), role);
+        }
+    }
+
+    private ModelAndView redirectToLoginAfterUnsuccessfullAccess(Exception e, ModelMap model) {
+        model.put("message", new MessageViewModel(e.getMessage()));
+        return new ModelAndView("login", "loginForm", new LoginFormViewModel());
     }
 }
