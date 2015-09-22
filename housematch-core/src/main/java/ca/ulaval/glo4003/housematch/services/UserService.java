@@ -25,9 +25,10 @@ public class UserService {
         return userRepository.getByUsername(username);
     }
 
-    public void createUser(String username, String email, String password, UserRole role) {
+    public User createUser(String username, String email, String password, UserRole role) {
         User user = new User(username, email, password, role);
         userRepository.persist(user);
+        return user;
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {

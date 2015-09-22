@@ -17,7 +17,7 @@ public class JavaxMailSender {
     public void send(Message message, User user) throws CannotSendEmailException {
         try {
             emailSender.addRecipient(MimeMessage.RecipientType.TO, user.getEmail());
-            emailSender.setFrom(new InternetAddress("noreply@ca.ulaval.ift6002.sputnik.com"));
+            emailSender.setFrom(new InternetAddress(user.getEmail()));
             emailSender.setSubject(message.getSubject());
             emailSender.setBody("Hello, " + user.getUsername() + ".\n\nPlease verify your email address "
                     + "by clicking the following link :\n" + " " + "\n\n\n\nCheers,\nThe HouseMatch team.");
