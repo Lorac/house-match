@@ -76,6 +76,7 @@ public class UserController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session,
             HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        model.clear();
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
@@ -84,8 +85,9 @@ public class UserController {
             model.put("message", new MessageViewModel(e.getMessage()));
             return new ModelAndView("register", model);
         }
-
         session.setAttribute("username", registerForm.getUsername());
+        session.setAttribute("role", registerForm.getRole());
+
         return new ModelAndView("redirect:/");
     }
 
@@ -99,7 +101,7 @@ public class UserController {
     public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
         try {
             validateUserRole("Administrator", session);
-        } catch (DomainException | NullPointerException e) {
+        } catch (InvalidRoleException | NullPointerException e) {
             model.put("message", new MessageViewModel("User does not have access to this role"));
             return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
@@ -110,7 +112,7 @@ public class UserController {
     public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
         try {
             validateUserRole("Buyer", session);
-        } catch (DomainException | NullPointerException e) {
+        } catch (InvalidRoleException | NullPointerException e) {
             model.put("message", new MessageViewModel("User does not have access to this role"));
             return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
@@ -121,7 +123,7 @@ public class UserController {
     public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
         try {
             validateUserRole("Seller", session);
-        } catch (DomainException | NullPointerException e) {
+        } catch (InvalidRoleException | NullPointerException e) {
             model.put("message", new MessageViewModel("User does not have access to this role"));
             return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }

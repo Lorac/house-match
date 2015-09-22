@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.DomainException;
+import ca.ulaval.glo4003.housematch.domain.user.InvalidRoleException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 
 public class UserControllerTest extends ControllerTest {
@@ -69,7 +70,7 @@ public class UserControllerTest extends ControllerTest {
     @Test
     public void accessRefusedToRestrictedPagesToUserWithWrongRole() throws Exception {
         mockSession.setAttribute("username", sampleString);
-        doThrow(new DomainException("")).when(userServiceMock).validateRole(anyString(), anyString());
+        doThrow(new InvalidRoleException("")).when(userServiceMock).validateRole(anyString(), anyString());
         
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest.session(mockSession));
