@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.DomainException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
+import ca.ulaval.glo4003.housematch.domain.user.InvalidRoleException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.UserService;
@@ -99,8 +100,6 @@ public class UserController {
         try {
             validateUserRole("Administrator", session);
         } catch (DomainException | NullPointerException e) {
-            // model.put("message", new MessageViewModel("User does not have access to this role"));
-            // return new ModelAndView("login", "loginForm", new LoginFormViewModel());
             model.put("message", new MessageViewModel("User does not have access to this role"));
             return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
@@ -112,8 +111,6 @@ public class UserController {
         try {
             validateUserRole("Buyer", session);
         } catch (DomainException | NullPointerException e) {
-            // model.put("message", new MessageViewModel("User does not have access to this role"));
-            // return new ModelAndView("login", "loginForm", new LoginFormViewModel());
             model.put("message", new MessageViewModel("User does not have access to this role"));
             return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
@@ -125,8 +122,6 @@ public class UserController {
         try {
             validateUserRole("Seller", session);
         } catch (DomainException | NullPointerException e) {
-            // model.put("message", new MessageViewModel("User does not have access to this role"));
-            // return new ModelAndView("login", "loginForm", new LoginFormViewModel());
             model.put("message", new MessageViewModel("User does not have access to this role"));
             return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
         }
@@ -143,7 +138,7 @@ public class UserController {
 
     private void validateUserRole(String role, HttpSession session) {
         if (session.getAttribute("username") == null) {
-            throw new DomainException("Anonymous user cannot see restricted pages.");
+            throw new InvalidRoleException("Anonymous user cannot see restricted pages.");
         } else {
             userService.validateRole(session.getAttribute("username").toString(), role);
         }
