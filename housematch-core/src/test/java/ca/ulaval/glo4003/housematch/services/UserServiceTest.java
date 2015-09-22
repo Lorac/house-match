@@ -1,21 +1,19 @@
 package ca.ulaval.glo4003.housematch.services;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.email.EmailSender;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -26,16 +24,18 @@ public class UserServiceTest {
     private UserRepository userRepositoryMock;
     private User userMock;
     private UserService userService;
+    private EmailSender emailSender;
 
     @Before
     public void init() {
         initMocks();
-        userService = new UserService(userRepositoryMock);
+        userService = new UserService(userRepositoryMock, emailSender);
     }
 
     private void initMocks() {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
+        emailSender = mock(EmailSender.class);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void createUserMethodPersistsNewUserToRepository() {
+    public void createUserMethodPersistsNewUserToRepository() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(userRepositoryMock).persist(any(User.class));
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>HouseMatch</artifactId>
         <groupId>ca.ulaval.glo4003</groupId>
@@ -11,17 +11,11 @@
 
     <artifactId>housematch-emailer</artifactId>
 
-
     <dependencies>
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.5.0-b01</version>
-		</dependency>
-		<dependency>
-			<groupId>ca.ulaval.glo4003</groupId>
-			<artifactId>housematch-core</artifactId>
-			<version>0.2-SNAPSHOT</version>
-		</dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mail</artifactId>
+            <version>1.5.0-b01</version>
+        </dependency>
     </dependencies>
 </project>

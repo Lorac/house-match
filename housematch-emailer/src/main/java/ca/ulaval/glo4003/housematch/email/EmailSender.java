@@ -1,29 +1,20 @@
 package ca.ulaval.glo4003.housematch.email;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-
-import java.util.Properties;
-
-import javax.mail.Authenticator;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
-    private final JavaxMailSender emailSender;
+    private JavaxMailSender emailSender;
 
-    public EmailSender(JavaxMailSender emailSender) {
+    public EmailSender(final JavaxMailSender emailSender) {
         this.emailSender = emailSender;
     }
 
-    public void send(String subject, String body, User user) throws CannotSendEmailException {
+    public void send(String subject, String body, String email) throws CannotSendEmailException {
         try {
-            emailSender.addRecipient(MimeMessage.RecipientType.TO, user.getEmail());
+            emailSender.addRecipient(MimeMessage.RecipientType.TO, email);
             emailSender.setFrom(new InternetAddress("housematchb5@gmail.com"));
             emailSender.setSubject(subject);
             emailSender.setBody(body);

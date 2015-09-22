@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class UserService {
 
-    private final static String ACTIVATE_SUBJECT = "Activate your account";
+    private static final String ACTIVATE_SUBJECT = "Activate your account";
     private EmailSender emailSender;
     private UserRepository userRepository;
 
@@ -37,9 +37,8 @@ public class UserService {
         sendActivationLink(user);
     }
 
-    // TODO: On a pas vraiment de lien ici.
     private void sendActivationLink(User user) throws CannotSendEmailException {
-        emailSender.send(ACTIVATE_SUBJECT, String.format("Click on this link : %s", user.hashCode()), user);
+        emailSender.send(ACTIVATE_SUBJECT, String.format("Click on this link : %s", user.hashCode()), user.getEmail());
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {
