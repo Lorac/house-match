@@ -12,6 +12,7 @@ public class User {
     private String password;
     private UserRole role;
     private boolean activation;
+    private int hash;
 
     public User() {
     }
@@ -22,6 +23,7 @@ public class User {
         setPassword(password);
         setRole(role);
         activation = false;
+        hash = username.hashCode();
     }
 
     public String getUsername() {
@@ -84,7 +86,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+        return hash;
     }
 
     @Override
@@ -102,5 +104,9 @@ public class User {
 
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
+    }
+
+    public boolean userHashEquals(int hash) {
+        return this.hash == hash;
     }
 }
