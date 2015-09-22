@@ -1,7 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	
- </beans>
+    <import resource="housematch-servlet/housematch-xml-persistence.xml"/>
+
+    <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <value>
+                username=housematchb5@gmail.com
+                password=glo-4003
+                port=587
+                host=smtp.gmail.com
+            </value>
+        </property>
+    </bean>
+
+    <bean id="javaXMailSender" class="ca.ulaval.glo4003.housematch.email.JavaxMailSender">
+        <constructor-arg type="java.util.Properties" ref="emailProperties"/>
+    </bean>
+
+    <bean id="emailSender" class="ca.ulaval.glo4003.housematch.email.EmailSender">
+        <constructor-arg ref="javaXMailSender"/>
+    </bean>
+
+    <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
+        <constructor-arg ref="xmlUserRepository"/>
+        <constructor-arg ref="emailSender"/>
+    </bean>
+
+    <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">
+        <constructor-arg ref="userService"/>
+    </bean>
+
+    <bean id="registerController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.RegisterController">
+        <constructor-arg ref="userService"/>
+    </bean>
+
+
+</beans>

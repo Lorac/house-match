@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.email;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
+
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -13,44 +15,21 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
-    private Properties emailProperties;
-    private MimeMessage mimeMessage;
+    private final JavaxMailSender emailSender;
 
-    public EmailSender(final Properties emailProperties) {
-        this.emailProperties = emailProperties;
-        Session session = Session.getInstance(emailProperties, new MailAuthenticator());
-        mimeMessage = new MimeMessage(session);
+    public EmailSender(JavaxMailSender emailSender) {
+        this.emailSender = emailSender;
     }
 
-    public void send() throws MessagingException {
-        Transport.send(mimeMessage, mimeMessage.getAllRecipients());
-    }
-
-    public void addRecipient(Message.RecipientType recipientType, String email) throws MessagingException {
-        mimeMessage.addRecipients(recipientType, email);
-    }
-
-    public void setFrom(InternetAddress from) throws MessagingException {
-        mimeMessage.setFrom(from);
-    }
-
-    public void setSubject(String subject) throws MessagingException {
-        mimeMessage.setSubject(subject);
-    }
-
-    public void setBody(String body) throws MessagingException {
-        mimeMessage.setText(body);
-    }
-
-    private class MailAuthenticator extends Authenticator {
-
-        private static final String USERNAME = "username";
-        private static final String PASSWORD = "password";
-
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(emailProperties.get(USERNAME).toString(),
-                    emailProperties.get(PASSWORD).toString());
+    public void send(String subject, String body, User user) throws CannotSendEmailException {
+        try {
+            emailSender.addRecipient(MimeMessage.RecipientType.TO, user.getEmail());
+            emailSender.setFrom(new InternetAddress("housematchb5@gmail.com"));
+            emailSender.setSubject(subject);
+            emailSender.setBody(body);
+            emailSender.send();
+        } catch (MessagingException e) {
+            throw new CannotSendEmailException("Couldn't send the email", e);
         }
     }
 }

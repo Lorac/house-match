@@ -3,16 +3,7 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="userController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserController">
-        <constructor-arg ref="userService"/>
-    </bean>
-
     <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.XmlUserRepository">
         <constructor-arg type="java.lang.String" value="housematch-data.xml"/>
     </bean>
-
-    <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
-        <constructor-arg ref="xmlUserRepository"/>
-    </bean>
-
 </beans>

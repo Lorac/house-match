@@ -1,29 +1,50 @@
 package ca.ulaval.glo4003.housematch.email;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import ca.ulaval.glo4003.housematch.domain.user.User;
+import java.util.Properties;
 
 public class JavaxMailSender {
 
-    private EmailSender emailSender;
+    private Properties emailProperties;
+    private MimeMessage mimeMessage;
 
-    public JavaxMailSender(final EmailSender emailSender) {
-        this.emailSender = emailSender;
+    public JavaxMailSender(Properties emailProperties) {
+        this.emailProperties = emailProperties;
+        Session session = Session.getInstance(emailProperties, new MailAuthenticator());
+        mimeMessage = new MimeMessage(session);
     }
 
-    public void send(Message message, User user) throws CannotSendEmailException {
-        try {
-            emailSender.addRecipient(MimeMessage.RecipientType.TO, user.getEmail());
-            emailSender.setFrom(new InternetAddress(user.getEmail()));
-            emailSender.setSubject(message.getSubject());
-            emailSender.setBody("Hello, " + user.getUsername() + ".\n\nPlease verify your email address "
-                    + "by clicking the following link :\n" + " " + "\n\n\n\nCheers,\nThe HouseMatch team.");
-            emailSender.send();
-        } catch (MessagingException e) {
-            throw new CannotSendEmailException("Couldn't send the email", e);
+    public void send() throws MessagingException {
+        Transport.send(mimeMessage, mimeMessage.getAllRecipients());
+    }
+
+    public void addRecipient(Message.RecipientType recipientType, String email) throws MessagingException {
+        mimeMessage.addRecipients(recipientType, email);
+    }
+
+    public void setFrom(InternetAddress from) throws MessagingException {
+        mimeMessage.setFrom(from);
+    }
+
+    public void setSubject(String subject) throws MessagingException {
+        mimeMessage.setSubject(subject);
+    }
+
+    public void setBody(String body) throws MessagingException {
+        mimeMessage.setText(body);
+    }
+
+    private class MailAuthenticator extends Authenticator {
+
+        private static final String USERNAME = "username";
+        private static final String PASSWORD = "password";
+
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(emailProperties.get(USERNAME).toString(),
+                    emailProperties.get(PASSWORD).toString());
         }
     }
 }

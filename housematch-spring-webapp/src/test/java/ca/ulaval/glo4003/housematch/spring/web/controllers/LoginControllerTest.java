@@ -16,17 +16,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.services.UserService;
 
-public class UserControllerTest extends ControllerTest {
+public class LoginControllerTest extends ControllerTest {
 
     private UserService userServiceMock;
-    private UserController userController;
+    private LoginController loginController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        userController = new UserController(userServiceMock);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userController).setViewResolvers(viewResolver).build();
+        loginController = new LoginController(userServiceMock);
+        this.mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
     }
 
     @Test
