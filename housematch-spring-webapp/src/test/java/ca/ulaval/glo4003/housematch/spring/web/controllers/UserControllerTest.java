@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -90,5 +89,15 @@ public class UserControllerTest extends ControllerTest {
         results.andExpect(view().name("sellerPage"));
         results.andExpect(status().isOk());
     }
-    
+
+    @Test
+    public void accessRefusedToAnonymousUserWhenNavigatingRestrictedPages() throws Exception {
+        doNothing().when(userServiceMock).validateRole(sampleString, sampleString);
+        
+        MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(getRequest);
+        
+        results.andExpect(view().name("error"));
+        results.andExpect(status().isForbidden());
+    }
 }
