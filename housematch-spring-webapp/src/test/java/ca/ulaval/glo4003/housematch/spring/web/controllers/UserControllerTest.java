@@ -29,17 +29,17 @@ public class UserControllerTest extends ControllerTest {
     
     private UserService userServiceMock;
     private UserController userController;
-    private String sampleString = "SAMPLE";
+    private static final String SAMPLE_STRING = "SAMPLE";
     private UserRole role;
     
-    protected MockHttpSession mockSession;
+    private MockHttpSession mockSession;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
         userController = new UserController(userServiceMock);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userController).setViewResolvers(viewResolver).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController).setViewResolvers(viewResolver).build();
         mockSession = new MockHttpSession();
     }
 
@@ -74,7 +74,7 @@ public class UserControllerTest extends ControllerTest {
     @Test
     public void accessRefusedToRestrictedPagesToUserWithWrongRole() throws Exception {
         doThrow(new InvalidRoleException("")).when(userServiceMock).validateRole(anyString(), any(UserRole.class));
-        mockSession.setAttribute("username", sampleString);
+        mockSession.setAttribute("username", SAMPLE_STRING);
 
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest.session(mockSession));
@@ -82,11 +82,11 @@ public class UserControllerTest extends ControllerTest {
         results.andExpect(view().name("error"));
         results.andExpect(status().isForbidden());
     }
-    
+
     @Test
     public void accessGrantedToRestrictedPagesToUserWithRightRole() throws Exception {
-        doNothing().when(userServiceMock).validateRole(sampleString, role.SELLER);
-        mockSession.setAttribute("username", sampleString);
+        doNothing().when(userServiceMock).validateRole(SAMPLE_STRING, role.SELLER);
+        mockSession.setAttribute("username", SAMPLE_STRING);
         
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest.session(mockSession));
@@ -96,7 +96,7 @@ public class UserControllerTest extends ControllerTest {
     }
 
     @Test
-    public void accessRefusedToAnonymousUserWhenNavigatingRestrictedPages() throws Exception {
+    public void accessDeniedToRestrictedPagesToAnonynmousUsers() throws Exception {
         doThrow(new UserNotFoundException("")).when(userServiceMock).validateRole(anyString(), any(UserRole.class));
         
         MockHttpServletRequestBuilder getRequest = get("/buyer").accept(MediaType.ALL);

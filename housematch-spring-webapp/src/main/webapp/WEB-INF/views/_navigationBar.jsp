@@ -2,9 +2,9 @@
   <div class="container">
   	  <a class="navbar-brand">House Match</a>
       <ul class="nav navbar-nav navbar-right">
-        <li class="${homeActive}"><a href="/">Home</a></li>
-        <li class="${loginActive}"><a href="/login">Login</a></li>
-        <li class="${registerActive}"><a href="/register">Register</a></li>
+        <li class="${homeLinkActive}"><a href="/">Home</a></li>
+        <li class="${loginLinkActive}"><a href="/login">Login</a></li>
+        <li class="${registerLinkActive}"><a href="/register">Register</a></li>
         <li><a href="/logout">Logout</a></li>
       </ul>
     </div>

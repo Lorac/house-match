@@ -13,7 +13,7 @@
 <title>HouseMatch - Login</title>
 </head>
 <body>
-	<c:set var="homeActive" value="active" scope="request"/>
+    <c:set var="homeActive" value="active" scope="request"/>
 	<jsp:include page="_navigation.jsp"/>
 	 <c:if test="${not empty sessionScope.username}">
 	     <h1>${sessionScope.username}, your are connected as a ${sessionScope.role}</h1>
