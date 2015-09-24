@@ -15,7 +15,7 @@
 
 <body>
 	<c:set var="registerLinkActive" value="active" scope="request"/>
-	<jsp:include page="_navigation.jsp"/>
+	<jsp:include page="_navigationBar.jsp"/>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
