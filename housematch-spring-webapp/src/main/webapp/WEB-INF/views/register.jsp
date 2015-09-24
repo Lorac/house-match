@@ -14,7 +14,7 @@
 </head>
 
 <body>
-	<c:set var="registerActive" value="active" scope="request"/>
+	<c:set var="registerLinkActive" value="active" scope="request"/>
 	<jsp:include page="_navigation.jsp"/>
     <div class="container">
         <div class="row">

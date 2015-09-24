@@ -13,7 +13,7 @@
 </head>
 
 <body>
-	<c:set var="loginActive" value="active" scope="request"/>
+	<c:set var="loginLinkActive" value="active" scope="request"/>
 	<jsp:include page="_navigation.jsp"/>
 
     <div class="container">
