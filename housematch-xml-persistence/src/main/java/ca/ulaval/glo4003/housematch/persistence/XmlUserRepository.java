@@ -62,7 +62,7 @@ public class XmlUserRepository implements UserRepository {
         try {
             return users.stream().filter(u -> u.userHashEquals(hash)).findFirst().get();
         } catch (NoSuchElementException e) {
-            throw new UserNotFoundException(String.format("Cannot find user with hash"));
+            throw new UserNotFoundException(String.format("Cannot find user this hash"));
         }
     }
 }

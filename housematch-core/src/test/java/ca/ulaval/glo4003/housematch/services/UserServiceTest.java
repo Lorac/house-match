@@ -1,24 +1,28 @@
 package ca.ulaval.glo4003.housematch.services;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.EmailSender;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.email.EmailSender;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
     private static final String SAMPLE_PASSWORD = "password1234";
+    private static final int SAMPLE_USER_HASH = SAMPLE_USERNAME.hashCode();
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private UserRepository userRepositoryMock;
@@ -36,6 +40,7 @@ public class UserServiceTest {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         emailSender = mock(EmailSender.class);
+        when(userRepositoryMock.getByHash(SAMPLE_USER_HASH)).thenReturn(userMock);
     }
 
     @Test
@@ -62,5 +67,11 @@ public class UserServiceTest {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
+    }
+
+    @Test
+    public void lackOfImaginationForTestName() {
+        userService.activateUser(SAMPLE_USERNAME.hashCode());
+        verify(userRepositoryMock).getByHash(SAMPLE_USERNAME.hashCode());
     }
 }

@@ -96,4 +96,22 @@ public class UserTest {
     public void validatingTheWrongPasswordThrowsInvalidPasswordException() {
         user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
+
+    @Test
+    public void newUserIsNotActivated() {
+        assertFalse(user.isActivated());
+    }
+
+    @Test
+    public void userHashEqualsMethodShouldConsiderUsersWithTheSameHashAsEqual() {
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
+                ANOTHER_SAMPLE_ROLE);
+        assertTrue(user.userHashEquals(anotherUser.getUsername().hashCode()));
+    }
+
+    @Test
+    public void activatedUserIsActivcated() {
+        user.setActivation(true);
+        assertTrue(user.isActivated());
+    }
 }

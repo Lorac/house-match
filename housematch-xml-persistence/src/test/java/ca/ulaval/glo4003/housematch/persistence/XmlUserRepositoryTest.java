@@ -70,4 +70,11 @@ public class XmlUserRepositoryTest {
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME));
     }
+
+    @Test
+    public void getByUserHashMethodRetrievesUserByUserHash() {
+        User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        xmlUserRepository.persist(user);
+        assertSame(user, xmlUserRepository.getByHash(SAMPLE_USERNAME.hashCode()));
+    }
 }
