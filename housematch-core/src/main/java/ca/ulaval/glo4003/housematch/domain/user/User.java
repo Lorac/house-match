@@ -64,8 +64,8 @@ public class User {
         }
     }
 
-    public void validateRole(String role) {
-        if (!this.role.getDisplayName().equals(role)) {
+    public void validateRole(UserRole role) {
+        if (!this.role.equals(role)) {
             throw new InvalidRoleException("User does not have access to this role");
         }
     }
@@ -98,5 +98,5 @@ public class User {
 
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
-        }
+    }
 }

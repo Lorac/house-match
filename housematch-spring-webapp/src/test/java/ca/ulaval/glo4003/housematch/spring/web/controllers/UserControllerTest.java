@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.anyString;
+import static org.mockito.Matchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,6 +21,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.DomainException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidRoleException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.UserService;
 
 public class UserControllerTest extends ControllerTest {
@@ -27,6 +30,7 @@ public class UserControllerTest extends ControllerTest {
     private UserService userServiceMock;
     private UserController userController;
     private String sampleString = "SAMPLE";
+    private UserRole role;
     
     protected MockHttpSession mockSession;
 
@@ -69,9 +73,9 @@ public class UserControllerTest extends ControllerTest {
     
     @Test
     public void accessRefusedToRestrictedPagesToUserWithWrongRole() throws Exception {
+        doThrow(new InvalidRoleException("")).when(userServiceMock).validateRole(anyString(), any(UserRole.class));
         mockSession.setAttribute("username", sampleString);
-        doThrow(new InvalidRoleException("")).when(userServiceMock).validateRole(anyString(), anyString());
-        
+
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest.session(mockSession));
         
@@ -81,7 +85,7 @@ public class UserControllerTest extends ControllerTest {
     
     @Test
     public void accessGrantedToRestrictedPagesToUserWithRightRole() throws Exception {
-        doNothing().when(userServiceMock).validateRole(sampleString, sampleString);
+        doNothing().when(userServiceMock).validateRole(sampleString, role.SELLER);
         mockSession.setAttribute("username", sampleString);
         
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
@@ -93,10 +97,10 @@ public class UserControllerTest extends ControllerTest {
 
     @Test
     public void accessRefusedToAnonymousUserWhenNavigatingRestrictedPages() throws Exception {
-        doNothing().when(userServiceMock).validateRole(sampleString, sampleString);
+        doThrow(new UserNotFoundException("")).when(userServiceMock).validateRole(anyString(), any(UserRole.class));
         
-        MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+        MockHttpServletRequestBuilder getRequest = get("/buyer").accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(getRequest.session(mockSession));
         
         results.andExpect(view().name("error"));
         results.andExpect(status().isForbidden());

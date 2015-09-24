@@ -21,7 +21,7 @@ public class UserService {
         user.validatePassword(password);
     }
 
-    public void validateRole(String username, String role) {
+    public void validateRole(String username, UserRole role) {
         User user = getUserByUsername(username);
         user.validateRole(role);
     }

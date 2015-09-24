@@ -48,9 +48,9 @@ public class UserServiceTest {
     }
     
     @Test(expected=InvalidPasswordException.class)
-    public void whenInvalidCredentialsAccessIsRefused(){
+    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials(){
     	when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
-    	doThrow(InvalidPasswordException.class).when(userMock).validatePassword(anyString());
+    	doThrow(InvalidPasswordException.class).when(userMock).validatePassword(SAMPLE_PASSWORD);
     	userService.validateUserCredentials(SAMPLE_USERNAME,SAMPLE_PASSWORD);    
     }
 

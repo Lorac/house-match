@@ -99,35 +99,17 @@ public class UserController {
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
-        try {
-            validateUserRole("Administrator", session);
-        } catch (InvalidRoleException | NullPointerException e) {
-            model.put("message", new MessageViewModel("User does not have access to this role"));
-            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
-        }
-        return new ModelAndView("adminPage", model);
+        return validateRole(session, response, model, UserRole.ADMINISTRATOR, "adminPage");
     }
 
     @RequestMapping(value = "/buyer", method = RequestMethod.GET)
     public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
-        try {
-            validateUserRole("Buyer", session);
-        } catch (InvalidRoleException | NullPointerException e) {
-            model.put("message", new MessageViewModel("User does not have access to this role"));
-            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
-        }
-        return new ModelAndView("buyerPage", model);
+        return validateRole(session, response, model, UserRole.BUYER, "buyerPage");
     }
 
     @RequestMapping(value = "/seller", method = RequestMethod.GET)
     public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap model) {
-        try {
-            validateUserRole("Seller", session);
-        } catch (InvalidRoleException | NullPointerException e) {
-            model.put("message", new MessageViewModel("User does not have access to this role"));
-            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN, "User does not have access to this role");
-        }
-        return new ModelAndView("sellerPage", model);
+        return validateRole(session, response, model, UserRole.SELLER, "sellerPage");
     }
 
     private ModelAndView handleHttpErrorView(HttpServletResponse response, ModelMap model, HttpStatus status,
@@ -138,11 +120,21 @@ public class UserController {
         return redirectViewModel;
     }
 
-    private void validateUserRole(String role, HttpSession session) {
-        if (session.getAttribute("username") == null) {
-            throw new InvalidRoleException("Anonymous user cannot see restricted pages.");
-        } else {
-            userService.validateRole(session.getAttribute("username").toString(), role);
+    private ModelAndView validateRole(HttpSession session, HttpServletResponse response, ModelMap model, UserRole role,
+            String returnPage) {
+        try {
+            if (session.getAttribute("username") == null) {
+                userService.validateRole("", role);
+            } else {
+                userService.validateRole(session.getAttribute("username").toString(), role);
+            }
+        } catch (InvalidRoleException e) {
+            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN,
+                    "You do not have access to the specified resource.");
+        } catch (UserNotFoundException e) {
+            return handleHttpErrorView(response, model, HttpStatus.FORBIDDEN,
+                    "You must be logged in to see this page.");
         }
+        return new ModelAndView(returnPage, model);
     }
 }
