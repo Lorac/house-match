@@ -14,7 +14,7 @@
 </head>
 <body>
     <c:set var="homeLinkActive" value="active" scope="request"/>
-	<jsp:include page="_navigation.jsp"/>
+	<jsp:include page="_navigationBar.jsp"/>
 	 <c:if test="${not empty sessionScope.username}">
 	     <h1>${sessionScope.username}, your are connected as a ${sessionScope.role}</h1>
      </c:if>
