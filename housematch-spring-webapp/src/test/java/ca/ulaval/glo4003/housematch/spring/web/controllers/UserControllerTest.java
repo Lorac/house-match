@@ -32,7 +32,7 @@ public class UserControllerTest extends ControllerTest {
     private static final String SAMPLE_STRING = "SAMPLE";
     private UserRole role;
     
-    private MockHttpSession mockSession;
+    private MockHttpSession mockHttpSession;
 
     @Before
     public void init() {
@@ -40,7 +40,7 @@ public class UserControllerTest extends ControllerTest {
         userServiceMock = mock(UserService.class);
         userController = new UserController(userServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).setViewResolvers(viewResolver).build();
-        mockSession = new MockHttpSession();
+        mockHttpSession = new MockHttpSession();
     }
 
     @Test
@@ -74,10 +74,10 @@ public class UserControllerTest extends ControllerTest {
     @Test
     public void accessRefusedToRestrictedPagesToUserWithWrongRole() throws Exception {
         doThrow(new InvalidRoleException("")).when(userServiceMock).validateRole(anyString(), any(UserRole.class));
-        mockSession.setAttribute("username", SAMPLE_STRING);
+        mockHttpSession.setAttribute("username", SAMPLE_STRING);
 
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest.session(mockSession));
+        ResultActions results = mockMvc.perform(getRequest.session(mockHttpSession));
         
         results.andExpect(view().name("error"));
         results.andExpect(status().isForbidden());
@@ -86,10 +86,10 @@ public class UserControllerTest extends ControllerTest {
     @Test
     public void accessGrantedToRestrictedPagesToUserWithRightRole() throws Exception {
         doNothing().when(userServiceMock).validateRole(SAMPLE_STRING, role.SELLER);
-        mockSession.setAttribute("username", SAMPLE_STRING);
+        mockHttpSession.setAttribute("username", SAMPLE_STRING);
         
         MockHttpServletRequestBuilder getRequest = get("/seller").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest.session(mockSession));
+        ResultActions results = mockMvc.perform(getRequest.session(mockHttpSession));
         
         results.andExpect(view().name("sellerPage"));
         results.andExpect(status().isOk());
@@ -100,7 +100,7 @@ public class UserControllerTest extends ControllerTest {
         doThrow(new UserNotFoundException("")).when(userServiceMock).validateRole(anyString(), any(UserRole.class));
         
         MockHttpServletRequestBuilder getRequest = get("/buyer").accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest.session(mockSession));
+        ResultActions results = mockMvc.perform(getRequest.session(mockHttpSession));
         
         results.andExpect(view().name("error"));
         results.andExpect(status().isForbidden());
