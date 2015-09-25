@@ -13,4 +13,5 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <mvc:annotation-driven />
 
+    <import resource="housematch-xml-persistence.xml"/>
 </beans>
