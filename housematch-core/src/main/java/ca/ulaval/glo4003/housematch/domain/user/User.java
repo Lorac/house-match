@@ -85,6 +85,11 @@ public class User {
     }
 
     @Override
+    public int hashCode() {
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof User)) {
             return false;
