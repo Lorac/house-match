@@ -1,3 +1,7 @@
+build:
+  stage: build
+  script:
+    - mvn compile
 run-check-style:
   stage: test
   script:
@@ -7,6 +11,6 @@ run-test:
   script:
     - mvn clean test
 install:
-  stage: build
+  stage: deploy
   script:
     - mvn clean install
