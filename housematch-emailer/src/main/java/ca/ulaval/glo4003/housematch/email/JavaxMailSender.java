@@ -17,7 +17,7 @@ public class JavaxMailSender {
 
     public JavaxMailSender(final Properties emailProperties) {
         this.emailProperties = emailProperties;
-        Session session = Session.getInstance(emailProperties, new MailAuthenticator());
+        Session session = Session.getInstance(this.emailProperties, new MailAuthenticator());
         mimeMessage = new MimeMessage(session);
     }
 
@@ -43,8 +43,8 @@ public class JavaxMailSender {
 
     private class MailAuthenticator extends Authenticator {
 
-        private static final String USERNAME = "username";
-        private static final String PASSWORD = "password";
+        private static final String USERNAME = "mail.user";
+        private static final String PASSWORD = "mail.password";
 
         @Override
         protected PasswordAuthentication getPasswordAuthentication() {
