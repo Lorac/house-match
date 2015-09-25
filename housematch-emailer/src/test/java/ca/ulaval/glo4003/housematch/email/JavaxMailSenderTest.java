@@ -23,7 +23,7 @@ import com.dumbster.smtp.SmtpMessage;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailSenderTest {
 
-    private static final int SMTP_PORT = 8080;
+    private static final int SMTP_PORT = 597;
 
     private SimpleSmtpServer server;
 
