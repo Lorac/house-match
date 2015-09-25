@@ -111,7 +111,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
                     <url>http://localhost:8080/HouseMatch</url>
-                    <path>/</path>
+                    <path>/HouseMatch</path>
                 </configuration>
             </plugin>
         </plugins>

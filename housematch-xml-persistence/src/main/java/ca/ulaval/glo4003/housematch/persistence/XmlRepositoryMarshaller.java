@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper> {
 
@@ -64,7 +66,13 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper
     }
 
     public void setDataSource(String dataSource) {
-        String path = getClass().getClassLoader().getResource(dataSource).getPath();
-        this.file = new File(path);
+        String filePath = null;
+        try {
+            URI uri = getClass().getResource(dataSource).toURI();
+            filePath = uri.getPath();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(String.format("Failed to get resource URI of '%s'.", dataSource), e);
+        }
+        this.file = new File(filePath);
     }
 }

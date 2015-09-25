@@ -23,7 +23,6 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 
 @Controller
-@RequestMapping(value = "/")
 public class UserController {
 
     private UserService userService;

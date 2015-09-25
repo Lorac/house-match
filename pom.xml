@@ -136,7 +136,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <configuration>
                     <url>http://localhost:8080/HouseMatch</url>
-                    <path>/</path>
+                    <path>/HouseMatch</path>
                     <webapps>
                         <webapp>
                             <groupId>${project.groupId}</groupId>
@@ -144,6 +144,7 @@
                             <version>${project.version}</version>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
+                            <contextPath>/</contextPath>
                         </webapp>
                     </webapps>
                 </configuration>
