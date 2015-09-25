@@ -6,3 +6,7 @@ run-test:
   stage: test
   script:
     - mvn clean test
+install:
+  stage: build
+  script:
+    - mvn clean install
