@@ -99,7 +99,7 @@ public class UserTest {
 
     @Test
     public void newUserIsNotActivated() {
-        assertFalse(user.isActivated());
+        assertFalse(user.getActivation());
     }
 
     @Test
@@ -112,6 +112,6 @@ public class UserTest {
     @Test
     public void activatedUserIsActivcated() {
         user.setActivation(true);
-        assertTrue(user.isActivated());
+        user.validateActivation();
     }
 }

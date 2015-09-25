@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
+import ca.ulaval.glo4003.housematch.domain.user.InvalidUserException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.UserService;
@@ -23,6 +25,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 @Controller
 public class LoginController {
 
+    @Autowired
     private UserService userService;
 
     protected LoginController() {
@@ -47,8 +50,8 @@ public class LoginController {
     public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap model, HttpSession session,
             HttpServletRequest request, RedirectAttributes redirectAttributes) {
         try {
-            userService.validateUserCredentials(loginForm.getUsername(), loginForm.getPassword());
-        } catch (UserNotFoundException | InvalidPasswordException e) {
+            userService.validateUser(loginForm.getUsername(), loginForm.getPassword());
+        } catch (UserNotFoundException | InvalidPasswordException | InvalidUserException e) {
             model.put("message", new MessageViewModel("Invalid username or password."));
             model.put("loginForm", loginForm);
             return new ModelAndView("login");

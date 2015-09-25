@@ -68,6 +68,12 @@ public class User {
         }
     }
 
+    public void validateActivation() {
+        if (!this.activation) {
+            throw new InvalidUserException("User is not activated.");
+        }
+    }
+
     public UserRole getRole() {
         return role;
     }
@@ -80,7 +86,7 @@ public class User {
         this.activation = activation;
     }
 
-    public boolean isActivated() {
+    public boolean getActivation() {
         return activation;
     }
 
