@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 @Controller
 public class RegisterController {
 
+    @Autowired
     private UserService userService;
 
     protected RegisterController() {
@@ -55,7 +57,7 @@ public class RegisterController {
         try {
             userService.activateUser(hash);
         } catch (Exception e) {
-
+            model.put("message", new MessageViewModel("Invalid hash."));
         }
         return new ModelAndView("activation", model);
     }

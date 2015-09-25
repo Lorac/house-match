@@ -44,9 +44,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validateUserCredentialsMethodValidatesPasswordFromTheUserObject() {
+    public void validateUserMethodValidatesPasswordFromTheUserObject() {
         when(userRepositoryMock.getByUsername(anyString())).thenReturn(userMock);
-        userService.validateUserCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+        userService.validateUser(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 

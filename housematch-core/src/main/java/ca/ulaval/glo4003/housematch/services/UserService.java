@@ -21,9 +21,10 @@ public class UserService {
         this.emailSender = emailSender;
     }
 
-    public void validateUserCredentials(String username, String password) {
+    public void validateUser(String username, String password) {
         User user = getUserByUsername(username);
         user.validatePassword(password);
+        user.validateActivation();
     }
 
     public User getUserByUsername(String username) {
