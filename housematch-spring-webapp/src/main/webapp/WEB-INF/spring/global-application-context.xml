@@ -10,8 +10,11 @@
             <value>
                 mail.user=housematchb5@gmail.com
                 mail.password=glo-4003
-                mail.smtp.port=465
+                mail.smtp.port=587
                 mail.smtp.host=smtp.gmail.com
+                mail.smtp.starttls.enable=true
+                mail.smtp.auth=true
+                mail.smtp.debug=true
             </value>
         </property>
     </bean>

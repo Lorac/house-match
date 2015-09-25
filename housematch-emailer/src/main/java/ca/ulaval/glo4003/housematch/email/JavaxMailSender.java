@@ -1,9 +1,7 @@
 package ca.ulaval.glo4003.housematch.email;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
@@ -12,17 +10,26 @@ import java.util.Properties;
 
 public class JavaxMailSender {
 
+    private static final String USERNAME = "mail.user";
+    private static final String PASSWORD = "mail.password";
+    private static final String HOST = "mail.smtp.host";
+    private static final String PORT = "mail.smtp.port";
     private Properties emailProperties;
     private MimeMessage mimeMessage;
 
     public JavaxMailSender(final Properties emailProperties) {
         this.emailProperties = emailProperties;
-        Session session = Session.getInstance(this.emailProperties, new MailAuthenticator());
+        Session session = Session.getDefaultInstance(this.emailProperties);
         mimeMessage = new MimeMessage(session);
     }
 
     public void send() throws MessagingException {
-        Transport.send(mimeMessage, mimeMessage.getAllRecipients());
+        String port = emailProperties.get(PORT).toString();
+        Transport transport = mimeMessage.getSession().getTransport("smtp");
+        transport.connect(emailProperties.get(HOST).toString(), Integer.valueOf(port),
+                emailProperties.get(USERNAME).toString(), emailProperties.get(PASSWORD).toString());
+        transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
+        transport.close();
     }
 
     public void addRecipient(Message.RecipientType recipientType, String email) throws MessagingException {
@@ -39,17 +46,5 @@ public class JavaxMailSender {
 
     public void setBody(String body) throws MessagingException {
         mimeMessage.setText(body);
-    }
-
-    private class MailAuthenticator extends Authenticator {
-
-        private static final String USERNAME = "mail.user";
-        private static final String PASSWORD = "mail.password";
-
-        @Override
-        protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(emailProperties.get(USERNAME).toString(),
-                    emailProperties.get(PASSWORD).toString());
-        }
     }
 }

@@ -60,6 +60,8 @@ public class JavaxMailSenderTest {
         mailProps.setProperty("mail.smtp.host", "localhost");
         mailProps.setProperty("mail.smtp.port", "" + port);
         mailProps.setProperty("mail.smtp.sendpartial", "true");
+        mailProps.setProperty("mail.user", "true");
+        mailProps.setProperty("mail.password", "true");
         return mailProps;
     }
 
