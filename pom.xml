@@ -6,8 +6,8 @@
     <packaging>pom</packaging>
     <version>0.2-SNAPSHOT</version>
     <modules>
-        <module>housematch-spring-webapp</module>
         <module>housematch-core</module>
+        <module>housematch-spring-webapp</module>
         <module>housematch-xml-persistence</module>
         <module>housematch-emailer</module>
     </modules>
