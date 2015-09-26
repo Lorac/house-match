@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.housematch.email;
 
-public class SendEmailException extends RuntimeException {
+public class MailSendException extends RuntimeException {
 
     private static final long serialVersionUID = -520179227673703218L;
 
-    public SendEmailException(final String msg, final Exception e) {
+    public MailSendException(final String msg, final Exception e) {
         super(msg, e);
     }
 }
