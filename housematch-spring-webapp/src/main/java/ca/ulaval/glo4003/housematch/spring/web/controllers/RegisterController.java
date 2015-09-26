@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.email.CannotSendEmailException;
+import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
@@ -40,7 +40,7 @@ public class RegisterController {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
-        } catch (CannotSendEmailException | UserAlreadyExistsException e) {
+        } catch (MailSendException | UserAlreadyExistsException e) {
             model.put("registerForm", registerForm);
             model.put("message", new MessageViewModel(e.getMessage()));
         }
