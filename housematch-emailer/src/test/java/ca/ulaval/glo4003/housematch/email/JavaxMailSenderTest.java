@@ -35,6 +35,16 @@ public class JavaxMailSenderTest {
         javaxMailSender = new JavaxMailSender(getMailProperties(SMTP_PORT));
     }
 
+    private Properties getMailProperties(int port) {
+        Properties mailProperties = new Properties();
+        mailProperties.setProperty("mail.smtp.host", "localhost");
+        mailProperties.setProperty("mail.smtp.port", "" + port);
+        mailProperties.setProperty("mail.smtp.sendpartial", "true");
+        mailProperties.setProperty("mail.user", "true");
+        mailProperties.setProperty("mail.password", "true");
+        return mailProperties;
+    }
+
     @After
     public void tearDown() {
         smtpServer.stop();
@@ -49,16 +59,6 @@ public class JavaxMailSenderTest {
         SmtpMessage email = (SmtpMessage) emailIter.next();
         assertTrue(email.getHeaderValue("Subject").equals("Test"));
         assertTrue(email.getBody().equals("Test Body"));
-    }
-
-    private Properties getMailProperties(int port) {
-        Properties mailProps = new Properties();
-        mailProps.setProperty("mail.smtp.host", "localhost");
-        mailProps.setProperty("mail.smtp.port", "" + port);
-        mailProps.setProperty("mail.smtp.sendpartial", "true");
-        mailProps.setProperty("mail.user", "true");
-        mailProps.setProperty("mail.password", "true");
-        return mailProps;
     }
 
     private void sendMessage(String from, String subject, String body, String to) throws MessagingException {
