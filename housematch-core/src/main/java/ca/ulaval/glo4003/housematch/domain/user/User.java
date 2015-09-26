@@ -12,7 +12,6 @@ public class User {
     private String password;
     private UserRole role;
     private boolean activated = false;
-    private int hash;
 
     public User() {
     }
@@ -22,7 +21,6 @@ public class User {
         setEmail(email);
         setPassword(password);
         setRole(role);
-        hash = username.hashCode();
     }
 
     public String getUsername() {
