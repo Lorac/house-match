@@ -70,10 +70,10 @@ public class JavaxMailSenderTest {
         emailSender.send();
     }
 
-    private void createMessage(String from, String to, String subject, String body) throws MessagingException {
+    private void createMessage(String from, String to, String subject, String content) throws MessagingException {
         emailSender.setFrom(new InternetAddress(from));
         emailSender.setSubject(subject);
-        emailSender.setBody(body);
+        emailSender.setContent(content);
         emailSender.addRecipient(MimeMessage.RecipientType.TO, to);
     }
 }

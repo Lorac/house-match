@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.housematch.email;
 
+import java.util.Properties;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 
 public class JavaxMailSender {
 
@@ -44,7 +45,7 @@ public class JavaxMailSender {
         mimeMessage.setSubject(subject);
     }
 
-    public void setBody(String body) throws MessagingException {
-        mimeMessage.setText(body);
+    public void setContent(String content) throws MessagingException {
+        mimeMessage.setContent(content, "text/html; charset=utf-8");
     }
 }
