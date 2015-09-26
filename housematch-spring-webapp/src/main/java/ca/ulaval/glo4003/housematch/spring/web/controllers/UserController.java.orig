@@ -28,8 +28,11 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 
 @Controller
+<<<<<<< HEAD
+=======
 @SessionAttributes({ "username" })
 @RequestMapping(value = "/")
+>>>>>>> origin/glo-10
 public class UserController {
 
     private UserService userService;

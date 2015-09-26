@@ -7,12 +7,14 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doThrow;
 
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -43,6 +45,13 @@ public class UserServiceTest {
         when(userRepositoryMock.getByUsername(anyString())).thenReturn(userMock);
         userService.validateUserCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
+    }
+    
+    @Test(expected=InvalidPasswordException.class)
+    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials(){
+    	when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+    	doThrow(InvalidPasswordException.class).when(userMock).validatePassword(SAMPLE_PASSWORD);
+    	userService.validateUserCredentials(SAMPLE_USERNAME,SAMPLE_PASSWORD);    
     }
 
     @Test

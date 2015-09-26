@@ -14,6 +14,8 @@
 </head>
 
 <body>
+	<c:set var="loginLinkActive" value="active" scope="request"/>
+	<jsp:include page="_navigationBar.jsp"/>
 
     <div class="container">
         <div class="row">

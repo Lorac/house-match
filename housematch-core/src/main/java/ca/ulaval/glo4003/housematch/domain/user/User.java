@@ -64,6 +64,12 @@ public class User {
         }
     }
 
+    public void validateRole(UserRole role) {
+        if (!this.role.equals(role)) {
+            throw new InvalidRoleException("User does not have access to this role");
+        }
+    }
+
     public UserRole getRole() {
         return role;
     }
