@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailSender {
 
-    private final String ADDRESS_FROM = "housematchb5@gmail.com";
+    private static final String ADDRESS_FROM = "housematchb5@gmail.com";
     private JavaxMailSender javaxMailSender;
 
     public EmailSender(final JavaxMailSender javaxMailSender) {
