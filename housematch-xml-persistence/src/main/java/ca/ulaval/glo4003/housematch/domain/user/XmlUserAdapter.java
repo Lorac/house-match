@@ -12,7 +12,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         this(new XmlTextEncryptor());
     }
 
-    public XmlUserAdapter(XmlTextEncryptor xmlTextEncryptor) {
+    public XmlUserAdapter(final XmlTextEncryptor xmlTextEncryptor) {
         this.xmlTextEncryptor = xmlTextEncryptor;
     }
 
