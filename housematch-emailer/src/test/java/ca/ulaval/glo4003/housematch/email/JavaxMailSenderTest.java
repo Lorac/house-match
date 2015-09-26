@@ -1,15 +1,7 @@
 package ca.ulaval.glo4003.housematch.email;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Iterator;
-import java.util.Properties;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import com.dumbster.smtp.SimpleSmtpServer;
+import com.dumbster.smtp.SmtpMessage;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +9,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.dumbster.smtp.SimpleSmtpServer;
-import com.dumbster.smtp.SmtpMessage;
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Iterator;
+import java.util.Properties;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailSenderTest {
@@ -27,7 +25,7 @@ public class JavaxMailSenderTest {
 
     private SimpleSmtpServer server;
 
-    private JavaxMailSender emailSender;
+    private JavaxMailSender javaxMailSender;
 
     @Mock
     private Properties propertiesMock;
@@ -36,7 +34,7 @@ public class JavaxMailSenderTest {
     public void setUp() {
         server = SimpleSmtpServer.start(SMTP_PORT);
 
-        emailSender = new JavaxMailSender(getMailProperties(SMTP_PORT));
+        javaxMailSender = new JavaxMailSender(getMailProperties(SMTP_PORT));
     }
 
     @After
@@ -67,13 +65,13 @@ public class JavaxMailSenderTest {
 
     private void sendMessage(String from, String subject, String body, String to) throws MessagingException {
         createMessage(from, to, subject, body);
-        emailSender.send();
+        javaxMailSender.send();
     }
 
     private void createMessage(String from, String to, String subject, String content) throws MessagingException {
-        emailSender.setFrom(new InternetAddress(from));
-        emailSender.setSubject(subject);
-        emailSender.setContent(content);
-        emailSender.addRecipient(MimeMessage.RecipientType.TO, to);
+        javaxMailSender.setFrom(new InternetAddress(from));
+        javaxMailSender.setSubject(subject);
+        javaxMailSender.setContent(content);
+        javaxMailSender.addRecipient(MimeMessage.RecipientType.TO, to);
     }
 }
