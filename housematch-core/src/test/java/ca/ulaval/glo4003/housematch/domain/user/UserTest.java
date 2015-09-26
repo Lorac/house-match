@@ -37,6 +37,12 @@ public class UserTest {
     }
 
     @Test
+    public void givenTheSameInstanceOfTheUserWhenComparingThemThenTheyShouldBeEqual() {
+        // noinspection EqualsWithItself
+        assertTrue(user.equals(user));
+    }
+
+    @Test
     public void equalsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
@@ -95,5 +101,21 @@ public class UserTest {
     @Test(expected = InvalidPasswordException.class)
     public void validatingTheWrongPasswordThrowsInvalidPasswordException() {
         user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
+    }
+
+    @Test
+    public void newUserIsNotActivated() {
+        assertFalse(user.isActivated());
+    }
+
+    @Test
+    public void activatedUserIsActivated() {
+        user.activate();
+        user.validateActivation();
+    }
+
+    @Test(expected = UserNotActivatedException.class)
+    public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() {
+        user.validateActivation();
     }
 }

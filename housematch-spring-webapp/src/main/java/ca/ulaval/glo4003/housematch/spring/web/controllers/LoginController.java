@@ -2,11 +2,10 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,28 +16,26 @@ import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ca.ulaval.glo4003.housematch.domain.DomainException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
-import ca.ulaval.glo4003.housematch.domain.user.InvalidRoleException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 
 @Controller
-@SessionAttributes({ "username" })
-@RequestMapping(value = "/")
-public class UserController {
 
+public class LoginController {
+
+    @Autowired
     private UserService userService;
 
-    protected UserController() {
+    protected LoginController() {
         // Required for Mockito
     }
 
-    public UserController(final UserService userService) {
+    public LoginController(final UserService userService) {
         this.userService = userService;
     }
 
@@ -54,10 +51,10 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap model, HttpSession session,
-            HttpServletRequest request, RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) {
         try {
-            userService.validateUserCredentials(loginForm.getUsername(), loginForm.getPassword());
-        } catch (UserNotFoundException | InvalidPasswordException e) {
+            userService.validateUserLogin(loginForm.getUsername(), loginForm.getPassword());
+        } catch (UserNotFoundException | InvalidPasswordException | UserNotActivatedException e) {
             model.put("message", new MessageViewModel("Invalid username or password."));
             model.put("loginForm", loginForm);
             return new ModelAndView("login");
@@ -67,28 +64,6 @@ public class UserController {
         return new ModelAndView("redirect:/");
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public final ModelAndView displayRegister(ModelMap model) {
-        model.put("registerForm", new RegisterFormViewModel());
-        return new ModelAndView("register", model);
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session,
-            HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        model.clear();
-        try {
-            userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
-                    registerForm.getRole());
-        } catch (DomainException e) {
-            model.put("registerForm", registerForm);
-            model.put("message", new MessageViewModel(e.getMessage()));
-            return new ModelAndView("register", model);
-        }
-        session.setAttribute("username", registerForm.getUsername());
-        session.setAttribute("role", registerForm.getRole());
-
-        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

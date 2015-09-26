@@ -25,10 +25,10 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.UserService;
 
-public class UserControllerTest extends ControllerTest {
+public class LoginControllerTest extends ControllerTest {
     
     private UserService userServiceMock;
-    private UserController userController;
+    private LoginController loginController;
     private static final String SAMPLE_STRING = "SAMPLE";
     private UserRole role;
     
@@ -38,8 +38,9 @@ public class UserControllerTest extends ControllerTest {
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        userController = new UserController(userServiceMock);
+        loginController = new LoginController(userServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).setViewResolvers(viewResolver).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
         mockHttpSession = new MockHttpSession();
     }
 

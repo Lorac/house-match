@@ -11,6 +11,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
+    private boolean activated = false;
 
     public User() {
     }
@@ -63,10 +64,16 @@ public class User {
             throw new InvalidPasswordException("Password does not match.");
         }
     }
-
+    
     public void validateRole(UserRole role) {
         if (!this.role.equals(role)) {
             throw new InvalidRoleException("User does not have access to this role");
+        }
+    }
+    
+    public void validateActivation() {
+        if (!this.activated) {
+            throw new UserNotActivatedException("User is not activated.");
         }
     }
 
@@ -76,6 +83,14 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public void activate() {
+        this.activated = true;
+    }
+
+    public boolean isActivated() {
+        return activated;
     }
 
     @Override
@@ -99,4 +114,5 @@ public class User {
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
     }
+
 }

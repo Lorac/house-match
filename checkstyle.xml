@@ -94,7 +94,7 @@
         <!-- See http://checkstyle.sf.net/config_sizes.html -->
         <module name="LineLength">
             <property name="ignorePattern" value="^import"/>
-            <property name="max" value="120"/>
+            <property name="max" value="125"/>
         </module>
         <module name="MethodLength">
             <property name="max" value="30"/>

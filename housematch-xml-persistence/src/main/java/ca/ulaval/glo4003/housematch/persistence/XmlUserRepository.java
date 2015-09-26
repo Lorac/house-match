@@ -1,26 +1,19 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class XmlUserRepository implements UserRepository {
 
     private final XmlRepositoryMarshaller xmlRepositoryMarshaller;
     private XmlRootElementWrapper xmlRootElementWrapper;
     private List<User> users = new ArrayList<>();
-
-    public XmlUserRepository(final String fileResource) {
-        xmlRepositoryMarshaller = XmlRepositoryMarshaller.getInstance();
-        xmlRepositoryMarshaller.setDataSource(fileResource);
-        xmlRepositoryMarshaller.initRepository();
-        initRepository();
-    }
 
     public XmlUserRepository(final XmlRepositoryMarshaller xmlRepositoryMarshaller) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
@@ -55,5 +48,14 @@ public class XmlUserRepository implements UserRepository {
     protected void marshal() {
         xmlRootElementWrapper.setUsers(users);
         xmlRepositoryMarshaller.marshal();
+    }
+
+    @Override
+    public User getByHashCode(int hash) {
+        try {
+            return users.stream().filter(u -> u.hashCode() == hash).findFirst().get();
+        } catch (NoSuchElementException e) {
+            throw new UserNotFoundException(String.format("Cannot find user with hash '%s'.", hash));
+        }
     }
 }
