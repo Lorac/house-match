@@ -13,7 +13,7 @@ public class EmailSender {
         this.javaxMailSender = javaxMailSender;
     }
 
-    public void send(String subject, String content, String email) throws SendEmailException {
+    public void send(String subject, String content, String email) throws MailSendException {
         try {
             javaxMailSender.addRecipient(MimeMessage.RecipientType.TO, email);
             javaxMailSender.setFrom(new InternetAddress(ADDRESS_FROM));
@@ -21,7 +21,7 @@ public class EmailSender {
             javaxMailSender.setContent(content);
             javaxMailSender.send();
         } catch (MessagingException e) {
-            throw new SendEmailException("Couldn't send the email", e);
+            throw new MailSendException("Couldn't send the email", e);
         }
     }
 }
