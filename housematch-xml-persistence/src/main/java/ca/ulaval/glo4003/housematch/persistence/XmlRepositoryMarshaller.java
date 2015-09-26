@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,32 +8,16 @@ import java.io.UncheckedIOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.io.FileUtils;
+
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper> {
-
-    private static final Object INITIALIZATION_LOCK = new Object();
-
-    private static XmlRepositoryMarshaller instance = null;
 
     private XmlRootElementWrapper xmlRootElementWrapper;
     private File file;
 
-    public XmlRepositoryMarshaller() {
+    public XmlRepositoryMarshaller(final String fileResource) {
         super(XmlRootElementWrapper.class);
-    }
-
-    public static synchronized XmlRepositoryMarshaller getInstance() {
-        if (instance == null) {
-            synchronized (INITIALIZATION_LOCK) {
-                if (instance == null) {
-                    instance = new XmlRepositoryMarshaller();
-                }
-            }
-        }
-
-        return instance;
-    }
-
-    protected void initRepository() {
+        setDataSource(fileResource);
         unmarshal();
     }
 

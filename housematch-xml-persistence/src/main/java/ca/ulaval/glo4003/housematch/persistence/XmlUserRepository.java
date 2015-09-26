@@ -15,13 +15,6 @@ public class XmlUserRepository implements UserRepository {
     private XmlRootElementWrapper xmlRootElementWrapper;
     private List<User> users = new ArrayList<>();
 
-    public XmlUserRepository(final String fileResource) {
-        xmlRepositoryMarshaller = XmlRepositoryMarshaller.getInstance();
-        xmlRepositoryMarshaller.setDataSource(fileResource);
-        xmlRepositoryMarshaller.initRepository();
-        initRepository();
-    }
-
     public XmlUserRepository(final XmlRepositoryMarshaller xmlRepositoryMarshaller) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository();

@@ -4,6 +4,11 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.XmlUserRepository">
+        <constructor-arg ref="xmlRepositoryMarshaller"/>
+    </bean>
+	
+	<bean id="xmlRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller">
         <constructor-arg type="java.lang.String" value="/housematch-data.xml"/>
     </bean>
+	
 </beans>
