@@ -58,11 +58,11 @@ public class XmlUserRepository implements UserRepository {
     }
 
     @Override
-    public User getByHash(int hash) {
+    public User getByHashCode(int hash) {
         try {
-            return users.stream().filter(u -> u.userHashEquals(hash)).findFirst().get();
+            return users.stream().filter(u -> u.hashCode() == hash).findFirst().get();
         } catch (NoSuchElementException e) {
-            throw new UserNotFoundException(String.format("Cannot find user this hash"));
+            throw new UserNotFoundException(String.format("Cannot find user with hash '%s'.", hash));
         }
     }
 }

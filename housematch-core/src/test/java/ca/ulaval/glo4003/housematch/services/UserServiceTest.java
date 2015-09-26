@@ -1,19 +1,22 @@
 package ca.ulaval.glo4003.housematch.services;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.EmailSender;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.email.EmailSender;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -37,13 +40,13 @@ public class UserServiceTest {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         emailSenderMock = mock(EmailSender.class);
-        when(userRepositoryMock.getByHash(SAMPLE_USER_HASH)).thenReturn(userMock);
+        when(userRepositoryMock.getByHashCode(SAMPLE_USER_HASH)).thenReturn(userMock);
     }
 
     @Test
-    public void validateUserMethodValidatesPasswordFromTheUserObject() {
+    public void validateUserLoginMethodValidatesPasswordFromTheUserObject() {
         when(userRepositoryMock.getByUsername(anyString())).thenReturn(userMock);
-        userService.validateUser(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+        userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
@@ -67,8 +70,8 @@ public class UserServiceTest {
     }
 
     @Test
-    public void givenAUserToActivateWhenActivatingUserThenMethodActivatesUserFromTheSpecifiedHashCode() {
+    public void activateUserMethodActivatesUserFromTheSpecifiedHashCode() {
         userService.activateUser(SAMPLE_USERNAME.hashCode());
-        verify(userRepositoryMock).getByHash(SAMPLE_USERNAME.hashCode());
+        verify(userRepositoryMock).getByHashCode(SAMPLE_USERNAME.hashCode());
     }
 }

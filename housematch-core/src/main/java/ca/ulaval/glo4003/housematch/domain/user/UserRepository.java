@@ -6,6 +6,6 @@ public interface UserRepository {
 
     User getByUsername(String username);
 
-    User getByHash(int hash);
+    User getByHashCode(int hash);
 
 }

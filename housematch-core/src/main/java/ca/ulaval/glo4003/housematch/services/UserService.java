@@ -1,14 +1,14 @@
 package ca.ulaval.glo4003.housematch.services;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.EmailSender;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -21,7 +21,7 @@ public class UserService {
         this.emailSender = emailSender;
     }
 
-    public void validateUser(String username, String password) {
+    public void validateUserLogin(String username, String password) {
         User user = getUserByUsername(username);
         user.validatePassword(password);
         user.validateActivation();
@@ -31,8 +31,7 @@ public class UserService {
         return userRepository.getByUsername(username);
     }
 
-    public void createUser(String username, String email, String password, UserRole role)
-            throws MailSendException {
+    public void createUser(String username, String email, String password, UserRole role) throws MailSendException {
         User user = new User(username, email, password, role);
         userRepository.persist(user);
         sendActivationLink(user);
@@ -53,7 +52,7 @@ public class UserService {
     }
 
     public void activateUser(int hash) {
-        User user = userRepository.getByHash(hash);
-        user.setActivation(true);
+        User user = userRepository.getByHashCode(hash);
+        user.activate();
     }
 }

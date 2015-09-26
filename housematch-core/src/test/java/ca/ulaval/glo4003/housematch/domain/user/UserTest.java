@@ -1,11 +1,12 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 
 public class UserTest {
 
@@ -37,7 +38,7 @@ public class UserTest {
 
     @Test
     public void givenTheSameInstanceOfTheUserWhenComparingThemThenTheyShouldBeEqual() {
-        //noinspection EqualsWithItself
+        // noinspection EqualsWithItself
         assertTrue(user.equals(user));
     }
 
@@ -104,23 +105,16 @@ public class UserTest {
 
     @Test
     public void newUserIsNotActivated() {
-        assertFalse(user.getActivation());
-    }
-
-    @Test
-    public void userHashEqualsMethodShouldConsiderUsersWithTheSameHashAsEqual() {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
-                ANOTHER_SAMPLE_ROLE);
-        assertTrue(user.userHashEquals(anotherUser.getUsername().hashCode()));
+        assertFalse(user.isActivated());
     }
 
     @Test
     public void activatedUserIsActivated() {
-        user.setActivation(true);
+        user.activate();
         user.validateActivation();
     }
 
-    @Test(expected = InvalidUserException.class)
+    @Test(expected = UserNotActivatedException.class)
     public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() {
         user.validateActivation();
     }

@@ -11,7 +11,7 @@ public class User {
     private String email;
     private String password;
     private UserRole role;
-    private boolean activation;
+    private boolean activated = false;
     private int hash;
 
     public User() {
@@ -22,7 +22,6 @@ public class User {
         setEmail(email);
         setPassword(password);
         setRole(role);
-        activation = false;
         hash = username.hashCode();
     }
 
@@ -69,8 +68,8 @@ public class User {
     }
 
     public void validateActivation() {
-        if (!this.activation) {
-            throw new InvalidUserException("User is not activated.");
+        if (!this.activated) {
+            throw new UserNotActivatedException("User is not activated.");
         }
     }
 
@@ -82,17 +81,17 @@ public class User {
         this.role = role;
     }
 
-    public void setActivation(boolean activation) {
-        this.activation = activation;
+    public void activate() {
+        this.activated = true;
     }
 
-    public boolean getActivation() {
-        return activation;
+    public boolean isActivated() {
+        return activated;
     }
 
     @Override
     public int hashCode() {
-        return hash;
+        return username.hashCode();
     }
 
     @Override
@@ -110,10 +109,6 @@ public class User {
 
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
-    }
-
-    public boolean userHashEquals(int hash) {
-        return this.hash == hash;
     }
 
 }

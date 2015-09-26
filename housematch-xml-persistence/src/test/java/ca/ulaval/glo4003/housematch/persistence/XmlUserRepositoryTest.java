@@ -75,6 +75,6 @@ public class XmlUserRepositoryTest {
     public void getByUserHashMethodRetrievesUserByUserHash() {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
-        assertSame(user, xmlUserRepository.getByHash(SAMPLE_USERNAME.hashCode()));
+        assertSame(user, xmlUserRepository.getByHashCode(SAMPLE_USERNAME.hashCode()));
     }
 }
