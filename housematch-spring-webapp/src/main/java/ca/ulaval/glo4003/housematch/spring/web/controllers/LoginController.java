@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
@@ -45,7 +46,8 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap model, HttpSession session) {
+    public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap model, HttpSession session,
+            RedirectAttributes redirectAttributes) {
         try {
             userService.validateUserLogin(loginForm.getUsername(), loginForm.getPassword());
         } catch (UserNotFoundException | InvalidPasswordException | UserNotActivatedException e) {
