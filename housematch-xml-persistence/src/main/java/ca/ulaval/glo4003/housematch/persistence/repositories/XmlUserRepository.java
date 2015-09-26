@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence;
+package ca.ulaval.glo4003.housematch.persistence.repositories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,13 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
+import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
 
     private final XmlRepositoryMarshaller xmlRepositoryMarshaller;
-    private XmlRootElementWrapper xmlRootElementWrapper;
+    private XmlRepositoryAssembler xmlRepositoryAssembler;
     private List<User> users = new ArrayList<>();
 
     public XmlUserRepository(final XmlRepositoryMarshaller xmlRepositoryMarshaller) {
@@ -21,8 +23,8 @@ public class XmlUserRepository implements UserRepository {
     }
 
     protected void initRepository() {
-        xmlRootElementWrapper = xmlRepositoryMarshaller.getRootElementWrapper();
-        users = xmlRootElementWrapper.getUsers();
+        xmlRepositoryAssembler = xmlRepositoryMarshaller.getRepositoryAssembler();
+        users = xmlRepositoryAssembler.getUsers();
     }
 
     @Override
@@ -36,7 +38,11 @@ public class XmlUserRepository implements UserRepository {
         marshal();
     }
 
-    @Override
+    protected void marshal() {
+        xmlRepositoryAssembler.setUsers(users);
+        xmlRepositoryMarshaller.marshal();
+    }
+
     public User getByUsername(String username) {
         try {
             return users.stream().filter(u -> u.usernameEquals(username)).findFirst().get();
@@ -45,12 +51,6 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    protected void marshal() {
-        xmlRootElementWrapper.setUsers(users);
-        xmlRepositoryMarshaller.marshal();
-    }
-
-    @Override
     public User getByHashCode(int hash) {
         try {
             return users.stream().filter(u -> u.hashCode() == hash).findFirst().get();

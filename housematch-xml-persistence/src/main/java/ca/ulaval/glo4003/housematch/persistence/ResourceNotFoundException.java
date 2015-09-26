@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-public class FileNotFoundException extends RuntimeException {
+public class ResourceNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = -7964276925754946574L;
 
-    public FileNotFoundException(final String message) {
+    public ResourceNotFoundException(final String message) {
         super(message);
     }
 }

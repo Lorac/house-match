@@ -7,11 +7,11 @@ import org.apache.commons.validator.routines.EmailValidator;
 import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 
 public class User {
-    private String username;
-    private String email;
-    private String password;
-    private UserRole role;
-    private boolean activated = false;
+    String username;
+    String email;
+    String password;
+    UserRole role;
+    boolean activated = false;
 
     public User() {
     }

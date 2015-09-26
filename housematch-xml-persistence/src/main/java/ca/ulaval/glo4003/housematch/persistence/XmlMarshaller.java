@@ -30,6 +30,7 @@ public class XmlMarshaller<T> {
         }
         try {
             marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         } catch (JAXBException e) {
             throw new MarshallingException("Marshaller initialization failed.", e);
         }

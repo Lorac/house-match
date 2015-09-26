@@ -16,6 +16,8 @@ import javax.xml.bind.Unmarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.persistence.XmlMarshaller;
+
 public class XmlMarshallerTest {
 
     private XmlMarshaller<Object> xmlMarshaller;
@@ -46,14 +48,14 @@ public class XmlMarshallerTest {
     }
 
     @Test
-    public void unmarshalMethodUnmarshallsTheSpecifiedInputStreamToAnXmlRootElementWrapper() throws JAXBException {
+    public void unmarshalMethodUnmarshallsTheSpecifiedInputStreamToAnXmlRepositoryAssembler() throws JAXBException {
         when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(SAMPLE_OBJECT);
         Object unmarshalledObject = xmlMarshaller.unmarshal(inputStreamMock);
         assertSame(SAMPLE_OBJECT, unmarshalledObject);
     }
 
     @Test
-    public void marshalMethodMarshallsTheSpecifiedXmlRootElementWrapperToAnOutputStream() throws JAXBException {
+    public void marshalMethodMarshallsTheSpecifiedXmlRepositoryAssemblerToAnOutputStream() throws JAXBException {
         xmlMarshaller.marshal(SAMPLE_OBJECT, outputStreamMock);
         verify(marshallerMock).marshal(SAMPLE_OBJECT, outputStreamMock);
     }

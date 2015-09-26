@@ -1,60 +1,50 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
-import org.apache.commons.io.FileUtils;
+public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssembler> {
 
-public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementWrapper> {
+    private XmlRepositoryAssembler xmlRepositoryAssembler;
+    private ResourceLoader resourceLoader;
+    private String resourceName;
 
-    private XmlRootElementWrapper xmlRootElementWrapper;
-    private File file;
-
-    public XmlRepositoryMarshaller(final String fileResource) {
-        super(XmlRootElementWrapper.class);
-        setDataSource(fileResource);
-        unmarshal();
+    public XmlRepositoryMarshaller(final String resourceName) {
+        this(new ResourceLoader(), resourceName);
     }
 
-    protected void marshal() {
-        try {
-            OutputStream outputStream = FileUtils.openOutputStream(file);
-            super.marshal(xmlRootElementWrapper, outputStream);
-            outputStream.close();
-        } catch (IOException e) {
-            throw new UncheckedIOException(
-                    String.format("Failed to open file '%s' as an output stream.", file.getPath()), e);
-        }
+    public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName) {
+        super(XmlRepositoryAssembler.class);
+        this.resourceLoader = resourceLoader;
+        this.resourceName = resourceName;
+        unmarshal();
     }
 
     private void unmarshal() {
         try {
-            InputStream inputStream = FileUtils.openInputStream(file);
-            xmlRootElementWrapper = super.unmarshal(inputStream);
+            InputStream inputStream = resourceLoader.loadResourceAsInputStream(this, resourceName);
+            xmlRepositoryAssembler = super.unmarshal(inputStream);
             inputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
-                    String.format("Failed to open file '%s' as an input stream.", file.getPath()), e);
+                    String.format("An I/O exception occured while trying to read file '%s'.", resourceName), e);
         }
     }
 
-    public XmlRootElementWrapper getRootElementWrapper() {
-        return xmlRootElementWrapper;
-    }
-
-    public void setDataSource(String dataSource) {
-        String filePath = null;
+    public void marshal() {
         try {
-            URI uri = getClass().getResource(dataSource).toURI();
-            filePath = uri.getPath();
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(String.format("Failed to get resource URI of '%s'.", dataSource), e);
+            OutputStream outputStream = resourceLoader.loadResourceAsOutputStream(this, resourceName);
+            super.marshal(xmlRepositoryAssembler, outputStream);
+            outputStream.close();
+        } catch (IOException e) {
+            throw new UncheckedIOException(
+                    String.format("An I/O exception occured while trying to write file '%s'.", resourceName), e);
         }
-        this.file = new File(filePath);
+    }
+
+    public XmlRepositoryAssembler getRepositoryAssembler() {
+        return xmlRepositoryAssembler;
     }
 }

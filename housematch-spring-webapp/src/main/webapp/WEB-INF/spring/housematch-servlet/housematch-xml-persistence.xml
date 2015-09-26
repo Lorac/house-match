@@ -3,7 +3,7 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.XmlUserRepository">
+    <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.repositories.XmlUserRepository">
         <constructor-arg ref="xmlRepositoryMarshaller"/>
     </bean>
 	
