@@ -67,7 +67,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void lackOfImaginationForTestName() {
+    public void givenAUserToActivateWhenActivatingUserThenMethodActivatesUserFromTheSpecifiedHashCode() {
         userService.activateUser(SAMPLE_USERNAME.hashCode());
         verify(userRepositoryMock).getByHash(SAMPLE_USERNAME.hashCode());
     }
