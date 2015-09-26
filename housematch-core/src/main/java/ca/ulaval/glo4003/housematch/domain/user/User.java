@@ -64,13 +64,13 @@ public class User {
             throw new InvalidPasswordException("Password does not match.");
         }
     }
-    
+
     public void validateRole(UserRole role) {
         if (!this.role.equals(role)) {
             throw new InvalidRoleException("User does not have access to this role");
         }
     }
-    
+
     public void validateActivation() {
         if (!this.activated) {
             throw new UserNotActivatedException("User is not activated.");
