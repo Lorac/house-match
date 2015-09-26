@@ -23,31 +23,29 @@ public class JavaxMailSenderTest {
 
     private static final int SMTP_PORT = 597;
 
-    private SimpleSmtpServer server;
-
+    private SimpleSmtpServer smtpServer;
     private JavaxMailSender javaxMailSender;
 
     @Mock
     private Properties propertiesMock;
 
     @Before
-    public void setUp() {
-        server = SimpleSmtpServer.start(SMTP_PORT);
-
+    public void init() {
+        smtpServer = SimpleSmtpServer.start(SMTP_PORT);
         javaxMailSender = new JavaxMailSender(getMailProperties(SMTP_PORT));
     }
 
     @After
     public void tearDown() {
-        server.stop();
+        smtpServer.stop();
     }
 
     @Test
     public void whenSendingAMessageItShouldSendTheMessage() throws MessagingException {
         sendMessage("sender@here.com", "Test", "Test Body", "receiver@there.com");
 
-        assertEquals(1, server.getReceivedEmailSize());
-        Iterator emailIter = server.getReceivedEmail();
+        assertEquals(1, smtpServer.getReceivedEmailSize());
+        Iterator emailIter = smtpServer.getReceivedEmail();
         SmtpMessage email = (SmtpMessage) emailIter.next();
         assertTrue(email.getHeaderValue("Subject").equals("Test"));
         assertTrue(email.getBody().equals("Test Body"));
