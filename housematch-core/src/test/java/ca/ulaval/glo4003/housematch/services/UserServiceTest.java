@@ -4,10 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.doThrow;
 
 import java.util.List;
 
@@ -51,12 +51,12 @@ public class UserServiceTest {
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
-    
-    @Test(expected=InvalidPasswordException.class)
-    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials(){
-    	when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
-    	doThrow(InvalidPasswordException.class).when(userMock).validatePassword(SAMPLE_PASSWORD);
-    	userService.validateUserCredentials(SAMPLE_USERNAME,SAMPLE_PASSWORD);    
+
+    @Test(expected = InvalidPasswordException.class)
+    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials() {
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+        doThrow(InvalidPasswordException.class).when(userMock).validatePassword(SAMPLE_PASSWORD);
+        userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
     }
 
     @Test

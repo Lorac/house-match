@@ -6,17 +6,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
+import ca.ulaval.glo4003.housematch.domain.user.InvalidRoleException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -62,8 +63,6 @@ public class LoginController {
 
         session.setAttribute("username", loginForm.getUsername());
         return new ModelAndView("redirect:/");
-    }
-
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
