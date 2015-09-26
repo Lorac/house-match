@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class UserTest {
 
@@ -34,6 +33,12 @@ public class UserTest {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
+    }
+
+    @Test
+    public void givenTheSameInstanceOfTheUserWhenComparingThemThenTheyShouldBeEqual() {
+        //noinspection EqualsWithItself
+        assertTrue(user.equals(user));
     }
 
     @Test
@@ -110,8 +115,13 @@ public class UserTest {
     }
 
     @Test
-    public void activatedUserIsActivcated() {
+    public void activatedUserIsActivated() {
         user.setActivation(true);
+        user.validateActivation();
+    }
+
+    @Test(expected = InvalidUserException.class)
+    public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() {
         user.validateActivation();
     }
 }
