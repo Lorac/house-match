@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.email.CannotSendEmailException;
+import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -10,12 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ca.ulaval.glo4003.housematch.email.CannotSendEmailException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class RegisterController {
@@ -38,12 +36,11 @@ public class RegisterController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session,
-            HttpServletRequest request, RedirectAttributes redirectAttributes) {
+    public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap model, HttpSession session) {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
-        } catch (CannotSendEmailException e) {
+        } catch (CannotSendEmailException | UserAlreadyExistsException e) {
             model.put("registerForm", registerForm);
             model.put("message", new MessageViewModel(e.getMessage()));
         }
