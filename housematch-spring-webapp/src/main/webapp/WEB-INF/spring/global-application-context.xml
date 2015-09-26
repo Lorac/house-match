@@ -8,10 +8,13 @@
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <value>
-                username=housematchb5@gmail.com
-                password=glo-4003
-                port=587
-                host=smtp.gmail.com
+                mail.user=housematchb5@gmail.com
+                mail.password=glo-4003
+                mail.smtp.port=587
+                mail.smtp.host=smtp.gmail.com
+                mail.smtp.starttls.enable=true
+                mail.smtp.auth=true
+                mail.smtp.debug=true
             </value>
         </property>
     </bean>

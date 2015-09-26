@@ -12,12 +12,12 @@ public class EmailSender {
         this.emailSender = emailSender;
     }
 
-    public void send(String subject, String body, String email) throws CannotSendEmailException {
+    public void send(String subject, String content, String email) throws CannotSendEmailException {
         try {
             emailSender.addRecipient(MimeMessage.RecipientType.TO, email);
             emailSender.setFrom(new InternetAddress("housematchb5@gmail.com"));
             emailSender.setSubject(subject);
-            emailSender.setBody(body);
+            emailSender.setContent(content);
             emailSender.send();
         } catch (MessagingException e) {
             throw new CannotSendEmailException("Couldn't send the email", e);

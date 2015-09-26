@@ -23,7 +23,7 @@ import com.dumbster.smtp.SmtpMessage;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailSenderTest {
 
-    private static final int SMTP_PORT = 8080;
+    private static final int SMTP_PORT = 597;
 
     private SimpleSmtpServer server;
 
@@ -60,6 +60,8 @@ public class JavaxMailSenderTest {
         mailProps.setProperty("mail.smtp.host", "localhost");
         mailProps.setProperty("mail.smtp.port", "" + port);
         mailProps.setProperty("mail.smtp.sendpartial", "true");
+        mailProps.setProperty("mail.user", "true");
+        mailProps.setProperty("mail.password", "true");
         return mailProps;
     }
 
@@ -68,10 +70,10 @@ public class JavaxMailSenderTest {
         emailSender.send();
     }
 
-    private void createMessage(String from, String to, String subject, String body) throws MessagingException {
+    private void createMessage(String from, String to, String subject, String content) throws MessagingException {
         emailSender.setFrom(new InternetAddress(from));
         emailSender.setSubject(subject);
-        emailSender.setBody(body);
+        emailSender.setContent(content);
         emailSender.addRecipient(MimeMessage.RecipientType.TO, to);
     }
 }

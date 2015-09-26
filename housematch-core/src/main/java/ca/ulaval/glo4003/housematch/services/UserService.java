@@ -39,7 +39,11 @@ public class UserService {
     }
 
     private void sendActivationLink(User user) throws CannotSendEmailException {
-        emailSender.send(ACTIVATE_SUBJECT, String.format("Click on this link : %s", user.hashCode()), user.getEmail());
+        emailSender.send(ACTIVATE_SUBJECT,
+                String.format(
+                        "Click on this link : <a href=\"http://localhost:8080/activation/%d\">activation link</a>",
+                        user.hashCode()),
+                user.getEmail());
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {
