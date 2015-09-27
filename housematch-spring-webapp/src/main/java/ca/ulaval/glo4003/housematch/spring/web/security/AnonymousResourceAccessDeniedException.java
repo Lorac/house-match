@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.security;
 
-public class AnonymousResourceAccessDeniedException extends RuntimeException {
+import javax.naming.AuthenticationException;
+
+public class AnonymousResourceAccessDeniedException extends AuthenticationException {
 
     private static final long serialVersionUID = -4510609948588708850L;
 

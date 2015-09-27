@@ -94,12 +94,12 @@ public class UserTest {
     }
 
     @Test
-    public void validatingTheRightPasswordDoesNotThrowAnException() {
+    public void validatingTheRightPasswordDoesNotThrowAnException() throws Exception {
         user.validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void validatingTheWrongPasswordThrowsInvalidPasswordException() {
+    public void validatingTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
         user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
 
@@ -109,13 +109,13 @@ public class UserTest {
     }
 
     @Test
-    public void activatedUserIsActivated() {
+    public void activatedUserIsActivated() throws Exception {
         user.activate();
         user.validateActivation();
     }
 
     @Test(expected = UserNotActivatedException.class)
-    public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() {
+    public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() throws Exception {
         user.validateActivation();
     }
 }

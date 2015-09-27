@@ -15,7 +15,6 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
 import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller;
-import ca.ulaval.glo4003.housematch.persistence.repositories.XmlUserRepository;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -53,7 +52,7 @@ public class XmlUserRepositoryTest {
     }
 
     @Test(expected = UserAlreadyExistsException.class)
-    public void persistingUserWhichAlreadyExistsThrowsUserAlreadyExistsException() {
+    public void persistingUserWhichAlreadyExistsThrowsUserAlreadyExistsException() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         User user2 = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
@@ -61,21 +60,21 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void getByUsernameMethodRetrievesUserByUsername() {
+    public void getByUsernameMethodRetrievesUserByUsername() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void retrievingUserUsingNonExistingUsernameThrowsUserNotFoundException() {
+    public void retrievingUserUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME));
     }
 
     @Test
-    public void getByUserHashMethodRetrievesUserByUserHash() {
+    public void getByUserHashMethodRetrievesUserByUserHash() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByHashCode(SAMPLE_USERNAME.hashCode()));

@@ -4,7 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.EmailSender;
@@ -23,17 +27,19 @@ public class UserService {
         this.emailSender = emailSender;
     }
 
-    public void validateUserLogin(String username, String password) {
+    public void validateUserLogin(String username, String password)
+            throws UserNotFoundException, InvalidPasswordException, UserNotActivatedException {
         User user = getUserByUsername(username);
         user.validatePassword(password);
         user.validateActivation();
     }
 
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(String username) throws UserNotFoundException {
         return userRepository.getByUsername(username);
     }
 
-    public void createUser(String username, String email, String password, UserRole role) throws MailSendException {
+    public void createUser(String username, String email, String password, UserRole role)
+            throws MailSendException, UserAlreadyExistsException {
         User user = new User(username, email, password, role);
         userRepository.persist(user);
         sendActivationLink(user);
@@ -52,7 +58,7 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void activateUser(int hashCode) {
+    public void activateUser(int hashCode) throws UserNotFoundException {
         User user = userRepository.getByHashCode(hashCode);
         user.activate();
     }

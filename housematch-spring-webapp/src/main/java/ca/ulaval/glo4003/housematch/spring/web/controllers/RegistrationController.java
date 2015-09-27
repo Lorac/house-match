@@ -47,7 +47,7 @@ public class RegistrationController extends WebController {
 
     @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView displayRegister(ModelMap modelMap) {
-        modelMap.put("registerForm", new RegisterFormViewModel());
+        modelMap.put(REGISTRATION_FORM_VIEWMODEL_NAME, new RegisterFormViewModel());
         return new ModelAndView(REGISTRATION_VEW_NAME, modelMap);
     }
 
@@ -57,14 +57,12 @@ public class RegistrationController extends WebController {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
         } catch (MailSendException e) {
-            return buildMessageModelAndView(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME,
-                    registerForm,
+            return showMessage(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "Could not send activation mail. Please check that the email address you entered is valid.",
                     MessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
-            return buildMessageModelAndView(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME,
-                    registerForm, "A user with this user name already exists. Please choose another username.",
-                    MessageType.ERROR);
+            return showMessage(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+                    "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
         }
 
         return new ModelAndView(ACTIVATION_NOTICE_VEW_NAME);
@@ -77,11 +75,11 @@ public class RegistrationController extends WebController {
         try {
             userService.activateUser(hashCode);
         } catch (UserNotFoundException e) {
-            return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME,
-                    new LoginFormViewModel(), "The activation link is not valid.", MessageType.SUCCESS);
+            return showMessage(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+                    "The activation link is not valid.", MessageType.ERROR);
         }
 
-        return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+        return showMessage(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
                 "Your account has been successfully activated. You can now log in.", MessageType.SUCCESS);
     }
 }

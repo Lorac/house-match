@@ -42,7 +42,7 @@ public class WebController {
     @Autowired
     protected ResourceAccessValidator resourceAccessValidator;
 
-    protected ModelAndView buildMessageModelAndView(ModelMap modelMap, String viewName, String viewModelName,
+    protected ModelAndView showMessage(ModelMap modelMap, String viewName, String viewModelName,
             Object viewModel, String message, MessageType messageType) {
         modelMap.put(MESSAGE_VEW_NAME, new MessageViewModel(message, messageType));
         modelMap.put(viewModelName, viewModel);

@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -11,7 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.spring.web.security.AnonymousResourceAccessDeniedException;
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 
 @Controller
@@ -47,19 +47,21 @@ public class HomeController extends WebController {
 
     @RequestMapping(value = ADMIN_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
-            throws AnonymousResourceAccessDeniedException {
+            throws AuthenticationException {
         resourceAccessValidator.validateResourceAccess(ADMIN_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(ADMIN_HOME_VEW_NAME);
     }
 
     @RequestMapping(value = BUYER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap) {
+    public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
+            throws AuthenticationException {
         resourceAccessValidator.validateResourceAccess(BUYER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(BUYER_HOME_VEW_NAME);
     }
 
     @RequestMapping(value = SELLER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap) {
+    public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
+            throws AuthenticationException {
         resourceAccessValidator.validateResourceAccess(SELLER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(SELLER_HOME_VEW_NAME);
     }

@@ -46,18 +46,18 @@ public class LoginController extends WebController {
 
         try {
             userService.validateUserLogin(loginForm.getUsername(), loginForm.getPassword());
+            User user = userService.getUserByUsername(loginForm.getUsername());
+            session.setAttribute(USER_ATTRIBUTE_NAME, user);
         } catch (UserNotFoundException | InvalidPasswordException e) {
-            return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
+            return showMessage(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Invalid username or password.", MessageType.ERROR);
         } catch (UserNotActivatedException e) {
-            return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
+            return showMessage(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Your account has not been activated yet. Please activate your account using the activation "
                             + "link that was sent to your email address",
                     MessageType.ERROR);
         }
 
-        User user = userService.getUserByUsername(loginForm.getUsername());
-        session.setAttribute(USER_ATTRIBUTE_NAME, user);
         return new ModelAndView(new RedirectView(HOME_REQUEST_MAPPING));
     }
 

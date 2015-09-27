@@ -33,12 +33,12 @@ public class UserServiceTest {
     private EmailSender emailSenderMock;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         initMocks();
         userService = new UserService(userRepositoryMock, emailSenderMock);
     }
 
-    private void initMocks() {
+    private void initMocks() throws Exception {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         emailSenderMock = mock(EmailSender.class);
@@ -46,21 +46,22 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validateUserLoginMethodValidatesPasswordFromTheUserObject() {
+    public void validateUserLoginMethodValidatesPasswordFromTheUserObject() throws Exception {
         when(userRepositoryMock.getByUsername(anyString())).thenReturn(userMock);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test(expected = InvalidPasswordException.class)
-    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials() {
+    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials()
+            throws Exception {
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         doThrow(InvalidPasswordException.class).when(userMock).validatePassword(SAMPLE_PASSWORD);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
     }
 
     @Test
-    public void getUserByUsernameMethodRetrievesUserByUsernameFromRepository() {
+    public void getUserByUsernameMethodRetrievesUserByUsernameFromRepository() throws Exception {
         userService.getUserByUsername(SAMPLE_USERNAME);
         verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
     }
@@ -79,7 +80,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void activateUserMethodActivatesUserFromTheSpecifiedHashCode() {
+    public void activateUserMethodActivatesUserFromTheSpecifiedHashCode() throws Exception {
         userService.activateUser(SAMPLE_USERNAME.hashCode());
         verify(userRepositoryMock).getByHashCode(SAMPLE_USERNAME.hashCode());
     }

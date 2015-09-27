@@ -59,13 +59,13 @@ public class User {
         this.password = password;
     }
 
-    public void validatePassword(String password) {
+    public void validatePassword(String password) throws InvalidPasswordException {
         if (!this.password.equals(password)) {
             throw new InvalidPasswordException("Password does not match.");
         }
     }
 
-    public void validateActivation() {
+    public void validateActivation() throws UserNotActivatedException {
         if (!this.activated) {
             throw new UserNotActivatedException("User is not activated.");
         }

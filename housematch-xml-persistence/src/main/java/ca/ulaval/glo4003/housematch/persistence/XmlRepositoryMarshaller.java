@@ -1,12 +1,13 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
-import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
-import org.jasypt.util.text.TextEncryptor;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+
+import org.jasypt.util.text.TextEncryptor;
+
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssembler> {
 
@@ -15,7 +16,7 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
     private String resourceName;
 
     public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName,
-                                   final TextEncryptor textEncryptor) {
+            final TextEncryptor textEncryptor) {
         super(XmlRepositoryAssembler.class);
         this.resourceLoader = resourceLoader;
         this.resourceName = resourceName;

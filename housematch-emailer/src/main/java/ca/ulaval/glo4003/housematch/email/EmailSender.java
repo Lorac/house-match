@@ -32,7 +32,7 @@ public class EmailSender {
             try {
                 javaxMailSender.send();
             } catch (MessagingException e) {
-            throw new MailSendException("Could not send the email.", e);
+                throw new MailSendException("Could not send the email.", e);
             }
         };
         Thread sendMailThread = new Thread(sendMailRunnable);

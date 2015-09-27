@@ -28,7 +28,7 @@ public class XmlUserRepository implements UserRepository {
     }
 
     @Override
-    public void persist(User newUser) {
+    public void persist(User newUser) throws UserAlreadyExistsException {
         if (users.stream().anyMatch(u -> u.equals(newUser))) {
             throw new UserAlreadyExistsException(
                     String.format("A user with username '%s' already exists.", newUser.getUsername()));
@@ -38,12 +38,7 @@ public class XmlUserRepository implements UserRepository {
         marshal();
     }
 
-    protected void marshal() {
-        xmlRepositoryAssembler.setUsers(users);
-        xmlRepositoryMarshaller.marshal();
-    }
-
-    public User getByUsername(String username) {
+    public User getByUsername(String username) throws UserNotFoundException {
         try {
             return users.stream().filter(u -> u.usernameEquals(username)).findFirst().get();
         } catch (NoSuchElementException e) {
@@ -51,11 +46,16 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    public User getByHashCode(int hash) {
+    public User getByHashCode(int hash) throws UserNotFoundException {
         try {
             return users.stream().filter(u -> u.hashCode() == hash).findFirst().get();
         } catch (NoSuchElementException e) {
             throw new UserNotFoundException(String.format("Cannot find user with hash '%s'.", hash));
         }
+    }
+
+    protected void marshal() {
+        xmlRepositoryAssembler.setUsers(users);
+        xmlRepositoryMarshaller.marshal();
     }
 }

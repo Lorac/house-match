@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.security;
 
 import java.util.Map;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -14,7 +15,8 @@ public class ResourceAccessValidator {
         this.resourceAccessListMap = resourceAccessListMap;
     }
 
-    public void validateResourceAccess(String resourceName, HttpSession session, String userAttributeName) {
+    public void validateResourceAccess(String resourceName, HttpSession session, String userAttributeName)
+            throws AuthenticationException {
         User user = (User) session.getAttribute(userAttributeName);
 
         if (user == null) {
@@ -25,7 +27,7 @@ public class ResourceAccessValidator {
         }
     }
 
-    private void validateUserResourceAccess(String resourceName, User user) {
+    private void validateUserResourceAccess(String resourceName, User user) throws AuthenticationException {
         ResourceAccessList resourceAccessList = resourceAccessListMap.get(resourceName);
         if (!resourceAccessList.isUserAuthorized(user)) {
             throw new ResourceAccessDeniedException(
