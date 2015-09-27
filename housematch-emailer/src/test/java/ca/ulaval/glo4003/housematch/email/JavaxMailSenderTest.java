@@ -1,7 +1,15 @@
 package ca.ulaval.glo4003.housematch.email;
 
-import com.dumbster.smtp.SimpleSmtpServer;
-import com.dumbster.smtp.SmtpMessage;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Iterator;
+import java.util.Properties;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,14 +17,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Iterator;
-import java.util.Properties;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import com.dumbster.smtp.SimpleSmtpServer;
+import com.dumbster.smtp.SmtpMessage;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailSenderTest {
@@ -51,11 +53,12 @@ public class JavaxMailSenderTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void whenSendingAMessageItShouldSendTheMessage() throws MessagingException {
         sendMessage("sender@here.com", "Test", "Test Body", "receiver@there.com");
 
         assertEquals(1, smtpServer.getReceivedEmailSize());
-        Iterator emailIter = smtpServer.getReceivedEmail();
+        Iterator<SmtpMessage> emailIter = smtpServer.getReceivedEmail();
         SmtpMessage email = (SmtpMessage) emailIter.next();
         assertTrue(email.getHeaderValue("Subject").equals("Test"));
         assertTrue(email.getBody().equals("Test Body"));
