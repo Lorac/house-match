@@ -13,6 +13,10 @@ public class User {
     UserRole role;
     boolean activated = false;
 
+    User() {
+        // Package-protected no-argument constructor required for XmlUserAdapter
+    }
+
     public User(final String username, final String email, final String password, final UserRole role) {
         setUsername(username);
         setEmail(email);
