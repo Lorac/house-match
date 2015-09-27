@@ -34,7 +34,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="register-form" role="form" commandName="registerForm" action="/register"
+                                <form:form id="register-form" role="form" commandName="registrationForm" action="/register"
                                     method="POST">
                                     <div class="form-group">
                                         <c:if test="${not empty message.message}">

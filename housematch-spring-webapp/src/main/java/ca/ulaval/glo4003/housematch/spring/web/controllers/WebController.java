@@ -31,7 +31,7 @@ public class WebController {
     protected static final String LOGIN_FORM_VIEWMODEL_NAME = "loginForm";
     protected static final String LOGIN_REQUEST_MAPPING = "/login";
     protected static final String REGISTRATION_VEW_NAME = "register";
-    protected static final String REGISTRATION_FORM_VIEWMODEL_NAME = "registerForm";
+    protected static final String REGISTRATION_FORM_VIEWMODEL_NAME = "registrationForm";
     protected static final String REGISTRATION_REQUEST_MAPPING = "/register";
     protected static final String MESSAGE_VEW_NAME = "message";
     protected static final String ACTIVATION_REQUEST_MAPPING = "/activation/{hashCode}";

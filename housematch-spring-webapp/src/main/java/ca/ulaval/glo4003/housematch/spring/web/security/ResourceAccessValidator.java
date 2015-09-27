@@ -19,7 +19,7 @@ public class ResourceAccessValidator {
 
         if (user == null) {
             throw new AnonymousResourceAccessDeniedException(
-                    String.format("Anonymous access to the resource '%s' is not authorized.", resourceName));
+                    String.format("Anonymous access to resource '%s' is not authorized.", resourceName));
         } else {
             validateUserResourceAccess(resourceName, user);
         }
