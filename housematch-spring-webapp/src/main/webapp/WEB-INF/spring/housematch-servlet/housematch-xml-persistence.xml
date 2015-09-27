@@ -6,15 +6,17 @@
     <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.repositories.XmlUserRepository">
         <constructor-arg ref="xmlRepositoryMarshaller"/>
     </bean>
-	
-	<bean id="xmlRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller">
-		<constructor-arg ref="resourceLoader"/>
-        <constructor-arg type="java.lang.String" value="/housematch-data.xml"/>
-		<constructor-arg ref="basicTextEncryptor"/>
-		<constructor-arg type="java.lang.String" value="9fhaoisadw43"/>
+
+    <bean id="basicTextEncryptor" class="org.jasypt.util.text.BasicTextEncryptor">
+        <property name="password" value="9fhaoisadw43"/>
     </bean>
-	
-	<bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.persistence.ResourceLoader"/>
-	<bean id="basicTextEncryptor" class="org.jasypt.util.text.BasicTextEncryptor"/>
-	
+
+    <bean id="xmlRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller">
+        <constructor-arg ref="resourceLoader"/>
+        <constructor-arg type="java.lang.String" value="/housematch-data.xml"/>
+        <constructor-arg ref="basicTextEncryptor"/>
+    </bean>
+
+    <bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.persistence.ResourceLoader"/>
+
 </beans>

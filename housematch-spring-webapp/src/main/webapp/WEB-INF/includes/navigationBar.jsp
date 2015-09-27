@@ -7,6 +7,5 @@
         <li class="${registerLinkActive}"><a href="/register">Register</a></li>
         <li><a href="/logout">Logout</a></li>
       </ul>
-    </div>
   </div>
 </nav>

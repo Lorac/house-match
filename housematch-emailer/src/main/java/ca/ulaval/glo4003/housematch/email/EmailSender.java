@@ -14,14 +14,28 @@ public class EmailSender {
     }
 
     public void send(String subject, String content, String email) throws MailSendException {
+
         try {
             javaxMailSender.addRecipient(MimeMessage.RecipientType.TO, email);
             javaxMailSender.setFrom(new InternetAddress(ADDRESS_FROM));
             javaxMailSender.setSubject(subject);
             javaxMailSender.setContent(content);
-            javaxMailSender.send();
         } catch (MessagingException e) {
-            throw new MailSendException("Couldn't send the email.", e);
+            throw new MailSendException("Could not setup the email.", e);
         }
+
+        sendMail();
+    }
+
+    private void sendMail() {
+        Runnable sendMailRunnable = () -> {
+            try {
+                javaxMailSender.send();
+            } catch (MessagingException e) {
+            throw new MailSendException("Could not send the email.", e);
+            }
+        };
+        Thread sendMailThread = new Thread(sendMailRunnable);
+        sendMailThread.start();
     }
 }
