@@ -24,13 +24,13 @@
         <constructor-arg type="java.util.Properties" ref="emailProperties"/>
     </bean>
 
-    <bean id="emailSender" class="ca.ulaval.glo4003.housematch.email.EmailSender">
+    <bean id="mailSender" class="ca.ulaval.glo4003.housematch.email.MailSender">
         <constructor-arg ref="javaXMailSender"/>
     </bean>
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
         <constructor-arg ref="xmlUserRepository"/>
-        <constructor-arg ref="emailSender"/>
+        <constructor-arg ref="mailSender"/>
     </bean>
 
     <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">

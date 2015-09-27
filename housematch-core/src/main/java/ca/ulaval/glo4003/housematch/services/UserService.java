@@ -19,12 +19,12 @@ public class UserService {
     private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
 
-    private MailSender emailSender;
+    private MailSender mailSender;
     private UserRepository userRepository;
 
-    public UserService(final UserRepository userRepository, final MailSender emailSender) {
+    public UserService(final UserRepository userRepository, final MailSender mailSender) {
         this.userRepository = userRepository;
-        this.emailSender = emailSender;
+        this.mailSender = mailSender;
     }
 
     public void validateUserLogin(String username, String password)
@@ -46,7 +46,7 @@ public class UserService {
     }
 
     private void sendActivationLink(User user) throws MailSendException {
-        emailSender.send(ACTIVATION_EMAIL_SUBJECT,
+        mailSender.send(ACTIVATION_EMAIL_SUBJECT,
                 String.format("Complete your HouseMatch registration by <a href=\"%s%d\">activating your account</a>.",
                         ACTIVATION_BASE_URL, user.hashCode()),
                 user.getEmail());
