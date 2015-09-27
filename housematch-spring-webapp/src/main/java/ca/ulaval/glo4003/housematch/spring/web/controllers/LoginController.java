@@ -35,7 +35,7 @@ public class LoginController extends MvcController {
 
     @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView displayLogin() {
-        return new ModelAndView(LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
     }
 
     @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.POST)
@@ -47,10 +47,10 @@ public class LoginController extends MvcController {
             User user = userService.getUserByUsername(loginForm.getUsername());
             session.setAttribute(USER_ATTRIBUTE_NAME, user);
         } catch (UserNotFoundException | InvalidPasswordException e) {
-            return showMessage(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
+            return showMessage(modelMap, LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Invalid username or password.", MessageType.ERROR);
         } catch (UserNotActivatedException e) {
-            return showMessage(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
+            return showMessage(modelMap, LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Your account has not been activated yet. Please activate your account using the activation "
                             + "link that was sent to your email address",
                     MessageType.ERROR);
@@ -62,6 +62,6 @@ public class LoginController extends MvcController {
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public final ModelAndView logoutUser(HttpSession session) {
         session.invalidate();
-        return new ModelAndView(LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
     }
 }

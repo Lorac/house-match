@@ -19,23 +19,23 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 
 public class MvcController {
 
-    public static final String ADMIN_HOME_VEW_NAME = "adminHome";
-    public static final String SELLER_HOME_VEW_NAME = "sellerHome";
-    public static final String BUYER_HOME_VEW_NAME = "buyerHome";
-    protected static final String HOME_VEW_NAME = "home";
+    protected static final String HOME_VIEW_NAME = "home";
     protected static final String HOME_REQUEST_MAPPING = "/";
+    public static final String ADMIN_HOME_VIEW_NAME = "adminHome";
     protected static final String ADMIN_HOME_REQUEST_MAPPING = "/admin";
+    public static final String SELLER_HOME_VIEW_NAME = "sellerHome";
     protected static final String SELLER_HOME_REQUEST_MAPPING = "/seller";
+    public static final String BUYER_HOME_VIEW_NAME = "buyerHome";
     protected static final String BUYER_HOME_REQUEST_MAPPING = "/buyer";
-    protected static final String LOGIN_VEW_NAME = "login";
+    protected static final String LOGIN_VIEW_NAME = "login";
     protected static final String LOGIN_FORM_VIEWMODEL_NAME = "loginForm";
     protected static final String LOGIN_REQUEST_MAPPING = "/login";
-    protected static final String REGISTRATION_VEW_NAME = "register";
+    protected static final String REGISTRATION_VIEW_NAME = "register";
     protected static final String REGISTRATION_FORM_VIEWMODEL_NAME = "registrationForm";
     protected static final String REGISTRATION_REQUEST_MAPPING = "/register";
-    protected static final String MESSAGE_VEW_NAME = "message";
+    protected static final String MESSAGE_VIEW_NAME = "message";
     protected static final String ACTIVATION_REQUEST_MAPPING = "/activation/{hashCode}";
-    protected static final String ACTIVATION_NOTICE_VEW_NAME = "activationNotice";
+    protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
     protected static final String USER_ATTRIBUTE_NAME = "user";
 
     @Autowired
@@ -43,7 +43,7 @@ public class MvcController {
 
     protected ModelAndView showMessage(ModelMap modelMap, String viewName, String viewModelName, Object viewModel,
             String message, MessageType messageType) {
-        modelMap.put(MESSAGE_VEW_NAME, new MessageViewModel(message, messageType));
+        modelMap.put(MESSAGE_VIEW_NAME, new MessageViewModel(message, messageType));
         modelMap.put(viewModelName, viewModel);
         return new ModelAndView(viewName, modelMap);
     }
