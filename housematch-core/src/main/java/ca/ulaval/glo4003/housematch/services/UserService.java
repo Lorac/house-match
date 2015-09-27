@@ -12,7 +12,9 @@ import ca.ulaval.glo4003.housematch.email.MailSendException;
 
 public class UserService {
 
-    private static final String ACTIVATE_SUBJECT = "Activate your account";
+    private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
+    private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
+
     private EmailSender emailSender;
     private UserRepository userRepository;
 
@@ -27,11 +29,6 @@ public class UserService {
         user.validateActivation();
     }
 
-    public void validateRole(String username, UserRole role) {
-        User user = getUserByUsername(username);
-        user.validateRole(role);
-    }
-
     public User getUserByUsername(String username) {
         return userRepository.getByUsername(username);
     }
@@ -43,9 +40,8 @@ public class UserService {
     }
 
     private void sendActivationLink(User user) throws MailSendException {
-        emailSender.send(ACTIVATE_SUBJECT,
-                String.format(
-                        "Click on this link : <a href=\"http://localhost:8080/activation/%d\">activation link</a>",
+        emailSender.send(ACTIVATION_EMAIL_SUBJECT,
+                String.format("Complete your HouseMatch registration by <a href=\"%s%d\">activating your account</a>.", ACTIVATION_BASE_URL,
                         user.hashCode()),
                 user.getEmail());
     }
@@ -56,8 +52,8 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void activateUser(int hash) {
-        User user = userRepository.getByHashCode(hash);
+    public void activateUser(int hashCode) {
+        User user = userRepository.getByHashCode(hashCode);
         user.activate();
     }
 }

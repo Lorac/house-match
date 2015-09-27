@@ -4,9 +4,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "User")
 public class XmlUser {
-    String username;
-    String email;
-    String password;
-    UserRole role;
-    boolean activated;
+    public String username;
+    public String email;
+    public String password;
+    public UserRole role;
+    public boolean activated;
 }

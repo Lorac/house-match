@@ -5,7 +5,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 
-public class ControllerTest {
+public class WebControllerTest {
 
     protected MockMvc mockMvc;
     protected InternalResourceViewResolver viewResolver;

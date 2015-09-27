@@ -15,7 +15,7 @@
 
 <body>
 	<c:set var="registerLinkActive" value="active" scope="request"/>
-	<jsp:include page="_navigationBar.jsp"/>
+	<jsp:include page="../includes/navigationBar.jsp"/>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -34,23 +34,23 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="register-form" role="form" commandName="registerForm" action="register"
+                                <form:form id="register-form" role="form" commandName="registerForm" action="/register"
                                     method="POST">
                                     <div class="form-group">
                                         <c:if test="${not empty message.message}">
-                                            <div class="alert alert-danger" style="margin-top: 10px;" role="alert">${message.message}</div>
+                                            <div class="alert alert-danger">${message.message}</div>
                                         </c:if>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="username" class="form-control" tabindex="1"
+                                        <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32" tabindex="1"
                                             placeholder="Username" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="email" path="email" class="form-control" tabindex="2"
+                                        <form:input type="email" path="email" class="form-control" minlength="3" maxlength="128" tabindex="2"
                                             placeholder="Email address" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="password" path="password" class="form-control" tabindex="3"
+                                        <form:input type="password" path="password" class="form-control" minlength="3" maxlength="32" tabindex="3"
                                             placeholder="Password" />
                                     </div>
                                     <div class="form-group">

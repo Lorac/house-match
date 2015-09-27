@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml"/>
+	<import resource="housematch-servlet/housematch-security.xml"/>
 
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
@@ -34,10 +35,16 @@
 
     <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">
         <constructor-arg ref="userService"/>
+		<constructor-arg ref="resourceAccessValidator"/>
     </bean>
 
-    <bean id="registerController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.RegisterController">
+    <bean id="registrationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController">
         <constructor-arg ref="userService"/>
+		<constructor-arg ref="resourceAccessValidator"/>
+    </bean>
+	
+	<bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
+		<constructor-arg ref="resourceAccessValidator"/>
     </bean>
 
 

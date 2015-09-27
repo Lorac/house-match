@@ -21,7 +21,7 @@ public class EmailSender {
             javaxMailSender.setContent(content);
             javaxMailSender.send();
         } catch (MessagingException e) {
-            throw new MailSendException("Couldn't send the email", e);
+            throw new MailSendException("Couldn't send the email.", e);
         }
     }
 }
