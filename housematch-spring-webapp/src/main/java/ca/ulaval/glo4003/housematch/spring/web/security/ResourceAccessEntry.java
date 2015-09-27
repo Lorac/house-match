@@ -4,9 +4,9 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 
 public abstract class ResourceAccessEntry {
 
-    protected Boolean authorized = false;
+    protected Boolean authorized;
 
-    public Boolean isAuthorized(User user) {
+    public Boolean isAuthorized(final User user) {
         return false;
     }
 

@@ -8,7 +8,7 @@ public class ResourceAccessList {
 
     private Set<ResourceAccessEntry> accessEntries;
 
-    public ResourceAccessList(Set<ResourceAccessEntry> accessEntries) {
+    public ResourceAccessList(final Set<ResourceAccessEntry> accessEntries) {
         this.accessEntries = accessEntries;
     }
 

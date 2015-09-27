@@ -10,7 +10,7 @@ public class ResourceAccessValidator {
 
     private Map<String, ResourceAccessList> resourceAccessListMap;
 
-    public ResourceAccessValidator(Map<String, ResourceAccessList> resourceAccessListMap) {
+    public ResourceAccessValidator(final Map<String, ResourceAccessList> resourceAccessListMap) {
         this.resourceAccessListMap = resourceAccessListMap;
     }
 

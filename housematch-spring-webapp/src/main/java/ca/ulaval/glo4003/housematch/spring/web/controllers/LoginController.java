@@ -49,7 +49,8 @@ public class LoginController extends WebController {
                     "Invalid username or password.");
         } catch (UserNotActivatedException e) {
             return buildErrorMessageModelAndView(modelMap, "login", "loginForm", loginForm,
-                    "Your account has not been activated yet. Please activate your account using the activation link that was sent to your email address");
+                    "Your account has not been activated yet. Please activate your account using the activation "
+                            + "link that was sent to your email address");
         }
 
         User user = userService.getUserByUsername(loginForm.getUsername());

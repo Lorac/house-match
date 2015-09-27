@@ -4,7 +4,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 
 public class PublicResourceAccessEntry extends ResourceAccessEntry {
 
-    public PublicResourceAccessEntry(Boolean authorized) {
+    public PublicResourceAccessEntry(final Boolean authorized) {
         this.authorized = authorized;
     }
 

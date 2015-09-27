@@ -7,7 +7,7 @@ public class RoleResourceAccessEntry extends ResourceAccessEntry {
 
     private UserRole userRole;
 
-    public RoleResourceAccessEntry(UserRole userRole, Boolean authorized) {
+    public RoleResourceAccessEntry(final UserRole userRole, final Boolean authorized) {
         this.userRole = userRole;
         this.authorized = authorized;
     }
