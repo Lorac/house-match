@@ -15,20 +15,17 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 
 public class LoginControllerTest extends MvcControllerTest {
 
     private UserService userServiceMock;
-    private ResourceAccessValidator resourceAccessValidtorMock;
     private LoginController loginController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        resourceAccessValidtorMock = mock(ResourceAccessValidator.class);
-        loginController = new LoginController(resourceAccessValidtorMock, userServiceMock);
+        loginController = new LoginController(userServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
     }
 

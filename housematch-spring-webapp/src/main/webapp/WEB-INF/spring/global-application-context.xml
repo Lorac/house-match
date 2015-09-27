@@ -35,16 +35,14 @@
 
     <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">
         <constructor-arg ref="userService"/>
-		<constructor-arg ref="resourceAccessValidator"/>
     </bean>
 
     <bean id="registrationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController">
         <constructor-arg ref="userService"/>
-		<constructor-arg ref="resourceAccessValidator"/>
     </bean>
 	
 	<bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
-		<constructor-arg ref="resourceAccessValidator"/>
+		<constructor-arg ref="authorizationValidator"/>
     </bean>
 
 

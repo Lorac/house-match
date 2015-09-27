@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
+import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
 
 @Controller
 public class HomeController extends MvcController {
@@ -21,8 +21,8 @@ public class HomeController extends MvcController {
         // Required for Mockito
     }
 
-    public HomeController(final ResourceAccessValidator resourceAccessValidator) {
-        this.resourceAccessValidator = resourceAccessValidator;
+    public HomeController(final AuthorizationValidator authorizationValidator) {
+        this.authorizationValidator = authorizationValidator;
     }
 
     @RequestMapping(value = HOME_REQUEST_MAPPING, method = RequestMethod.GET)
@@ -48,21 +48,21 @@ public class HomeController extends MvcController {
     @RequestMapping(value = ADMIN_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
             throws AuthenticationException {
-        resourceAccessValidator.validateResourceAccess(ADMIN_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
+        authorizationValidator.validateResourceAccess(ADMIN_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(ADMIN_HOME_VEW_NAME);
     }
 
     @RequestMapping(value = BUYER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
             throws AuthenticationException {
-        resourceAccessValidator.validateResourceAccess(BUYER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
+        authorizationValidator.validateResourceAccess(BUYER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(BUYER_HOME_VEW_NAME);
     }
 
     @RequestMapping(value = SELLER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
             throws AuthenticationException {
-        resourceAccessValidator.validateResourceAccess(SELLER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
+        authorizationValidator.validateResourceAccess(SELLER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(SELLER_HOME_VEW_NAME);
     }
 }

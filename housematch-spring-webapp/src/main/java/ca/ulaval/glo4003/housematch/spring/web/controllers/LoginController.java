@@ -16,7 +16,6 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
 
@@ -30,8 +29,7 @@ public class LoginController extends MvcController {
         // Required for Mockito
     }
 
-    public LoginController(final ResourceAccessValidator resourceAccessValidator, final UserService userService) {
-        this.resourceAccessValidator = resourceAccessValidator;
+    public LoginController(final UserService userService) {
         this.userService = userService;
     }
 

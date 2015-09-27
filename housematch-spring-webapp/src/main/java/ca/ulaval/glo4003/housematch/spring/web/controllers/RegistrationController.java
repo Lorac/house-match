@@ -19,7 +19,6 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
@@ -34,9 +33,7 @@ public class RegistrationController extends MvcController {
         // Required for Mockito
     }
 
-    public RegistrationController(final ResourceAccessValidator resourceAccessValidator,
-            final UserService userService) {
-        this.resourceAccessValidator = resourceAccessValidator;
+    public RegistrationController(final UserService userService) {
         this.userService = userService;
     }
 

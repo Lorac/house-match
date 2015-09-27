@@ -12,18 +12,18 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
+import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
 
 public class HomeControllerTest extends MvcControllerTest {
 
     private HomeController homeController;
-    private ResourceAccessValidator resourceAccessValidtorMock;
+    private AuthorizationValidator authorizationValidtorMock;
 
     @Before
     public void init() {
         super.init();
-        resourceAccessValidtorMock = mock(ResourceAccessValidator.class);
-        homeController = new HomeController(resourceAccessValidtorMock);
+        authorizationValidtorMock = mock(AuthorizationValidator.class);
+        homeController = new HomeController(authorizationValidtorMock);
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
     }
 

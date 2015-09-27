@@ -5,11 +5,11 @@ import java.util.Set;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-public class ResourceAccessList {
+public class AccessControlList {
 
     private Set<UserRole> authorizedRoles;
 
-    public ResourceAccessList(final Set<UserRole> authorizedRoles) {
+    public AccessControlList(final Set<UserRole> authorizedRoles) {
         this.authorizedRoles = authorizedRoles;
     }
 
