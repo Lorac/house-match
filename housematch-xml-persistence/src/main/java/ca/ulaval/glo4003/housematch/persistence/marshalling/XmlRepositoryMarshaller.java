@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence;
+package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,6 +8,8 @@ import java.io.UncheckedIOException;
 import org.jasypt.util.text.TextEncryptor;
 
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
+import ca.ulaval.glo4003.housematch.persistence.ResourceLoader;
+import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
 
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssembler> {
 

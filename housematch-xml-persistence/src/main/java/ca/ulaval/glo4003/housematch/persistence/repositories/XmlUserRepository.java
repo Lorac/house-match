@@ -9,7 +9,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
-import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
 

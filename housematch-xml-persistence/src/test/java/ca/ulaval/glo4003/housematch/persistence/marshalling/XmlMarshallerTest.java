@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence;
+package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -16,7 +16,7 @@ import javax.xml.bind.Unmarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.persistence.XmlMarshaller;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlMarshaller;
 
 public class XmlMarshallerTest {
 

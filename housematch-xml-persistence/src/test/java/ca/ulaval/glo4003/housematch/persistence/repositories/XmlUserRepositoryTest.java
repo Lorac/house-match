@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
-import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
