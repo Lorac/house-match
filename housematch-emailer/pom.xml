@@ -12,6 +12,9 @@
     <artifactId>housematch-emailer</artifactId>
 
     <dependencies>
+    
+        <!-- Mail Components -->
+    
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>mail</artifactId>
@@ -19,6 +22,7 @@
         </dependency>
         
         <!-- Test Components -->
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

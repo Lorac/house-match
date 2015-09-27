@@ -1,8 +1,12 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
+import javax.validation.constraints.NotNull;
+
 public final class LoginFormViewModel {
 
+    @NotNull
     private String username;
+    @NotNull
     private String password;
 
     public String getUsername() {

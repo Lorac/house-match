@@ -1,12 +1,18 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
+import javax.validation.constraints.NotNull;
+
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class RegisterFormViewModel {
 
+    @NotNull
     private String username;
+    @NotNull
     private String password;
+    @NotNull
     private String email;
+    @NotNull
     private UserRole role;
 
     public RegisterFormViewModel() {

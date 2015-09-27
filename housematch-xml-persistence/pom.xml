@@ -11,23 +11,31 @@
 
     <dependencies>
 
+        <!-- HouseMatch Components -->
+        
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
             <artifactId>housematch-core</artifactId>
             <version>0.2-SNAPSHOT</version>
         </dependency>
+        
+        <!-- XML Binding Components -->
 
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
             <version>2.2.12</version>
         </dependency>
+        
+        <!-- Common Components -->
 
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
         </dependency>
+        
+        <!-- Encryption Components -->
 
         <dependency>
             <groupId>org.jasypt</groupId>
@@ -36,6 +44,7 @@
         </dependency>
 
         <!-- Test Components -->
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

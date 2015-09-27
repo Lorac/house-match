@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -60,6 +61,9 @@ public class RegistrationController extends MvcController {
         } catch (UserAlreadyExistsException e) {
             return showMessage(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
+        } catch (InvalidValueException e) {
+            return showMessage(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+                    e.getMessage(), MessageType.ERROR);
         }
 
         return new ModelAndView(ACTIVATION_NOTICE_VEW_NAME);
