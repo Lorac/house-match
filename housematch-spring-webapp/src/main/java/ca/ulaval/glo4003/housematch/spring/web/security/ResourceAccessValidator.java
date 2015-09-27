@@ -14,8 +14,8 @@ public class ResourceAccessValidator {
         this.resourceAccessListMap = resourceAccessListMap;
     }
 
-    public void validateResourceAccess(String resourceName, HttpSession session) {
-        User user = (User) session.getAttribute("user");
+    public void validateResourceAccess(String resourceName, HttpSession session, String userAttributeName) {
+        User user = (User) session.getAttribute(userAttributeName);
 
         if (user == null) {
             throw new AnonymousResourceAccessDeniedException(

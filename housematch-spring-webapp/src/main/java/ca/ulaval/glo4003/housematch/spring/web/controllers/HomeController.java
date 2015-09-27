@@ -8,6 +8,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.security.AnonymousResourceAccessDeniedException;
@@ -24,40 +25,42 @@ public class HomeController extends WebController {
         this.resourceAccessValidator = resourceAccessValidator;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView displayHomepage(HttpSession session) {
-        User user = (User) session.getAttribute("user");
+        User user = (User) session.getAttribute(USER_ATTRIBUTE_NAME);
 
         if (user != null) {
             switch (user.getRole()) {
             case ADMINISTRATOR:
-                return new ModelAndView("redirect:/admin");
+                return new ModelAndView(new RedirectView(ADMIN_HOME_REQUEST_MAPPING));
             case SELLER:
-                return new ModelAndView("redirect:/seller");
+                return new ModelAndView(new RedirectView(SELLER_HOME_REQUEST_MAPPING));
             case BUYER:
-                return new ModelAndView("redirect:/buyer");
+                return new ModelAndView(new RedirectView(BUYER_HOME_REQUEST_MAPPING));
+            default:
+                break;
             }
         }
 
-        return new ModelAndView("home");
+        return new ModelAndView(HOME_VEW_NAME);
     }
 
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @RequestMapping(value = ADMIN_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
             throws AnonymousResourceAccessDeniedException {
-        resourceAccessValidator.validateResourceAccess("adminHome", session);
-        return new ModelAndView("adminHome");
+        resourceAccessValidator.validateResourceAccess(ADMIN_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
+        return new ModelAndView(ADMIN_HOME_VEW_NAME);
     }
 
-    @RequestMapping(value = "/buyer", method = RequestMethod.GET)
+    @RequestMapping(value = BUYER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap) {
-        resourceAccessValidator.validateResourceAccess("buyerHome", session);
-        return new ModelAndView("buyerHome");
+        resourceAccessValidator.validateResourceAccess(BUYER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
+        return new ModelAndView(BUYER_HOME_VEW_NAME);
     }
 
-    @RequestMapping(value = "/seller", method = RequestMethod.GET)
+    @RequestMapping(value = SELLER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap) {
-        resourceAccessValidator.validateResourceAccess("sellerHome", session);
-        return new ModelAndView("sellerHome");
+        resourceAccessValidator.validateResourceAccess(SELLER_HOME_VEW_NAME, session, USER_ATTRIBUTE_NAME);
+        return new ModelAndView(SELLER_HOME_VEW_NAME);
     }
 }

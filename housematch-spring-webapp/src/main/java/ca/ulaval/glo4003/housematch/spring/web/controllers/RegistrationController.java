@@ -22,7 +22,6 @@ import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
 
 @Controller
@@ -46,44 +45,43 @@ public class RegistrationController extends WebController {
         return userService.getPubliclyRegistrableUserRoles();
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView displayRegister(ModelMap modelMap) {
         modelMap.put("registerForm", new RegisterFormViewModel());
-        return new ModelAndView("register", modelMap);
+        return new ModelAndView(REGISTRATION_VEW_NAME, modelMap);
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.POST)
     public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
         } catch (MailSendException e) {
-            return buildErrorMessageModelAndView(modelMap, "register", "registerForm", registerForm,
-                    "Could not send activation mail. Please check that the email address you entered is valid.");
+            return buildMessageModelAndView(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME,
+                    registerForm,
+                    "Could not send activation mail. Please check that the email address you entered is valid.",
+                    MessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
-            return buildErrorMessageModelAndView(modelMap, "register", "registerForm", registerForm,
-                    "A user with this user name already exists. Please choose another username.");
+            return buildMessageModelAndView(modelMap, REGISTRATION_VEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME,
+                    registerForm, "A user with this user name already exists. Please choose another username.",
+                    MessageType.ERROR);
         }
 
-        session.setAttribute("username", registerForm.getUsername());
-        return new ModelAndView("activationNotice");
+        return new ModelAndView(ACTIVATION_NOTICE_VEW_NAME);
     }
 
-    @RequestMapping(value = "/activation/{hashCode}", method = RequestMethod.GET)
+    @RequestMapping(value = ACTIVATION_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView activate(@PathVariable int hashCode, ModelMap modelMap,
             RedirectAttributes redirectAttributes) {
-
-        modelMap.put("loginForm", new LoginFormViewModel());
 
         try {
             userService.activateUser(hashCode);
         } catch (UserNotFoundException e) {
-            modelMap.put("message", new MessageViewModel("The activation link is not valid.", MessageType.ERROR));
-            return new ModelAndView("login", modelMap);
+            return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME,
+                    new LoginFormViewModel(), "The activation link is not valid.", MessageType.SUCCESS);
         }
 
-        modelMap.put("message", new MessageViewModel(
-                "Your account has been successfully activated. You can now log in.", MessageType.SUCCESS));
-        return new ModelAndView("login", modelMap);
+        return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+                "Your account has been successfully activated. You can now log in.", MessageType.SUCCESS);
     }
 }

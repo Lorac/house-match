@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -17,6 +18,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
 
 @Controller
 public class LoginController extends WebController {
@@ -33,34 +35,35 @@ public class LoginController extends WebController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView displayLogin() {
-        return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.POST)
     public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap modelMap, HttpSession session,
             RedirectAttributes redirectAttributes) {
 
         try {
             userService.validateUserLogin(loginForm.getUsername(), loginForm.getPassword());
         } catch (UserNotFoundException | InvalidPasswordException e) {
-            return buildErrorMessageModelAndView(modelMap, "login", "loginForm", loginForm,
-                    "Invalid username or password.");
+            return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
+                    "Invalid username or password.", MessageType.ERROR);
         } catch (UserNotActivatedException e) {
-            return buildErrorMessageModelAndView(modelMap, "login", "loginForm", loginForm,
+            return buildMessageModelAndView(modelMap, LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Your account has not been activated yet. Please activate your account using the activation "
-                            + "link that was sent to your email address");
+                            + "link that was sent to your email address",
+                    MessageType.ERROR);
         }
 
         User user = userService.getUserByUsername(loginForm.getUsername());
-        session.setAttribute("user", user);
-        return new ModelAndView("redirect:/");
+        session.setAttribute(USER_ATTRIBUTE_NAME, user);
+        return new ModelAndView(new RedirectView(HOME_REQUEST_MAPPING));
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public final ModelAndView logoutUser(HttpSession session) {
         session.invalidate();
-        return new ModelAndView("login", "loginForm", new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
     }
 }
