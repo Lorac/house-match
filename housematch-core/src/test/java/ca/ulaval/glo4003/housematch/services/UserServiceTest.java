@@ -4,7 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -14,7 +14,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -47,17 +46,16 @@ public class UserServiceTest {
 
     @Test
     public void validateUserLoginMethodValidatesPasswordFromTheUserObject() throws Exception {
-        when(userRepositoryMock.getByUsername(anyString())).thenReturn(userMock);
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).isPasswordValid(SAMPLE_PASSWORD);
     }
 
-    @Test(expected = InvalidPasswordException.class)
-    public void validateUserCredentialsMethodThrowsInvalidPasswordExceptionOnInvalidUserCrendentials()
-            throws Exception {
+    @Test
+    public void validateUserLoginMethodValidatesUserActivationFromTheUserObject() throws Exception {
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
-        doThrow(InvalidPasswordException.class).when(userMock).isPasswordValid(SAMPLE_PASSWORD);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+        verify(userMock).validateActivation();
     }
 
     @Test
@@ -70,6 +68,12 @@ public class UserServiceTest {
     public void createUserMethodPersistsNewUserToRepository() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(userRepositoryMock).persist(any(User.class));
+    }
+
+    @Test
+    public void createUserMethodSendsTheActivationLink() throws Exception {
+        userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        verify(emailSenderMock).send(anyString(), anyString(), eq(SAMPLE_EMAIL));
     }
 
     @Test

@@ -1,11 +1,13 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 
 public class UserTest {
 
@@ -20,6 +22,7 @@ public class UserTest {
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
     private static final String SAMPLE_BLANK_EXPRESSION = "  ";
+    private static final Object SAMPLE_OBJECT = new Object();
 
     private User user;
 
@@ -29,26 +32,30 @@ public class UserTest {
     }
 
     @Test
-    public void equalsMethodShouldConsiderUsersWithTheSameUsernameAsEqual() {
+    public void usersWithTheSameUsernameShouldBeConsideredAsEqual() {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
     @Test
-    public void givenTheSameInstanceOfTheUserWhenComparingThemThenTheyShouldBeEqual() {
-        // noinspection EqualsWithItself
+    public void userComparedWithItselfShouldBeConsideredAsEqual() {
         assertTrue(user.equals(user));
     }
 
     @Test
-    public void equalsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
+    public void userComparedWithAnotherObjectShouldNotBeConsideredAsEqual() {
+        assertFalse(user.equals(SAMPLE_OBJECT));
+    }
+
+    @Test
+    public void usersWithDifferentUsernameShouldBeConsideredAsDifferent() {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
     }
 
     @Test
-    public void equalsMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() {
+    public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
@@ -72,9 +79,21 @@ public class UserTest {
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
+    @Test
+    public void settingUsernameSetsTheSpecifiedUsername() {
+        user.setUsername(SAMPLE_USERNAME);
+        assertEquals(SAMPLE_USERNAME, user.getUsername());
+    }
+
     @Test(expected = InvalidValueException.class)
     public void settingUsernameUsingBlankExpressionThrowsInvalidValueException() {
         user.setUsername(SAMPLE_BLANK_EXPRESSION);
+    }
+
+    @Test
+    public void settingEmailSetsTheSpecifiedEmail() {
+        user.setEmail(SAMPLE_EMAIL);
+        assertEquals(SAMPLE_EMAIL, user.getEmail());
     }
 
     @Test(expected = InvalidValueException.class)
@@ -93,28 +112,52 @@ public class UserTest {
     }
 
     @Test
-    public void validatingTheRightPasswordDoesNotThrowAnException() throws Exception {
+    public void settingPasswordSetsTheSpecifiedPassword() {
+        user.setPassword(SAMPLE_PASSWORD);
+        assertEquals(SAMPLE_PASSWORD, user.getPassword());
+    }
+
+    @Test
+    public void validationOfTheRightPasswordDoesNotThrowAnException() throws Exception {
         user.isPasswordValid(SAMPLE_PASSWORD);
     }
 
     @Test
-    public void validatingTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
+    public void settingRoleSetsTheSpecifiedRole() {
+        user.setRole(SAMPLE_ROLE);
+        assertEquals(SAMPLE_ROLE, user.getRole());
+    }
+
+    @Test
+    public void hasRoleMethodShouldReturnFalseWhenUserDoesNotHaveTheSpecifiedRole() {
+        user.setRole(SAMPLE_ROLE);
+        assertFalse(user.hasRole(ANOTHER_SAMPLE_ROLE));
+    }
+
+    @Test
+    public void hasRoleMethodShouldReturnTrueWhenUserHasTheSpecifiedRole() {
+        user.setRole(SAMPLE_ROLE);
+        assertTrue(user.hasRole(SAMPLE_ROLE));
+    }
+
+    @Test
+    public void validationOfTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
         assertFalse(user.isPasswordValid(ANOTHER_SAMPLE_PASSWORD));
     }
 
     @Test
-    public void newUserIsNotActivated() {
+    public void newUserIsNotActivatedByDefault() {
         assertFalse(user.isActivated());
     }
 
     @Test
-    public void activatedUserIsActivated() throws Exception {
+    public void activationOfUserActivatesTheUser() throws Exception {
         user.activate();
         user.validateActivation();
     }
 
     @Test(expected = UserNotActivatedException.class)
-    public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() throws Exception {
+    public void activationValidationOnNonActivatedUserThrowsUserNotActivatedException() throws Exception {
         user.validateActivation();
     }
 }

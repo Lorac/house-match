@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.validator.routines.EmailValidator;
+
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 
 public class User {
     String username;
@@ -11,9 +12,6 @@ public class User {
     String password;
     UserRole role;
     boolean activated = false;
-
-    public User() {
-    }
 
     public User(final String username, final String email, final String password, final UserRole role) {
         setUsername(username);
