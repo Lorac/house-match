@@ -39,7 +39,7 @@ public class LoginController extends MvcController {
     }
 
     @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.POST)
-    public final ModelAndView doLogin(LoginFormViewModel loginForm, ModelMap modelMap, HttpSession session,
+    public final ModelAndView login(LoginFormViewModel loginForm, ModelMap modelMap, HttpSession session,
             RedirectAttributes redirectAttributes) {
 
         try {
@@ -59,7 +59,7 @@ public class LoginController extends MvcController {
         return new ModelAndView(new RedirectView(HOME_REQUEST_MAPPING));
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = LOGOUT_REQUEST_MAPPING, method = RequestMethod.GET)
     public final ModelAndView logoutUser(HttpSession session) {
         session.invalidate();
         return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());

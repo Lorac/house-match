@@ -43,8 +43,9 @@ public class HomeControllerTest extends MvcControllerTest {
     public void homeControllerShouldRedirectToAdminHomeViewWhenUserRoleIsAdmin() throws Exception {
         when(userMock.getRole()).thenReturn(UserRole.ADMINISTRATOR);
 
-        MockHttpServletRequestBuilder getRequest = get(HomeController.HOME_REQUEST_MAPPING).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest.session(mockHttpSession));
+        MockHttpServletRequestBuilder getRequest = get(HomeController.HOME_REQUEST_MAPPING).accept(MediaType.ALL)
+                .session(mockHttpSession);
+        ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().is3xxRedirection());
         results.andExpect(redirectedUrl(HomeController.ADMIN_HOME_REQUEST_MAPPING));
@@ -54,8 +55,9 @@ public class HomeControllerTest extends MvcControllerTest {
     public void homeControllerShouldRedirectToSellerHomeViewWhenUserRoleIsSeller() throws Exception {
         when(userMock.getRole()).thenReturn(UserRole.SELLER);
 
-        MockHttpServletRequestBuilder getRequest = get(HomeController.HOME_REQUEST_MAPPING).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest.session(mockHttpSession));
+        MockHttpServletRequestBuilder getRequest = get(HomeController.HOME_REQUEST_MAPPING).accept(MediaType.ALL)
+                .session(mockHttpSession);
+        ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().is3xxRedirection());
         results.andExpect(redirectedUrl(HomeController.SELLER_HOME_REQUEST_MAPPING));
@@ -65,8 +67,9 @@ public class HomeControllerTest extends MvcControllerTest {
     public void homeControllerShouldRedirectToBuyerHomeViewWhenUserRoleIsBuyer() throws Exception {
         when(userMock.getRole()).thenReturn(UserRole.BUYER);
 
-        MockHttpServletRequestBuilder getRequest = get(HomeController.HOME_REQUEST_MAPPING).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest.session(mockHttpSession));
+        MockHttpServletRequestBuilder getRequest = get(HomeController.HOME_REQUEST_MAPPING).accept(MediaType.ALL)
+                .session(mockHttpSession);
+        ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().is3xxRedirection());
         results.andExpect(redirectedUrl(HomeController.BUYER_HOME_REQUEST_MAPPING));

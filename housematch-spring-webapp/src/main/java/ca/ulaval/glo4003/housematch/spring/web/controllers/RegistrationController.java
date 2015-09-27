@@ -22,7 +22,7 @@ import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegisterFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 
 @Controller
 public class RegistrationController extends MvcController {
@@ -44,13 +44,13 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView displayRegister(ModelMap modelMap) {
-        modelMap.put(REGISTRATION_FORM_VIEWMODEL_NAME, new RegisterFormViewModel());
+    public final ModelAndView displayRegistrationView(ModelMap modelMap) {
+        modelMap.put(REGISTRATION_FORM_VIEWMODEL_NAME, new RegistrationFormViewModel());
         return new ModelAndView(REGISTRATION_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.POST)
-    public final ModelAndView doRegister(RegisterFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
+    public final ModelAndView register(RegistrationFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());

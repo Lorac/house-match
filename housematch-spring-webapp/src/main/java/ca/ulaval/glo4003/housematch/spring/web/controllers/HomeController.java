@@ -26,7 +26,7 @@ public class HomeController extends MvcController {
     }
 
     @RequestMapping(value = HOME_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView displayHomepage(HttpSession session) {
+    public final ModelAndView displayHomeView(HttpSession session) {
         User user = (User) session.getAttribute(USER_ATTRIBUTE_NAME);
 
         if (user != null) {
@@ -46,22 +46,22 @@ public class HomeController extends MvcController {
     }
 
     @RequestMapping(value = ADMIN_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView adminRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
+    public final ModelAndView displayAdminHomeView(HttpSession session, HttpServletResponse response, ModelMap modelMap)
             throws AuthenticationException {
         authorizationValidator.validateResourceAccess(ADMIN_HOME_VIEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(ADMIN_HOME_VIEW_NAME);
     }
 
     @RequestMapping(value = BUYER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView buyerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
+    public final ModelAndView displayBuyerHomeView(HttpSession session, HttpServletResponse response, ModelMap modelMap)
             throws AuthenticationException {
         authorizationValidator.validateResourceAccess(BUYER_HOME_VIEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(BUYER_HOME_VIEW_NAME);
     }
 
     @RequestMapping(value = SELLER_HOME_REQUEST_MAPPING, method = RequestMethod.GET)
-    public final ModelAndView sellerRequest(HttpSession session, HttpServletResponse response, ModelMap modelMap)
-            throws AuthenticationException {
+    public final ModelAndView displaySellerHomeView(HttpSession session, HttpServletResponse response,
+            ModelMap modelMap) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(SELLER_HOME_VIEW_NAME, session, USER_ATTRIBUTE_NAME);
         return new ModelAndView(SELLER_HOME_VIEW_NAME);
     }

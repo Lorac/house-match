@@ -10,19 +10,19 @@
             <map>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.ADMIN_HOME_VEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.ADMIN_HOME_VIEW_NAME" />
                     </key>
                     <ref bean="adminHomeAccessControlList" />
                 </entry>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.BUYER_HOME_VEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.BUYER_HOME_VIEW_NAME" />
                     </key>
                     <ref bean="buyerHomeAccessControlList" />
                 </entry>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.SELLER_HOME_VEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.SELLER_HOME_VIEW_NAME" />
                     </key>
                     <ref bean="sellerHomeAccessControlList" />
                 </entry>

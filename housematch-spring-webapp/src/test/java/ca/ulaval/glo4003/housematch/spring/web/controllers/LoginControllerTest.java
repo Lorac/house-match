@@ -31,29 +31,29 @@ public class LoginControllerTest extends MvcControllerTest {
 
     @Test
     public void loginControllerShouldRenderLoginView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get("/login").accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_REQUEST_MAPPING).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name("login"));
+        results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
     }
 
     @Test
     public void loginControllerShouldRenderLoginViewWithUsernameAndPassword() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get("/login").accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_REQUEST_MAPPING).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(model().attribute("loginForm", hasProperty("username")));
-        results.andExpect(model().attribute("loginForm", hasProperty("password")));
+        results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("username")));
+        results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("password")));
 
     }
 
     @Test
     public void logoutControllerRendersLoginPageUponLogout() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get("/logout").accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGOUT_REQUEST_MAPPING).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(view().name("login"));
+        results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
         results.andExpect(status().isOk());
     }
 }
