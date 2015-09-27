@@ -17,7 +17,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.EmailSender;
+import ca.ulaval.glo4003.housematch.email.MailSender;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -29,7 +29,7 @@ public class UserServiceTest {
     private UserRepository userRepositoryMock;
     private User userMock;
     private UserService userService;
-    private EmailSender emailSenderMock;
+    private MailSender emailSenderMock;
 
     @Before
     public void init() throws Exception {
@@ -40,7 +40,7 @@ public class UserServiceTest {
     private void initMocks() throws Exception {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
-        emailSenderMock = mock(EmailSender.class);
+        emailSenderMock = mock(MailSender.class);
         when(userRepositoryMock.getByHashCode(SAMPLE_USER_HASH)).thenReturn(userMock);
     }
 

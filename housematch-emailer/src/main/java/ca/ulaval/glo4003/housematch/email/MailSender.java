@@ -4,17 +4,21 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class EmailSender {
+public class MailSender {
 
-    private static final String ADDRESS_FROM = "housematchb5@gmail.com";
+    private static final String ADDRESS_FROM = "noreply@housematch.glo4003.ulaval.ca";
     private JavaxMailSender javaxMailSender;
 
-    public EmailSender(final JavaxMailSender javaxMailSender) {
+    public MailSender(final JavaxMailSender javaxMailSender) {
         this.javaxMailSender = javaxMailSender;
     }
 
     public void send(String subject, String content, String email) throws MailSendException {
+        setupMailSender(subject, content, email);
+        sendMail();
+    }
 
+    private void setupMailSender(String subject, String content, String email) {
         try {
             javaxMailSender.addRecipient(MimeMessage.RecipientType.TO, email);
             javaxMailSender.setFrom(new InternetAddress(ADDRESS_FROM));
@@ -23,8 +27,6 @@ public class EmailSender {
         } catch (MessagingException e) {
             throw new MailSendException("Could not setup the email.", e);
         }
-
-        sendMail();
     }
 
     private void sendMail() {

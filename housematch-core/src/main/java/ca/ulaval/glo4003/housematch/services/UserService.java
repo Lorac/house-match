@@ -11,7 +11,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.EmailSender;
+import ca.ulaval.glo4003.housematch.email.MailSender;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 
 public class UserService {
@@ -19,10 +19,10 @@ public class UserService {
     private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
 
-    private EmailSender emailSender;
+    private MailSender emailSender;
     private UserRepository userRepository;
 
-    public UserService(final UserRepository userRepository, final EmailSender emailSender) {
+    public UserService(final UserRepository userRepository, final MailSender emailSender) {
         this.userRepository = userRepository;
         this.emailSender = emailSender;
     }

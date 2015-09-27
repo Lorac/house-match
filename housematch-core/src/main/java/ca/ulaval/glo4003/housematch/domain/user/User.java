@@ -14,7 +14,7 @@ public class User {
     boolean activated = false;
 
     User() {
-        // Package-protected no-argument constructor required for XmlUserAdapter
+        // Required for instanciation by reflection
     }
 
     public User(final String username, final String email, final String password, final UserRole role) {

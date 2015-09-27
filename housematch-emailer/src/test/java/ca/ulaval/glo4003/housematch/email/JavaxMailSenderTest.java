@@ -23,7 +23,22 @@ import com.dumbster.smtp.SmtpMessage;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailSenderTest {
 
-    private static final int SMTP_PORT = 597;
+    private static final String SMTP_HOST_PROPERTY_NAME = "mail.smtp.host";
+    private static final String SMTP_HOST_PROPERTY_VALUE = "localhost";
+    private static final String SMTP_PORT_PROPERTY_NAME = "mail.smtp.port";
+    private static final int SMTP_PORT_VALUE = 597;
+    private static final String SMTP_SENDPARTIAL_PROPERTY_NAME = "mail.smtp.sendpartial";
+    private static final String SMTP_SENDPARTIAL_PROPERTY_VALUE = "true";
+    private static final String SMTP_USER_PROPERTY_NAME = "mail.user";
+    private static final String SAMPLE_SMTP_USER_PROPERTY_VALUE = "user";
+    private static final String SMTP_PASSWORD_PROPERTY_NAME = "mail.password";
+    private static final String SAMPLE_SMTP_PASSWORD_PROPERTY_VALUE = "password";
+    private static final String SUBJECT_HEADER_PROPERTY_NAME = "Subject";
+
+    private static final String SAMPLE_SENDER_ADDRESS = "abc@gmail.com";
+    private static final String SAMPLE_RECIPIENT_ADDRESS = "xyz@gmail.com";
+    private static final String SAMPLE_SUBJECT = "subject";
+    private static final String SAMPLE_CONTENT = "content";
 
     private SimpleSmtpServer smtpServer;
     private JavaxMailSender javaxMailSender;
@@ -33,17 +48,17 @@ public class JavaxMailSenderTest {
 
     @Before
     public void init() {
-        smtpServer = SimpleSmtpServer.start(SMTP_PORT);
-        javaxMailSender = new JavaxMailSender(getMailProperties(SMTP_PORT));
+        smtpServer = SimpleSmtpServer.start(SMTP_PORT_VALUE);
+        javaxMailSender = new JavaxMailSender(getMailProperties(SMTP_PORT_VALUE));
     }
 
     private Properties getMailProperties(int port) {
         Properties mailProperties = new Properties();
-        mailProperties.setProperty("mail.smtp.host", "localhost");
-        mailProperties.setProperty("mail.smtp.port", "" + port);
-        mailProperties.setProperty("mail.smtp.sendpartial", "true");
-        mailProperties.setProperty("mail.user", "true");
-        mailProperties.setProperty("mail.password", "true");
+        mailProperties.setProperty(SMTP_HOST_PROPERTY_NAME, SMTP_HOST_PROPERTY_VALUE);
+        mailProperties.setProperty(SMTP_PORT_PROPERTY_NAME, "" + port);
+        mailProperties.setProperty(SMTP_SENDPARTIAL_PROPERTY_NAME, SMTP_SENDPARTIAL_PROPERTY_VALUE);
+        mailProperties.setProperty(SMTP_USER_PROPERTY_NAME, SAMPLE_SMTP_USER_PROPERTY_VALUE);
+        mailProperties.setProperty(SMTP_PASSWORD_PROPERTY_NAME, SAMPLE_SMTP_PASSWORD_PROPERTY_VALUE);
         return mailProperties;
     }
 
@@ -53,26 +68,37 @@ public class JavaxMailSenderTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
-    public void whenSendingAMessageItShouldSendTheMessage() throws MessagingException {
-        sendMessage("sender@here.com", "Test", "Test Body", "receiver@there.com");
-
+    public void sendingMessageShouldSendTheMessage() throws MessagingException {
+        sendMessage(SAMPLE_SENDER_ADDRESS, SAMPLE_RECIPIENT_ADDRESS, SAMPLE_SUBJECT, SAMPLE_CONTENT);
         assertEquals(1, smtpServer.getReceivedEmailSize());
-        Iterator<SmtpMessage> emailIter = smtpServer.getReceivedEmail();
-        SmtpMessage email = (SmtpMessage) emailIter.next();
-        assertTrue(email.getHeaderValue("Subject").equals("Test"));
-        assertTrue(email.getBody().equals("Test Body"));
     }
 
-    private void sendMessage(String from, String subject, String body, String to) throws MessagingException {
-        createMessage(from, to, subject, body);
+    @Test
+    public void sendingMessageShouldSendTheMessageWithTheCorrectSubjectAndContent() throws MessagingException {
+        sendMessage(SAMPLE_SENDER_ADDRESS, SAMPLE_RECIPIENT_ADDRESS, SAMPLE_SUBJECT, SAMPLE_CONTENT);
+
+        SmtpMessage message = getReceivedMessage();
+        assertTrue(message.getHeaderValue(SUBJECT_HEADER_PROPERTY_NAME).equals(SAMPLE_SUBJECT));
+        assertTrue(message.getBody().equals(SAMPLE_CONTENT));
+    }
+
+    @SuppressWarnings("unchecked")
+    private SmtpMessage getReceivedMessage() {
+        Iterator<SmtpMessage> messageIterator = smtpServer.getReceivedEmail();
+        SmtpMessage message = (SmtpMessage) messageIterator.next();
+        return message;
+    }
+
+    private void sendMessage(String from, String recipient, String subject, String content) throws MessagingException {
+        createMessage(from, recipient, subject, content);
         javaxMailSender.send();
     }
 
-    private void createMessage(String from, String to, String subject, String content) throws MessagingException {
+    private void createMessage(String from, String recipient, String subject, String content)
+            throws MessagingException {
         javaxMailSender.setFrom(new InternetAddress(from));
         javaxMailSender.setSubject(subject);
         javaxMailSender.setContent(content);
-        javaxMailSender.addRecipient(MimeMessage.RecipientType.TO, to);
+        javaxMailSender.addRecipient(MimeMessage.RecipientType.TO, recipient);
     }
 }
