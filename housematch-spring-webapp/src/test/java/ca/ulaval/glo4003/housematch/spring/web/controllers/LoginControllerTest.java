@@ -16,17 +16,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.services.UserService;
 
-public class UserControllerTest extends ControllerTest {
+public class LoginControllerTest extends MvcControllerTest {
 
     private UserService userServiceMock;
-    private UserController userController;
+    private LoginController loginController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        userController = new UserController(userServiceMock);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(userController).setViewResolvers(viewResolver).build();
+        loginController = new LoginController(userServiceMock);
+        mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
     }
 
     @Test
@@ -46,5 +46,14 @@ public class UserControllerTest extends ControllerTest {
         results.andExpect(model().attribute("loginForm", hasProperty("username")));
         results.andExpect(model().attribute("loginForm", hasProperty("password")));
 
+    }
+
+    @Test
+    public void logoutControllerRendersLoginPageUponLogout() throws Exception {
+        MockHttpServletRequestBuilder getRequest = get("/logout").accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(getRequest);
+
+        results.andExpect(view().name("login"));
+        results.andExpect(status().isOk());
     }
 }

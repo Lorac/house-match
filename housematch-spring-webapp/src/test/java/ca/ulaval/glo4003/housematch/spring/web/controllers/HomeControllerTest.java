@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -11,15 +12,19 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class HomeControllerTest extends ControllerTest {
+import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
+
+public class HomeControllerTest extends MvcControllerTest {
 
     private HomeController homeController;
+    private AuthorizationValidator authorizationValidtorMock;
 
     @Before
     public void init() {
         super.init();
-        homeController = new HomeController();
-        this.mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
+        authorizationValidtorMock = mock(AuthorizationValidator.class);
+        homeController = new HomeController(authorizationValidtorMock);
+        mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
     }
 
     @Test

@@ -1,16 +1,16 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.validator.routines.EmailValidator;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
-
 public class User {
-    private String username;
-    private String email;
-    private String password;
-    private UserRole role;
+    String username;
+    String email;
+    String password;
+    UserRole role;
+    boolean activated = false;
 
     public User() {
     }
@@ -58,9 +58,13 @@ public class User {
         this.password = password;
     }
 
-    public void validatePassword(String password) {
-        if (!this.password.equals(password)) {
-            throw new InvalidPasswordException("Password does not match.");
+    public boolean isPasswordValid(String password) {
+        return this.password.equals(password);
+    }
+
+    public void validateActivation() throws UserNotActivatedException {
+        if (!this.activated) {
+            throw new UserNotActivatedException("User is not activated.");
         }
     }
 
@@ -70,6 +74,18 @@ public class User {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Boolean hasRole(UserRole role) {
+        return this.role.equals(role);
+    }
+
+    public void activate() {
+        this.activated = true;
+    }
+
+    public boolean isActivated() {
+        return activated;
     }
 
     @Override
@@ -93,4 +109,5 @@ public class User {
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
     }
+
 }

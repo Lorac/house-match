@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util-3.1.xsd">
+
+
+    <bean id="authorizationValidator" class="ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator">
+        <constructor-arg>
+            <map>
+                <entry>
+                    <key>
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.ADMIN_HOME_VEW_NAME" />
+                    </key>
+                    <ref bean="adminHomeAccessControlList" />
+                </entry>
+                <entry>
+                    <key>
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.BUYER_HOME_VEW_NAME" />
+                    </key>
+                    <ref bean="buyerHomeAccessControlList" />
+                </entry>
+                <entry>
+                    <key>
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.SELLER_HOME_VEW_NAME" />
+                    </key>
+                    <ref bean="sellerHomeAccessControlList" />
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="adminHomeAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
+        <constructor-arg>
+            <set>
+                <value>ADMINISTRATOR</value>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="buyerHomeAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
+        <constructor-arg>
+            <set>
+                <value>BUYER</value>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="sellerHomeAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
+        <constructor-arg>
+            <set>
+                <value>SELLER</value>
+            </set>
+        </constructor-arg>
+    </bean>
+
+</beans>

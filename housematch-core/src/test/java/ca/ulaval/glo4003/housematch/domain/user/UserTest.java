@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class UserTest {
 
@@ -34,6 +33,12 @@ public class UserTest {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
+    }
+
+    @Test
+    public void givenTheSameInstanceOfTheUserWhenComparingThemThenTheyShouldBeEqual() {
+        // noinspection EqualsWithItself
+        assertTrue(user.equals(user));
     }
 
     @Test
@@ -88,12 +93,28 @@ public class UserTest {
     }
 
     @Test
-    public void validatingTheRightPasswordDoesNotThrowAnException() {
-        user.validatePassword(SAMPLE_PASSWORD);
+    public void validatingTheRightPasswordDoesNotThrowAnException() throws Exception {
+        user.isPasswordValid(SAMPLE_PASSWORD);
     }
 
-    @Test(expected = InvalidPasswordException.class)
-    public void validatingTheWrongPasswordThrowsInvalidPasswordException() {
-        user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
+    @Test
+    public void validatingTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
+        assertFalse(user.isPasswordValid(ANOTHER_SAMPLE_PASSWORD));
+    }
+
+    @Test
+    public void newUserIsNotActivated() {
+        assertFalse(user.isActivated());
+    }
+
+    @Test
+    public void activatedUserIsActivated() throws Exception {
+        user.activate();
+        user.validateActivation();
+    }
+
+    @Test(expected = UserNotActivatedException.class)
+    public void givenAUserNotActivatedWhenValidatingHisActivitionThenItWillThrow() throws Exception {
+        user.validateActivation();
     }
 }
