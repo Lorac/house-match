@@ -1,13 +1,12 @@
 package ca.ulaval.glo4003.housematch.persistence;
 
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
+import org.jasypt.util.text.TextEncryptor;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
-
-import org.jasypt.util.text.BasicTextEncryptor;
-
-import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssembler> {
 
@@ -16,18 +15,17 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
     private String resourceName;
 
     public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName,
-            final BasicTextEncryptor basicTextEncryptor, final String encryptionPassword) {
+                                   final TextEncryptor textEncryptor) {
         super(XmlRepositoryAssembler.class);
         this.resourceLoader = resourceLoader;
         this.resourceName = resourceName;
-        initMarshallingAdapters(basicTextEncryptor, encryptionPassword);
+        initMarshallingAdapters(textEncryptor);
         unmarshal();
     }
 
-    private void initMarshallingAdapters(final BasicTextEncryptor basicTextEncryptor, final String encryptionPassword) {
-        basicTextEncryptor.setPassword(encryptionPassword);
-        this.marshaller.setAdapter(new XmlUserAdapter(basicTextEncryptor));
-        this.unmarshaller.setAdapter(new XmlUserAdapter(basicTextEncryptor));
+    private void initMarshallingAdapters(final TextEncryptor textEncryptor) {
+        this.marshaller.setAdapter(new XmlUserAdapter(textEncryptor));
+        this.unmarshaller.setAdapter(new XmlUserAdapter(textEncryptor));
     }
 
     private void unmarshal() {
