@@ -16,8 +16,6 @@ import javax.xml.bind.Unmarshaller;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlMarshaller;
-
 public class XmlMarshallerTest {
 
     private XmlMarshaller<Object> xmlMarshaller;
@@ -33,7 +31,7 @@ public class XmlMarshallerTest {
         xmlMarshaller = new XmlMarshaller<>(marshallerMock, unmarshallerMock);
     }
 
-    public void initMocks() {
+    private void initMocks() {
         marshallerMock = mock(Marshaller.class);
         unmarshallerMock = mock(Unmarshaller.class);
         inputStreamMock = mock(InputStream.class);

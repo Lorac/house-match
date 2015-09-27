@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+
 import org.jasypt.util.text.TextEncryptor;
 
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
@@ -20,6 +23,17 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
     public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName,
             final TextEncryptor textEncryptor) {
         super(XmlRepositoryAssembler.class);
+        init(textEncryptor, resourceLoader, resourceName);
+    }
+
+    public XmlRepositoryMarshaller(final Marshaller marshaller, final Unmarshaller unmarshaller,
+            final ResourceLoader resourceLoader, final String resourceName, final TextEncryptor textEncryptor) {
+        super(marshaller, unmarshaller);
+        init(textEncryptor, resourceLoader, resourceName);
+    }
+
+    private void init(final TextEncryptor textEncryptor, final ResourceLoader resourceLoader,
+            final String resourceName) {
         this.resourceLoader = resourceLoader;
         this.resourceName = resourceName;
         initMarshallingAdapters(textEncryptor);
@@ -31,7 +45,7 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
         this.unmarshaller.setAdapter(new XmlUserAdapter(textEncryptor));
     }
 
-    private void unmarshal() {
+    public void unmarshal() {
         try {
             InputStream inputStream = resourceLoader.loadResourceAsInputStream(this, resourceName);
             xmlRepositoryAssembler = super.unmarshal(inputStream);

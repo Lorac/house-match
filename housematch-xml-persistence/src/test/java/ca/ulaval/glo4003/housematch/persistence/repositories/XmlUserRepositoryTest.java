@@ -74,9 +74,14 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void getByUserHashMethodRetrievesUserByUserHash() throws Exception {
+    public void getByHashCodeMethodRetrievesUserByHashCode() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByHashCode(SAMPLE_USERNAME.hashCode()));
+    }
+
+    @Test(expected = UserNotFoundException.class)
+    public void retrievingUserUsingNonExistingHashCodeThrowsUserNotFoundException() throws Exception {
+        xmlUserRepository.getByHashCode(SAMPLE_UNEXISTING_USERNAME.hashCode());
     }
 }
