@@ -2,16 +2,11 @@ package ca.ulaval.glo4003.housematch.domain.user;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.jasypt.util.text.BasicTextEncryptor;
 import org.jasypt.util.text.TextEncryptor;
 
 public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
 
     private TextEncryptor textEncryptor;
-
-    public XmlUserAdapter() {
-        this(new BasicTextEncryptor());
-    }
 
     public XmlUserAdapter(final TextEncryptor textEncryptor) {
         this.textEncryptor = textEncryptor;

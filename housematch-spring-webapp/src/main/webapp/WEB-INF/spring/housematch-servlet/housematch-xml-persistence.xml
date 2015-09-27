@@ -8,7 +8,10 @@
     </bean>
 	
 	<bean id="xmlRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.XmlRepositoryMarshaller">
+		<constructor-arg type="ca.ulaval.glo4003.housematch.persistence.ResourceLoader"/>
         <constructor-arg type="java.lang.String" value="/housematch-data.xml"/>
+		<constructor-arg type="org.jasypt.util.text.BasicTextEncryptor"/>
+		<constructor-arg type="java.lang.String" value="9fhaoisadw43"/>
     </bean>
 	
 </beans>

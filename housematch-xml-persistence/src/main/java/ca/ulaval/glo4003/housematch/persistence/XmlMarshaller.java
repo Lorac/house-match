@@ -12,13 +12,18 @@ public class XmlMarshaller<T> {
 
     private static final Object XML_MARSHALL_LOCK = new Object();
 
-    private Marshaller marshaller;
-    private Unmarshaller unmarshaller;
+    protected Marshaller marshaller;
+    protected Unmarshaller unmarshaller;
     private Class<T> type;
 
     public XmlMarshaller(final Class<T> type) {
         this.type = type;
         initDefaultMarshallers();
+    }
+
+    public XmlMarshaller(final Marshaller marshaller, final Unmarshaller unmarshaller) {
+        this.marshaller = marshaller;
+        this.unmarshaller = unmarshaller;
     }
 
     private void initDefaultMarshallers() {
@@ -39,11 +44,6 @@ public class XmlMarshaller<T> {
         } catch (JAXBException e) {
             throw new MarshallingException("Unmarshaller initialization failed.", e);
         }
-    }
-
-    public XmlMarshaller(final Marshaller marshaller, final Unmarshaller unmarshaller) {
-        this.marshaller = marshaller;
-        this.unmarshaller = unmarshaller;
     }
 
     public void marshal(T element, OutputStream outputStream) {

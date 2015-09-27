@@ -5,21 +5,29 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
 
+import org.jasypt.util.text.BasicTextEncryptor;
+
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
+
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssembler> {
 
     private XmlRepositoryAssembler xmlRepositoryAssembler;
     private ResourceLoader resourceLoader;
     private String resourceName;
 
-    public XmlRepositoryMarshaller(final String resourceName) {
-        this(new ResourceLoader(), resourceName);
-    }
-
-    public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName) {
+    public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName,
+            final BasicTextEncryptor basicTextEncryptor, final String encryptionPassword) {
         super(XmlRepositoryAssembler.class);
         this.resourceLoader = resourceLoader;
         this.resourceName = resourceName;
+        initMarshallingAdapters(basicTextEncryptor, encryptionPassword);
         unmarshal();
+    }
+
+    private void initMarshallingAdapters(final BasicTextEncryptor basicTextEncryptor, final String encryptionPassword) {
+        basicTextEncryptor.setPassword(encryptionPassword);
+        this.marshaller.setAdapter(new XmlUserAdapter(basicTextEncryptor));
+        this.unmarshaller.setAdapter(new XmlUserAdapter(basicTextEncryptor));
     }
 
     private void unmarshal() {
