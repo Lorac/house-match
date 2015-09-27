@@ -21,7 +21,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
 
 @Controller
-public class LoginController extends WebController {
+public class LoginController extends MvcController {
 
     @Autowired
     private UserService userService;

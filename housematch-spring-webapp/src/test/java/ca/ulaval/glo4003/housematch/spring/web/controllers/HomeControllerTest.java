@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 
-public class HomeControllerTest extends WebControllerTest {
+public class HomeControllerTest extends MvcControllerTest {
 
     private HomeController homeController;
     private ResourceAccessValidator resourceAccessValidtorMock;

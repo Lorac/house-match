@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 
-public class RegistrationControllerTest extends WebControllerTest {
+public class RegistrationControllerTest extends MvcControllerTest {
 
     private UserService userServiceMock;
     private ResourceAccessValidator resourceAccessValidtorMock;

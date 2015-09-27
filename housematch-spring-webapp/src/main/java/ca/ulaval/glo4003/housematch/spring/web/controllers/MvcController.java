@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 
-public class WebController {
+public class MvcController {
 
     protected static final String HOME_VEW_NAME = "home";
     protected static final String HOME_REQUEST_MAPPING = "/";

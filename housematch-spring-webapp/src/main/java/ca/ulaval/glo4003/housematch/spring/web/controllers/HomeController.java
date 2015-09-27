@@ -15,7 +15,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 
 @Controller
-public class HomeController extends WebController {
+public class HomeController extends MvcController {
 
     protected HomeController() {
         // Required for Mockito
