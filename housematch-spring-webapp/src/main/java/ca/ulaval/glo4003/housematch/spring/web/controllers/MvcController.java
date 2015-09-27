@@ -49,13 +49,13 @@ public class MvcController {
     }
 
     @ExceptionHandler(AnonymousAccessDeniedException.class)
-    public ModelAndView anonymousResourceAccessDeniedExceptionHandler(HttpServletResponse response) {
+    public ModelAndView anonymousAccessDeniedExceptionHandler(HttpServletResponse response) {
         response.setStatus(HttpStatus.FORBIDDEN.value());
         return new ModelAndView(new RedirectView(LOGIN_REQUEST_MAPPING));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public void resourceAccessDeniedExceptionHandler(HttpServletResponse response) throws IOException {
+    public void accessDeniedExceptionHandler(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.FORBIDDEN.value(), "You do not have access to the specified resource.");
     }
 }
