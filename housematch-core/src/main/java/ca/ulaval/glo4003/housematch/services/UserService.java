@@ -41,8 +41,8 @@ public class UserService {
 
     private void sendActivationLink(User user) throws MailSendException {
         emailSender.send(ACTIVATION_EMAIL_SUBJECT,
-                String.format("Complete your HouseMatch registration by <a href=\"%s%d\">activating your account</a>.", ACTIVATION_BASE_URL,
-                        user.hashCode()),
+                String.format("Complete your HouseMatch registration by <a href=\"%s%d\">activating your account</a>.",
+                        ACTIVATION_BASE_URL, user.hashCode()),
                 user.getEmail());
     }
 

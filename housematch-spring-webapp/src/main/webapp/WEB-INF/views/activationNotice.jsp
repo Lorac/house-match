@@ -14,6 +14,9 @@
 </head>
 <body>
 	<jsp:include page="../includes/navigationBar.jsp" />
-	<p>An activation link has been sent to your email address. Click on the link to activate your account and complete your registration.</p>
+	<div class="container">
+		<p>An activation link has been sent to your email address. Click
+			on the link to activate your account and complete your registration.</p>
+	</div>
 </body>
 </html>
