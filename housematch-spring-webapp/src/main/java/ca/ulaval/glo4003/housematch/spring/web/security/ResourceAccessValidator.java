@@ -15,10 +15,12 @@ public class ResourceAccessValidator {
     }
 
     public void validateResourceAccess(String resourceName, HttpSession session) {
-        if (session.getAttribute("user") == null) {
-            validateAnonymousUserResourceAccess(resourceName);
+        User user = (User) session.getAttribute("user");
+
+        if (user == null) {
+            throw new AnonymousResourceAccessDeniedException(
+                    String.format("Anonymous access to the resource '%s' is not authorized.", resourceName));
         } else {
-            User user = (User) session.getAttribute("user");
             validateUserResourceAccess(resourceName, user);
         }
     }
@@ -28,14 +30,6 @@ public class ResourceAccessValidator {
         if (!resourceAccessList.isUserAuthorized(user)) {
             throw new ResourceAccessDeniedException(
                     String.format("Access to resource '%s' for the specified user is not authorized.", resourceName));
-        }
-    }
-
-    private void validateAnonymousUserResourceAccess(String resourceName) {
-        ResourceAccessList resourceAccessList = resourceAccessListMap.get(resourceName);
-        if (!resourceAccessList.isAnonymousUserAuthorized()) {
-            throw new AnonymousResourceAccessDeniedException(
-                    String.format("Anonymous access to the resource '%s' is not authorized.", resourceName));
         }
     }
 }

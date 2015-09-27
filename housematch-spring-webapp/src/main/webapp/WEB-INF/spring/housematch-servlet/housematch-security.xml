@@ -16,7 +16,7 @@
 	<bean id="adminHomeAccessList" class="ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessList">
         <constructor-arg>
 			<set>
-				<ref bean="adminRoleAccessEntry" />
+				<value>ADMINISTRATOR</value>
 			</set>
 		</constructor-arg>
     </bean>
@@ -24,7 +24,7 @@
 	<bean id="buyerHomeAccessList" class="ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessList">
         <constructor-arg>
 			<set>
-				<ref bean="buyerRoleAccessEntry" />
+				<value>BUYER</value>
 			</set>
 		</constructor-arg>
     </bean>
@@ -32,24 +32,9 @@
 	<bean id="sellerHomeAccessList" class="ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessList">
         <constructor-arg>
 			<set>
-				<ref bean="sellerRoleAccessEntry" />
+				<value>SELLER</value>
 			</set>
 		</constructor-arg>
-    </bean>
-	
-	<bean id="adminRoleAccessEntry" class="ca.ulaval.glo4003.housematch.spring.web.security.RoleResourceAccessEntry">
-        <constructor-arg type="ca.ulaval.glo4003.housematch.domain.user.UserRole" value="ADMINISTRATOR"/>
-		<constructor-arg type="java.lang.Boolean" value="True"/>
-    </bean>
-	
-	<bean id="buyerRoleAccessEntry" class="ca.ulaval.glo4003.housematch.spring.web.security.RoleResourceAccessEntry">
-        <constructor-arg type="ca.ulaval.glo4003.housematch.domain.user.UserRole" value="BUYER"/>
-		<constructor-arg type="java.lang.Boolean" value="True"/>
-    </bean>
-	
-	<bean id="sellerRoleAccessEntry" class="ca.ulaval.glo4003.housematch.spring.web.security.RoleResourceAccessEntry">
-        <constructor-arg type="ca.ulaval.glo4003.housematch.domain.user.UserRole" value="SELLER"/>
-		<constructor-arg type="java.lang.Boolean" value="True"/>
     </bean>
 	
 </beans>

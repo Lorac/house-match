@@ -79,6 +79,10 @@ public class User {
         this.role = role;
     }
 
+    public Boolean hasRole(UserRole role) {
+        return this.role.equals(role);
+    }
+
     public void activate() {
         this.activated = true;
     }

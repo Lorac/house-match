@@ -3,20 +3,17 @@ package ca.ulaval.glo4003.housematch.spring.web.security;
 import java.util.Set;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class ResourceAccessList {
 
-    private Set<ResourceAccessEntry> accessEntries;
+    private Set<UserRole> authorizedRoles;
 
-    public ResourceAccessList(final Set<ResourceAccessEntry> accessEntries) {
-        this.accessEntries = accessEntries;
+    public ResourceAccessList(final Set<UserRole> authorizedRoles) {
+        this.authorizedRoles = authorizedRoles;
     }
 
     public Boolean isUserAuthorized(User user) {
-        return accessEntries.stream().anyMatch(entry -> entry.isAuthorized(user));
-    }
-
-    public Boolean isAnonymousUserAuthorized() {
-        return accessEntries.stream().anyMatch(entry -> entry.isAnonymousUserAuthorized());
+        return authorizedRoles.stream().anyMatch(authorized -> user.hasRole(authorized));
     }
 }

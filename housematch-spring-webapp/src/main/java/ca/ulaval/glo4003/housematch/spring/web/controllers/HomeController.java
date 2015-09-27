@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.spring.web.security.AnonymousResourceAccessDeniedException;
 import ca.ulaval.glo4003.housematch.spring.web.security.ResourceAccessValidator;
 
@@ -27,13 +26,15 @@ public class HomeController extends WebController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public final ModelAndView displayHomepage(HttpSession session) {
-        if (session.getAttribute("user") != null) {
-            User user = (User) session.getAttribute("user");
-            if (user.getRole() == UserRole.ADMINISTRATOR) {
+        User user = (User) session.getAttribute("user");
+
+        if (user != null) {
+            switch (user.getRole()) {
+            case ADMINISTRATOR:
                 return new ModelAndView("redirect:/admin");
-            } else if (user.getRole() == UserRole.SELLER) {
+            case SELLER:
                 return new ModelAndView("redirect:/seller");
-            } else if (user.getRole() == UserRole.BUYER) {
+            case BUYER:
                 return new ModelAndView("redirect:/buyer");
             }
         }
