@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -9,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -26,7 +28,6 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
 
 public class RegistrationControllerTest extends MvcControllerTest {
 
@@ -62,6 +63,17 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
+    public void registrationRequestsRegistrationViewWithTheCorrectFields() throws Exception {
+        MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(getRequest);
+
+        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("username")));
+        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("email")));
+        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("password")));
+        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("role")));
+    }
+
+    @Test
     public void registrationRequestRendersActivationNoticeViewUponSuccessfulRegistration() throws Exception {
         ResultActions results = postRegistrationForm();
 
@@ -84,7 +96,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        assertEquals(MessageType.ERROR, getMessageViewModel(results).getMessageType());
+        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(MessageType.ERROR))));
     }
 
     @Test
@@ -95,8 +108,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        assertEquals(MessageType.ERROR, getMessageViewModel(results).getMessageType());
-
+        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(MessageType.ERROR))));
     }
 
     @Test
@@ -107,7 +120,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        assertEquals(MessageType.ERROR, getMessageViewModel(results).getMessageType());
+        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(MessageType.ERROR))));
     }
 
     @Test
@@ -132,13 +146,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        assertEquals(MessageType.ERROR, getMessageViewModel(results).getMessageType());
-    }
-
-    private MessageViewModel getMessageViewModel(ResultActions results) {
-        MessageViewModel messageViewModel = (MessageViewModel) results.andReturn().getModelAndView().getModelMap()
-                .get(RegistrationController.MESSAGE_VIEW_MODEL_NAME);
-        return messageViewModel;
+        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(MessageType.ERROR))));
     }
 
     private ResultActions postRegistrationForm() throws Exception {

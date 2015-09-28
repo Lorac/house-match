@@ -45,7 +45,6 @@ public class LoginControllerTest extends MvcControllerTest {
 
         results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("username")));
         results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("password")));
-
     }
 
     @Test
