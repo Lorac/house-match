@@ -6,6 +6,10 @@ public class UserNotActivatedException extends DomainException {
 
     private static final long serialVersionUID = 1007473395383529133L;
 
+    public UserNotActivatedException() {
+        super();
+    }
+
     public UserNotActivatedException(final String message) {
         super(message);
     }

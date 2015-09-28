@@ -6,6 +6,10 @@ public class InvalidPasswordException extends DomainException {
 
     private static final long serialVersionUID = -1359096800328030500L;
 
+    public InvalidPasswordException() {
+        super();
+    }
+
     public InvalidPasswordException(final String message) {
         super(message);
     }

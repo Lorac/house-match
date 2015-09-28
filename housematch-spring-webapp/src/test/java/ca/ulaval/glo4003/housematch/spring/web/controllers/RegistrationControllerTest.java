@@ -2,9 +2,6 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -82,7 +79,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestCreatesUserFromTheSpecifiedLoginFormViewModel() throws Exception {
+    public void registrationRequestCreatesUserFromTheSpecifiedRegistrationFormViewModel() throws Exception {
         postRegistrationForm();
 
         verify(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
@@ -90,8 +87,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationRequestReturnsErrorMessageOnMailSendException() throws Exception {
-        doThrow(new MailSendException()).when(userServiceMock).createUser(anyString(), anyString(), anyString(),
-                any(UserRole.class));
+        doThrow(new MailSendException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+                SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
 
@@ -102,8 +99,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationRequestReturnsErrorMessageOnUserAlreadyExistsException() throws Exception {
-        doThrow(new UserAlreadyExistsException()).when(userServiceMock).createUser(anyString(), anyString(),
-                anyString(), any(UserRole.class));
+        doThrow(new UserAlreadyExistsException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+                SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
 
@@ -114,8 +111,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationRequestReturnsErrorMessageOnInvalidValueException() throws Exception {
-        doThrow(new InvalidValueException()).when(userServiceMock).createUser(anyString(), anyString(), anyString(),
-                any(UserRole.class));
+        doThrow(new InvalidValueException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+                SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
 
@@ -141,7 +138,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void activationRequestReturnsErrorMessageOnUserNotFoundException() throws Exception {
-        doThrow(new UserNotFoundException()).when(userServiceMock).activateUser(anyInt());
+        doThrow(new UserNotFoundException()).when(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
 
         ResultActions results = performActivationRequest();
 
