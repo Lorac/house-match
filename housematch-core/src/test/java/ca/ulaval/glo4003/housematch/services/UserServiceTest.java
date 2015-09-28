@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSender;
+import ca.ulaval.glo4003.housematch.validators.UserCreationValidator;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -27,21 +28,28 @@ public class UserServiceTest {
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private UserRepository userRepositoryMock;
-    private User userMock;
-    private UserService userService;
+    private UserCreationValidator userCreationValidatorMock;
     private MailSender emailSenderMock;
+    private User userMock;
+
+    private UserService userService;
 
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, emailSenderMock);
+        userService = new UserService(userRepositoryMock, userCreationValidatorMock, emailSenderMock);
     }
 
     private void initMocks() throws Exception {
+        stubMethods();
+        when(userRepositoryMock.getByHashCode(SAMPLE_USER_HASH)).thenReturn(userMock);
+    }
+
+    private void stubMethods() {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         emailSenderMock = mock(MailSender.class);
-        when(userRepositoryMock.getByHashCode(SAMPLE_USER_HASH)).thenReturn(userMock);
+        userCreationValidatorMock = mock(UserCreationValidator.class);
     }
 
     @Test
@@ -68,6 +76,13 @@ public class UserServiceTest {
     public void createUserMethodPersistsNewUserToRepository() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(userRepositoryMock).persist(any(User.class));
+    }
+
+    @Test
+    public void createUserMethodCallsTheUserCreationValidator() throws Exception {
+        userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        verify(userCreationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+                SAMPLE_ROLE);
     }
 
     @Test

@@ -8,8 +8,6 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
-
 public class UserTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
@@ -18,11 +16,9 @@ public class UserTest {
     private static final String ANOTHER_SAMPLE_PASSWORD = "PASSWORD5678";
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String ANOTHER_SAMPLE_EMAIL = "email2@hotmail.com";
-    private static final String SAMPLE_INVALID_EMAIL = "abc@abc";
     private static final String SAMPLE_USERNAME = "Alice";
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
-    private static final String SAMPLE_BLANK_EXPRESSION = "  ";
     private static final Object SAMPLE_OBJECT = new Object();
 
     private User user;
@@ -86,30 +82,10 @@ public class UserTest {
         assertEquals(SAMPLE_USERNAME, user.getUsername());
     }
 
-    @Test(expected = InvalidValueException.class)
-    public void settingUsernameUsingBlankExpressionThrowsInvalidValueException() throws Exception {
-        user.setUsername(SAMPLE_BLANK_EXPRESSION);
-    }
-
     @Test
     public void settingEmailSetsTheSpecifiedEmail() throws Exception {
         user.setEmail(SAMPLE_EMAIL);
         assertEquals(SAMPLE_EMAIL, user.getEmail());
-    }
-
-    @Test(expected = InvalidValueException.class)
-    public void settingEmailUsingAnInvalidEmailFormatThrowsInvalidValueException() throws Exception {
-        user.setEmail(SAMPLE_INVALID_EMAIL);
-    }
-
-    @Test(expected = InvalidValueException.class)
-    public void settingEmailUsingBlankExpressionThrowsInvalidValueException() throws Exception {
-        user.setEmail(SAMPLE_BLANK_EXPRESSION);
-    }
-
-    @Test(expected = InvalidValueException.class)
-    public void settingPasswordUsingBlankExpressionThrowsInvalidValueException() throws Exception {
-        user.setPassword(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test

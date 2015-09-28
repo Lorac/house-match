@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -14,6 +13,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.email.MailSender;
+import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
+import ca.ulaval.glo4003.housematch.validators.UserCreationValidator;
 
 public class UserService {
 
@@ -22,9 +23,12 @@ public class UserService {
 
     private MailSender mailSender;
     private UserRepository userRepository;
+    private UserCreationValidator userCreationValidator;
 
-    public UserService(final UserRepository userRepository, final MailSender mailSender) {
+    public UserService(final UserRepository userRepository, final UserCreationValidator userCreationValidator,
+            final MailSender mailSender) {
         this.userRepository = userRepository;
+        this.userCreationValidator = userCreationValidator;
         this.mailSender = mailSender;
     }
 
@@ -40,7 +44,9 @@ public class UserService {
     }
 
     public void createUser(String username, String email, String password, UserRole role)
-            throws MailSendException, UserAlreadyExistsException, InvalidValueException {
+            throws MailSendException, UserAlreadyExistsException, UserCreationValidationException {
+        userCreationValidator.validateUserCreation(username, email, password, role);
+
         User user = new User(username, email, password, role);
         userRepository.persist(user);
         sendActivationLink(user);

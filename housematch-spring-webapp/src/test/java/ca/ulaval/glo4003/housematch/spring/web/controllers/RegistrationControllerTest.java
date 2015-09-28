@@ -18,13 +18,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
+import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
 
 public class RegistrationControllerTest extends MvcControllerTest {
 
@@ -110,8 +110,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestReturnsErrorMessageOnInvalidValueException() throws Exception {
-        doThrow(new InvalidValueException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+    public void registrationRequestReturnsErrorMessageOnUserCreationValidationException() throws Exception {
+        doThrow(new UserCreationValidationException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();

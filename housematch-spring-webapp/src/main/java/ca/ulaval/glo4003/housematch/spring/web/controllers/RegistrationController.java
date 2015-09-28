@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -23,6 +22,7 @@ import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
+import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
 
 @Controller
 public class RegistrationController extends MvcController {
@@ -54,16 +54,16 @@ public class RegistrationController extends MvcController {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
+        } catch (UserCreationValidationException e) {
+            return showMessage(modelMap, REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+                    e.getMessage(), MessageType.ERROR);
+        } catch (UserAlreadyExistsException e) {
+            return showMessage(modelMap, REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+                    "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
         } catch (MailSendException e) {
             return showMessage(modelMap, REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "Could not send activation mail. Please check that the email address you entered is valid.",
                     MessageType.ERROR);
-        } catch (UserAlreadyExistsException e) {
-            return showMessage(modelMap, REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
-        } catch (InvalidValueException e) {
-            return showMessage(modelMap, REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    e.getMessage(), MessageType.ERROR);
         }
 
         return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);

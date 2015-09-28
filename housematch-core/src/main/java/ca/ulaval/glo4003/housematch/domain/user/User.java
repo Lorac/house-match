@@ -1,10 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.validator.routines.EmailValidator;
-
-import ca.ulaval.glo4003.housematch.domain.InvalidValueException;
 
 public class User {
     String username;
@@ -17,8 +13,7 @@ public class User {
         // Required for instanciation by reflection
     }
 
-    public User(final String username, final String email, final String password, final UserRole role)
-            throws InvalidValueException {
+    public User(final String username, final String email, final String password, final UserRole role) {
         setUsername(username);
         setEmail(email);
         setPassword(password);
@@ -29,10 +24,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) throws InvalidValueException {
-        if (StringUtils.isBlank(username)) {
-            throw new InvalidValueException("Username cannot be blank.");
-        }
+    public void setUsername(String username) {
         this.username = username;
     }
 
@@ -40,13 +32,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) throws InvalidValueException {
-        if (StringUtils.isBlank(email)) {
-            throw new InvalidValueException("Email cannot be blank.");
-        } else if (!EmailValidator.getInstance(false).isValid(email)) {
-            throw new InvalidValueException("The email format is not valid.");
-        }
-
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -54,10 +40,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) throws InvalidValueException {
-        if (StringUtils.isBlank(password)) {
-            throw new InvalidValueException("Password cannot be blank.");
-        }
+    public void setPassword(String password) {
         this.password = password;
     }
 
