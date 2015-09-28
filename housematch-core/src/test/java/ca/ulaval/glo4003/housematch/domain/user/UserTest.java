@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.domain.user;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -119,7 +120,11 @@ public class UserTest {
 
     @Test
     public void validationOfTheRightPasswordDoesNotThrowAnException() throws Exception {
-        user.isPasswordValid(SAMPLE_PASSWORD);
+        try {
+            user.isPasswordValid(SAMPLE_PASSWORD);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test
@@ -153,7 +158,11 @@ public class UserTest {
     @Test
     public void activationOfUserActivatesTheUser() throws Exception {
         user.activate();
-        user.validateActivation();
+        try {
+            user.validateActivation();
+        } catch (Exception e) {
+            fail();
+        }
     }
 
     @Test(expected = UserNotActivatedException.class)

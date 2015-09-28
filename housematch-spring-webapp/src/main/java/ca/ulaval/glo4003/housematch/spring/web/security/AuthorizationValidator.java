@@ -15,9 +15,9 @@ public class AuthorizationValidator {
         this.resourceAccessListMap = resourceAccessListMap;
     }
 
-    public void validateResourceAccess(String resourceName, HttpSession session, String userAttributeName)
+    public void validateResourceAccess(String resourceName, HttpSession httpSession, String userAttributeName)
             throws AuthenticationException {
-        User user = (User) session.getAttribute(userAttributeName);
+        User user = (User) httpSession.getAttribute(userAttributeName);
 
         if (user == null) {
             throw new AnonymousAccessDeniedException(
@@ -28,8 +28,8 @@ public class AuthorizationValidator {
     }
 
     private void validateUserResourceAccess(String resourceName, User user) throws AuthenticationException {
-        AccessControlList resourceAccessList = resourceAccessListMap.get(resourceName);
-        if (!resourceAccessList.isUserAuthorized(user)) {
+        AccessControlList accessControlList = resourceAccessListMap.get(resourceName);
+        if (accessControlList == null || !accessControlList.isUserAuthorized(user)) {
             throw new AccessDeniedException(
                     String.format("Access to resource '%s' for the specified user is not authorized.", resourceName));
         }

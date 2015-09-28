@@ -14,6 +14,6 @@ public class AccessControlList {
     }
 
     public Boolean isUserAuthorized(User user) {
-        return authorizedRoles.stream().anyMatch(authorized -> user.hasRole(authorized));
+        return authorizedRoles.stream().anyMatch(authorizedRole -> user.hasRole(authorizedRole));
     }
 }
