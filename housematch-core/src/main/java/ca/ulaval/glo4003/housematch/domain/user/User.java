@@ -17,7 +17,8 @@ public class User {
         // Required for instanciation by reflection
     }
 
-    public User(final String username, final String email, final String password, final UserRole role) {
+    public User(final String username, final String email, final String password, final UserRole role)
+            throws InvalidValueException {
         setUsername(username);
         setEmail(email);
         setPassword(password);
@@ -28,7 +29,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username) throws InvalidValueException {
         if (StringUtils.isBlank(username)) {
             throw new InvalidValueException("Username cannot be blank.");
         }
@@ -39,7 +40,7 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email) throws InvalidValueException {
         if (StringUtils.isBlank(email)) {
             throw new InvalidValueException("Email cannot be blank.");
         } else if (!EmailValidator.getInstance(false).isValid(email)) {
@@ -53,7 +54,7 @@ public class User {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws InvalidValueException {
         if (StringUtils.isBlank(password)) {
             throw new InvalidValueException("Password cannot be blank.");
         }

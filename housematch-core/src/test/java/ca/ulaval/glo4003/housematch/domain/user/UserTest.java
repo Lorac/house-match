@@ -32,7 +32,7 @@ public class UserTest {
     }
 
     @Test
-    public void usersWithTheSameUsernameShouldBeConsideredAsEqual() {
+    public void usersWithTheSameUsernameShouldBeConsideredAsEqual() throws Exception {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
@@ -49,70 +49,70 @@ public class UserTest {
     }
 
     @Test
-    public void usersWithDifferentUsernameShouldBeConsideredAsDifferent() {
+    public void usersWithDifferentUsernameShouldBeConsideredAsDifferent() throws Exception {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
     }
 
     @Test
-    public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() {
+    public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() throws Exception {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
     @Test
-    public void usernameEqualsMethodShouldConsiderUsersWithTheSameUsernameAsEqual() {
+    public void usernameEqualsMethodShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void usernameEqualsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() {
+    public void usernameEqualsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() throws Exception {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void usernameEqualsMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() {
+    public void usernameEqualsMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() throws Exception {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void settingUsernameSetsTheSpecifiedUsername() {
+    public void settingUsernameSetsTheSpecifiedUsername() throws Exception {
         user.setUsername(SAMPLE_USERNAME);
         assertEquals(SAMPLE_USERNAME, user.getUsername());
     }
 
     @Test(expected = InvalidValueException.class)
-    public void settingUsernameUsingBlankExpressionThrowsInvalidValueException() {
+    public void settingUsernameUsingBlankExpressionThrowsInvalidValueException() throws Exception {
         user.setUsername(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test
-    public void settingEmailSetsTheSpecifiedEmail() {
+    public void settingEmailSetsTheSpecifiedEmail() throws Exception {
         user.setEmail(SAMPLE_EMAIL);
         assertEquals(SAMPLE_EMAIL, user.getEmail());
     }
 
     @Test(expected = InvalidValueException.class)
-    public void settingEmailUsingAnInvalidEmailFormatThrowsInvalidValueException() {
+    public void settingEmailUsingAnInvalidEmailFormatThrowsInvalidValueException() throws Exception {
         user.setEmail(SAMPLE_INVALID_EMAIL);
     }
 
     @Test(expected = InvalidValueException.class)
-    public void settingEmailUsingBlankExpressionThrowsInvalidValueException() {
+    public void settingEmailUsingBlankExpressionThrowsInvalidValueException() throws Exception {
         user.setEmail(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test(expected = InvalidValueException.class)
-    public void settingPasswordUsingBlankExpressionThrowsInvalidValueException() {
+    public void settingPasswordUsingBlankExpressionThrowsInvalidValueException() throws Exception {
         user.setPassword(SAMPLE_BLANK_EXPRESSION);
     }
 
     @Test
-    public void settingPasswordSetsTheSpecifiedPassword() {
+    public void settingPasswordSetsTheSpecifiedPassword() throws Exception {
         user.setPassword(SAMPLE_PASSWORD);
         assertEquals(SAMPLE_PASSWORD, user.getPassword());
     }
