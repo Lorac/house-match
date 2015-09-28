@@ -31,7 +31,7 @@ public class LoginControllerTest extends MvcControllerTest {
 
     @Test
     public void loginControllerShouldRenderLoginView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_REQUEST_MAPPING).accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().isOk());
@@ -40,7 +40,7 @@ public class LoginControllerTest extends MvcControllerTest {
 
     @Test
     public void loginControllerShouldRenderLoginViewWithUsernameAndPassword() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_REQUEST_MAPPING).accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("username")));
@@ -50,7 +50,7 @@ public class LoginControllerTest extends MvcControllerTest {
 
     @Test
     public void logoutControllerRendersLoginPageUponLogout() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGOUT_REQUEST_MAPPING).accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGOUT_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));

@@ -43,13 +43,13 @@ public class RegistrationController extends MvcController {
         return userService.getPubliclyRegistrableUserRoles();
     }
 
-    @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayRegistrationView(ModelMap modelMap) {
         modelMap.put(REGISTRATION_FORM_VIEWMODEL_NAME, new RegistrationFormViewModel());
         return new ModelAndView(REGISTRATION_VIEW_NAME, modelMap);
     }
 
-    @RequestMapping(value = REGISTRATION_REQUEST_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.POST)
     public final ModelAndView register(RegistrationFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
         try {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
@@ -69,7 +69,7 @@ public class RegistrationController extends MvcController {
         return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
-    @RequestMapping(value = ACTIVATION_REQUEST_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
     public final ModelAndView activate(@PathVariable int hashCode, ModelMap modelMap,
             RedirectAttributes redirectAttributes) {
 

@@ -4,6 +4,10 @@ public class InvalidValueException extends RuntimeException {
 
     private static final long serialVersionUID = 7674395538155608284L;
 
+    public InvalidValueException() {
+        super();
+    }
+
     public InvalidValueException(final String message) {
         super(message);
     }

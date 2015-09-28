@@ -33,12 +33,12 @@ public class LoginController extends MvcController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET)
     public final ModelAndView displayLogin() {
         return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
     }
 
-    @RequestMapping(value = LOGIN_REQUEST_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
     public final ModelAndView login(LoginFormViewModel loginForm, ModelMap modelMap, HttpSession session,
             RedirectAttributes redirectAttributes) {
 
@@ -56,10 +56,10 @@ public class LoginController extends MvcController {
                     MessageType.ERROR);
         }
 
-        return new ModelAndView(new RedirectView(HOME_REQUEST_MAPPING));
+        return new ModelAndView(new RedirectView(HOME_URL));
     }
 
-    @RequestMapping(value = LOGOUT_REQUEST_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = LOGOUT_URL, method = RequestMethod.GET)
     public final ModelAndView logoutUser(HttpSession session) {
         session.invalidate();
         return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
