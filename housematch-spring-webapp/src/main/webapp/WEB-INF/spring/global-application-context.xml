@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml"/>
-	<import resource="housematch-servlet/housematch-security.xml"/>
+    <import resource="housematch-servlet/housematch-security.xml"/>
 
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">

@@ -31,7 +31,7 @@ public class UserService {
     public void validateUserLogin(String username, String password)
             throws UserNotFoundException, InvalidPasswordException, UserNotActivatedException {
         User user = getUserByUsername(username);
-        user.isPasswordValid(password);
+        user.validatePassword(password);
         user.validateActivation();
     }
 

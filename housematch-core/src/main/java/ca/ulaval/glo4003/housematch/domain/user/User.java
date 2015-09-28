@@ -61,8 +61,10 @@ public class User {
         this.password = password;
     }
 
-    public boolean isPasswordValid(String password) {
-        return this.password.equals(password);
+    public void validatePassword(String password) throws InvalidPasswordException {
+        if (!this.password.equals(password)) {
+            throw new InvalidPasswordException("Password does not match.");
+        }
     }
 
     public void validateActivation() throws UserNotActivatedException {

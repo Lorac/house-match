@@ -121,10 +121,15 @@ public class UserTest {
     @Test
     public void validationOfTheRightPasswordDoesNotThrowAnException() throws Exception {
         try {
-            user.isPasswordValid(SAMPLE_PASSWORD);
+            user.validatePassword(SAMPLE_PASSWORD);
         } catch (Exception e) {
             fail();
         }
+    }
+
+    @Test(expected = InvalidPasswordException.class)
+    public void validationOfTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
+        user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
 
     @Test
@@ -143,11 +148,6 @@ public class UserTest {
     public void hasRoleMethodShouldReturnTrueWhenUserHasTheSpecifiedRole() {
         user.setRole(SAMPLE_ROLE);
         assertTrue(user.hasRole(SAMPLE_ROLE));
-    }
-
-    @Test
-    public void validationOfTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
-        assertFalse(user.isPasswordValid(ANOTHER_SAMPLE_PASSWORD));
     }
 
     @Test

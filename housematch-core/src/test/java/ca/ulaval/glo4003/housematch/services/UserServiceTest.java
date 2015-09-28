@@ -48,7 +48,7 @@ public class UserServiceTest {
     public void validateUserLoginMethodValidatesPasswordFromTheUserObject() throws Exception {
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
-        verify(userMock).isPasswordValid(SAMPLE_PASSWORD);
+        verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test
