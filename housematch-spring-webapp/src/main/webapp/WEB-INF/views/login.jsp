@@ -38,16 +38,7 @@
                             <form:form id="login-form" role="form" commandName="loginForm"
                                        action="/login" method="POST" modes="">
                                 <div class="form-group">
-                                    <c:if test="${not empty message.message}">
-                                        <c:choose>
-                                            <c:when test="${message.messageType == 'ERROR'}">
-                                                <div class="alert alert-danger">${message.message}</div>
-                                            </c:when>
-                                            <c:when test="${message.messageType == 'SUCCESS'}">
-                                                <div class="alert alert-success">${message.message}</div>
-                                            </c:when>
-                                        </c:choose>
-                                    </c:if>
+                                    <%@include file="../includes/message.jsp" %>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputUsername" class="sr-only">Username</label>

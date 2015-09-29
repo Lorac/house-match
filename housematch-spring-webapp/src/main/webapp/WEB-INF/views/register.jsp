@@ -37,9 +37,7 @@
                                 <form:form id="register-form" role="form" commandName="registrationForm" action="/register"
                                     method="POST">
                                     <div class="form-group">
-                                        <c:if test="${not empty message.message}">
-                                            <div class="alert alert-danger">${message.message}</div>
-                                        </c:if>
+                                        <%@include file="../includes/message.jsp" %>
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32" tabindex="1"
