@@ -47,8 +47,8 @@ public class LoginController extends MvcController {
             User user = userService.getUserByUsername(loginForm.getUsername());
             session.setAttribute(USER_ATTRIBUTE_NAME, user);
         } catch (UserNotFoundException | InvalidPasswordException e) {
-            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm, "Invalid username or password.",
-                    MessageType.ERROR);
+            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
+                    "Invalid username or password.", MessageType.ERROR);
         } catch (UserNotActivatedException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Your account has not been activated yet. Please activate your account using the activation "

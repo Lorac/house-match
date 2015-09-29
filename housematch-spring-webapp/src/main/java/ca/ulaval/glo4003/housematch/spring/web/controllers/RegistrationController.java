@@ -55,8 +55,8 @@ public class RegistrationController extends MvcController {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
         } catch (UserCreationValidationException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm, e.getMessage(),
-                    MessageType.ERROR);
+            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+                    e.getMessage(), MessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
