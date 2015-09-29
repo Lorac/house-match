@@ -51,7 +51,7 @@ public class LoginController extends MvcController {
                     "Invalid username or password.", AlertMessageType.ERROR);
         } catch (UserNotActivatedException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
-                    "Your must activate your account before logging in.", AlertMessageType.ERROR);
+                    "You must activate your account before logging in.", AlertMessageType.ERROR);
         }
 
         return new ModelAndView(new RedirectView(HOME_URL));
