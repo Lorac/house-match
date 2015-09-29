@@ -67,7 +67,7 @@ public class XmlUserRepositoryTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void gettingUserByUsernamrUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
+    public void gettingUserByUsernameUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME));
@@ -81,7 +81,7 @@ public class XmlUserRepositoryTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void retrievingTheUserByHashCodeUsingNonExistingHashCodeThrowsUserNotFoundException() throws Exception {
+    public void gettingUserByHashCodeUsingNonExistingHashCodeThrowsUserNotFoundException() throws Exception {
         xmlUserRepository.getByHashCode(SAMPLE_UNEXISTING_USERNAME.hashCode());
     }
 }
