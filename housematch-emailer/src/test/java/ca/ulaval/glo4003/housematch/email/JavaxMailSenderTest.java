@@ -55,7 +55,7 @@ public class JavaxMailSenderTest {
     private Properties getMailProperties(int port) {
         Properties mailProperties = new Properties();
         mailProperties.setProperty(SMTP_HOST_PROPERTY_NAME, SMTP_HOST_PROPERTY_VALUE);
-        mailProperties.setProperty(SMTP_PORT_PROPERTY_NAME, "" + port);
+        mailProperties.setProperty(SMTP_PORT_PROPERTY_NAME, String.valueOf(port));
         mailProperties.setProperty(SMTP_SENDPARTIAL_PROPERTY_NAME, SMTP_SENDPARTIAL_PROPERTY_VALUE);
         mailProperties.setProperty(SMTP_USER_PROPERTY_NAME, SAMPLE_SMTP_USER_PROPERTY_VALUE);
         mailProperties.setProperty(SMTP_PASSWORD_PROPERTY_NAME, SAMPLE_SMTP_PASSWORD_PROPERTY_VALUE);
