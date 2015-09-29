@@ -16,8 +16,8 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
 @Controller
 public class LoginController extends MvcController {

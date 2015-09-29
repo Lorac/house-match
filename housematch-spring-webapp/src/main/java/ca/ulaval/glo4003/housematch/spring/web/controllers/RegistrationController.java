@@ -19,8 +19,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
 
@@ -59,7 +59,7 @@ public class RegistrationController extends MvcController {
                     e.getMessage(), AlertMessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "A user with this user name already exists. Please choose another username.", AlertMessageType.ERROR);
+                    "A user with this username already exists.", AlertMessageType.ERROR);
         } catch (MailSendException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "Could not send activation mail. Please check that the email address you entered is valid.",
