@@ -28,7 +28,7 @@ public class XmlMarshallerTest {
     @Before
     public void init() {
         initMocks();
-        xmlMarshaller = new XmlMarshaller<>(marshallerMock, unmarshallerMock);
+        xmlMarshaller = new XmlMarshaller<Object>(marshallerMock, unmarshallerMock);
     }
 
     private void initMocks() {
@@ -46,14 +46,14 @@ public class XmlMarshallerTest {
     }
 
     @Test
-    public void unmarshalMethodUnmarshallsTheSpecifiedInputStreamToAnXmlRepositoryAssembler() throws JAXBException {
+    public void unmarshallingReturnsAnObjectFromTheSpecifiedInputStream() throws JAXBException {
         when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(SAMPLE_OBJECT);
         Object unmarshalledObject = xmlMarshaller.unmarshal(inputStreamMock);
         assertSame(SAMPLE_OBJECT, unmarshalledObject);
     }
 
     @Test
-    public void marshalMethodMarshallsTheSpecifiedXmlRepositoryAssemblerToAnOutputStream() throws JAXBException {
+    public void marshallingMarshalsTheSpecifiedObjectToAnOutputStream() throws JAXBException {
         xmlMarshaller.marshal(SAMPLE_OBJECT, outputStreamMock);
         verify(marshallerMock).marshal(SAMPLE_OBJECT, outputStreamMock);
     }

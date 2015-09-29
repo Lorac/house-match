@@ -58,24 +58,24 @@ public class XmlRepositoryMarshallerTest {
     }
 
     @Test
-    public void onXmlRepostoryMarshallerInstantiationTheSpecifiedResourceIsUnmarshalled() throws Exception {
-        verify(unmarshallerMock).unmarshal(inputStreamMock);
-    }
-
-    @Test
     public void onXmlRepostoryMarshallerInstantiationTheSpecifiedResourceIsLoadedAsInputStream() throws Exception {
         verify(resourceLoaderMock).loadResourceAsInputStream(xmlRepositoryMarshaller, SAMPLE_RESOURCE_NAME);
     }
 
     @Test
-    public void marshalMethodMarshallsTheSpecifiedResourceFromTheXmlRepositoryAssembler() throws JAXBException {
-        xmlRepositoryMarshaller.marshal();
-        verify(marshallerMock).marshal(any(XmlRepositoryAssembler.class), eq(outputStreamMock));
+    public void onXmlRepostoryMarshallerInstantiationTheInputStreamIsUnmarshalled() throws Exception {
+        verify(unmarshallerMock).unmarshal(inputStreamMock);
     }
 
     @Test
-    public void marshalMethodLoadsResourceAsOutputStream() throws Exception {
+    public void theSpecifiedResourceIsLoadedAsAnOutputStreamDuringMarshalling() throws Exception {
         xmlRepositoryMarshaller.marshal();
         verify(resourceLoaderMock).loadResourceAsOutputStream(xmlRepositoryMarshaller, SAMPLE_RESOURCE_NAME);
+    }
+
+    @Test
+    public void theXmlRepositoryAssemblerIsMarshalledToAnOutputStreamDuringMarshalling() throws JAXBException {
+        xmlRepositoryMarshaller.marshal();
+        verify(marshallerMock).marshal(any(XmlRepositoryAssembler.class), eq(outputStreamMock));
     }
 }

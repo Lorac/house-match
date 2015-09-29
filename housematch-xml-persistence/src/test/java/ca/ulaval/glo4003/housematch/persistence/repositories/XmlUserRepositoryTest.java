@@ -45,7 +45,7 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void persistMethodPersistsUserToRepository() throws Exception {
+    public void persistingUserPersistsUserToRepository() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
@@ -60,28 +60,28 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void getByUsernameMethodRetrievesUserByUsername() throws Exception {
+    public void gettingUserByUsernameRetrievesTheUserByUsername() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void retrievingUserUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
+    public void gettingUserByUsernamrUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME));
     }
 
     @Test
-    public void getByHashCodeMethodRetrievesUserByHashCode() throws Exception {
+    public void gettingUserByHashCodeRetrievesUserByHashCode() throws Exception {
         User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         xmlUserRepository.persist(user);
         assertSame(user, xmlUserRepository.getByHashCode(SAMPLE_USERNAME.hashCode()));
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void retrievingUserUsingNonExistingHashCodeThrowsUserNotFoundException() throws Exception {
+    public void retrievingTheUserByHashCodeUsingNonExistingHashCodeThrowsUserNotFoundException() throws Exception {
         xmlUserRepository.getByHashCode(SAMPLE_UNEXISTING_USERNAME.hashCode());
     }
 }

@@ -27,25 +27,25 @@ public class MailSenderTest {
     }
 
     @Test
-    public void sendMethodSetsTheCorrectRecipient() throws Exception {
+    public void sendingMessageSetsTheCorrectRecipient() throws Exception {
         emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         verify(javaxMailSenderMock).addRecipient(MimeMessage.RecipientType.TO, SAMPLE_RECIPIENT_ADDRESS);
     }
 
     @Test
-    public void sendMethodSetsTheCorrectSubject() throws Exception {
+    public void sendingMessageSetsTheCorrectSubject() throws Exception {
         emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         verify(javaxMailSenderMock).setSubject(SAMPLE_SUBJECT);
     }
 
     @Test
-    public void sendMethodSetsTheCorrectContent() throws Exception {
+    public void sendingMessageSetsTheCorrectContent() throws Exception {
         emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         verify(javaxMailSenderMock).setContent(SAMPLE_CONTENT);
     }
 
     @Test
-    public void sendMethodSendsTheEmail() throws Exception {
+    public void sendingMessageSendsTheMessage() throws Exception {
         emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         Thread.sleep(10);
         verify(javaxMailSenderMock).send();

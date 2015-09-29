@@ -50,7 +50,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestRendersRegistrationView() throws Exception {
+    public void registrationControllerRendersRegistrationView() throws Exception {
         MockHttpServletRequestBuilder getRequest = get("/register").accept(MediaType.ALL);
 
         ResultActions results = mockMvc.perform(getRequest);
@@ -60,7 +60,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestRendersRegistrationViewWithTheCorrectFields() throws Exception {
+    public void registrationControllerRendersRegistrationViewWithTheCorrectFields() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
@@ -71,7 +71,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestRendersActivationNoticeViewUponSuccessfulRegistration() throws Exception {
+    public void registrationControllerRendersActivationNoticeViewUponSuccessfulRegistration() throws Exception {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(status().isOk());
@@ -79,14 +79,14 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestCreatesUserFromTheSpecifiedRegistrationFormViewModel() throws Exception {
+    public void registrationControllerCreatesUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration() throws Exception {
         postRegistrationForm();
 
         verify(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test
-    public void registrationRequestReturnsErrorMessageOnMailSendException() throws Exception {
+    public void registrationControllerRendersAlertMessageOnMailSendExceptionDuringRegistration() throws Exception {
         doThrow(new MailSendException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
@@ -98,7 +98,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestReturnsErrorMessageOnUserAlreadyExistsException() throws Exception {
+    public void registrationControllerRendersAlertMessageOnUserAlreadyExistsExceptionDuringRegistration() throws Exception {
         doThrow(new UserAlreadyExistsException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
@@ -110,7 +110,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestReturnsErrorMessageOnUserCreationValidationException() throws Exception {
+    public void registrationControllerRendersAlertMessageOnUserCreationValidationExceptionDuringRegistration() throws Exception {
         doThrow(new UserCreationValidationException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
@@ -122,14 +122,14 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void activationRequestActivatesTheUser() throws Exception {
+    public void registrationControllerActivatesTheUserDuringActivation() throws Exception {
         performActivationRequest();
 
         verify(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
     }
 
     @Test
-    public void activationRequestRendersLoginViewUponSuccessfulActivation() throws Exception {
+    public void registrationControllerRendersLoginViewUponSuccessfulActivation() throws Exception {
         ResultActions results = performActivationRequest();
 
         results.andExpect(status().isOk());
@@ -137,7 +137,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void activationRequestReturnsErrorMessageOnUserNotFoundException() throws Exception {
+    public void activationControllerRendersAlertMessageOnUserNotFoundExceptionDuringRegistration() throws Exception {
         doThrow(new UserNotFoundException()).when(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
 
         ResultActions results = performActivationRequest();

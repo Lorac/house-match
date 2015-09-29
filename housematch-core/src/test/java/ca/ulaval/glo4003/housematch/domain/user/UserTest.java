@@ -58,38 +58,38 @@ public class UserTest {
     }
 
     @Test
-    public void usernameEqualsMethodShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
+    public void usernameComparisonShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
         User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
                 ANOTHER_SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void usernameEqualsMethodShouldConsiderUsersWithDifferentUsernameAsDifferent() throws Exception {
+    public void usernameComparisonShouldConsiderUsersWithDifferentUsernameAsDifferent() throws Exception {
         User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void usernameEqualsMethodShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() throws Exception {
+    public void usernameComparisonShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() throws Exception {
         User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
-    public void setUsernameMethodSetsTheSpecifiedUsername() throws Exception {
+    public void settingTheUsernameSetsTheSpecifiedUsername() throws Exception {
         user.setUsername(SAMPLE_USERNAME);
         assertEquals(SAMPLE_USERNAME, user.getUsername());
     }
 
     @Test
-    public void setEmailMethodSetsTheSpecifiedEmail() throws Exception {
+    public void settingTheEmailSetsTheSpecifiedEmail() throws Exception {
         user.setEmail(SAMPLE_EMAIL);
         assertEquals(SAMPLE_EMAIL, user.getEmail());
     }
 
     @Test
-    public void setPasswordMethodSetsTheSpecifiedPassword() throws Exception {
+    public void settingThePasswordSetsTheSpecifiedPassword() throws Exception {
         user.setPassword(SAMPLE_PASSWORD);
         assertEquals(SAMPLE_PASSWORD, user.getPassword());
     }
@@ -109,19 +109,19 @@ public class UserTest {
     }
 
     @Test
-    public void setRoleMethodSetsTheSpecifiedRole() {
+    public void settingTheRoleSetsTheSpecifiedRole() {
         user.setRole(SAMPLE_ROLE);
         assertEquals(SAMPLE_ROLE, user.getRole());
     }
 
     @Test
-    public void hasRoleMethodShouldReturnFalseWhenUserDoesNotHaveTheSpecifiedRole() {
+    public void userShouldNotHaveTheSpecifiedRoleWhenThatRoleHasNotBeenAdded() {
         user.setRole(SAMPLE_ROLE);
         assertFalse(user.hasRole(ANOTHER_SAMPLE_ROLE));
     }
 
     @Test
-    public void hasRoleMethodShouldReturnTrueWhenUserHasTheSpecifiedRole() {
+    public void userShouldHaveTheSpecifiedRoleWhenThatRoleHasBeenAdded() {
         user.setRole(SAMPLE_ROLE);
         assertTrue(user.hasRole(SAMPLE_ROLE));
     }
@@ -132,7 +132,7 @@ public class UserTest {
     }
 
     @Test
-    public void activationOfUserActivatesTheUser() throws Exception {
+    public void activationOfTheUserActivatesTheUser() throws Exception {
         user.activate();
         try {
             user.validateActivation();

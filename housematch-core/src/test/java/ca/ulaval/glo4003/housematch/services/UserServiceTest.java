@@ -53,53 +53,53 @@ public class UserServiceTest {
     }
 
     @Test
-    public void validateUserLoginMethodValidatesPasswordFromTheUserObject() throws Exception {
+    public void validatingUserLoginValidatesPasswordFromTheUserObject() throws Exception {
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test
-    public void validateUserLoginMethodValidatesUserActivationFromTheUserObject() throws Exception {
+    public void validatingUserLoginValidatesUserActivationFromTheUserObject() throws Exception {
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validateActivation();
     }
 
     @Test
-    public void getUserByUsernameMethodRetrievesUserByUsernameFromRepository() throws Exception {
+    public void gettingUserByUsernameRetrievesUserByUsernameFromRepository() throws Exception {
         userService.getUserByUsername(SAMPLE_USERNAME);
         verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
     }
 
     @Test
-    public void createUserMethodPersistsNewUserToRepository() throws Exception {
+    public void userCreationPersistsNewUserToRepository() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(userRepositoryMock).persist(any(User.class));
     }
 
     @Test
-    public void createUserMethodCallsTheUserCreationValidator() throws Exception {
+    public void userCreationCallsTheUserCreationValidator() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(userCreationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
     }
 
     @Test
-    public void createUserMethodSendsTheActivationLink() throws Exception {
+    public void userCreationSendsTheActivationLink() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(emailSenderMock).send(anyString(), anyString(), eq(SAMPLE_EMAIL));
     }
 
     @Test
-    public void getPubliclyRegistrableUserRolesMethodReturnsAListOfPubliclyRegistrableUserRoles() {
+    public void gettingPubliclyRegistrableUserRolesReturnsAListOfPubliclyRegistrableUserRoles() {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
     }
 
     @Test
-    public void activateUserMethodActivatesUserFromTheSpecifiedHashCode() throws Exception {
+    public void userActivationActivatesUserFromTheSpecifiedHashCode() throws Exception {
         userService.activateUser(SAMPLE_USERNAME.hashCode());
         verify(userRepositoryMock).getByHashCode(SAMPLE_USERNAME.hashCode());
     }

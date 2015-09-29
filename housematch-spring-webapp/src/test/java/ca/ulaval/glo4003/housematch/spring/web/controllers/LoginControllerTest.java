@@ -76,7 +76,7 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginRequestReturnsErrorMessageOnUserNotFoundException() throws Exception {
+    public void loginControllerRendersAlertMessageOnUserNotFoundExceptionDuringLogin() throws Exception {
         doThrow(new UserNotFoundException()).when(userServiceMock).validateUserLogin(SAMPLE_USERNAME, SAMPLE_PASSWORD);
 
         ResultActions results = postLoginForm();
@@ -87,7 +87,7 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginRequestReturnsErrorMessageOnInvalidPasswordException() throws Exception {
+    public void loginControllerRendersAlertMessageOnInvalidPasswordExceptionDuringLogin() throws Exception {
         doThrow(new InvalidPasswordException()).when(userServiceMock).validateUserLogin(SAMPLE_USERNAME,
                 SAMPLE_PASSWORD);
 
@@ -99,7 +99,7 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginRequestReturnsErrorMessageOnUserNotActivatedException() throws Exception {
+    public void loginControllerRendersAlertMessageOnUserNotActivatedExceptionDuringLogin() throws Exception {
         doThrow(new UserNotActivatedException()).when(userServiceMock).validateUserLogin(SAMPLE_USERNAME,
                 SAMPLE_PASSWORD);
 
@@ -111,7 +111,7 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void logoutRequestRendersLoginPageUponLogout() throws Exception {
+    public void logoutControllerRendersLoginPageUponLogout() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(LoginController.LOGOUT_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 

@@ -21,7 +21,7 @@ public class XmlRepositoryAssemblerTest {
     }
 
     @Test
-    public void setUsersMethodSetsTheSpecifiedListOfUsers() {
+    public void settingTheUsersSetsTheSpecifiedListOfUsers() {
         xmlRepositoryAssembler.setUsers(SAMPLE_USER_LIST);
         assertEquals(SAMPLE_USER_LIST, xmlRepositoryAssembler.getUsers());
     }

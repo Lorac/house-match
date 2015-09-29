@@ -50,7 +50,7 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void marshalConvertsSimpleUserProperties() throws Exception {
+    public void simpleUserPropertiesAreConvertedDuringMarshalling() throws Exception {
         xmlUserAdapter.marshal(userMock);
 
         assertEquals(userMock.username, xmlUserMock.username);
@@ -60,13 +60,13 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void marshalMethodEncryptsThePassword() throws Exception {
+    public void passwordIsEncryptedDuringMarshalling() throws Exception {
         xmlUserAdapter.marshal(userMock);
         verify(textEncryptorMock).encrypt(SAMPLE_PASSWORD);
     }
 
     @Test
-    public void unmarshalConvertsSimpleXmlUserProperties() throws Exception {
+    public void simpleXmlUserPropertieAreConvertedDuringUnmarshallings() throws Exception {
         xmlUserAdapter.unmarshal(xmlUserMock);
 
         assertEquals(xmlUserMock.username, userMock.username);
@@ -76,7 +76,7 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void unmarshalMethodDecryptsThePassword() throws Exception {
+    public void passwordIsDecrpytedDuringUnmarshalling() throws Exception {
         xmlUserAdapter.unmarshal(xmlUserMock);
         verify(textEncryptorMock).decrypt(SAMPLE_PASSWORD);
     }

@@ -33,23 +33,23 @@ public class UserCreationValidatorTest {
     }
 
     @Test(expected = UserCreationValidationException.class)
-    public void creationOfUserUsingBlankUsernameThrowsUserCreationValidationException() throws Exception {
+    public void userCreationUsingBlankUsernameThrowsUserCreationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_BLANK_EXPRESSION, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test(expected = UserCreationValidationException.class)
-    public void creationOfUserUsingAnInvalidEmailFormatThrowsUserCreationValidationException() throws Exception {
+    public void userCreationUsingAnInvalidEmailFormatThrowsUserCreationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_INVALID_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test(expected = UserCreationValidationException.class)
-    public void creationOfUserUsingBlankEmailThrowsUserCreationValidationException() throws Exception {
+    public void userCreationUsingBlankEmailThrowsUserCreationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_BLANK_EXPRESSION, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
     }
 
     @Test(expected = UserCreationValidationException.class)
-    public void creationOfUserUsingBlankPasswordThrowsUserCreationValidationException() throws Exception {
+    public void userCreationUsingBlankPasswordThrowsUserCreationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_BLANK_EXPRESSION, SAMPLE_ROLE);
     }
 
