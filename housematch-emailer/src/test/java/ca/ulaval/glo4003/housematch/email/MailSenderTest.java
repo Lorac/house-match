@@ -52,7 +52,7 @@ public class MailSenderTest {
     }
 
     @Test(expected = MailSendException.class)
-    public void sendMethodThrowsMailSendExceptionOnMessagingException() throws Exception {
+    public void sendingMessageThrowsMailSendExceptionOnMessagingException() throws Exception {
         doThrow(new MessagingException()).when(javaxMailSenderMock).setSubject(anyString());
         emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
     }
