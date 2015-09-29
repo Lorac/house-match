@@ -15,10 +15,6 @@ public class RegistrationFormViewModel {
     @NotNull
     private UserRole role;
 
-    public RegistrationFormViewModel() {
-
-    }
-
     public String getUsername() {
         return username;
     }

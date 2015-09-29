@@ -27,10 +27,12 @@
     <bean id="mailSender" class="ca.ulaval.glo4003.housematch.email.MailSender">
         <constructor-arg ref="javaXMailSender"/>
     </bean>
+	
+	<bean id="userCreationValidator" class="ca.ulaval.glo4003.housematch.validators.UserCreationValidator"/>
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
         <constructor-arg ref="xmlUserRepository"/>
-		<constructor-arg type="ca.ulaval.glo4003.housematch.validation.UserCreationValidator"/>
+		<constructor-arg ref="userCreationValidator"/>
         <constructor-arg ref="mailSender"/>
     </bean>
 

@@ -43,8 +43,10 @@ public class MvcController {
     @Autowired
     protected AuthorizationValidator authorizationValidator;
 
-    protected ModelAndView showMessage(ModelMap modelMap, String viewName, String viewModelName, Object viewModel,
-            String message, MessageType messageType) {
+    protected ModelAndView showMessage(String viewName, String viewModelName, Object viewModel, String message,
+            MessageType messageType) {
+
+        ModelMap modelMap = new ModelMap();
         modelMap.put(MESSAGE_VIEW_MODEL_NAME, new MessageViewModel(message, messageType));
         modelMap.put(viewModelName, viewModel);
         return new ModelAndView(viewName, modelMap);
