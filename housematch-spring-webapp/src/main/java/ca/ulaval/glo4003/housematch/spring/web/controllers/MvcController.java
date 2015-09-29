@@ -14,8 +14,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import ca.ulaval.glo4003.housematch.spring.web.security.AccessDeniedException;
 import ca.ulaval.glo4003.housematch.spring.web.security.AnonymousAccessDeniedException;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 
 public class MvcController {
 
@@ -34,7 +34,7 @@ public class MvcController {
     protected static final String REGISTRATION_VIEW_NAME = "register";
     protected static final String REGISTRATION_FORM_VIEWMODEL_NAME = "registrationForm";
     protected static final String REGISTRATION_URL = "/register";
-    protected static final String MESSAGE_VIEW_MODEL_NAME = "message";
+    protected static final String ALERT_MESSAGE_VIEW_MODEL_NAME = "alertMessage";
     protected static final String ACTIVATION_BASE_URL = "/activation/";
     protected static final String ACTIVATION_URL = "/activation/{hashCode}";
     protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
@@ -44,10 +44,10 @@ public class MvcController {
     protected AuthorizationValidator authorizationValidator;
 
     protected ModelAndView showAlertMessage(String viewName, String viewModelName, Object viewModel, String message,
-            MessageType messageType) {
+            AlertMessageType messageType) {
 
         ModelMap modelMap = new ModelMap();
-        modelMap.put(MESSAGE_VIEW_MODEL_NAME, new MessageViewModel(message, messageType));
+        modelMap.put(ALERT_MESSAGE_VIEW_MODEL_NAME, new AlertMessageViewModel(message, messageType));
         modelMap.put(viewModelName, viewModel);
         return new ModelAndView(viewName, modelMap);
     }

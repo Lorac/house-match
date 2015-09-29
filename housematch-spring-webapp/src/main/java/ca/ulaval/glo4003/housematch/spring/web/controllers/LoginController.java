@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 
 @Controller
 public class LoginController extends MvcController {
@@ -48,12 +48,12 @@ public class LoginController extends MvcController {
             session.setAttribute(USER_ATTRIBUTE_NAME, user);
         } catch (UserNotFoundException | InvalidPasswordException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
-                    "Invalid username or password.", MessageType.ERROR);
+                    "Invalid username or password.", AlertMessageType.ERROR);
         } catch (UserNotActivatedException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Your account has not been activated yet. Please activate your account using the activation "
                             + "link that was sent to your email address",
-                    MessageType.ERROR);
+                    AlertMessageType.ERROR);
         }
 
         return new ModelAndView(new RedirectView(HOME_URL));

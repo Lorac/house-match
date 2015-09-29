@@ -23,7 +23,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
 
 public class RegistrationControllerTest extends MvcControllerTest {
@@ -93,8 +93,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -105,8 +105,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -117,8 +117,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -143,8 +143,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     private ResultActions postRegistrationForm() throws Exception {

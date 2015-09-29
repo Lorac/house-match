@@ -20,7 +20,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
 
@@ -56,14 +56,14 @@ public class RegistrationController extends MvcController {
                     registerForm.getRole());
         } catch (UserCreationValidationException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    e.getMessage(), MessageType.ERROR);
+                    e.getMessage(), AlertMessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
+                    "A user with this user name already exists. Please choose another username.", AlertMessageType.ERROR);
         } catch (MailSendException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "Could not send activation mail. Please check that the email address you entered is valid.",
-                    MessageType.ERROR);
+                    AlertMessageType.ERROR);
         }
 
         return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
@@ -77,10 +77,10 @@ public class RegistrationController extends MvcController {
             userService.activateUser(hashCode);
         } catch (UserNotFoundException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                    "The activation link is not valid.", MessageType.ERROR);
+                    "The activation link is not valid.", AlertMessageType.ERROR);
         }
 
         return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                "Your account has been successfully activated. You can now log in.", MessageType.SUCCESS);
+                "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
     }
 }

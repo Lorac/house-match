@@ -23,7 +23,7 @@ import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.MessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 
 public class LoginControllerTest extends MvcControllerTest {
 
@@ -82,8 +82,8 @@ public class LoginControllerTest extends MvcControllerTest {
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -94,8 +94,8 @@ public class LoginControllerTest extends MvcControllerTest {
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -106,8 +106,8 @@ public class LoginControllerTest extends MvcControllerTest {
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(MessageType.ERROR))));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test

@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
-public class MessageViewModel {
+public class AlertMessageViewModel {
     private String message;
-    private MessageType messageType;
+    private AlertMessageType messageType;
 
-    public MessageViewModel(final String message, final MessageType messageType) {
+    public AlertMessageViewModel(final String message, final AlertMessageType messageType) {
         this.message = message;
         this.messageType = messageType;
     }
@@ -17,11 +17,11 @@ public class MessageViewModel {
         this.message = message;
     }
 
-    public MessageType getMessageType() {
+    public AlertMessageType getMessageType() {
         return messageType;
     }
 
-    public void setMessageType(MessageType messageType) {
+    public void setMessageType(AlertMessageType messageType) {
         this.messageType = messageType;
     }
 
