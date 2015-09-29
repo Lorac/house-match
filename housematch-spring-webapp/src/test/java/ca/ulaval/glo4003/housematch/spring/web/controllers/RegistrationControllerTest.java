@@ -60,7 +60,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationRequestsRegistrationViewWithTheCorrectFields() throws Exception {
+    public void registrationRequestRendersRegistrationViewWithTheCorrectFields() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 

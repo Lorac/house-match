@@ -18,7 +18,7 @@ public class UserCreationValidator {
         } else if (StringUtils.isBlank(password)) {
             throw new UserCreationValidationException("Password cannot be blank.");
         } else if (role.equals(UserRole.ADMINISTRATOR)) {
-            throw new UserCreationValidationException("Can't register as an administrator.");
+            throw new UserCreationValidationException("Can't create user as an administrator.");
         }
 
     }

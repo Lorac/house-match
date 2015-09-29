@@ -77,19 +77,19 @@ public class UserTest {
     }
 
     @Test
-    public void settingUsernameSetsTheSpecifiedUsername() throws Exception {
+    public void setUsernameMethodSetsTheSpecifiedUsername() throws Exception {
         user.setUsername(SAMPLE_USERNAME);
         assertEquals(SAMPLE_USERNAME, user.getUsername());
     }
 
     @Test
-    public void settingEmailSetsTheSpecifiedEmail() throws Exception {
+    public void setEmailMethodSetsTheSpecifiedEmail() throws Exception {
         user.setEmail(SAMPLE_EMAIL);
         assertEquals(SAMPLE_EMAIL, user.getEmail());
     }
 
     @Test
-    public void settingPasswordSetsTheSpecifiedPassword() throws Exception {
+    public void setPasswordMethodSetsTheSpecifiedPassword() throws Exception {
         user.setPassword(SAMPLE_PASSWORD);
         assertEquals(SAMPLE_PASSWORD, user.getPassword());
     }
@@ -109,7 +109,7 @@ public class UserTest {
     }
 
     @Test
-    public void settingRoleSetsTheSpecifiedRole() {
+    public void setRoleMethodSetsTheSpecifiedRole() {
         user.setRole(SAMPLE_ROLE);
         assertEquals(SAMPLE_ROLE, user.getRole());
     }

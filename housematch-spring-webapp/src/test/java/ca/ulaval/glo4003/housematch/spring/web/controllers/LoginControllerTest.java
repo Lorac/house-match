@@ -111,7 +111,7 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void logoutControllerRendersLoginPageUponLogout() throws Exception {
+    public void logoutRequestRendersLoginPageUponLogout() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(LoginController.LOGOUT_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
