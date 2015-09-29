@@ -43,7 +43,7 @@ public class MvcController {
     @Autowired
     protected AuthorizationValidator authorizationValidator;
 
-    protected ModelAndView showMessage(String viewName, String viewModelName, Object viewModel, String message,
+    protected ModelAndView showAlertMessage(String viewName, String viewModelName, Object viewModel, String message,
             MessageType messageType) {
 
         ModelMap modelMap = new ModelMap();

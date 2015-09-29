@@ -55,13 +55,13 @@ public class RegistrationController extends MvcController {
             userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
         } catch (UserCreationValidationException e) {
-            return showMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm, e.getMessage(),
+            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm, e.getMessage(),
                     MessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
-            return showMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "A user with this user name already exists. Please choose another username.", MessageType.ERROR);
         } catch (MailSendException e) {
-            return showMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     "Could not send activation mail. Please check that the email address you entered is valid.",
                     MessageType.ERROR);
         }
@@ -76,11 +76,11 @@ public class RegistrationController extends MvcController {
         try {
             userService.activateUser(hashCode);
         } catch (UserNotFoundException e) {
-            return showMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
                     "The activation link is not valid.", MessageType.ERROR);
         }
 
-        return showMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+        return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
                 "Your account has been successfully activated. You can now log in.", MessageType.SUCCESS);
     }
 }

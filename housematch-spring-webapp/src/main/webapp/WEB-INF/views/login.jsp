@@ -38,7 +38,7 @@
                             <form:form id="login-form" role="form" commandName="loginForm"
                                        action="/login" method="POST" modes="">
                                 <div class="form-group">
-                                    <%@include file="../includes/message.jsp" %>
+                                    <%@include file="../includes/alertMessage.jsp" %>
                                 </div>
                                 <div class="form-group">
                                     <label for="inputUsername" class="sr-only">Username</label>

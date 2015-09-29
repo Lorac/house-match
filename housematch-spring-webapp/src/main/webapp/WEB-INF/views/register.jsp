@@ -37,7 +37,7 @@
                                 <form:form id="register-form" role="form" commandName="registrationForm" action="/register"
                                     method="POST">
                                     <div class="form-group">
-                                        <%@include file="../includes/message.jsp" %>
+                                        <%@include file="../includes/alertMessage.jsp" %>
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32" tabindex="1"
