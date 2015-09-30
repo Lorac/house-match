@@ -51,12 +51,12 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerRendersRegistrationView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get("/register").accept(MediaType.ALL);
+        MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
 
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name("register"));
+        results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
     }
 
     @Test
@@ -64,10 +64,14 @@ public class RegistrationControllerTest extends MvcControllerTest {
         MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("username")));
-        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("email")));
-        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("password")));
-        results.andExpect(model().attribute(LoginController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("role")));
+        results.andExpect(
+                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("username")));
+        results.andExpect(
+                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("email")));
+        results.andExpect(
+                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("password")));
+        results.andExpect(
+                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("role")));
     }
 
     @Test
@@ -79,7 +83,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerCreatesUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration() throws Exception {
+    public void registrationControllerCreatesUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration()
+            throws Exception {
         postRegistrationForm();
 
         verify(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
@@ -98,7 +103,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnUserAlreadyExistsExceptionDuringRegistration() throws Exception {
+    public void registrationControllerRendersAlertMessageOnUserAlreadyExistsExceptionDuringRegistration()
+            throws Exception {
         doThrow(new UserAlreadyExistsException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
@@ -110,7 +116,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnUserCreationValidationExceptionDuringRegistration() throws Exception {
+    public void registrationControllerRendersAlertMessageOnUserCreationValidationExceptionDuringRegistration()
+            throws Exception {
         doThrow(new UserCreationValidationException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
@@ -119,6 +126,55 @@ public class RegistrationControllerTest extends MvcControllerTest {
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
         results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
+    }
+
+    @Test
+    public void registrationControllerRendersEmailReconfirmationView() throws Exception {
+        MockHttpServletRequestBuilder getRequest = get(RegistrationController.EMAIL_RECONFIRM_URL)
+                .accept(MediaType.ALL);
+
+        ResultActions results = mockMvc.perform(getRequest);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
+    }
+
+    @Test
+    public void registrationControllerRendersEmailReconfirmationWithTheCorrectFields() throws Exception {
+        MockHttpServletRequestBuilder getRequest = get(RegistrationController.EMAIL_RECONFIRM_URL)
+                .accept(MediaType.ALL);
+        ResultActions results = mockMvc.perform(getRequest);
+
+        results.andExpect(
+                model().attribute(RegistrationController.EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, hasProperty("email")));
+    }
+
+    @Test
+    public void registrationControllerUpdatesTheActivationEmailOfTheUserObjectDuringEmailReconfirmation()
+            throws Exception {
+        postEmailReconfirmationForm();
+
+        verify(userServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
+    }
+
+    @Test
+    public void registrationControllerRendersAlertMessageOnMailSendExceptionDuringEmailReconfirmation()
+            throws Exception {
+        doThrow(new MailSendException()).when(userServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
+
+        ResultActions results = postEmailReconfirmationForm();
+
+        results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
+        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
+    }
+
+    @Test
+    public void registrationControllerRendersActivationNoticeViewUponSuccessfulEmailReconfirmation() throws Exception {
+        ResultActions results = postEmailReconfirmationForm();
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(RegistrationController.ACTIVATION_NOTICE_VIEW_NAME));
     }
 
     @Test
@@ -137,7 +193,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void activationControllerRendersAlertMessageOnUserNotFoundExceptionDuringRegistration() throws Exception {
+    public void registrationControllerRendersAlertMessageOnUserNotFoundExceptionDuringActivation() throws Exception {
         doThrow(new UserNotFoundException()).when(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
 
         ResultActions results = performActivationRequest();
@@ -155,9 +211,19 @@ public class RegistrationControllerTest extends MvcControllerTest {
         return mockMvc.perform(postRequest);
     }
 
+    private ResultActions postEmailReconfirmationForm() throws Exception {
+        MockHttpServletRequestBuilder postRequest = post(RegistrationController.EMAIL_RECONFIRM_URL);
+        postRequest.accept(MediaType.APPLICATION_FORM_URLENCODED);
+        postRequest.param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL);
+        postRequest.sessionAttr(RegistrationController.USER_ATTRIBUTE_NAME, userMock);
+
+        return mockMvc.perform(postRequest);
+    }
+
     private ResultActions performActivationRequest() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(
-                RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_HASH_CODE).accept(MediaType.ALL);
+                RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_HASH_CODE);
+        getRequest.accept(MediaType.ALL);
 
         return mockMvc.perform(getRequest);
     }
