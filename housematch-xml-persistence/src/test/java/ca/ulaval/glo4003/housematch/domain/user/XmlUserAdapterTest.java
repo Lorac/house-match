@@ -66,7 +66,7 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void simpleXmlUserPropertieAreConvertedDuringUnmarshalling() throws Exception {
+    public void simpleXmlUserPropertiesAreConvertedDuringUnmarshalling() throws Exception {
         xmlUserAdapter.unmarshal(xmlUserMock);
 
         assertEquals(xmlUserMock.username, userMock.username);
