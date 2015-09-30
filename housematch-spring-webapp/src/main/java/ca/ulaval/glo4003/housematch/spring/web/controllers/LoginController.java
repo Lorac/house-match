@@ -34,7 +34,10 @@ public class LoginController extends MvcController {
     }
 
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET)
-    public final ModelAndView displayLogin() {
+    public final ModelAndView displayLogin(HttpSession session) {
+        if (session.getAttribute(USER_ATTRIBUTE_NAME) != null) {
+            return new ModelAndView(new RedirectView(HOME_URL));
+        }
         return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
     }
 

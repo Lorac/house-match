@@ -34,13 +34,9 @@ public class UserService {
 
     public User getUserByLoginCredentials(String username, String password)
             throws UserNotFoundException, InvalidPasswordException, UserNotActivatedException {
-        User user = getUserByUsername(username);
+        User user = userRepository.getByUsername(username);
         user.validatePassword(password);
         return user;
-    }
-
-    public User getUserByUsername(String username) throws UserNotFoundException {
-        return userRepository.getByUsername(username);
     }
 
     public void createUser(String username, String email, String password, UserRole role)
