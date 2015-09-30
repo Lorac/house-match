@@ -95,7 +95,7 @@ public class RegistrationController extends MvcController {
         return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
-    @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.POST)
+    @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
     public final ModelAndView activate(@PathVariable int hashCode, ModelMap modelMap,
             RedirectAttributes redirectAttributes) {
 

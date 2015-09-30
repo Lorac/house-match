@@ -32,11 +32,17 @@ public class AuthorizationValidatorTest {
 
     @Before
     public void init() throws Exception {
+        initMocks();
+
+        when(userMock.isActivated()).thenReturn(true);
+
+        resourceAccessListMap = new HashMap<String, AccessControlList>();
+    }
+
+    private void initMocks() {
         accessControlListMock = mock(AccessControlList.class);
         httpSessionMock = mock(HttpSession.class);
         userMock = mock(User.class);
-
-        resourceAccessListMap = new HashMap<String, AccessControlList>();
     }
 
     @Test(expected = AnonymousAccessDeniedException.class)
@@ -50,7 +56,6 @@ public class AuthorizationValidatorTest {
     public void resourceAccessIsNotAuthorizedWhenResourceDoesNotExist() throws Exception {
         initAuthorizationValidator();
 
-        when(userMock.isActivated()).thenReturn(true);
         when(httpSessionMock.getAttribute(USER_ATTRIBUTE_NAME)).thenReturn(userMock);
 
         authorizationValidator.validateResourceAccess(ANOTHER_SAMPLE_RESOURCE_NAME, httpSessionMock,
@@ -71,7 +76,6 @@ public class AuthorizationValidatorTest {
     public void resourceAccessIsNotAuthorizedWhenUserIsNotAuthorizedAccordingToTheAccessControlList() throws Exception {
         initAuthorizationValidator();
 
-        when(userMock.isActivated()).thenReturn(true);
         when(httpSessionMock.getAttribute(USER_ATTRIBUTE_NAME)).thenReturn(userMock);
         when(accessControlListMock.isUserAuthorized(userMock)).thenReturn(false);
 
@@ -82,7 +86,6 @@ public class AuthorizationValidatorTest {
     public void resourceAccessIsAuthorizedWhenUserIsAuthorizedAccordingToTheAccessControlList() throws Exception {
         initAuthorizationValidator();
 
-        when(userMock.isActivated()).thenReturn(true);
         when(httpSessionMock.getAttribute(USER_ATTRIBUTE_NAME)).thenReturn(userMock);
         when(accessControlListMock.isUserAuthorized(userMock)).thenReturn(true);
 

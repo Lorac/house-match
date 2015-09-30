@@ -179,14 +179,14 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerActivatesTheUserDuringActivation() throws Exception {
-        postActivationRequest();
+        performActivationRequest();
 
         verify(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
     }
 
     @Test
     public void registrationControllerRendersLoginViewUponSuccessfulActivation() throws Exception {
-        ResultActions results = postActivationRequest();
+        ResultActions results = performActivationRequest();
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
@@ -196,7 +196,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     public void registrationControllerRendersAlertMessageOnUserNotFoundExceptionDuringActivation() throws Exception {
         doThrow(new UserNotFoundException()).when(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
 
-        ResultActions results = postActivationRequest();
+        ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
         results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
@@ -220,12 +220,12 @@ public class RegistrationControllerTest extends MvcControllerTest {
         return mockMvc.perform(postRequest);
     }
 
-    private ResultActions postActivationRequest() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post(
+    private ResultActions performActivationRequest() throws Exception {
+        MockHttpServletRequestBuilder getRequest = get(
                 RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_HASH_CODE);
-        postRequest.accept(MediaType.APPLICATION_FORM_URLENCODED);
+        getRequest.accept(MediaType.ALL);
 
-        return mockMvc.perform(postRequest);
+        return mockMvc.perform(getRequest);
     }
 
     private MockHttpServletRequestBuilder buildRegistrationFormParams(MockHttpServletRequestBuilder postRequest) {
