@@ -48,7 +48,7 @@ public class LoginController extends MvcController {
         try {
             User user = userService.getUserByLoginCredentials(loginForm.getUsername(), loginForm.getPassword());
             session.setAttribute(USER_ATTRIBUTE_NAME, user);
-            user.validateActivation();
+            userService.validateActivation(user);
         } catch (UserNotFoundException | InvalidPasswordException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Invalid username or password.", AlertMessageType.ERROR);

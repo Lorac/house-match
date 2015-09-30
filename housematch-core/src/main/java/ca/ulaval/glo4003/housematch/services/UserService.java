@@ -48,6 +48,10 @@ public class UserService {
         sendActivationLink(user);
     }
 
+    public void validateActivation(User user) throws UserNotActivatedException {
+        user.validateActivation();
+    }
+
     public void updateActivationEmail(User user, String email) {
         user.setEmail(email);
         sendActivationLink(user);
