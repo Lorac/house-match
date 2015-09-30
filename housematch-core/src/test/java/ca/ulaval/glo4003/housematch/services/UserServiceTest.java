@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.services;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -65,6 +66,13 @@ public class UserServiceTest {
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
+    }
+
+    @Test
+    public void gettingUserByLoginCredentialsReturnsTheUser() throws Exception {
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+        User user = userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+        assertSame(userMock, user);
     }
 
     @Test
