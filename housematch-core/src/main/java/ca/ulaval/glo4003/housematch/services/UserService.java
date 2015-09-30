@@ -32,11 +32,11 @@ public class UserService {
         this.mailSender = mailSender;
     }
 
-    public void validateUserLogin(String username, String password)
+    public User getUserByLoginCredentials(String username, String password)
             throws UserNotFoundException, InvalidPasswordException, UserNotActivatedException {
         User user = getUserByUsername(username);
         user.validatePassword(password);
-        user.validateActivation();
+        return user;
     }
 
     public User getUserByUsername(String username) throws UserNotFoundException {
@@ -49,6 +49,11 @@ public class UserService {
 
         User user = new User(username, email, password, role);
         userRepository.persist(user);
+        sendActivationLink(user);
+    }
+
+    public void updateActivationEmail(User user, String email) {
+        user.setEmail(email);
         sendActivationLink(user);
     }
 

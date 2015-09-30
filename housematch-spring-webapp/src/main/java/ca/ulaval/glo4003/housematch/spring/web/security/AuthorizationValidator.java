@@ -19,7 +19,7 @@ public class AuthorizationValidator {
             throws AuthenticationException {
         User user = (User) httpSession.getAttribute(userAttributeName);
 
-        if (user == null) {
+        if (user == null || !user.isActivated()) {
             throw new AnonymousAccessDeniedException(
                     String.format("Anonymous access to resource '%s' is not authorized.", resourceName));
         } else {

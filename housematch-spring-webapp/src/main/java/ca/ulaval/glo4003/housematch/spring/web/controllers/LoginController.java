@@ -43,15 +43,14 @@ public class LoginController extends MvcController {
             RedirectAttributes redirectAttributes) {
 
         try {
-            userService.validateUserLogin(loginForm.getUsername(), loginForm.getPassword());
-            User user = userService.getUserByUsername(loginForm.getUsername());
+            User user = userService.getUserByLoginCredentials(loginForm.getUsername(), loginForm.getPassword());
             session.setAttribute(USER_ATTRIBUTE_NAME, user);
+            user.validateActivation();
         } catch (UserNotFoundException | InvalidPasswordException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
                     "Invalid username or password.", AlertMessageType.ERROR);
         } catch (UserNotActivatedException e) {
-            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm,
-                    "You must activate your account before logging in.", AlertMessageType.ERROR);
+            return new ModelAndView(new RedirectView(EMAIL_RECONFIRM_URL));
         }
 
         return new ModelAndView(new RedirectView(HOME_URL));

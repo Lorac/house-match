@@ -38,6 +38,9 @@ public class MvcController {
     protected static final String ACTIVATION_BASE_URL = "/activation/";
     protected static final String ACTIVATION_URL = "/activation/{hashCode}";
     protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
+    protected static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
+    protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
+    protected static final String EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME = "emailReconfirmForm";
     protected static final String USER_ATTRIBUTE_NAME = "user";
 
     @Autowired

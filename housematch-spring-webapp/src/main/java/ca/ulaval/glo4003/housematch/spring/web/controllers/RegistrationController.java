@@ -14,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
@@ -66,6 +68,30 @@ public class RegistrationController extends MvcController {
                     AlertMessageType.ERROR);
         }
 
+        return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
+    }
+
+    @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
+    public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
+            ModelMap modelMap, HttpSession session, RedirectAttributes redirectAttributes) {
+        modelMap.put(EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
+        return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
+    }
+
+    @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.POST)
+    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm, ModelMap modelMap,
+            HttpSession session, RedirectAttributes redirectAttributes) {
+
+        try {
+            User user = (User) session.getAttribute(USER_ATTRIBUTE_NAME);
+            userService.updateActivationEmail(user, emailReconfirmForm.getEmail());
+        } catch (MailSendException e) {
+            return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, emailReconfirmForm,
+                    "Could not send activation mail. Please check that the email address you entered is valid.",
+                    AlertMessageType.ERROR);
+        }
+
+        session.invalidate();
         return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
