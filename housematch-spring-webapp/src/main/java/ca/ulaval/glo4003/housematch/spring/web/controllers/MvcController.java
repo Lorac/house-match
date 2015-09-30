@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,8 @@ public class MvcController {
     }
 
     @ExceptionHandler(AnonymousAccessDeniedException.class)
-    public ModelAndView anonymousAccessDeniedExceptionHandler(HttpServletResponse response) {
+    public ModelAndView anonymousAccessDeniedExceptionHandler(HttpServletResponse response, HttpSession session) {
+        session.invalidate();
         response.setStatus(HttpStatus.FORBIDDEN.value());
         return new ModelAndView(new RedirectView(LOGIN_URL));
     }

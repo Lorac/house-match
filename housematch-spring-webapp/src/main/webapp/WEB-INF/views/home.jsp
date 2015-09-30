@@ -18,7 +18,7 @@
 	<jsp:include page="../includes/navigationBar.jsp" />
 	<div class="container">
 		<c:choose>
-			<c:when test="${not empty sessionScope.username}">
+			<c:when test="${not empty sessionScope.user}">
 				<p>Hello ${sessionScope.user.username}! You are connected as a
 					${sessionScope.user.role.displayName}.</p>
 			</c:when>

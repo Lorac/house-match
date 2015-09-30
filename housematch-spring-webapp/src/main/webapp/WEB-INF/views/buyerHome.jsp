@@ -16,7 +16,7 @@
 	<c:set var="homeLinkActive" value="active" scope="request" />
 	<jsp:include page="../includes/navigationBar.jsp" />
 	<div class="container">
-		<p>Hello ${sessionScope.user.username}! You are connected as a
+		<p>Hello ${sessionScope.user}! You are connected as a
 			${sessionScope.user.role.displayName}.</p>
 	</div>
 </body>
