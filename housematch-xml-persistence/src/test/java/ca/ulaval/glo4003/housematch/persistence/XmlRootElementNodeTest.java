@@ -10,19 +10,19 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 
-public class XmlRepositoryAssemblerTest {
+public class XmlRootElementNodeTest {
 
-    private XmlRepositoryAssembler xmlRepositoryAssembler;
+    private XmlRootElementNode xmlRootElementNode;
     private static final List<User> SAMPLE_USER_LIST = new ArrayList<User>();
 
     @Before
     public void init() throws Exception {
-        xmlRepositoryAssembler = new XmlRepositoryAssembler();
+        xmlRootElementNode = new XmlRootElementNode();
     }
 
     @Test
     public void settingTheUsersSetsTheSpecifiedListOfUsers() {
-        xmlRepositoryAssembler.setUsers(SAMPLE_USER_LIST);
-        assertEquals(SAMPLE_USER_LIST, xmlRepositoryAssembler.getUsers());
+        xmlRootElementNode.setUsers(SAMPLE_USER_LIST);
+        assertEquals(SAMPLE_USER_LIST, xmlRootElementNode.getUsers());
     }
 }

@@ -12,17 +12,17 @@ import org.jasypt.util.text.TextEncryptor;
 
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 import ca.ulaval.glo4003.housematch.persistence.ResourceLoader;
-import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
+import ca.ulaval.glo4003.housematch.persistence.XmlRootElementNode;
 
-public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssembler> {
+public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementNode> {
 
-    private XmlRepositoryAssembler xmlRepositoryAssembler;
+    private XmlRootElementNode xmlRootElementNode;
     private ResourceLoader resourceLoader;
     private String resourceName;
 
     public XmlRepositoryMarshaller(final ResourceLoader resourceLoader, final String resourceName,
             final TextEncryptor textEncryptor) {
-        super(XmlRepositoryAssembler.class);
+        super(XmlRootElementNode.class);
         init(textEncryptor, resourceLoader, resourceName);
     }
 
@@ -48,7 +48,7 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
     public void unmarshal() {
         try {
             InputStream inputStream = resourceLoader.loadResourceAsInputStream(this, resourceName);
-            xmlRepositoryAssembler = super.unmarshal(inputStream);
+            xmlRootElementNode = super.unmarshal(inputStream);
             inputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
@@ -59,7 +59,7 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
     public void marshal() {
         try {
             OutputStream outputStream = resourceLoader.loadResourceAsOutputStream(this, resourceName);
-            super.marshal(xmlRepositoryAssembler, outputStream);
+            super.marshal(xmlRootElementNode, outputStream);
             outputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(
@@ -67,7 +67,7 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRepositoryAssemble
         }
     }
 
-    public XmlRepositoryAssembler getRepositoryAssembler() {
-        return xmlRepositoryAssembler;
+    public XmlRootElementNode getRootElementNode() {
+        return xmlRootElementNode;
     }
 }

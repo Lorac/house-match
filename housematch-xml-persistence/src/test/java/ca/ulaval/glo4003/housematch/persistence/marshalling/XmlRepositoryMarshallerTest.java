@@ -18,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.persistence.ResourceLoader;
-import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
+import ca.ulaval.glo4003.housematch.persistence.XmlRootElementNode;
 
 public class XmlRepositoryMarshallerTest {
 
@@ -74,8 +74,8 @@ public class XmlRepositoryMarshallerTest {
     }
 
     @Test
-    public void theXmlRepositoryAssemblerIsMarshalledToAnOutputStreamDuringMarshalling() throws JAXBException {
+    public void theXmlRootElementNodeIsMarshalledToAnOutputStreamDuringMarshalling() throws JAXBException {
         xmlRepositoryMarshaller.marshal();
-        verify(marshallerMock).marshal(any(XmlRepositoryAssembler.class), eq(outputStreamMock));
+        verify(marshallerMock).marshal(any(XmlRootElementNode.class), eq(outputStreamMock));
     }
 }

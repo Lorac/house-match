@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.persistence.XmlRepositoryAssembler;
+import ca.ulaval.glo4003.housematch.persistence.XmlRootElementNode;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepositoryTest {
@@ -24,7 +24,7 @@ public class XmlUserRepositoryTest {
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
-    private XmlRepositoryAssembler xmlRepositoryAssemblerMock;
+    private XmlRootElementNode xmlRootElementNodeMock;
     private XmlUserRepository xmlUserRepository;
 
     @Before
@@ -35,13 +35,13 @@ public class XmlUserRepositoryTest {
     }
 
     private void stubMethods() {
-        when(xmlRepositoryMarshallerMock.getRepositoryAssembler()).thenReturn(xmlRepositoryAssemblerMock);
-        when(xmlRepositoryAssemblerMock.getUsers()).thenReturn(new ArrayList<>());
+        when(xmlRepositoryMarshallerMock.getRootElementNode()).thenReturn(xmlRootElementNodeMock);
+        when(xmlRootElementNodeMock.getUsers()).thenReturn(new ArrayList<>());
     }
 
     private void initMocks() {
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
-        xmlRepositoryAssemblerMock = mock(XmlRepositoryAssembler.class);
+        xmlRootElementNodeMock = mock(XmlRootElementNode.class);
     }
 
     @Test

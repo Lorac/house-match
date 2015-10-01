@@ -11,11 +11,11 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 
 @XmlRootElement(name = "HouseMatch")
-public class XmlRepositoryAssembler {
+public class XmlRootElementNode {
 
     private List<User> users;
 
-    protected XmlRepositoryAssembler() {
+    protected XmlRootElementNode() {
         // Required for JAXB
     }
 
