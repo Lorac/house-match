@@ -4,15 +4,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UncheckedIOException;
+import java.util.List;
 
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.jasypt.util.text.TextEncryptor;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 import ca.ulaval.glo4003.housematch.persistence.ResourceLoader;
-import ca.ulaval.glo4003.housematch.persistence.XmlRootElementNode;
 
 public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementNode> {
 
@@ -67,7 +68,12 @@ public class XmlRepositoryMarshaller extends XmlMarshaller<XmlRootElementNode> {
         }
     }
 
-    public XmlRootElementNode getRootElementNode() {
-        return xmlRootElementNode;
+    public List<User> getUsers() {
+        return xmlRootElementNode.getUsers();
+    }
+
+    public void setUsers(List<User> users) {
+        xmlRootElementNode.setUsers(users);
+        marshal();
     }
 }

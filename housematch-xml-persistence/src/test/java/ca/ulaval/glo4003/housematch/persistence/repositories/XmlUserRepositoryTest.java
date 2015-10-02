@@ -2,9 +2,11 @@ package ca.ulaval.glo4003.housematch.persistence.repositories;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,72 +14,69 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.persistence.XmlRootElementNode;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_UNEXISTING_USERNAME = "username2";
-    private static final String SAMPLE_EMAIL = "test@test.com";
-    private static final String SAMPLE_PASSWORD = "password1234";
-    private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
-    private XmlRootElementNode xmlRootElementNodeMock;
     private XmlUserRepository xmlUserRepository;
+    private User userMock;
+    private List<User> users;
 
     @Before
     public void init() {
+        users = new ArrayList<User>();
         initMocks();
         stubMethods();
         xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock);
     }
 
     private void stubMethods() {
-        when(xmlRepositoryMarshallerMock.getRootElementNode()).thenReturn(xmlRootElementNodeMock);
-        when(xmlRootElementNodeMock.getUsers()).thenReturn(new ArrayList<>());
+        when(xmlRepositoryMarshallerMock.getUsers()).thenReturn(users);
+        when(userMock.usernameEquals(SAMPLE_USERNAME)).thenReturn(true);
     }
 
     private void initMocks() {
+        userMock = mock(User.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
-        xmlRootElementNodeMock = mock(XmlRootElementNode.class);
     }
 
     @Test
     public void persistingUserPersistsUserToRepository() throws Exception {
-        User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        xmlUserRepository.persist(user);
-        assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
+        xmlUserRepository.persist(userMock);
+        assertSame(userMock, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
+    }
+
+    @Test
+    public void persistingUserSetsTheUsersInTheRepositoryMarshaller() throws Exception {
+        xmlUserRepository.persist(userMock);
+        verify(xmlRepositoryMarshallerMock).setUsers(users);
     }
 
     @Test(expected = UserAlreadyExistsException.class)
     public void persistingUserWhichAlreadyExistsThrowsUserAlreadyExistsException() throws Exception {
-        User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        User user2 = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        xmlUserRepository.persist(user);
-        xmlUserRepository.persist(user2);
+        xmlUserRepository.persist(userMock);
+        xmlUserRepository.persist(userMock);
     }
 
     @Test
     public void gettingUserByUsernameRetrievesTheUserByUsername() throws Exception {
-        User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        xmlUserRepository.persist(user);
-        assertSame(user, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
+        xmlUserRepository.persist(userMock);
+        assertSame(userMock, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
     }
 
     @Test(expected = UserNotFoundException.class)
     public void gettingUserByUsernameUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
-        User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        xmlUserRepository.persist(user);
-        assertSame(user, xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME));
+        xmlUserRepository.persist(userMock);
+        assertSame(userMock, xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME));
     }
 
     @Test
     public void gettingUserByHashCodeRetrievesUserByHashCode() throws Exception {
-        User user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        xmlUserRepository.persist(user);
-        assertSame(user, xmlUserRepository.getByHashCode(SAMPLE_USERNAME.hashCode()));
+        xmlUserRepository.persist(userMock);
+        assertSame(userMock, xmlUserRepository.getByHashCode(userMock.hashCode()));
     }
 
     @Test(expected = UserNotFoundException.class)

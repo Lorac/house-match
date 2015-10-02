@@ -8,13 +8,11 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.persistence.XmlRootElementNode;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
 
     private final XmlRepositoryMarshaller xmlRepositoryMarshaller;
-    private XmlRootElementNode xmlRootElementNode;
     private List<User> users = new ArrayList<>();
 
     public XmlUserRepository(final XmlRepositoryMarshaller xmlRepositoryMarshaller) {
@@ -23,8 +21,7 @@ public class XmlUserRepository implements UserRepository {
     }
 
     protected void initRepository() {
-        xmlRootElementNode = xmlRepositoryMarshaller.getRootElementNode();
-        users = xmlRootElementNode.getUsers();
+        users = xmlRepositoryMarshaller.getUsers();
     }
 
     @Override
@@ -55,7 +52,6 @@ public class XmlUserRepository implements UserRepository {
     }
 
     protected void marshal() {
-        xmlRootElementNode.setUsers(users);
-        xmlRepositoryMarshaller.marshal();
+        xmlRepositoryMarshaller.setUsers(users);
     }
 }
