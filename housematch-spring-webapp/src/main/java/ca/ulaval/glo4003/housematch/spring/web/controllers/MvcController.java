@@ -25,11 +25,8 @@ public class MvcController {
     protected static final String HOME_VIEW_NAME = "home";
     protected static final String HOME_URL = "/";
     public static final String ADMIN_HOME_VIEW_NAME = "adminHome";
-    protected static final String ADMIN_HOME_URL = "/admin";
     public static final String SELLER_HOME_VIEW_NAME = "sellerHome";
-    protected static final String SELLER_HOME_URL = "/seller";
     public static final String BUYER_HOME_VIEW_NAME = "buyerHome";
-    protected static final String BUYER_HOME_URL = "/buyer";
     protected static final String LOGIN_VIEW_NAME = "login";
     protected static final String LOGIN_URL = "/login";
     protected static final String LOGOUT_URL = "/logout";
