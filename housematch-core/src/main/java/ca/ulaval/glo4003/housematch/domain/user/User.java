@@ -55,7 +55,7 @@ public class User {
         return activationCode;
     }
 
-    public void setActivationCode(int activationCode) {
+    public void setActivationCode(Integer activationCode) {
         this.activationCode = activationCode;
     }
 
