@@ -48,6 +48,13 @@ public class UserService {
         sendActivationLink(user);
     }
 
+    public void updateUserCoordinate(User user, String address, String postalCode, String city, String country) {
+        user.setAddress(address);
+        user.setPostalCode(postalCode);
+        user.setCity(city);
+        user.setCountry(country);
+    }
+
     public void validateActivation(User user) throws UserNotActivatedException {
         user.validateActivation();
     }

@@ -43,6 +43,16 @@ public class MvcController {
     protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
     protected static final String EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME = "emailReconfirmForm";
     protected static final String USER_ATTRIBUTE_NAME = "user";
+    protected static final String PROFILE_URL = "/profile";
+    protected static final String PROFILE_VIEW_NAME = "userProfile";
+    protected static final String PROFILE_FORM_VIEWMODEL_NAME = "profileForm";
+    protected static final String PROFILE_SAVED_URL = "/profileSaved";
+    protected static final String PROFILE_SAVED_VIEW_NAME = "userProfileSaved";
+    protected static final String PROFILE_ADDRESS_ATTRIBUTE_NAME = "address";
+    protected static final String PROFILE_POSTAL_CODE_ATTRIBUTE_NAME = "postalCode";
+    protected static final String PROFILE_CITY_ATTRIBUTE_NAME = "city";
+    protected static final String PROFILE_COUNTRY_ATTRIBUTE_NAME = "country";
+    protected static final String PROFILE_EMAIL_ATTRIBUTE_NAME = "email";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;
