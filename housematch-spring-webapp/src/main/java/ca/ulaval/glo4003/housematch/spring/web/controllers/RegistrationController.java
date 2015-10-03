@@ -48,7 +48,7 @@ public class RegistrationController extends MvcController {
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayRegistrationView(ModelMap modelMap) {
-        modelMap.put(REGISTRATION_FORM_VIEWMODEL_NAME, new RegistrationFormViewModel());
+        modelMap.put(RegistrationFormViewModel.VIEWMODEL_NAME, new RegistrationFormViewModel());
         return new ModelAndView(REGISTRATION_VIEW_NAME, modelMap);
     }
 
@@ -59,15 +59,15 @@ public class RegistrationController extends MvcController {
                     registrationForm.getPassword(), registrationForm.getRole());
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
         } catch (UserServiceException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registrationForm,
-                    e.getMessage(), AlertMessageType.ERROR);
+            return showAlertMessage(REGISTRATION_VIEW_NAME, registrationForm, e.getMessage());
         }
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
     public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
             ModelMap modelMap, RedirectAttributes redirectAttributes) {
-        modelMap.put(EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
+
+        modelMap.put(EmailReconfirmFormViewModel.VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
     }
 
@@ -80,21 +80,18 @@ public class RegistrationController extends MvcController {
             session.invalidate();
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
         } catch (UserActivationServiceException e) {
-            return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, emailReconfirmForm,
-                    e.getMessage(), AlertMessageType.ERROR);
+            return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, emailReconfirmForm, e.getMessage());
         }
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
     public final ModelAndView activate(@PathVariable Integer activationCode, RedirectAttributes redirectAttributes) {
-
         try {
             userActivationService.completeActivation(activationCode);
-            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+            return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(),
                     "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
         } catch (UserActivationServiceException e) {
-            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                    e.getMessage(), AlertMessageType.ERROR);
+            return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(), e.getMessage());
         }
     }
 }

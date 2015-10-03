@@ -15,7 +15,6 @@ import ca.ulaval.glo4003.housematch.services.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.services.UserServiceException;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
 @Controller
@@ -40,7 +39,7 @@ public class LoginController extends MvcController {
         if (getUserFromHttpSession(httpSession) != null) {
             return new ModelAndView(new RedirectView(HOME_URL));
         }
-        return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VIEW_NAME, LoginFormViewModel.VIEWMODEL_NAME, new LoginFormViewModel());
     }
 
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
@@ -53,8 +52,7 @@ public class LoginController extends MvcController {
             userActivationService.validateActivation(user);
             return new ModelAndView(new RedirectView(HOME_URL));
         } catch (UserServiceException e) {
-            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, loginForm, e.getMessage(),
-                    AlertMessageType.ERROR);
+            return showAlertMessage(LOGIN_VIEW_NAME, loginForm, e.getMessage());
         } catch (UserActivationServiceException e) {
             return new ModelAndView(new RedirectView(EMAIL_RECONFIRM_URL));
         }
@@ -63,6 +61,6 @@ public class LoginController extends MvcController {
     @RequestMapping(value = LOGOUT_URL, method = RequestMethod.GET)
     public final ModelAndView logoutUser(HttpSession httpSession) {
         httpSession.invalidate();
-        return new ModelAndView(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VIEW_NAME, LoginFormViewModel.VIEWMODEL_NAME, new LoginFormViewModel());
     }
 }

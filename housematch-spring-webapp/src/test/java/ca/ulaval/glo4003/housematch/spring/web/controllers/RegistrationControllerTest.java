@@ -24,6 +24,9 @@ import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 
 public class RegistrationControllerTest extends MvcControllerTest {
 
@@ -65,14 +68,10 @@ public class RegistrationControllerTest extends MvcControllerTest {
         MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(
-                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("username")));
-        results.andExpect(
-                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("email")));
-        results.andExpect(
-                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("password")));
-        results.andExpect(
-                model().attribute(RegistrationController.REGISTRATION_FORM_VIEWMODEL_NAME, hasProperty("role")));
+        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("username")));
+        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("email")));
+        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("password")));
+        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("role")));
     }
 
     @Test
@@ -99,7 +98,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -120,8 +119,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
                 .accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(
-                model().attribute(RegistrationController.EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, hasProperty("email")));
+        results.andExpect(model().attribute(EmailReconfirmFormViewModel.VIEWMODEL_NAME, hasProperty("email")));
     }
 
     @Test
@@ -141,7 +139,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postEmailReconfirmationForm();
 
         results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -177,7 +175,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

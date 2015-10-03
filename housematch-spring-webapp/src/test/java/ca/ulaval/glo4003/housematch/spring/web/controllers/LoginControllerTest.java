@@ -25,6 +25,8 @@ import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
 public class LoginControllerTest extends MvcControllerTest {
 
@@ -60,8 +62,8 @@ public class LoginControllerTest extends MvcControllerTest {
         MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("username")));
-        results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("password")));
+        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty("username")));
+        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty("password")));
     }
 
     @Test
@@ -98,7 +100,7 @@ public class LoginControllerTest extends MvcControllerTest {
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
