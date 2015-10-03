@@ -8,7 +8,7 @@ public class Country {
     private final String threeLetterAbbreviation;
     private final List<State> states;
 
-    Country(final String displayName, final String threeLetterAbbreviation, List<State> states) {
+    Country(final String displayName, final String threeLetterAbbreviation, final List<State> states) {
         this.displayName = displayName;
         this.threeLetterAbbreviation = threeLetterAbbreviation;
         this.states = states;

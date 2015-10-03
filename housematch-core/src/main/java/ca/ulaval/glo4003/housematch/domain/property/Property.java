@@ -14,7 +14,7 @@ public class Property {
         // Required for instanciation by reflection
     }
 
-    public Property(final PropertyType propertyType, final StreetAddress streetAddress, Currency sellPrice) {
+    public Property(final PropertyType propertyType, final StreetAddress streetAddress, final Currency sellPrice) {
         this.propertyType = propertyType;
         this.streetAddress = streetAddress;
         this.sellPrice = sellPrice;
