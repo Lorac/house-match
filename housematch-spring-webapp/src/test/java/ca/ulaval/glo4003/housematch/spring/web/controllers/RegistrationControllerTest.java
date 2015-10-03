@@ -22,6 +22,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
+import ca.ulaval.glo4003.housematch.services.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
@@ -36,16 +37,18 @@ public class RegistrationControllerTest extends MvcControllerTest {
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String ROLE_PARAMETER_NAME = "role";
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
-    private static final int SAMPLE_ACTIVATION_HASH_CODE = 234234;
+    private static final Integer SAMPLE_ACTIVATION_CODE = 234234;
 
     private UserService userServiceMock;
+    private UserActivationService userActivationServiceMock;
     private RegistrationController registerController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        registerController = new RegistrationController(userServiceMock);
+        userActivationServiceMock = mock(UserActivationService.class);
+        registerController = new RegistrationController(userServiceMock, userActivationServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(registerController).setViewResolvers(viewResolver).build();
     }
 
@@ -154,13 +157,13 @@ public class RegistrationControllerTest extends MvcControllerTest {
             throws Exception {
         postEmailReconfirmationForm();
 
-        verify(userServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
+        verify(userActivationServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
     }
 
     @Test
     public void registrationControllerRendersAlertMessageOnMailSendExceptionDuringEmailReconfirmation()
             throws Exception {
-        doThrow(new MailSendException()).when(userServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
+        doThrow(new MailSendException()).when(userActivationServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
 
         ResultActions results = postEmailReconfirmationForm();
 
@@ -181,7 +184,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     public void registrationControllerActivatesTheUserDuringActivation() throws Exception {
         performActivationRequest();
 
-        verify(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
+        verify(userActivationServiceMock).completeActivation(SAMPLE_ACTIVATION_CODE);
     }
 
     @Test
@@ -194,7 +197,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerRendersAlertMessageOnUserNotFoundExceptionDuringActivation() throws Exception {
-        doThrow(new UserNotFoundException()).when(userServiceMock).activateUser(SAMPLE_ACTIVATION_HASH_CODE);
+        doThrow(new UserNotFoundException()).when(userActivationServiceMock).completeActivation(SAMPLE_ACTIVATION_CODE);
 
         ResultActions results = performActivationRequest();
 
@@ -222,7 +225,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     private ResultActions performActivationRequest() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(
-                RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_HASH_CODE);
+                RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_CODE);
         getRequest.accept(MediaType.ALL);
 
         return mockMvc.perform(getRequest);

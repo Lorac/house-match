@@ -33,15 +33,22 @@
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.UserService">
         <constructor-arg ref="xmlUserRepository"/>
 		<constructor-arg ref="userCreationValidator"/>
+        <constructor-arg ref="userActivationService"/>
+    </bean>
+	
+	<bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.UserActivationService">
+        <constructor-arg ref="xmlUserRepository"/>
         <constructor-arg ref="mailSender"/>
     </bean>
 
     <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">
         <constructor-arg ref="userService"/>
+		<constructor-arg ref="userActivationService"/>
     </bean>
 
     <bean id="registrationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController">
         <constructor-arg ref="userService"/>
+		<constructor-arg ref="userActivationService"/>
     </bean>
 	
 	<bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">

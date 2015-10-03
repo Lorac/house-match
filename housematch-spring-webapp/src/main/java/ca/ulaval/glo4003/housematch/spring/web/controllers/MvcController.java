@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.security.AccessDeniedException;
 import ca.ulaval.glo4003.housematch.spring.web.security.AnonymousAccessDeniedException;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
@@ -37,7 +38,7 @@ public class MvcController {
     protected static final String REGISTRATION_URL = "/register";
     protected static final String ALERT_MESSAGE_VIEW_MODEL_NAME = "alertMessage";
     protected static final String ACTIVATION_BASE_URL = "/activation/";
-    protected static final String ACTIVATION_URL = "/activation/{hashCode}";
+    protected static final String ACTIVATION_URL = "/activation/{activationCode}";
     protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
     protected static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
     protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
@@ -46,6 +47,10 @@ public class MvcController {
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;
+
+    protected User getUserFromHttpSession(HttpSession httpSession) {
+        return (User) httpSession.getAttribute(USER_ATTRIBUTE_NAME);
+    }
 
     protected ModelAndView showAlertMessage(String viewName, String viewModelName, Object viewModel, String message,
             AlertMessageType messageType) {

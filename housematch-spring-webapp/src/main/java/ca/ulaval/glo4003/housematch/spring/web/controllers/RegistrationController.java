@@ -19,6 +19,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
+import ca.ulaval.glo4003.housematch.services.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
@@ -31,13 +32,16 @@ public class RegistrationController extends MvcController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserActivationService userActivationService;
 
     protected RegistrationController() {
         // Required for Mockito
     }
 
-    public RegistrationController(final UserService userService) {
+    public RegistrationController(final UserService userService, final UserActivationService userActivationService) {
         this.userService = userService;
+        this.userActivationService = userActivationService;
     }
 
     @ModelAttribute("publiclyRegistrableRoles")
@@ -83,8 +87,8 @@ public class RegistrationController extends MvcController {
             HttpSession session, RedirectAttributes redirectAttributes) {
 
         try {
-            User user = (User) session.getAttribute(USER_ATTRIBUTE_NAME);
-            userService.updateActivationEmail(user, emailReconfirmForm.getEmail());
+            User user = getUserFromHttpSession(session);
+            userActivationService.updateActivationEmail(user, emailReconfirmForm.getEmail());
         } catch (MailSendException e) {
             return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, emailReconfirmForm,
                     "Could not send activation mail. Please check that the email address you entered is valid.",
@@ -96,11 +100,11 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
-    public final ModelAndView activate(@PathVariable int hashCode, ModelMap modelMap,
+    public final ModelAndView activate(@PathVariable Integer activationCode, ModelMap modelMap,
             RedirectAttributes redirectAttributes) {
 
         try {
-            userService.activateUser(hashCode);
+            userActivationService.completeActivation(activationCode);
         } catch (UserNotFoundException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
                     "The activation link is not valid.", AlertMessageType.ERROR);

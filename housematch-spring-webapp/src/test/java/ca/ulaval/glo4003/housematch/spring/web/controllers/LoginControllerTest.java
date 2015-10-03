@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.services.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 
@@ -34,13 +35,15 @@ public class LoginControllerTest extends MvcControllerTest {
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
 
     private UserService userServiceMock;
+    private UserActivationService userActivationServiceMock;
     private LoginController loginController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        loginController = new LoginController(userServiceMock);
+        userActivationServiceMock = mock(UserActivationService.class);
+        loginController = new LoginController(userServiceMock, userActivationServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
     }
 
@@ -116,7 +119,7 @@ public class LoginControllerTest extends MvcControllerTest {
     public void loginControllerRedirectsToEmailReconfirmationViewOnUserNotActivatedExceptionDuringLogin()
             throws Exception {
         when(userServiceMock.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD)).thenReturn(userMock);
-        doThrow(new UserNotActivatedException()).when(userServiceMock).validateActivation(userMock);
+        doThrow(new UserNotActivatedException()).when(userActivationServiceMock).validateActivation(userMock);
 
         ResultActions results = postLoginForm();
 

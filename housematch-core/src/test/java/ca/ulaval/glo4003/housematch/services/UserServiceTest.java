@@ -4,8 +4,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,20 +16,17 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSender;
 import ca.ulaval.glo4003.housematch.validators.UserCreationValidator;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
-    private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
     private static final String SAMPLE_PASSWORD = "password1234";
-    private static final int SAMPLE_USER_HASH = SAMPLE_USERNAME.hashCode();
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private UserRepository userRepositoryMock;
     private UserCreationValidator userCreationValidatorMock;
-    private MailSender emailSenderMock;
+    private UserActivationService userActivationServiceMock;
     private User userMock;
 
     private UserService userService;
@@ -39,18 +34,17 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userCreationValidatorMock, emailSenderMock);
+        userService = new UserService(userRepositoryMock, userCreationValidatorMock, userActivationServiceMock);
     }
 
     private void initMocks() throws Exception {
         stubMethods();
-        when(userRepositoryMock.getByHashCode(SAMPLE_USER_HASH)).thenReturn(userMock);
     }
 
     private void stubMethods() {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
-        emailSenderMock = mock(MailSender.class);
+        userActivationServiceMock = mock(UserActivationService.class);
         userCreationValidatorMock = mock(UserCreationValidator.class);
     }
 
@@ -76,25 +70,6 @@ public class UserServiceTest {
     }
 
     @Test
-    public void activationValidationValidatesUserActivationFromTheUserObject() throws Exception {
-        userService.validateActivation(userMock);
-        verify(userMock).validateActivation();
-    }
-
-    @Test
-    public void updatingActivationEmailUpdatesTheEmailFromOfTheUserObject() throws Exception {
-        userService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(userMock).setEmail(eq(ANOTHER_SAMPLE_EMAIL));
-    }
-
-    @Test
-    public void updatingActivationEmailSendsTheActivationLink() throws Exception {
-        when(userMock.getEmail()).thenReturn(ANOTHER_SAMPLE_EMAIL);
-        userService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(emailSenderMock).send(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
-    }
-
-    @Test
     public void userCreationPersistsNewUserToRepository() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         verify(userRepositoryMock).persist(any(User.class));
@@ -108,9 +83,9 @@ public class UserServiceTest {
     }
 
     @Test
-    public void userCreationSendsTheActivationLink() throws Exception {
+    public void userCreationBeginsTheActivationprocess() throws Exception {
         userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        verify(emailSenderMock).send(anyString(), anyString(), eq(SAMPLE_EMAIL));
+        verify(userActivationServiceMock).beginActivation(any(User.class));
     }
 
     @Test
@@ -118,11 +93,5 @@ public class UserServiceTest {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
-    }
-
-    @Test
-    public void userActivationActivatesUserFromTheSpecifiedHashCode() throws Exception {
-        userService.activateUser(SAMPLE_USERNAME.hashCode());
-        verify(userRepositoryMock).getByHashCode(SAMPLE_USERNAME.hashCode());
     }
 }
