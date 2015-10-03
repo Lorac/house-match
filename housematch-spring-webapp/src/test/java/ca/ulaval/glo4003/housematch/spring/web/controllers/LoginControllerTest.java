@@ -20,11 +20,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.services.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 
 public class LoginControllerTest extends MvcControllerTest {
@@ -92,8 +91,8 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginControllerRendersAlertMessageOnUserNotFoundExceptionDuringLogin() throws Exception {
-        doThrow(new UserNotFoundException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
+    public void loginControllerRendersAlertMessageOnUserServiceExceptionDuringLogin() throws Exception {
+        doThrow(new UserServiceException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
                 SAMPLE_PASSWORD);
 
         ResultActions results = postLoginForm();
@@ -104,22 +103,10 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginControllerRendersAlertMessageOnInvalidPasswordExceptionDuringLogin() throws Exception {
-        doThrow(new InvalidPasswordException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
-                SAMPLE_PASSWORD);
-
-        ResultActions results = postLoginForm();
-
-        results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
-    }
-
-    @Test
-    public void loginControllerRedirectsToEmailReconfirmationViewOnUserNotActivatedExceptionDuringLogin()
+    public void loginControllerRedirectsToEmailReconfirmationViewOnUserActivationServiceExceptionDuringLogin()
             throws Exception {
         when(userServiceMock.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD)).thenReturn(userMock);
-        doThrow(new UserNotActivatedException()).when(userActivationServiceMock).validateActivation(userMock);
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).validateActivation(userMock);
 
         ResultActions results = postLoginForm();
 

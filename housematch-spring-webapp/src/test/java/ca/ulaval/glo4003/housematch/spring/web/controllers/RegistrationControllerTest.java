@@ -18,14 +18,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
-import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
 
 public class RegistrationControllerTest extends MvcControllerTest {
 
@@ -94,34 +92,8 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnMailSendExceptionDuringRegistration() throws Exception {
-        doThrow(new MailSendException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
-                SAMPLE_PASSWORD, SAMPLE_ROLE);
-
-        ResultActions results = postRegistrationForm();
-
-        results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
-    }
-
-    @Test
-    public void registrationControllerRendersAlertMessageOnUserAlreadyExistsExceptionDuringRegistration()
-            throws Exception {
-        doThrow(new UserAlreadyExistsException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
-                SAMPLE_PASSWORD, SAMPLE_ROLE);
-
-        ResultActions results = postRegistrationForm();
-
-        results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
-    }
-
-    @Test
-    public void registrationControllerRendersAlertMessageOnUserCreationValidationExceptionDuringRegistration()
-            throws Exception {
-        doThrow(new UserRegistrationValidationException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+    public void registrationControllerRendersAlertMessageOnUserServiceExceptionDuringRegistration() throws Exception {
+        doThrow(new UserServiceException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
@@ -161,9 +133,10 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnMailSendExceptionDuringEmailReconfirmation()
+    public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringEmailReconfirmation()
             throws Exception {
-        doThrow(new MailSendException()).when(userActivationServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).updateActivationEmail(userMock,
+                SAMPLE_EMAIL);
 
         ResultActions results = postEmailReconfirmationForm();
 
@@ -196,8 +169,10 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnUserNotFoundExceptionDuringActivation() throws Exception {
-        doThrow(new UserNotFoundException()).when(userActivationServiceMock).completeActivation(SAMPLE_ACTIVATION_CODE);
+    public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringActivation()
+            throws Exception {
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock)
+                .completeActivation(SAMPLE_ACTIVATION_CODE);
 
         ResultActions results = performActivationRequest();
 
