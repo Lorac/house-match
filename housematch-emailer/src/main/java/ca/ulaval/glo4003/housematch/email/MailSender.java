@@ -13,9 +13,9 @@ public class MailSender {
         this.javaxMailSender = javaxMailSender;
     }
 
-    public void send(String subject, String content, String email) throws MailSendException {
+    public void sendAsync(String subject, String content, String email) throws MailSendException {
         setupMailSender(subject, content, email);
-        sendMail();
+        sendMailAsync();
     }
 
     private void setupMailSender(String subject, String content, String email) {
@@ -29,7 +29,7 @@ public class MailSender {
         }
     }
 
-    private void sendMail() {
+    private void sendMailAsync() {
         Runnable sendMailRunnable = () -> {
             try {
                 javaxMailSender.send();

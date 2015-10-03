@@ -43,7 +43,7 @@ public class UserActivationService {
     }
 
     private void sendActivationMail(User user) throws MailSendException {
-        mailSender.send(ACTIVATION_EMAIL_SUBJECT,
+        mailSender.sendAsync(ACTIVATION_EMAIL_SUBJECT,
                 String.format("Complete your HouseMatch registration by <a href=\"%s%d\">activating your account</a>.",
                         ACTIVATION_BASE_URL, user.getActivationCode()),
                 user.getEmail());

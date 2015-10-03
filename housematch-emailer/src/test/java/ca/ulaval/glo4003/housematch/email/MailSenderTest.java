@@ -27,26 +27,26 @@ public class MailSenderTest {
     }
 
     @Test
-    public void sendingMessageSendsMessageWithTheCorrectRecipient() throws Exception {
-        emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
+    public void sendingMessageAsyncSendsMessageWithTheCorrectRecipient() throws Exception {
+        emailSender.sendAsync(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         verify(javaxMailSenderMock).addRecipient(MimeMessage.RecipientType.TO, SAMPLE_RECIPIENT_ADDRESS);
     }
 
     @Test
-    public void sendingMessageSendsMessageWithTheCorrectSubject() throws Exception {
-        emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
+    public void sendingMessageAsyncSendsMessageWithTheCorrectSubject() throws Exception {
+        emailSender.sendAsync(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         verify(javaxMailSenderMock).setSubject(SAMPLE_SUBJECT);
     }
 
     @Test
-    public void sendingMessageSendsMessageWithTheCorrectContent() throws Exception {
-        emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
+    public void sendingMessageSAsyncendsMessageWithTheCorrectContent() throws Exception {
+        emailSender.sendAsync(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         verify(javaxMailSenderMock).setContent(SAMPLE_CONTENT);
     }
 
     @Test
-    public void sendingMessageSendsTheMessage() throws Exception {
-        emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
+    public void sendingMessageAsyncSendsTheMessage() throws Exception {
+        emailSender.sendAsync(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
         Thread.sleep(10);
         verify(javaxMailSenderMock).send();
     }
@@ -54,6 +54,6 @@ public class MailSenderTest {
     @Test(expected = MailSendException.class)
     public void sendingMessageThrowsMailSendExceptionOnMessagingException() throws Exception {
         doThrow(new MessagingException()).when(javaxMailSenderMock).setSubject(anyString());
-        emailSender.send(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
+        emailSender.sendAsync(SAMPLE_SUBJECT, SAMPLE_CONTENT, SAMPLE_RECIPIENT_ADDRESS);
     }
 }

@@ -43,13 +43,13 @@ public class JavaxMailSender {
 
     private class MailAuthenticator extends Authenticator {
 
-        private static final String USERNAME = "mail.smtp.user";
-        private static final String PASSWORD = "mail.password";
+        private static final String USERNAME_PROPERTY_NAME = "mail.smtp.user";
+        private static final String PASSWORD_PROPERTY_NAME = "mail.password";
 
         @Override
         protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(emailProperties.get(USERNAME).toString(),
-                    emailProperties.get(PASSWORD).toString());
+            return new PasswordAuthentication(emailProperties.get(USERNAME_PROPERTY_NAME).toString(),
+                    emailProperties.get(PASSWORD_PROPERTY_NAME).toString());
         }
     }
 }

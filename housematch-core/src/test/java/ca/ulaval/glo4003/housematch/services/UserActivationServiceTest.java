@@ -59,7 +59,7 @@ public class UserActivationServiceTest {
     public void updatingActivationEmailSendsTheActivationLink() {
         when(userMock.getEmail()).thenReturn(ANOTHER_SAMPLE_EMAIL);
         userActivationService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(emailSenderMock).send(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
+        verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
     }
 
     @Test
@@ -72,7 +72,7 @@ public class UserActivationServiceTest {
     public void beginningTheActivationSendsTheActivationLink() throws Exception {
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
         userActivationService.beginActivation(userMock);
-        verify(emailSenderMock).send(anyString(), anyString(), eq(SAMPLE_EMAIL));
+        verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
     }
 
     @Test
