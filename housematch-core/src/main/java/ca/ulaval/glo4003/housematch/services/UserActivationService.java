@@ -13,6 +13,8 @@ public class UserActivationService {
 
     private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
+    private static final Integer ACTIVATION_CODE_MIN_VALUE = 1;
+    private static final Integer ACTIVATION_CODE_MAX_VALUE = Integer.MAX_VALUE;
 
     private UserRepository userRepository;
     private MailSender mailSender;
@@ -37,7 +39,7 @@ public class UserActivationService {
     }
 
     private int generateActivationCode(User user) {
-        return ThreadLocalRandom.current().nextInt(Integer.MIN_VALUE, Integer.MAX_VALUE);
+        return ThreadLocalRandom.current().nextInt(ACTIVATION_CODE_MIN_VALUE, ACTIVATION_CODE_MAX_VALUE);
     }
 
     private void sendActivationMail(User user) throws MailSendException {

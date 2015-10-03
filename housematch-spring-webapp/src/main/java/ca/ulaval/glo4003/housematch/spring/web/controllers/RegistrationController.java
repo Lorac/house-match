@@ -56,7 +56,7 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.POST)
-    public final ModelAndView register(RegistrationFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
+    public final ModelAndView register(RegistrationFormViewModel registerForm) {
         try {
             userService.registerUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
@@ -77,14 +77,14 @@ public class RegistrationController extends MvcController {
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
     public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
-            ModelMap modelMap, HttpSession session, RedirectAttributes redirectAttributes) {
+            ModelMap modelMap, RedirectAttributes redirectAttributes) {
         modelMap.put(EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.POST)
-    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm, ModelMap modelMap,
-            HttpSession session, RedirectAttributes redirectAttributes) {
+    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm,
+            HttpSession session) {
 
         try {
             User user = getUserFromHttpSession(session);
@@ -100,8 +100,7 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
-    public final ModelAndView activate(@PathVariable Integer activationCode, ModelMap modelMap,
-            RedirectAttributes redirectAttributes) {
+    public final ModelAndView activate(@PathVariable Integer activationCode, RedirectAttributes redirectAttributes) {
 
         try {
             userActivationService.completeActivation(activationCode);
