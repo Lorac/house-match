@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,9 +14,13 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidator;
 
 public class UserServiceTest {
@@ -69,23 +74,56 @@ public class UserServiceTest {
         assertSame(userMock, user);
     }
 
+    @Test(expected = UserServiceException.class)
+    public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnUserNotFoundException() throws Exception {
+        doThrow(new UserNotFoundException()).when(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
+        userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnInvalidPasswordException() throws Exception {
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+        doThrow(new InvalidPasswordException()).when(userMock).validatePassword(SAMPLE_PASSWORD);
+
+        userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+    }
+
     @Test
     public void userRegistrationPersistsNewUserToRepository() throws Exception {
-        userService.registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        registerUser();
         verify(userRepositoryMock).persist(any(User.class));
     }
 
     @Test
     public void userRegistrationCallsTheUserCreationValidator() throws Exception {
-        userService.registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        registerUser();
         verify(userCreationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
     }
 
     @Test
     public void userRegistrationBeginsTheActivationProcess() throws Exception {
-        userService.registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        registerUser();
         verify(userActivationServiceMock).beginActivation(any(User.class));
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void userRegistrationThrowsUserServiceExceptionOnUserRegistrationValidationException() throws Exception {
+        doThrow(new UserRegistrationValidationException()).when(userCreationValidatorMock)
+                .validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        registerUser();
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void userRegistrationThrowsUserServiceExceptionOnUserAlreadyExistsException() throws Exception {
+        doThrow(new UserAlreadyExistsException()).when(userRepositoryMock).persist(any(User.class));
+        registerUser();
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void userRegistrationThrowsUserServiceExceptionOnUserActivationServiceException() throws Exception {
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).beginActivation(any(User.class));
+        registerUser();
     }
 
     @Test
@@ -93,5 +131,9 @@ public class UserServiceTest {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
+    }
+
+    private void registerUser() throws UserServiceException {
+        userService.registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 }

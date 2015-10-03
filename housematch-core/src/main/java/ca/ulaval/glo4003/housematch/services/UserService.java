@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -27,19 +26,26 @@ public class UserService {
         this.userActivationService = userActivationService;
     }
 
-    public User getUserByLoginCredentials(String username, String password)
-            throws UserNotFoundException, InvalidPasswordException, UserNotActivatedException {
-        User user = userRepository.getByUsername(username);
-        user.validatePassword(password);
-        return user;
+    public User getUserByLoginCredentials(String username, String password) throws UserServiceException {
+        try {
+            User user = userRepository.getByUsername(username);
+            user.validatePassword(password);
+            return user;
+        } catch (UserNotFoundException | InvalidPasswordException e) {
+            throw new UserServiceException("Invalid username or password.", e);
+        }
     }
 
     public void registerUser(String username, String email, String password, UserRole role)
-            throws UserAlreadyExistsException, UserRegistrationValidationException {
-        userCreationValidator.validateUserCreation(username, email, password, role);
-        User user = new User(username, email, password, role);
-        userRepository.persist(user);
-        userActivationService.beginActivation(user);
+            throws UserServiceException {
+        try {
+            userCreationValidator.validateUserCreation(username, email, password, role);
+            User user = new User(username, email, password, role);
+            userRepository.persist(user);
+            userActivationService.beginActivation(user);
+        } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {
+            throw new UserServiceException(e);
+        }
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {

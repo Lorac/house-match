@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.services;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -11,12 +12,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.email.MailSender;
 
 public class UserActivationServiceTest {
-    private static final Integer SAMPLE_ACTVIATION_CODE = 34234213;
+    private static final Integer SAMPLE_ACTIVATION_CODE = 34234213;
     private static final String SAMPLE_EMAIL = "test@test.com";
     private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
 
@@ -40,13 +43,20 @@ public class UserActivationServiceTest {
     }
 
     private void stubMethods() throws UserNotFoundException {
-        when(userRepositoryMock.getByActivationCode(SAMPLE_ACTVIATION_CODE)).thenReturn(userMock);
+        when(userRepositoryMock.getByActivationCode(SAMPLE_ACTIVATION_CODE)).thenReturn(userMock);
+        when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
     }
 
     @Test
     public void activationValidationValidatesUserActivationFromTheUserObject() throws Exception {
         userActivationService.validateActivation(userMock);
         verify(userMock).validateActivation();
+    }
+
+    @Test(expected = UserActivationServiceException.class)
+    public void activationValidationThrowsUserActivationServiceExceptionOnUserNotActivatedException() throws Exception {
+        doThrow(new UserNotActivatedException()).when(userMock).validateActivation();
+        userActivationService.validateActivation(userMock);
     }
 
     @Test
@@ -56,10 +66,16 @@ public class UserActivationServiceTest {
     }
 
     @Test
-    public void updatingActivationEmailSendsTheActivationLink() {
+    public void updatingActivationEmailSendsTheActivationLink() throws Exception {
         when(userMock.getEmail()).thenReturn(ANOTHER_SAMPLE_EMAIL);
         userActivationService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
         verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
+    }
+
+    @Test(expected = UserActivationServiceException.class)
+    public void updatingActivationEmailThrowsUserActivationServiceExceptionOnMailSendException() throws Exception {
+        doThrow(new MailSendException()).when(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
+        userActivationService.updateActivationEmail(userMock, SAMPLE_EMAIL);
     }
 
     @Test
@@ -70,14 +86,19 @@ public class UserActivationServiceTest {
 
     @Test
     public void beginningTheActivationSendsTheActivationLink() throws Exception {
-        when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
         userActivationService.beginActivation(userMock);
         verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
     }
 
     @Test
     public void activationCompletionActivatesUserFromTheSpecifiedActivationCode() throws Exception {
-        userActivationService.completeActivation(SAMPLE_ACTVIATION_CODE);
-        verify(userRepositoryMock).getByActivationCode(SAMPLE_ACTVIATION_CODE);
+        userActivationService.completeActivation(SAMPLE_ACTIVATION_CODE);
+        verify(userRepositoryMock).getByActivationCode(SAMPLE_ACTIVATION_CODE);
+    }
+
+    @Test(expected = UserActivationServiceException.class)
+    public void activationCompletionThrowsUserActivationServiceExceptionOnUserNotFoundException() throws Exception {
+        doThrow(new UserNotFoundException()).when(userRepositoryMock).getByActivationCode(SAMPLE_ACTIVATION_CODE);
+        userActivationService.completeActivation(SAMPLE_ACTIVATION_CODE);
     }
 }

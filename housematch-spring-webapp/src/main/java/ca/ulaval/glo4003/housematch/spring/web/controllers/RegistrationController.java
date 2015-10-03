@@ -14,18 +14,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
-import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
 
 @Controller
 public class RegistrationController extends MvcController {
@@ -56,23 +53,15 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.POST)
-    public final ModelAndView register(RegistrationFormViewModel registerForm) {
+    public final ModelAndView register(RegistrationFormViewModel registrationForm) {
         try {
-            userService.registerUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
-                    registerForm.getRole());
-        } catch (UserRegistrationValidationException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
+            userService.registerUser(registrationForm.getUsername(), registrationForm.getEmail(),
+                    registrationForm.getPassword(), registrationForm.getRole());
+            return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
+        } catch (UserServiceException e) {
+            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registrationForm,
                     e.getMessage(), AlertMessageType.ERROR);
-        } catch (UserAlreadyExistsException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "A user with this username already exists.", AlertMessageType.ERROR);
-        } catch (MailSendException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "Could not send activation mail. Please check that the email address you entered is valid.",
-                    AlertMessageType.ERROR);
         }
-
-        return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
@@ -87,16 +76,13 @@ public class RegistrationController extends MvcController {
             HttpSession session) {
 
         try {
-            User user = getUserFromHttpSession(session);
-            userActivationService.updateActivationEmail(user, emailReconfirmForm.getEmail());
-        } catch (MailSendException e) {
+            userActivationService.updateActivationEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
+            session.invalidate();
+            return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
+        } catch (UserActivationServiceException e) {
             return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, emailReconfirmForm,
-                    "Could not send activation mail. Please check that the email address you entered is valid.",
-                    AlertMessageType.ERROR);
+                    e.getMessage(), AlertMessageType.ERROR);
         }
-
-        session.invalidate();
-        return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
@@ -104,12 +90,11 @@ public class RegistrationController extends MvcController {
 
         try {
             userActivationService.completeActivation(activationCode);
-        } catch (UserNotFoundException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                    "The activation link is not valid.", AlertMessageType.ERROR);
+                    "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
+        } catch (UserActivationServiceException e) {
+            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
+                    e.getMessage(), AlertMessageType.ERROR);
         }
-
-        return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
     }
 }

@@ -12,6 +12,8 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 public class UserActivationService {
 
     private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
+    private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s%d\">"
+            + "activating your account</a>.";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
     private static final Integer ACTIVATION_CODE_MIN_VALUE = 1;
     private static final Integer ACTIVATION_CODE_MAX_VALUE = Integer.MAX_VALUE;
@@ -24,33 +26,50 @@ public class UserActivationService {
         this.userRepository = userRepository;
     }
 
-    public void validateActivation(User user) throws UserNotActivatedException {
-        user.validateActivation();
+    public void validateActivation(User user) throws UserActivationServiceException {
+        try {
+            user.validateActivation();
+        } catch (UserNotActivatedException e) {
+            throw new UserActivationServiceException(e);
+        }
     }
 
-    public void updateActivationEmail(User user, String email) {
+    public void updateActivationEmail(User user, String email) throws UserActivationServiceException {
         user.setEmail(email);
         sendActivationMail(user);
     }
 
-    public void beginActivation(User user) {
+    public void beginActivation(User user) throws UserActivationServiceException {
         user.setActivationCode(generateActivationCode(user));
         sendActivationMail(user);
     }
 
-    private int generateActivationCode(User user) {
+    private Integer generateActivationCode(User user) {
         return ThreadLocalRandom.current().nextInt(ACTIVATION_CODE_MIN_VALUE, ACTIVATION_CODE_MAX_VALUE);
     }
 
-    private void sendActivationMail(User user) throws MailSendException {
-        mailSender.sendAsync(ACTIVATION_EMAIL_SUBJECT,
-                String.format("Complete your HouseMatch registration by <a href=\"%s%d\">activating your account</a>.",
-                        ACTIVATION_BASE_URL, user.getActivationCode()),
-                user.getEmail());
+    private void sendActivationMail(User user) throws UserActivationServiceException {
+        try {
+            mailSender.sendAsync(ACTIVATION_EMAIL_SUBJECT,
+                    String.format(ACTIVATION_EMAIL_BODY, ACTIVATION_BASE_URL, user.getActivationCode()),
+                    user.getEmail());
+        } catch (MailSendException e) {
+            throw new UserActivationServiceException(String.format(
+                    "Could not send the activation mail. Please check that '%s' is a valid email address.",
+                    user.getEmail()), e);
+        }
     }
 
-    public void completeActivation(Integer activationCode) throws UserNotFoundException {
-        User user = userRepository.getByActivationCode(activationCode);
+    public void completeActivation(Integer activationCode) throws UserActivationServiceException {
+        User user;
+
+        try {
+            user = userRepository.getByActivationCode(activationCode);
+        } catch (UserNotFoundException e) {
+            throw new UserActivationServiceException(
+                    String.format("Activation code '%s' is not valid.", activationCode), e);
+        }
+
         user.activate();
     }
 

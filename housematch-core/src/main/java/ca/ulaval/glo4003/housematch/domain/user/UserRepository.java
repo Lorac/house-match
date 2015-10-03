@@ -6,6 +6,6 @@ public interface UserRepository {
 
     User getByUsername(String username) throws UserNotFoundException;
 
-    User getByActivationCode(Integer hash) throws UserNotFoundException;
+    User getByActivationCode(Integer activationCode) throws UserNotFoundException;
 
 }
