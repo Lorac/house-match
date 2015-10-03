@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.DomainException;
-
-public class UserAlreadyExistsException extends DomainException {
+public class UserAlreadyExistsException extends Exception {
 
     private static final long serialVersionUID = 6163013110930633718L;
 
