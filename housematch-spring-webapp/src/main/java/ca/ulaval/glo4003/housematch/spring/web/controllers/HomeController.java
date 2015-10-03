@@ -42,17 +42,17 @@ public class HomeController extends MvcController {
         return new ModelAndView(HOME_VIEW_NAME);
     }
 
-    private final ModelAndView displayAdminHomeView(HttpSession httpSession) throws AuthenticationException {
+    private ModelAndView displayAdminHomeView(HttpSession httpSession) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(ADMIN_HOME_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         return new ModelAndView(ADMIN_HOME_VIEW_NAME);
     }
 
-    private final ModelAndView displayBuyerHomeView(HttpSession httpSession) throws AuthenticationException {
+    private ModelAndView displayBuyerHomeView(HttpSession httpSession) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(BUYER_HOME_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         return new ModelAndView(BUYER_HOME_VIEW_NAME);
     }
 
-    private final ModelAndView displaySellerHomeView(HttpSession httpSession) throws AuthenticationException {
+    private ModelAndView displaySellerHomeView(HttpSession httpSession) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(SELLER_HOME_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         return new ModelAndView(SELLER_HOME_VIEW_NAME);
     }
