@@ -11,16 +11,16 @@ import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
-import ca.ulaval.glo4003.housematch.validators.UserCreationValidator;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidator;
 
 public class UserService {
 
     private UserRepository userRepository;
     private UserActivationService userActivationService;
-    private UserCreationValidator userCreationValidator;
+    private UserRegistrationValidator userCreationValidator;
 
-    public UserService(final UserRepository userRepository, final UserCreationValidator userCreationValidator,
+    public UserService(final UserRepository userRepository, final UserRegistrationValidator userCreationValidator,
             final UserActivationService userActivationService) {
         this.userRepository = userRepository;
         this.userCreationValidator = userCreationValidator;
@@ -34,8 +34,8 @@ public class UserService {
         return user;
     }
 
-    public void createUser(String username, String email, String password, UserRole role)
-            throws UserAlreadyExistsException, UserCreationValidationException {
+    public void registerUser(String username, String email, String password, UserRole role)
+            throws UserAlreadyExistsException, UserRegistrationValidationException {
         userCreationValidator.validateUserCreation(username, email, password, role);
         User user = new User(username, email, password, role);
         userRepository.persist(user);

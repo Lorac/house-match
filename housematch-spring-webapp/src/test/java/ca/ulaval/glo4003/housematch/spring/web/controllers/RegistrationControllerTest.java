@@ -25,7 +25,7 @@ import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.services.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
-import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
 
 public class RegistrationControllerTest extends MvcControllerTest {
 
@@ -86,16 +86,16 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerCreatesUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration()
+    public void registrationControllerRegistersUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration()
             throws Exception {
         postRegistrationForm();
 
-        verify(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        verify(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test
     public void registrationControllerRendersAlertMessageOnMailSendExceptionDuringRegistration() throws Exception {
-        doThrow(new MailSendException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+        doThrow(new MailSendException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
@@ -108,7 +108,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     @Test
     public void registrationControllerRendersAlertMessageOnUserAlreadyExistsExceptionDuringRegistration()
             throws Exception {
-        doThrow(new UserAlreadyExistsException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+        doThrow(new UserAlreadyExistsException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
@@ -121,7 +121,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     @Test
     public void registrationControllerRendersAlertMessageOnUserCreationValidationExceptionDuringRegistration()
             throws Exception {
-        doThrow(new UserCreationValidationException()).when(userServiceMock).createUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
+        doThrow(new UserRegistrationValidationException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
                 SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();

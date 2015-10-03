@@ -25,7 +25,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
-import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
 
 @Controller
 public class RegistrationController extends MvcController {
@@ -58,9 +58,9 @@ public class RegistrationController extends MvcController {
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.POST)
     public final ModelAndView register(RegistrationFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
         try {
-            userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
+            userService.registerUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
                     registerForm.getRole());
-        } catch (UserCreationValidationException e) {
+        } catch (UserRegistrationValidationException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
                     e.getMessage(), AlertMessageType.ERROR);
         } catch (UserAlreadyExistsException e) {
