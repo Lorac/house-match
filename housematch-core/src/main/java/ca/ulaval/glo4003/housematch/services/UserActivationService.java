@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 public class UserActivationService {
 
     private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
-    private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s%d\">"
+    private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s%s\">"
             + "activating your account</a>.";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
 
@@ -38,12 +38,8 @@ public class UserActivationService {
     }
 
     public void beginActivation(User user) throws UserActivationServiceException {
-        user.setActivationCode(generateActivationCode(user));
+        user.setActivationCode(UUID.randomUUID());
         sendActivationMail(user);
-    }
-
-    private UUID generateActivationCode(User user) {
-        return UUID.randomUUID();
     }
 
     private void sendActivationMail(User user) throws UserActivationServiceException {

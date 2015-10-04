@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence;
+package ca.ulaval.glo4003.housematch.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

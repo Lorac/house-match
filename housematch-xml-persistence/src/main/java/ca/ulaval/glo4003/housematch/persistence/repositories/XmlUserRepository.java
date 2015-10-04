@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.housematch.persistence.repositories;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -9,20 +8,26 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserRootElement;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
 
-    private final XmlRepositoryMarshaller xmlRepositoryMarshaller;
-    private List<User> users = new ArrayList<>();
+    private final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller;
+    private XmlUserRootElement xmlUserRootElement;
+    private List<User> users;
 
-    public XmlUserRepository(final XmlRepositoryMarshaller xmlRepositoryMarshaller) {
+    public XmlUserRepository(final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller,
+            final XmlUserAdapter xmlUserAdapter) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
-        initRepository();
+        initRepository(xmlUserAdapter);
     }
 
-    protected void initRepository() {
-        users = xmlRepositoryMarshaller.getUsers();
+    protected void initRepository(final XmlUserAdapter xmlUserAdapter) {
+        xmlRepositoryMarshaller.setMarshallingAdapters(xmlUserAdapter);
+        xmlUserRootElement = xmlRepositoryMarshaller.unmarshal();
+        users = xmlUserRootElement.getUsers();
     }
 
     @Override
@@ -54,6 +59,7 @@ public class XmlUserRepository implements UserRepository {
     }
 
     protected void marshal() {
-        xmlRepositoryMarshaller.setUsers(users);
+        xmlUserRootElement.setUsers(users);
+        xmlRepositoryMarshaller.marshal(xmlUserRootElement);
     }
 }

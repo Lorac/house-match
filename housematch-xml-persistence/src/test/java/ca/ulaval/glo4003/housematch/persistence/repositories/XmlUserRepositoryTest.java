@@ -15,6 +15,8 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserRootElement;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepositoryTest {
@@ -23,9 +25,12 @@ public class XmlUserRepositoryTest {
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final UUID ANOTHER_SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
 
-    private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
-    private XmlUserRepository xmlUserRepository;
+    private XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshallerMock;
+    private XmlUserAdapter xmlUserAdapterMock;
+    private XmlUserRootElement xmlUserRootElementMock;
     private User userMock;
+
+    private XmlUserRepository xmlUserRepository;
     private List<User> users;
 
     @Before
@@ -33,17 +38,21 @@ public class XmlUserRepositoryTest {
         users = new ArrayList<User>();
         initMocks();
         stubMethods();
-        xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock);
+        xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock, xmlUserAdapterMock);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initMocks() {
+        userMock = mock(User.class);
+        xmlUserAdapterMock = mock(XmlUserAdapter.class);
+        xmlUserRootElementMock = mock(XmlUserRootElement.class);
+        xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
 
     private void stubMethods() {
-        when(xmlRepositoryMarshallerMock.getUsers()).thenReturn(users);
+        when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlUserRootElementMock);
+        when(xmlUserRootElementMock.getUsers()).thenReturn(users);
         when(userMock.usernameEquals(SAMPLE_USERNAME)).thenReturn(true);
-    }
-
-    private void initMocks() {
-        userMock = mock(User.class);
-        xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
 
     @Test
@@ -53,9 +62,11 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void persistingUserSetsTheUsersInTheRepositoryMarshaller() throws Exception {
+    public void persistingUserMarshallsTheUsersInTheRepositoryMarshaller() throws Exception {
         xmlUserRepository.persist(userMock);
-        verify(xmlRepositoryMarshallerMock).setUsers(users);
+
+        verify(xmlUserRootElementMock).setUsers(users);
+        verify(xmlRepositoryMarshallerMock).marshal(xmlUserRootElementMock);
     }
 
     @Test(expected = UserAlreadyExistsException.class)

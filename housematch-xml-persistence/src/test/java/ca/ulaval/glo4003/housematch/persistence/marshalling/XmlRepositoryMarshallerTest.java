@@ -9,50 +9,46 @@ import static org.mockito.Mockito.when;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.jasypt.util.text.TextEncryptor;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.persistence.ResourceLoader;
+import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
 
 public class XmlRepositoryMarshallerTest {
 
     private static final String SAMPLE_RESOURCE_NAME = "resource";
-    private static final List<User> SAMPLE_USER_LIST = new ArrayList<User>();
+    private static final Object SAMPLE_OBJECT = new Object();
 
     private ResourceLoader resourceLoaderMock;
-    private TextEncryptor textEncryptorMock;
     private Marshaller marshallerMock;
     private Unmarshaller unmarshallerMock;
-    private XmlRootElementNode xmlRootElementNodeMock;
     private InputStream inputStreamMock;
     private OutputStream outputStreamMock;
+    private XmlAdapter<Object, Object> xmlAdapterMock;
 
-    private XmlRepositoryMarshaller xmlRepositoryMarshaller;
+    private XmlRepositoryMarshaller<Object> xmlRepositoryMarshaller;
 
     @Before
     public void init() throws Exception {
         initMocks();
         stubMethods();
-        xmlRepositoryMarshaller = new XmlRepositoryMarshaller(marshallerMock, unmarshallerMock, resourceLoaderMock,
-                SAMPLE_RESOURCE_NAME, textEncryptorMock);
+        xmlRepositoryMarshaller = new XmlRepositoryMarshaller<Object>(marshallerMock, unmarshallerMock,
+                resourceLoaderMock, SAMPLE_RESOURCE_NAME);
     }
 
+    @SuppressWarnings("unchecked")
     public void initMocks() {
         resourceLoaderMock = mock(ResourceLoader.class);
-        textEncryptorMock = mock(TextEncryptor.class);
         marshallerMock = mock(Marshaller.class);
         unmarshallerMock = mock(Unmarshaller.class);
-        xmlRootElementNodeMock = mock(XmlRootElementNode.class);
         inputStreamMock = mock(InputStream.class);
         outputStreamMock = mock(OutputStream.class);
+        xmlAdapterMock = mock(XmlAdapter.class);
     }
 
     private void stubMethods() throws Exception {
@@ -60,51 +56,45 @@ public class XmlRepositoryMarshallerTest {
                 .thenReturn(inputStreamMock);
         when(resourceLoaderMock.loadResourceAsOutputStream(any(XmlRepositoryMarshaller.class),
                 eq(SAMPLE_RESOURCE_NAME))).thenReturn(outputStreamMock);
-        when(unmarshallerMock.unmarshal(any(InputStream.class))).thenReturn(xmlRootElementNodeMock);
+        when(unmarshallerMock.unmarshal(any(InputStream.class))).thenReturn(SAMPLE_OBJECT);
     }
 
     @Test
-    public void onXmlRepostoryMarshallerInstantiationTheSpecifiedResourceIsLoadedAsInputStream() throws Exception {
+    public void theSpecifiedResourceIsLoadedAsInputStreamDuringUnmarshalling() throws Exception {
+        xmlRepositoryMarshaller.unmarshal();
         verify(resourceLoaderMock).loadResourceAsInputStream(xmlRepositoryMarshaller, SAMPLE_RESOURCE_NAME);
     }
 
     @Test
-    public void onXmlRepostoryMarshallerInstantiationTheInputStreamIsUnmarshalled() throws Exception {
+    public void theObjectIsUnmarshalledFromTheSpecifiedInputStreamDuringUnmarshalling() throws Exception {
+        xmlRepositoryMarshaller.unmarshal();
         verify(unmarshallerMock).unmarshal(inputStreamMock);
     }
 
     @Test
+    public void theSpecifiedInputStreamIsUnmarshalledToAnObjectDuringUnmarshalling() throws Exception {
+        when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(SAMPLE_OBJECT);
+        Object unmarshalledObject = xmlRepositoryMarshaller.unmarshal();
+        assertSame(SAMPLE_OBJECT, unmarshalledObject);
+    }
+
+    @Test
     public void theSpecifiedResourceIsLoadedAsAnOutputStreamDuringMarshalling() throws Exception {
-        xmlRepositoryMarshaller.marshal();
+        xmlRepositoryMarshaller.marshal(SAMPLE_OBJECT);
         verify(resourceLoaderMock).loadResourceAsOutputStream(xmlRepositoryMarshaller, SAMPLE_RESOURCE_NAME);
     }
 
     @Test
-    public void theXmlRootElementNodeIsMarshalledToAnOutputStreamDuringMarshalling() throws Exception {
-        xmlRepositoryMarshaller.marshal();
-        verify(marshallerMock).marshal(any(XmlRootElementNode.class), eq(outputStreamMock));
+    public void theObjectIsMarshalledToAnOutputStreamDuringMarshalling() throws Exception {
+        xmlRepositoryMarshaller.marshal(SAMPLE_OBJECT);
+        verify(marshallerMock).marshal(SAMPLE_OBJECT, outputStreamMock);
     }
 
     @Test
-    public void gettingUsersReturnsTheUsersFromTheXmlRootElementNode() {
-        when(xmlRootElementNodeMock.getUsers()).thenReturn(SAMPLE_USER_LIST);
+    public void settingTheMarshallingAdaptersSetsTheMarshallingAdaptersOnTheMarshallers() {
+        xmlRepositoryMarshaller.setMarshallingAdapters(xmlAdapterMock);
 
-        List<User> returnedUsers = xmlRepositoryMarshaller.getUsers();
-
-        verify(xmlRootElementNodeMock).getUsers();
-        assertSame(SAMPLE_USER_LIST, returnedUsers);
+        verify(marshallerMock).setAdapter(xmlAdapterMock);
+        verify(unmarshallerMock).setAdapter(xmlAdapterMock);
     }
-
-    @Test
-    public void settingUsersSetsTheUsersInTheXmlRootElementNode() {
-        xmlRepositoryMarshaller.setUsers(SAMPLE_USER_LIST);
-        verify(xmlRootElementNodeMock).setUsers(SAMPLE_USER_LIST);
-    }
-
-    @Test
-    public void settingUsersMarshallsTheXmlRootElementNode() throws Exception {
-        xmlRepositoryMarshaller.setUsers(SAMPLE_USER_LIST);
-        verify(marshallerMock).marshal(xmlRootElementNodeMock, outputStreamMock);
-    }
-
 }

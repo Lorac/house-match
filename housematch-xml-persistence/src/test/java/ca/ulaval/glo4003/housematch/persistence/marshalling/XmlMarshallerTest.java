@@ -40,7 +40,7 @@ public class XmlMarshallerTest {
 
     @Test
     public void xmlMarshallerCorrectlyInstantiatesUsingDefaultMarshallers() {
-        xmlMarshaller = new XmlMarshaller<>(Object.class);
+        xmlMarshaller = new XmlMarshaller<Object>(Object.class);
         assertNotNull(xmlMarshaller.getMarshaller());
         assertNotNull(xmlMarshaller.getUnmarshaller());
     }

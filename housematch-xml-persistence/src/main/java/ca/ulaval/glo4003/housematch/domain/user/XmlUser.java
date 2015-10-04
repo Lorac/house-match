@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.housematch.domain.user;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "User")
+@XmlRootElement(name = "user")
 public class XmlUser {
     public String username;
     public String email;
