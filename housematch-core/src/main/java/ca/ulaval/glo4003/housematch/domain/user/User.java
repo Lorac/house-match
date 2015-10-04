@@ -14,6 +14,9 @@ public class User {
     UserRole role;
     Integer activationCode;
     boolean activated = false;
+    Integer modifcationCode;
+    boolean pendingModification = false;
+    String temporaryEmail;
 
     User() {
         // Required for instanciation by reflection
@@ -121,6 +124,28 @@ public class User {
 
     public boolean isActivated() {
         return activated;
+    }
+
+    public void startModification(Integer code) {
+        this.pendingModification = true;
+        this.modifcationCode = code;
+    }
+
+    public void endModification() {
+        this.pendingModification = false;
+        this.modifcationCode = null;
+    }
+
+    public Integer getModificationCode() {
+        return modifcationCode;
+    }
+
+    public void setTemporaryMail(String email) {
+        this.temporaryEmail = email;
+    }
+
+    public String getTemporaryMail() {
+        return temporaryEmail;
     }
 
     @Override

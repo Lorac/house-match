@@ -34,6 +34,7 @@
         <constructor-arg ref="xmlUserRepository"/>
 		<constructor-arg ref="userRegistrationValidator"/>
         <constructor-arg ref="userActivationService"/>
+        <constructor-arg ref="mailSender"/>
     </bean>
 	
 	<bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.UserActivationService">

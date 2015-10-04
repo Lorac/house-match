@@ -45,6 +45,7 @@ public class MvcController {
     protected static final String MODIFIED_USER_SAVED_VIEW_NAME = "userProfileSaved";
     protected static final String PROFILE_URL = "/profile";
     protected static final String PROFILE_VIEW_NAME = "userProfile";
+    protected static final String EMAIL_MODIFICATION_URL = "/modifyProfile/{user}/{code}";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;
