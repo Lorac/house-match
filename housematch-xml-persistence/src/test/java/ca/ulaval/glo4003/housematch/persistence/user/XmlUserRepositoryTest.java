@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence.repositories;
+package ca.ulaval.glo4003.housematch.persistence.user;
 
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
@@ -16,8 +16,8 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
-import ca.ulaval.glo4003.housematch.domain.user.XmlUserRootElement;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+import ca.ulaval.glo4003.housematch.persistence.user.XmlUserRepository;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";

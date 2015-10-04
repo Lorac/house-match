@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence.repositories;
+package ca.ulaval.glo4003.housematch.persistence.user;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -9,7 +9,6 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
-import ca.ulaval.glo4003.housematch.domain.user.XmlUserRootElement;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {

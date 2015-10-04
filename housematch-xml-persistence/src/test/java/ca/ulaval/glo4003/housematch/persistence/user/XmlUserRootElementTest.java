@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.domain.user;
+package ca.ulaval.glo4003.housematch.persistence.user;
 
 import static org.junit.Assert.assertSame;
 
@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.XmlUserRootElement;
+import ca.ulaval.glo4003.housematch.persistence.user.XmlUserRootElement;
 
 public class XmlUserRootElementTest {
 

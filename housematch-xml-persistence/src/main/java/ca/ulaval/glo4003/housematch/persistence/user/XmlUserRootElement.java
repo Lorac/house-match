@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.domain.user;
+package ca.ulaval.glo4003.housematch.persistence.user;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 
 @XmlRootElement(name = "users")
 public class XmlUserRootElement {
