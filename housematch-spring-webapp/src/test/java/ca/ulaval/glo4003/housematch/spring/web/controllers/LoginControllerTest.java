@@ -20,11 +20,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.services.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
 public class LoginControllerTest extends MvcControllerTest {
 
@@ -34,13 +36,15 @@ public class LoginControllerTest extends MvcControllerTest {
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
 
     private UserService userServiceMock;
+    private UserActivationService userActivationServiceMock;
     private LoginController loginController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        loginController = new LoginController(userServiceMock);
+        userActivationServiceMock = mock(UserActivationService.class);
+        loginController = new LoginController(userServiceMock, userActivationServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
     }
 
@@ -58,8 +62,8 @@ public class LoginControllerTest extends MvcControllerTest {
         MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
         ResultActions results = mockMvc.perform(getRequest);
 
-        results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("username")));
-        results.andExpect(model().attribute(LoginController.LOGIN_FORM_VIEWMODEL_NAME, hasProperty("password")));
+        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty("username")));
+        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty("password")));
     }
 
     @Test
@@ -89,34 +93,22 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginControllerRendersAlertMessageOnUserNotFoundExceptionDuringLogin() throws Exception {
-        doThrow(new UserNotFoundException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
+    public void loginControllerRendersAlertMessageOnUserServiceExceptionDuringLogin() throws Exception {
+        doThrow(new UserServiceException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
                 SAMPLE_PASSWORD);
 
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
-    public void loginControllerRendersAlertMessageOnInvalidPasswordExceptionDuringLogin() throws Exception {
-        doThrow(new InvalidPasswordException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
-                SAMPLE_PASSWORD);
-
-        ResultActions results = postLoginForm();
-
-        results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(RegistrationController.ALERT_MESSAGE_VIEW_MODEL_NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
-    }
-
-    @Test
-    public void loginControllerRedirectsToEmailReconfirmationViewOnUserNotActivatedExceptionDuringLogin()
+    public void loginControllerRedirectsToEmailReconfirmationViewOnUserActivationServiceExceptionDuringLogin()
             throws Exception {
         when(userServiceMock.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD)).thenReturn(userMock);
-        doThrow(new UserNotActivatedException()).when(userServiceMock).validateActivation(userMock);
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).validateActivation(userMock);
 
         ResultActions results = postLoginForm();
 

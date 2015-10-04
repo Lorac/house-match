@@ -19,6 +19,8 @@ import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshal
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_UNEXISTING_USERNAME = "username2";
+    private static final Integer SAMPLE_ACTIVATION_CODE = 3434243;
+    private static final Integer ANOTHER_SAMPLE_ACTIVATION_CODE = 2423432;
 
     private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
     private XmlUserRepository xmlUserRepository;
@@ -74,13 +76,15 @@ public class XmlUserRepositoryTest {
     }
 
     @Test
-    public void gettingUserByHashCodeRetrievesUserByHashCode() throws Exception {
+    public void gettingUserByActivationCodeRetrievesUserByActivationCode() throws Exception {
+        when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
         xmlUserRepository.persist(userMock);
-        assertSame(userMock, xmlUserRepository.getByHashCode(userMock.hashCode()));
+        assertSame(userMock, xmlUserRepository.getByActivationCode(SAMPLE_ACTIVATION_CODE));
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void gettingUserByHashCodeUsingNonExistingHashCodeThrowsUserNotFoundException() throws Exception {
-        xmlUserRepository.getByHashCode(SAMPLE_UNEXISTING_USERNAME.hashCode());
+    public void gettingUserByActivationCodeUsingNonExistingActivationCodeThrowsUserNotFoundException()
+            throws Exception {
+        xmlUserRepository.getByActivationCode(ANOTHER_SAMPLE_ACTIVATION_CODE);
     }
 }

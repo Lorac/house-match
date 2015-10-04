@@ -5,20 +5,20 @@ import org.apache.commons.validator.routines.EmailValidator;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-public class UserCreationValidator {
+public class UserRegistrationValidator {
 
     public void validateUserCreation(String username, String email, String password, UserRole role)
-            throws UserCreationValidationException {
+            throws UserRegistrationValidationException {
         if (StringUtils.isBlank(username)) {
-            throw new UserCreationValidationException("Username cannot be blank.");
+            throw new UserRegistrationValidationException("Username cannot be blank.");
         } else if (StringUtils.isBlank(email)) {
-            throw new UserCreationValidationException("Email cannot be blank.");
+            throw new UserRegistrationValidationException("Email cannot be blank.");
         } else if (!EmailValidator.getInstance(false).isValid(email)) {
-            throw new UserCreationValidationException("The email format is not valid.");
+            throw new UserRegistrationValidationException("The email format is not valid.");
         } else if (StringUtils.isBlank(password)) {
-            throw new UserCreationValidationException("Password cannot be blank.");
+            throw new UserRegistrationValidationException("Password cannot be blank.");
         } else if (role.equals(UserRole.ADMINISTRATOR)) {
-            throw new UserCreationValidationException("Can't create user as an administrator.");
+            throw new UserRegistrationValidationException("Can't create user as an administrator.");
         }
 
     }

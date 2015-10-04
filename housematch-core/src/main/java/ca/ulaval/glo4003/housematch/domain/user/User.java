@@ -12,6 +12,7 @@ public class User {
     String country;
 
     UserRole role;
+    Integer activationCode;
     boolean activated = false;
 
     User() {
@@ -87,6 +88,14 @@ public class User {
         }
     }
 
+    public Integer getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(Integer activationCode) {
+        this.activationCode = activationCode;
+    }
+
     public void validateActivation() throws UserNotActivatedException {
         if (!this.activated) {
             throw new UserNotActivatedException("User is not activated.");
@@ -107,6 +116,7 @@ public class User {
 
     public void activate() {
         this.activated = true;
+        this.activationCode = null;
     }
 
     public boolean isActivated() {
@@ -115,7 +125,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        return username.hashCode();
+        return username.toLowerCase().hashCode();
     }
 
     @Override

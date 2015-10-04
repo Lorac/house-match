@@ -14,30 +14,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSendException;
+import ca.ulaval.glo4003.housematch.services.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.services.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
-import ca.ulaval.glo4003.housematch.validators.UserCreationValidationException;
 
 @Controller
 public class RegistrationController extends MvcController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserActivationService userActivationService;
 
     protected RegistrationController() {
         // Required for Mockito
     }
 
-    public RegistrationController(final UserService userService) {
+    public RegistrationController(final UserService userService, final UserActivationService userActivationService) {
         this.userService = userService;
+        this.userActivationService = userActivationService;
     }
 
     @ModelAttribute("publiclyRegistrableRoles")
@@ -47,66 +48,50 @@ public class RegistrationController extends MvcController {
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayRegistrationView(ModelMap modelMap) {
-        modelMap.put(REGISTRATION_FORM_VIEWMODEL_NAME, new RegistrationFormViewModel());
+        modelMap.put(RegistrationFormViewModel.VIEWMODEL_NAME, new RegistrationFormViewModel());
         return new ModelAndView(REGISTRATION_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.POST)
-    public final ModelAndView register(RegistrationFormViewModel registerForm, ModelMap modelMap, HttpSession session) {
+    public final ModelAndView register(RegistrationFormViewModel registrationForm) {
         try {
-            userService.createUser(registerForm.getUsername(), registerForm.getEmail(), registerForm.getPassword(),
-                    registerForm.getRole());
-        } catch (UserCreationValidationException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    e.getMessage(), AlertMessageType.ERROR);
-        } catch (UserAlreadyExistsException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "A user with this username already exists.", AlertMessageType.ERROR);
-        } catch (MailSendException e) {
-            return showAlertMessage(REGISTRATION_VIEW_NAME, REGISTRATION_FORM_VIEWMODEL_NAME, registerForm,
-                    "Could not send activation mail. Please check that the email address you entered is valid.",
-                    AlertMessageType.ERROR);
+            userService.registerUser(registrationForm.getUsername(), registrationForm.getEmail(),
+                    registrationForm.getPassword(), registrationForm.getRole());
+            return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
+        } catch (UserServiceException e) {
+            return showAlertMessage(REGISTRATION_VIEW_NAME, registrationForm, e.getMessage());
         }
-
-        return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
     public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
-            ModelMap modelMap, HttpSession session, RedirectAttributes redirectAttributes) {
-        modelMap.put(EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
+            ModelMap modelMap, RedirectAttributes redirectAttributes) {
+
+        modelMap.put(EmailReconfirmFormViewModel.VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.POST)
-    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm, ModelMap modelMap,
-            HttpSession session, RedirectAttributes redirectAttributes) {
+    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm,
+            HttpSession session) {
 
         try {
-            User user = (User) session.getAttribute(USER_ATTRIBUTE_NAME);
-            userService.updateActivationEmail(user, emailReconfirmForm.getEmail());
-        } catch (MailSendException e) {
-            return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, EMAIL_RECONFIRM_FORM_VIEWMODEL_NAME, emailReconfirmForm,
-                    "Could not send activation mail. Please check that the email address you entered is valid.",
-                    AlertMessageType.ERROR);
+            userActivationService.updateActivationEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
+            session.invalidate();
+            return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
+        } catch (UserActivationServiceException e) {
+            return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, emailReconfirmForm, e.getMessage());
         }
-
-        session.invalidate();
-        return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
-    public final ModelAndView activate(@PathVariable int hashCode, ModelMap modelMap,
-            RedirectAttributes redirectAttributes) {
-
+    public final ModelAndView activate(@PathVariable Integer activationCode, RedirectAttributes redirectAttributes) {
         try {
-            userService.activateUser(hashCode);
-        } catch (UserNotFoundException e) {
-            return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                    "The activation link is not valid.", AlertMessageType.ERROR);
+            userActivationService.completeActivation(activationCode);
+            return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(),
+                    "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
+        } catch (UserActivationServiceException e) {
+            return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(), e.getMessage());
         }
-
-        return showAlertMessage(LOGIN_VIEW_NAME, LOGIN_FORM_VIEWMODEL_NAME, new LoginFormViewModel(),
-                "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
     }
 }

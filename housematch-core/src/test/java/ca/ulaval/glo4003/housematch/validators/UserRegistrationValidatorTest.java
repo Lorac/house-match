@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-public class UserCreationValidatorTest {
+public class UserRegistrationValidatorTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
@@ -16,15 +16,15 @@ public class UserCreationValidatorTest {
     private static final String SAMPLE_USERNAME = "Alice";
     private static final String SAMPLE_BLANK_EXPRESSION = "  ";
 
-    private UserCreationValidator userCreationValidator;
+    private UserRegistrationValidator userCreationValidator;
 
     @Before
     public void init() throws Exception {
-        userCreationValidator = new UserCreationValidator();
+        userCreationValidator = new UserRegistrationValidator();
     }
 
     @Test
-    public void creationOfUserUsingValidValuesPassesValidation() throws Exception {
+    public void userRegistrationUsingValidValuesPassesValidation() throws Exception {
         try {
             userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         } catch (Exception e) {
@@ -32,29 +32,29 @@ public class UserCreationValidatorTest {
         }
     }
 
-    @Test(expected = UserCreationValidationException.class)
-    public void userCreationUsingBlankUsernameThrowsUserCreationValidationException() throws Exception {
+    @Test(expected = UserRegistrationValidationException.class)
+    public void userRegistrationUsingBlankUsernameThrowsUserRegistrationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_BLANK_EXPRESSION, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
-    @Test(expected = UserCreationValidationException.class)
-    public void userCreationUsingAnInvalidEmailFormatThrowsUserCreationValidationException() throws Exception {
+    @Test(expected = UserRegistrationValidationException.class)
+    public void userRegistrationUsingAnInvalidEmailFormatThrowsUserRegistrationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_INVALID_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
-    @Test(expected = UserCreationValidationException.class)
-    public void userCreationUsingBlankEmailThrowsUserCreationValidationException() throws Exception {
+    @Test(expected = UserRegistrationValidationException.class)
+    public void userRegistrationUsingBlankEmailThrowsUserRegistrationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_BLANK_EXPRESSION, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
     }
 
-    @Test(expected = UserCreationValidationException.class)
-    public void userCreationUsingBlankPasswordThrowsUserCreationValidationException() throws Exception {
+    @Test(expected = UserRegistrationValidationException.class)
+    public void userRegistrationUsingBlankPasswordThrowsUserRegistrationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_BLANK_EXPRESSION, SAMPLE_ROLE);
     }
 
-    @Test(expected = UserCreationValidationException.class)
-    public void creationOfUserAsAnAdministratorThrowsUserCreationValidationException() throws Exception {
+    @Test(expected = UserRegistrationValidationException.class)
+    public void userRegistrationAsAnAdministratorThrowsUserRegistrationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
                 UserRole.ADMINISTRATOR);
     }

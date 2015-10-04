@@ -27,18 +27,29 @@ public class XmlMarshaller<T> {
     }
 
     private void initDefaultMarshallers() {
-        JAXBContext jaxbContext;
+        JAXBContext jaxbContext = initializeJAXBContext();
+        initDefaultMarshaller(jaxbContext);
+        initDefaultUnmarshaller(jaxbContext);
+    }
+
+    private JAXBContext initializeJAXBContext() {
         try {
-            jaxbContext = JAXBContext.newInstance(type);
+            return JAXBContext.newInstance(type);
         } catch (JAXBException e) {
             throw new MarshallingException("JAXB context initialization failed.", e);
         }
+    }
+
+    private void initDefaultMarshaller(JAXBContext jaxbContext) {
         try {
             marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
         } catch (JAXBException e) {
             throw new MarshallingException("Marshaller initialization failed.", e);
         }
+    }
+
+    private void initDefaultUnmarshaller(JAXBContext jaxbContext) {
         try {
             unmarshaller = jaxbContext.createUnmarshaller();
         } catch (JAXBException e) {

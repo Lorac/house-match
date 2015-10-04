@@ -4,7 +4,9 @@ import javax.validation.constraints.NotNull;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-public class RegistrationFormViewModel {
+public class RegistrationFormViewModel extends ViewModel {
+
+    public static final String VIEWMODEL_NAME = "registrationForm";
 
     @NotNull
     private String username;
@@ -14,6 +16,10 @@ public class RegistrationFormViewModel {
     private String email;
     @NotNull
     private UserRole role;
+
+    public String getViewModelName() {
+        return VIEWMODEL_NAME;
+    }
 
     public String getUsername() {
         return username;

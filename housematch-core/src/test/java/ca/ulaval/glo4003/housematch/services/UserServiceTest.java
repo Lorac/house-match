@@ -4,8 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -15,23 +14,24 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSender;
-import ca.ulaval.glo4003.housematch.validators.UserCreationValidator;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
+import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidator;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
-    private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
     private static final String SAMPLE_PASSWORD = "password1234";
-    private static final int SAMPLE_USER_HASH = SAMPLE_USERNAME.hashCode();
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private UserRepository userRepositoryMock;
-    private UserCreationValidator userCreationValidatorMock;
-    private MailSender emailSenderMock;
+    private UserRegistrationValidator userCreationValidatorMock;
+    private UserActivationService userActivationServiceMock;
     private User userMock;
 
     private UserService userService;
@@ -39,19 +39,18 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userCreationValidatorMock, emailSenderMock);
+        userService = new UserService(userRepositoryMock, userCreationValidatorMock, userActivationServiceMock);
     }
 
     private void initMocks() throws Exception {
         stubMethods();
-        when(userRepositoryMock.getByHashCode(SAMPLE_USER_HASH)).thenReturn(userMock);
     }
 
     private void stubMethods() {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
-        emailSenderMock = mock(MailSender.class);
-        userCreationValidatorMock = mock(UserCreationValidator.class);
+        userActivationServiceMock = mock(UserActivationService.class);
+        userCreationValidatorMock = mock(UserRegistrationValidator.class);
     }
 
     @Test
@@ -75,42 +74,56 @@ public class UserServiceTest {
         assertSame(userMock, user);
     }
 
-    @Test
-    public void activationValidationValidatesUserActivationFromTheUserObject() throws Exception {
-        userService.validateActivation(userMock);
-        verify(userMock).validateActivation();
+    @Test(expected = UserServiceException.class)
+    public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnUserNotFoundException() throws Exception {
+        doThrow(new UserNotFoundException()).when(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
+        userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnInvalidPasswordException() throws Exception {
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+        doThrow(new InvalidPasswordException()).when(userMock).validatePassword(SAMPLE_PASSWORD);
+
+        userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
     }
 
     @Test
-    public void updatingActivationEmailUpdatesTheEmailFromOfTheUserObject() throws Exception {
-        userService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(userMock).setEmail(eq(ANOTHER_SAMPLE_EMAIL));
-    }
-
-    @Test
-    public void updatingActivationEmailSendsTheActivationLink() throws Exception {
-        when(userMock.getEmail()).thenReturn(ANOTHER_SAMPLE_EMAIL);
-        userService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(emailSenderMock).send(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
-    }
-
-    @Test
-    public void userCreationPersistsNewUserToRepository() throws Exception {
-        userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+    public void userRegistrationPersistsNewUserToRepository() throws Exception {
+        registerUser();
         verify(userRepositoryMock).persist(any(User.class));
     }
 
     @Test
-    public void userCreationCallsTheUserCreationValidator() throws Exception {
-        userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+    public void userRegistrationCallsTheUserCreationValidator() throws Exception {
+        registerUser();
         verify(userCreationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
     }
 
     @Test
-    public void userCreationSendsTheActivationLink() throws Exception {
-        userService.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        verify(emailSenderMock).send(anyString(), anyString(), eq(SAMPLE_EMAIL));
+    public void userRegistrationBeginsTheActivationProcess() throws Exception {
+        registerUser();
+        verify(userActivationServiceMock).beginActivation(any(User.class));
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void userRegistrationThrowsUserServiceExceptionOnUserRegistrationValidationException() throws Exception {
+        doThrow(new UserRegistrationValidationException()).when(userCreationValidatorMock)
+                .validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        registerUser();
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void userRegistrationThrowsUserServiceExceptionOnUserAlreadyExistsException() throws Exception {
+        doThrow(new UserAlreadyExistsException()).when(userRepositoryMock).persist(any(User.class));
+        registerUser();
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void userRegistrationThrowsUserServiceExceptionOnUserActivationServiceException() throws Exception {
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).beginActivation(any(User.class));
+        registerUser();
     }
 
     @Test
@@ -120,9 +133,7 @@ public class UserServiceTest {
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
     }
 
-    @Test
-    public void userActivationActivatesUserFromTheSpecifiedHashCode() throws Exception {
-        userService.activateUser(SAMPLE_USERNAME.hashCode());
-        verify(userRepositoryMock).getByHashCode(SAMPLE_USERNAME.hashCode());
+    private void registerUser() throws UserServiceException {
+        userService.registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 }

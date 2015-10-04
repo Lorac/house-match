@@ -43,11 +43,12 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    public User getByHashCode(int hash) throws UserNotFoundException {
+    public User getByActivationCode(Integer activationCode) throws UserNotFoundException {
         try {
-            return users.stream().filter(u -> u.hashCode() == hash).findFirst().get();
+            return users.stream().filter(u -> activationCode.equals(u.getActivationCode())).findFirst().get();
         } catch (NoSuchElementException e) {
-            throw new UserNotFoundException(String.format("Cannot find user with hash '%s'.", hash));
+            throw new UserNotFoundException(
+                    String.format("Cannot find user with activation code '%s'.", activationCode));
         }
     }
 
