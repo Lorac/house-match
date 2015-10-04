@@ -54,10 +54,13 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void updateUserCoordinate(User user, String address, String postalCode, String city, String country) {
+    public void updateUserCoordinate(String username, String address, String postalCode, String city, String country)
+            throws UserNotFoundException {
+        User user = userRepository.getByUsername(username);
         user.setAddress(address);
         user.setPostalCode(postalCode);
         user.setCity(city);
         user.setCountry(country);
     }
+
 }

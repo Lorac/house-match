@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
 import javax.validation.constraints.NotNull;
 
-public final class UserProfileFormViewModel {
+public final class ProfileModificationFormViewModel {
 
     @NotNull
     private String address;
