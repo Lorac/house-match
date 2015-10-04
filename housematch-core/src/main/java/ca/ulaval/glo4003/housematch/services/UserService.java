@@ -75,15 +75,15 @@ public class UserService {
         user.setCity(city);
         user.setCountry(country);
         if (!email.equals(user.getEmail())) {
-            user.setTemporaryMail(email);
+            user.setTemporaryEmail(email);
             sendConfirmationMail(user, email);
         }
     }
 
     public void completeEmailModification(Integer code, String username) throws UserNotFoundException {
         User user = userRepository.getByUsername(username);
-        user.setEmail(user.getTemporaryMail());
-        user.setTemporaryMail(null);
+        user.setEmail(user.getTemporaryEmail());
+        user.setTemporaryEmail("");
         user.endModification();
     }
 

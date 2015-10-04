@@ -15,7 +15,6 @@ public class User {
     Integer activationCode;
     boolean activated = false;
     Integer modifcationCode;
-    boolean pendingModification = false;
     String temporaryEmail;
 
     User() {
@@ -127,12 +126,10 @@ public class User {
     }
 
     public void startModification(Integer code) {
-        this.pendingModification = true;
         this.modifcationCode = code;
     }
 
     public void endModification() {
-        this.pendingModification = false;
         this.modifcationCode = null;
     }
 
@@ -140,11 +137,11 @@ public class User {
         return modifcationCode;
     }
 
-    public void setTemporaryMail(String email) {
+    public void setTemporaryEmail(String email) {
         this.temporaryEmail = email;
     }
 
-    public String getTemporaryMail() {
+    public String getTemporaryEmail() {
         return temporaryEmail;
     }
 

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.domain.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -20,6 +21,11 @@ public class UserTest {
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
     private static final Object SAMPLE_OBJECT = new Object();
+    private static final String SAMPLE_ADDRESS = "123 potato street";
+    private static final String SAMPLE_POSTAL_CODE = "X1X1X1";
+    private static final String SAMPLE_COUNTRY = "Canada";
+    private static final String SAMPLE_CITY = "Potatown";
+    private static final Integer SAMPLE_CODE = 1234567890;
 
     private User user;
 
@@ -144,5 +150,53 @@ public class UserTest {
     @Test(expected = UserNotActivatedException.class)
     public void activationValidationOnNonActivatedUserThrowsUserNotActivatedException() throws Exception {
         user.validateActivation();
+    }
+
+    @Test
+    public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
+        user.setAddress(SAMPLE_ADDRESS);
+        assertEquals(SAMPLE_ADDRESS, user.getAddress());
+    }
+
+    @Test
+    public void settingThePostalCodeSetsTheSpecifiedPostalCode() throws Exception {
+        user.setPostalCode(SAMPLE_POSTAL_CODE);
+        assertEquals(SAMPLE_POSTAL_CODE, user.getPostalCode());
+    }
+
+    @Test
+    public void settingTheCountrySetsTheSpecifiedCountry() throws Exception {
+        user.setCountry(SAMPLE_COUNTRY);
+        assertEquals(SAMPLE_COUNTRY, user.getCountry());
+    }
+
+    @Test
+    public void settingTheCitySetsTheSpecifiedCity() throws Exception {
+        user.setCity(SAMPLE_CITY);
+        assertEquals(SAMPLE_CITY, user.getCity());
+    }
+
+    @Test
+    public void settingTheActivationCodeSetsTheSpecifiedActivationCode() throws Exception {
+        user.setActivationCode(SAMPLE_CODE);
+        assertEquals(SAMPLE_CODE, user.getActivationCode());
+    }
+
+    @Test
+    public void settingTheModifcationOnSetsTheSpecifiedModificationCode() throws Exception {
+        user.startModification(SAMPLE_CODE);
+        assertEquals(SAMPLE_CODE, user.getModificationCode());
+    }
+
+    @Test
+    public void endingTheModifcationOnRemovesTheModificationCode() throws Exception {
+        user.endModification();
+        assertNull(user.getActivationCode());
+    }
+
+    @Test
+    public void settingTheTemporaryEmailSetsTheSpecifiedTemporaryEmail() throws Exception {
+        user.setTemporaryEmail(SAMPLE_EMAIL);
+        assertEquals(SAMPLE_EMAIL, user.getTemporaryEmail());
     }
 }
