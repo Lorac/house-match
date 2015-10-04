@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,8 +20,8 @@ import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshal
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_UNEXISTING_USERNAME = "username2";
-    private static final Integer SAMPLE_ACTIVATION_CODE = 3434243;
-    private static final Integer ANOTHER_SAMPLE_ACTIVATION_CODE = 2423432;
+    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
+    private static final UUID ANOTHER_SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
 
     private XmlRepositoryMarshaller xmlRepositoryMarshallerMock;
     private XmlUserRepository xmlUserRepository;

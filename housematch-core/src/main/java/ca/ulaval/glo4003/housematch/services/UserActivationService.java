@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.housematch.services;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.UUID;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
@@ -15,8 +15,6 @@ public class UserActivationService {
     private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s%d\">"
             + "activating your account</a>.";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
-    private static final Integer ACTIVATION_CODE_MIN_VALUE = 1;
-    private static final Integer ACTIVATION_CODE_MAX_VALUE = Integer.MAX_VALUE;
 
     private UserRepository userRepository;
     private MailSender mailSender;
@@ -44,8 +42,8 @@ public class UserActivationService {
         sendActivationMail(user);
     }
 
-    private Integer generateActivationCode(User user) {
-        return ThreadLocalRandom.current().nextInt(ACTIVATION_CODE_MIN_VALUE, ACTIVATION_CODE_MAX_VALUE);
+    private UUID generateActivationCode(User user) {
+        return UUID.randomUUID();
     }
 
     private void sendActivationMail(User user) throws UserActivationServiceException {
@@ -60,7 +58,7 @@ public class UserActivationService {
         }
     }
 
-    public void completeActivation(Integer activationCode) throws UserActivationServiceException {
+    public void completeActivation(UUID activationCode) throws UserActivationServiceException {
         User user;
 
         try {

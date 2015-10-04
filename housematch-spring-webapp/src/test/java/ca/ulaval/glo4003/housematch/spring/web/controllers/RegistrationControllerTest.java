@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
@@ -38,7 +40,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String ROLE_PARAMETER_NAME = "role";
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
-    private static final Integer SAMPLE_ACTIVATION_CODE = 234234;
+    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
 
     private UserService userServiceMock;
     private UserActivationService userActivationServiceMock;

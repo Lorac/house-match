@@ -1,12 +1,14 @@
 package ca.ulaval.glo4003.housematch.services;
 
-import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.email.MailSender;
 
 public class UserActivationServiceTest {
-    private static final Integer SAMPLE_ACTIVATION_CODE = 34234213;
+    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final String SAMPLE_EMAIL = "test@test.com";
     private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
 
@@ -81,7 +83,7 @@ public class UserActivationServiceTest {
     @Test
     public void beginningTheActivationSetsTheUserActivationCode() throws Exception {
         userActivationService.beginActivation(userMock);
-        verify(userMock).setActivationCode(anyInt());
+        verify(userMock).setActivationCode(any(UUID.class));
     }
 
     @Test

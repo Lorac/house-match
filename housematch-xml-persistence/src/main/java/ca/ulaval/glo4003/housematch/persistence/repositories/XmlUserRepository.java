@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.persistence.repositories;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -43,7 +44,7 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    public User getByActivationCode(Integer activationCode) throws UserNotFoundException {
+    public User getByActivationCode(UUID activationCode) throws UserNotFoundException {
         try {
             return users.stream().filter(u -> activationCode.equals(u.getActivationCode())).findFirst().get();
         } catch (NoSuchElementException e) {

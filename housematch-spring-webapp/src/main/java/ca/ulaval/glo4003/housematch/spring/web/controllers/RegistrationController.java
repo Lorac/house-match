@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -85,7 +86,7 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
-    public final ModelAndView activate(@PathVariable Integer activationCode, RedirectAttributes redirectAttributes) {
+    public final ModelAndView activate(@PathVariable UUID activationCode, RedirectAttributes redirectAttributes) {
         try {
             userActivationService.completeActivation(activationCode);
             return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(),

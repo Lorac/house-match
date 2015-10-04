@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.util.UUID;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class User {
@@ -7,7 +9,7 @@ public class User {
     String email;
     String password;
     UserRole role;
-    Integer activationCode;
+    UUID activationCode;
     boolean activated = false;
 
     User() {
@@ -51,11 +53,11 @@ public class User {
         }
     }
 
-    public Integer getActivationCode() {
+    public UUID getActivationCode() {
         return activationCode;
     }
 
-    public void setActivationCode(Integer activationCode) {
+    public void setActivationCode(UUID activationCode) {
         this.activationCode = activationCode;
     }
 
