@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.jasypt.util.text.TextEncryptor;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 
@@ -26,14 +27,16 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         User user = new User(xmlUser.username, xmlUser.email, textEncryptor.decrypt(xmlUser.password), xmlUser.role);
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
+        user.setPropertyListings(dereferencePropertyListings(xmlUser));
+        return user;
+    }
 
+    private List<Property> dereferencePropertyListings(XmlUser xmlUser) throws PropertyNotFoundException {
         List<Property> propertyListings = new ArrayList<Property>();
         for (Integer propertyHashCode : xmlUser.propertyListingsRef) {
             propertyListings.add(propertyRepository.getByHashCode(propertyHashCode));
         }
-
-        user.setPropertyListings(propertyListings);
-        return user;
+        return propertyListings;
     }
 
     @Override
