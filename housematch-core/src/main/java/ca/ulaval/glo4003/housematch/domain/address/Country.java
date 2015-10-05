@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.domain.streetaddress;
+package ca.ulaval.glo4003.housematch.domain.address;
 
 public enum Country {
     CAN("Canada");

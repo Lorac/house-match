@@ -10,11 +10,11 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
@@ -28,7 +28,7 @@ public class PropertyServiceTest {
     private UserRepository userRepositoryMock;
     private PropertyListingCreationValidator propertyListingCreationValidatorMock;
     private User userMock;
-    private StreetAddress streetAddressMock;
+    private Address addressMock;
 
     private PropertyService propertyService;
 
@@ -43,7 +43,7 @@ public class PropertyServiceTest {
         userRepositoryMock = mock(UserRepository.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
         userMock = mock(User.class);
-        streetAddressMock = mock(StreetAddress.class);
+        addressMock = mock(Address.class);
         propertyListingCreationValidatorMock = mock(PropertyListingCreationValidator.class);
     }
 
@@ -63,14 +63,14 @@ public class PropertyServiceTest {
     public void propertyListingCreationCallsThePropertyListingCreationValidator() throws Exception {
         createPropertyListing();
         verify(propertyListingCreationValidatorMock).validatePropertyListingCreation(SAMPLE_PROPERTY_TYPE,
-                streetAddressMock, SAMPLE_SELLING_PRICE);
+                addressMock, SAMPLE_SELLING_PRICE);
     }
 
     @Test(expected = PropertyServiceException.class)
     public void propertyListingCreationThrowsPropertyServiceExceptionOnPropertyListingCreationValidationException()
             throws Exception {
         doThrow(new PropertyListingCreationValidationException()).when(propertyListingCreationValidatorMock)
-                .validatePropertyListingCreation(SAMPLE_PROPERTY_TYPE, streetAddressMock, SAMPLE_SELLING_PRICE);
+                .validatePropertyListingCreation(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
         createPropertyListing();
     }
 
@@ -81,6 +81,6 @@ public class PropertyServiceTest {
     }
 
     private void createPropertyListing() throws PropertyServiceException {
-        propertyService.createPropertyListing(SAMPLE_PROPERTY_TYPE, streetAddressMock, SAMPLE_SELLING_PRICE, userMock);
+        propertyService.createPropertyListing(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, userMock);
     }
 }

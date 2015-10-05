@@ -4,21 +4,21 @@ import java.math.BigDecimal;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class Property {
 
     private PropertyType propertyType;
-    private StreetAddress streetAddress;
+    private Address address;
     private BigDecimal sellingPrice;
 
     Property() {
         // Required for instanciation by reflection
     }
 
-    public Property(final PropertyType propertyType, final StreetAddress streetAddress, final BigDecimal sellingPrice) {
+    public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice) {
         this.propertyType = propertyType;
-        this.streetAddress = streetAddress;
+        this.address = address;
         this.sellingPrice = sellingPrice;
     }
 
@@ -30,12 +30,12 @@ public class Property {
         this.propertyType = propertyType;
     }
 
-    public StreetAddress getStreetAddress() {
-        return streetAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setStreetAddress(StreetAddress streetAddress) {
-        this.streetAddress = streetAddress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public BigDecimal getSellingPrice() {
@@ -48,7 +48,7 @@ public class Property {
 
     @Override
     public int hashCode() {
-        return streetAddress.hashCode();
+        return address.hashCode();
     }
 
     @Override
@@ -61,6 +61,6 @@ public class Property {
         }
 
         Property property = (Property) obj;
-        return new EqualsBuilder().append(streetAddress, property.streetAddress).isEquals();
+        return new EqualsBuilder().append(address, property.address).isEquals();
     }
 }

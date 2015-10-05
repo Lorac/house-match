@@ -44,7 +44,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">Address:</label>
 				<div class="col-sm-10">
-					<form:input type="number" path="streetAddress.addressNumber"
+					<form:input type="number" path="address.addressNumber"
 						class="form-control" min="0" tabindex="3"
 						placeholder="Address" />
 				</div>
@@ -52,7 +52,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">Street Name:</label>
 				<div class="col-sm-10">
-					<form:input type="text" path="streetAddress.streetName"
+					<form:input type="text" path="address.streetName"
 						class="form-control" minlength="3" maxlength="32" tabindex="4"
 						placeholder="Street Name" />
 				</div>
@@ -62,15 +62,15 @@
 					Unit (optional):</label>
 				<div class="col-sm-10">
 					<form:input type="text"
-						path="streetAddress.additionalAddressInfo" class="form-control"
+						path="address.additionalAddressInfo" class="form-control"
 						minlength="3" maxlength="32" tabindex="5"
 						placeholder="Floor / Building / Unit (optional)" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">Zip Code:</label>
+				<label class="control-label col-sm-2">Zip / Postal Code:</label>
 				<div class="col-sm-10">
-					<form:input type="text" path="streetAddress.zipCode"
+					<form:input type="text" path="address.postCode"
 						class="form-control" minlength="3" maxlength="32" tabindex="6"
 						placeholder="Zip Code" />
 				</div>
@@ -78,9 +78,9 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">State / Province:</label>
 				<div class="col-sm-10">
-					<form:select path="streetAddress.state" class="form-control"
+					<form:select path="address.region" class="form-control"
 						tabindex="7">
-						<form:options items="${streetAddress.state}" itemLabel="name"></form:options>
+						<form:options items="${address.region}" itemLabel="name"></form:options>
 					</form:select>
 				</div>
 			</div>

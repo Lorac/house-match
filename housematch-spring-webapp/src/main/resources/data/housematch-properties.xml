@@ -4,13 +4,13 @@
         <property>
             <propertyType>SINGLE_FAMILY_HOME</propertyType>
             <sellingPrice>546324.43</sellingPrice>
-            <streetAddress>
+            <address>
                 <additionalAddressInfo>Apt #6</additionalAddressInfo>
                 <addressNumber>870</addressNumber>
-                <state>QC</state>
+                <region>QC</region>
                 <streetName>Chemin Ste-Foy</streetName>
-                <zipCode>G9C 0A5</zipCode>
-            </streetAddress>
+                <postCode>G9C 0A5</postCode>
+            </address>
         </property>
     </properties>
 </housematch>

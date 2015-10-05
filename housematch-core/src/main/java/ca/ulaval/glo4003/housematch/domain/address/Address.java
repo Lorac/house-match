@@ -1,15 +1,15 @@
-package ca.ulaval.glo4003.housematch.domain.streetaddress;
+package ca.ulaval.glo4003.housematch.domain.address;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
-public class StreetAddress {
+public class Address {
 
     Integer addressNumber;
     String streetName;
     String additionalAddressInfo;
-    String zipCode;
-    State state;
+    String postCode;
+    Region region;
 
     public Integer getAddressNumber() {
         return addressNumber;
@@ -35,41 +35,41 @@ public class StreetAddress {
         this.additionalAddressInfo = additionalAddressInfo;
     }
 
-    public String getZipCode() {
-        return zipCode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
-    public State getState() {
-        return state;
+    public Region getRegion() {
+        return region;
     }
 
-    public void setState(State state) {
-        this.state = state;
+    public void setRegion(Region region) {
+        this.region = region;
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressInfo)
-                .append(state.ordinal()).toHashCode();
+                .append(region.ordinal()).toHashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof StreetAddress)) {
+        if (!(obj instanceof Address)) {
             return false;
         }
         if (obj == this) {
             return true;
         }
 
-        StreetAddress streetAddress = (StreetAddress) obj;
-        return new EqualsBuilder().append(addressNumber, streetAddress.addressNumber)
-                .append(streetName, streetAddress.streetName)
-                .append(additionalAddressInfo, streetAddress.additionalAddressInfo)
-                .append(state, streetAddress.state).isEquals();
+        Address address = (Address) obj;
+        return new EqualsBuilder().append(addressNumber, address.addressNumber)
+                .append(streetName, address.streetName)
+                .append(additionalAddressInfo, address.additionalAddressInfo)
+                .append(region, address.region).isEquals();
     }
 }

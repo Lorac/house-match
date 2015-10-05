@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.housematch.services.property;
 
 import java.math.BigDecimal;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
@@ -25,20 +25,20 @@ public class PropertyService {
         this.propertyListingCreationValidator = propertyListingCreationValidator;
     }
 
-    public void createPropertyListing(PropertyType propertyType, StreetAddress streetAddress, BigDecimal sellingPrice,
+    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
             User user) throws PropertyServiceException {
-        Property property = createProperty(propertyType, streetAddress, sellingPrice);
+        Property property = createProperty(propertyType, address, sellingPrice);
         user.addPropertyListing(property);
         userRepository.update(user);
     }
 
-    private Property createProperty(PropertyType propertyType, StreetAddress streetAddress, BigDecimal sellingPrice)
+    private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
             throws PropertyServiceException {
         Property property;
 
         try {
-            propertyListingCreationValidator.validatePropertyListingCreation(propertyType, streetAddress, sellingPrice);
-            property = new Property(propertyType, streetAddress, sellingPrice);
+            propertyListingCreationValidator.validatePropertyListingCreation(propertyType, address, sellingPrice);
+            property = new Property(propertyType, address, sellingPrice);
             propertyRepository.persist(property);
         } catch (PropertyListingCreationValidationException | PropertyAlreadyExistsException e) {
             throw new PropertyServiceException(e);

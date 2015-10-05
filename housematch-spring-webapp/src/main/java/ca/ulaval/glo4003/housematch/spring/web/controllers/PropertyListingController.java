@@ -46,7 +46,7 @@ public class PropertyListingController extends MvcController {
                 USER_ATTRIBUTE_NAME);
         try {
             propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
-                    propertyListingCreationForm.getStreetAddress(), propertyListingCreationForm.getSellingPrice(),
+                    propertyListingCreationForm.getAddress(), propertyListingCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
             return new ModelAndView(PROPERTY_LISTING_CONFIRMATION_VIEW_NAME);
         } catch (PropertyServiceException e) {

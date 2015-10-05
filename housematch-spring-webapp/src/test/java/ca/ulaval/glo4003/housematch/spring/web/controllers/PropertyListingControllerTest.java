@@ -21,8 +21,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
@@ -33,7 +33,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
 
     private static final String PROPERTY_TYPE_PARAMETER_NAME = "propertyType";
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
-    private static final String STREET_ADDRESS_PARAMETER_NAME = "streetAddress";
+    private static final String ADDRESS_PARAMETER_NAME = "address";
     private static final String SELLING_PRICE_PARAMETER_NAME = "propertyType";
 
     private PropertyService propertyServiceMock;
@@ -62,7 +62,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
         results.andExpect(model().attribute(PropertyListingCreationFormViewModel.VIEWMODEL_NAME,
                 hasProperty(PROPERTY_TYPE_PARAMETER_NAME)));
         results.andExpect(model().attribute(PropertyListingCreationFormViewModel.VIEWMODEL_NAME,
-                hasProperty(STREET_ADDRESS_PARAMETER_NAME)));
+                hasProperty(ADDRESS_PARAMETER_NAME)));
         results.andExpect(model().attribute(PropertyListingCreationFormViewModel.VIEWMODEL_NAME,
                 hasProperty(SELLING_PRICE_PARAMETER_NAME)));
     }
@@ -88,7 +88,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     @Test
     public void propertyControllerCreatesPropertyListingDuringPropertyListingCreation() throws Exception {
         postPropertyListingCreationForm();
-        verify(propertyServiceMock).createPropertyListing(eq(SAMPLE_PROPERTY_TYPE), any(StreetAddress.class),
+        verify(propertyServiceMock).createPropertyListing(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
                 any(BigDecimal.class), eq(userMock));
     }
 
@@ -104,7 +104,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyListingCreation()
             throws Exception {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).createPropertyListing(
-                eq(SAMPLE_PROPERTY_TYPE), any(StreetAddress.class), any(BigDecimal.class), eq(userMock));
+                eq(SAMPLE_PROPERTY_TYPE), any(Address.class), any(BigDecimal.class), eq(userMock));
 
         ResultActions results = postPropertyListingCreationForm();
 

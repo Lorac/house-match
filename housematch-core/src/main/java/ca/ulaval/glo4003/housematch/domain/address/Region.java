@@ -1,6 +1,6 @@
-package ca.ulaval.glo4003.housematch.domain.streetaddress;
+package ca.ulaval.glo4003.housematch.domain.address;
 
-public enum State {
+public enum Region {
     QC("Quebec", Country.CAN),
     ON("Ontario", Country.CAN),
     NS("Nova Scotia", Country.CAN),
@@ -10,12 +10,12 @@ public enum State {
     PE("Prince Edward Island", Country.CAN),
     SK("Saskatchewan", Country.CAN),
     AB("Alberta", Country.CAN),
-    NL("Newfouland and Labrador", Country.CAN);
+    NL("Newfoundland and Labrador", Country.CAN);
 
     private final String name;
     private final Country country;
 
-    State(final String name, final Country country) {
+    Region(final String name, final Country country) {
         this.name = name;
         this.country = country;
     }

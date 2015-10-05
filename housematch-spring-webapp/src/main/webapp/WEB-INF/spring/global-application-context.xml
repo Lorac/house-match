@@ -41,7 +41,11 @@
         <constructor-arg ref="mailSender"/>
     </bean>
 	
-	<bean id="propertyListingCreationValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator"/>
+	<bean id="propertyListingCreationValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator">
+		<constructor-arg ref="addressValidator"/>
+	</bean>
+	
+	<bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator"/>
 
     <bean id="propertyService" class="ca.ulaval.glo4003.housematch.services.property.PropertyService">
         <constructor-arg ref="xmlPropertyRepository"/>

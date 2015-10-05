@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class PropertyTest {
 
@@ -20,42 +20,42 @@ public class PropertyTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
     private static final BigDecimal ANOTHER_SAMPLE_SELLING_PRICE = BigDecimal.valueOf(4535);
     private static final Object SAMPLE_OBJECT = new Object();
-    private StreetAddress streetAddressMock;
+    private Address addressMock;
 
     private Property property;
 
     @Before
     public void init() throws Exception {
-        streetAddressMock = mock(StreetAddress.class);
-        property = new Property(SAMPLE_PROPERTY_TYPE, streetAddressMock, SAMPLE_SELLING_PRICE);
+        addressMock = mock(Address.class);
+        property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
     }
 
     @Test
-    public void propertiesWithTheSameStreetAddressShouldBeConsideredAsEqual() throws Exception {
-        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, streetAddressMock,
+    public void propertiesWithTheSameAddressShouldBeConsideredAsEqual() throws Exception {
+        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock,
                 ANOTHER_SAMPLE_SELLING_PRICE);
         assertTrue(property.equals(anotherProperty));
     }
 
     @Test
-    public void propertiesWithDifferentStreetAddressesShouldBeConsideredAsDifferent() throws Exception {
-        StreetAddress anotherStreetAddressMock = mock(StreetAddress.class);
-        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherStreetAddressMock, SAMPLE_SELLING_PRICE);
+    public void propertiesWithDifferentAddressesShouldBeConsideredAsDifferent() throws Exception {
+        Address anotherAddressMock = mock(Address.class);
+        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE);
 
         assertFalse(property.equals(anotherProperty));
     }
 
     @Test
-    public void propertiesWithTheSameStreetAddressShouldHaveTheSameHashCode() throws Exception {
-        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, streetAddressMock,
+    public void propertiesWithTheSameAddressShouldHaveTheSameHashCode() throws Exception {
+        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock,
                 ANOTHER_SAMPLE_SELLING_PRICE);
         assertEquals(property.hashCode(), anotherProperty.hashCode());
     }
 
     @Test
-    public void propertiesWithDifferentStreetAddressesShouldNotHaveTheSameHashCode() throws Exception {
-        StreetAddress anotherStreetAddressMock = mock(StreetAddress.class);
-        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherStreetAddressMock, SAMPLE_SELLING_PRICE);
+    public void propertiesWithDifferentAddressesShouldNotHaveTheSameHashCode() throws Exception {
+        Address anotherAddressMock = mock(Address.class);
+        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE);
 
         assertNotEquals(property.hashCode(), anotherProperty.hashCode());
     }
@@ -77,10 +77,10 @@ public class PropertyTest {
     }
 
     @Test
-    public void settingTheStreetAddressSetsTheSpecifiedStreetAddress() throws Exception {
-        StreetAddress anotherStreetAddressMock = mock(StreetAddress.class);
-        property.setStreetAddress(anotherStreetAddressMock);
-        assertEquals(anotherStreetAddressMock, property.getStreetAddress());
+    public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
+        Address anotherAddressMock = mock(Address.class);
+        property.setAddress(anotherAddressMock);
+        assertEquals(anotherAddressMock, property.getAddress());
     }
 
     @Test

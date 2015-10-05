@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.NotNull;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
 
 public class PropertyListingCreationFormViewModel extends ViewModel {
 
@@ -14,7 +14,7 @@ public class PropertyListingCreationFormViewModel extends ViewModel {
     @NotNull
     private PropertyType propertyType;
     @NotNull
-    private StreetAddress streetAddress;
+    private Address address;
     @NotNull
     private BigDecimal sellingPrice;
 
@@ -30,12 +30,12 @@ public class PropertyListingCreationFormViewModel extends ViewModel {
         this.propertyType = propertyType;
     }
 
-    public StreetAddress getStreetAddress() {
-        return streetAddress;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setStreetAddress(StreetAddress streetAddress) {
-        this.streetAddress = streetAddress;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public BigDecimal getSellingPrice() {

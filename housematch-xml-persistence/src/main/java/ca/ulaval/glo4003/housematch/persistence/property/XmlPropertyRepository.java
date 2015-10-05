@@ -30,7 +30,7 @@ public class XmlPropertyRepository implements PropertyRepository {
     public void persist(Property property) throws PropertyAlreadyExistsException {
         if (properties.stream().anyMatch(p -> p.equals(property))) {
             throw new PropertyAlreadyExistsException(
-                    String.format("A property with address '%s' already exists.", property.getStreetAddress()));
+                    String.format("A property with address '%s' already exists.", property.getAddress()));
         }
 
         properties.add(property);

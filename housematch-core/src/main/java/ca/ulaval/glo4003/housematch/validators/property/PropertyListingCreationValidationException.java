@@ -11,4 +11,8 @@ public class PropertyListingCreationValidationException extends Exception {
     public PropertyListingCreationValidationException(final String message) {
         super(message);
     }
+
+    public PropertyListingCreationValidationException(final String message, final Exception e) {
+        super(message, e);
+    }
 }
