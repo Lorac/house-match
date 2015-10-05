@@ -26,6 +26,12 @@
                     </key>
                     <ref bean="sellerHomeAccessControlList" />
                 </entry>
+				<entry>
+                    <key>
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.PROPERTY_LISTING_CREATION_VIEW_NAME" />
+                    </key>
+                    <ref bean="propertyListingCreationAccessControlList" />
+                </entry>
             </map>
         </constructor-arg>
     </bean>
@@ -47,6 +53,14 @@
     </bean>
 
     <bean id="sellerHomeAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
+        <constructor-arg>
+            <set>
+                <value>SELLER</value>
+            </set>
+        </constructor-arg>
+    </bean>
+	
+	<bean id="propertyListingCreationAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
         <constructor-arg>
             <set>
                 <value>SELLER</value>

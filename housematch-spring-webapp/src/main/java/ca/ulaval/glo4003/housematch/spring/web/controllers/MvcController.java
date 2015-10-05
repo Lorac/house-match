@@ -30,13 +30,16 @@ public class MvcController {
     protected static final String LOGIN_VIEW_NAME = "login";
     protected static final String LOGIN_URL = "/login";
     protected static final String LOGOUT_URL = "/logout";
-    protected static final String REGISTRATION_VIEW_NAME = "register";
+    protected static final String REGISTRATION_VIEW_NAME = "registration";
     protected static final String REGISTRATION_URL = "/register";
     protected static final String ACTIVATION_BASE_URL = "/activation/";
     protected static final String ACTIVATION_URL = "/activation/{activationCode}";
     protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
     protected static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
     protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
+    protected static final String PROPERTY_LISTING_CREATION_URL = "/sell";
+    public static final String PROPERTY_LISTING_CREATION_VIEW_NAME = "listingCreation";
+    protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingCreationConfirmation";
     protected static final String USER_ATTRIBUTE_NAME = "user";
 
     @Autowired

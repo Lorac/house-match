@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,9 +53,21 @@ public class XmlMarshallerTest {
         assertSame(SAMPLE_OBJECT, unmarshalledObject);
     }
 
+    @Test(expected = MarshallingException.class)
+    public void unmarshallingThrowsMarshallingExceptionOnJAXBException() throws JAXBException {
+        doThrow(new JAXBException("")).when(unmarshallerMock).unmarshal(inputStreamMock);
+        xmlMarshaller.unmarshal(inputStreamMock);
+    }
+
     @Test
     public void marshallingMarshalsTheSpecifiedObjectToAnOutputStream() throws JAXBException {
         xmlMarshaller.marshal(SAMPLE_OBJECT, outputStreamMock);
         verify(marshallerMock).marshal(SAMPLE_OBJECT, outputStreamMock);
+    }
+
+    @Test(expected = MarshallingException.class)
+    public void marshallingThrowsMarshallingExceptionOnJAXBException() throws JAXBException {
+        doThrow(new JAXBException("")).when(marshallerMock).marshal(SAMPLE_OBJECT, outputStreamMock);
+        xmlMarshaller.marshal(SAMPLE_OBJECT, outputStreamMock);
     }
 }

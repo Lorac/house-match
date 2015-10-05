@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<housematch>
+    <properties>
+        <property>
+            <propertyType>SINGLE_FAMILY_HOME</propertyType>
+            <sellingPrice>546324.43</sellingPrice>
+            <streetAddress>
+                <additionalAddressFields>Apt #6</additionalAddressFields>
+                <addressNumber>870</addressNumber>
+                <state>QC</state>
+                <streetName>Chemin Ste-Foy</streetName>
+                <zipCode>G9C 0A5</zipCode>
+            </streetAddress>
+        </property>
+    </properties>
+</housematch>

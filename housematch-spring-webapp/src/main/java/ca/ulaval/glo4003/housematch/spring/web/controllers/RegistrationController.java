@@ -16,10 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.services.UserServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;

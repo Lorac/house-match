@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services;
+package ca.ulaval.glo4003.housematch.services.user;
 
 import java.util.UUID;
 
@@ -35,6 +35,7 @@ public class UserActivationService {
     public void updateActivationEmail(User user, String email) throws UserActivationServiceException {
         user.setEmail(email);
         sendActivationMail(user);
+        userRepository.update(user);
     }
 
     public void beginActivation(User user) throws UserActivationServiceException {
@@ -65,6 +66,7 @@ public class UserActivationService {
         }
 
         user.activate();
+        userRepository.update(user);
     }
 
 }

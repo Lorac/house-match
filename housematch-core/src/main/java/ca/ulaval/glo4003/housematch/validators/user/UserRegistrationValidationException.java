@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.validators;
+package ca.ulaval.glo4003.housematch.validators.user;
 
 public class UserRegistrationValidationException extends Exception {
 

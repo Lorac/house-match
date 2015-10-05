@@ -19,5 +19,7 @@
 		<p>Hello ${sessionScope.user.username}! You are connected as a
 			${sessionScope.user.role.displayName}.</p>
 	</div>
+	
+	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

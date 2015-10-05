@@ -1,4 +1,7 @@
-package ca.ulaval.glo4003.housematch.domain.address;
+package ca.ulaval.glo4003.housematch.domain.streetaddress;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class StreetAddress {
 
@@ -7,7 +10,6 @@ public class StreetAddress {
     String additionalAddressFields;
     String zipCode;
     State state;
-    Country country;
 
     public Integer getAddressNumber() {
         return addressNumber;
@@ -49,11 +51,25 @@ public class StreetAddress {
         this.state = state;
     }
 
-    public Country getCountry() {
-        return country;
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressFields)
+                .append(state.ordinal()).toHashCode();
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof StreetAddress)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+
+        StreetAddress streetAddress = (StreetAddress) obj;
+        return new EqualsBuilder().append(addressNumber, streetAddress.addressNumber)
+                .append(streetName, streetAddress.streetName)
+                .append(additionalAddressFields, streetAddress.additionalAddressFields)
+                .append(state, streetAddress.state).isEquals();
     }
 }

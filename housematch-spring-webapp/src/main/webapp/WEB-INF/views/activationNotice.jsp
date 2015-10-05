@@ -18,5 +18,8 @@
 		<p>An activation link has been sent to your email address. Click
 			on the link to activate your account and complete your registration.</p>
 	</div>
+	
+	<%@include file="../includes/footer.jsp"%>
+	
 </body>
 </html>

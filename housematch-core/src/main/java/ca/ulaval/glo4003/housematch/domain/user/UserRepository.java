@@ -6,6 +6,8 @@ public interface UserRepository {
 
     void persist(User user) throws UserAlreadyExistsException;
 
+    void update(User user);
+
     User getByUsername(String username) throws UserNotFoundException;
 
     User getByActivationCode(UUID activationCode) throws UserNotFoundException;

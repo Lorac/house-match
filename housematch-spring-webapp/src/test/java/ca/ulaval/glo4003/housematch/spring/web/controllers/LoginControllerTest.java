@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -20,10 +19,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.services.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.services.UserServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
@@ -49,30 +48,29 @@ public class LoginControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void loginControllerRendersLoginView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+    public void loginControllerRendersLoginViewWhenNoUserIsLoggedIn() throws Exception {
+        mockHttpSession.removeAttribute(HomeController.USER_ATTRIBUTE_NAME);
+
+        ResultActions results = performGetRequest(LoginController.LOGIN_URL);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
     }
 
     @Test
-    public void loginControllerRendersLoginViewWithUsernameAndPassword() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+    public void loginControllerRendersLoginViewWithUsernameAndPasswordWhenNoUserIsLoggedIn() throws Exception {
+        mockHttpSession.removeAttribute(HomeController.USER_ATTRIBUTE_NAME);
 
-        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty("username")));
-        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty("password")));
+        ResultActions results = performGetRequest(LoginController.LOGIN_URL);
+
+        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
     }
 
     @Test
     public void loginControllerRedirectsToHomeViewWhenUserIsAlreadyLoggedInAndAttemptsToAccessLoginPage()
             throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGIN_URL).accept(MediaType.ALL);
-        getRequest.sessionAttr(LoginController.USER_ATTRIBUTE_NAME, userMock);
-
-        ResultActions results = mockMvc.perform(getRequest);
+        ResultActions results = performGetRequest(LoginController.LOGIN_URL);
 
         results.andExpect(status().is3xxRedirection());
         results.andExpect(redirectedUrl(LoginController.HOME_URL));
@@ -118,8 +116,7 @@ public class LoginControllerTest extends MvcControllerTest {
 
     @Test
     public void logoutControllerRendersLoginPageUponLogout() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(LoginController.LOGOUT_URL).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+        ResultActions results = performGetRequest(LoginController.LOGOUT_URL);
 
         results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
         results.andExpect(status().isOk());

@@ -21,10 +21,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.services.UserServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
@@ -57,9 +57,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerRendersRegistrationView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
-
-        ResultActions results = mockMvc.perform(getRequest);
+        ResultActions results = performGetRequest(RegistrationController.REGISTRATION_URL);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
@@ -67,13 +65,16 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerRendersRegistrationViewWithTheCorrectFields() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(RegistrationController.REGISTRATION_URL).accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+        ResultActions results = performGetRequest(RegistrationController.REGISTRATION_URL);
 
-        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("username")));
-        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("email")));
-        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("password")));
-        results.andExpect(model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty("role")));
+        results.andExpect(
+                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+        results.andExpect(
+                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+        results.andExpect(
+                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
+        results.andExpect(
+                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(ROLE_PARAMETER_NAME)));
     }
 
     @Test
@@ -106,10 +107,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerRendersEmailReconfirmationView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(RegistrationController.EMAIL_RECONFIRM_URL)
-                .accept(MediaType.ALL);
-
-        ResultActions results = mockMvc.perform(getRequest);
+        ResultActions results = performGetRequest(RegistrationController.EMAIL_RECONFIRM_URL);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
@@ -117,11 +115,10 @@ public class RegistrationControllerTest extends MvcControllerTest {
 
     @Test
     public void registrationControllerRendersEmailReconfirmationWithTheCorrectFields() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(RegistrationController.EMAIL_RECONFIRM_URL)
-                .accept(MediaType.ALL);
-        ResultActions results = mockMvc.perform(getRequest);
+        ResultActions results = performGetRequest(RegistrationController.EMAIL_RECONFIRM_URL);
 
-        results.andExpect(model().attribute(EmailReconfirmFormViewModel.VIEWMODEL_NAME, hasProperty("email")));
+        results.andExpect(
+                model().attribute(EmailReconfirmFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test

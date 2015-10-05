@@ -1,22 +1,66 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import java.util.Currency;
+import java.math.BigDecimal;
 
-import ca.ulaval.glo4003.housematch.domain.address.StreetAddress;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import ca.ulaval.glo4003.housematch.domain.streetaddress.StreetAddress;
 
 public class Property {
 
-    PropertyType propertyType;
-    StreetAddress streetAddress;
-    Currency sellPrice;
+    private PropertyType propertyType;
+    private StreetAddress streetAddress;
+    private BigDecimal sellingPrice;
 
     Property() {
         // Required for instanciation by reflection
     }
 
-    public Property(final PropertyType propertyType, final StreetAddress streetAddress, final Currency sellPrice) {
+    public Property(final PropertyType propertyType, final StreetAddress streetAddress, final BigDecimal sellingPrice) {
         this.propertyType = propertyType;
         this.streetAddress = streetAddress;
-        this.sellPrice = sellPrice;
+        this.sellingPrice = sellingPrice;
+    }
+
+    public PropertyType getPropertyType() {
+        return propertyType;
+    }
+
+    public void setPropertyType(PropertyType propertyType) {
+        this.propertyType = propertyType;
+    }
+
+    public StreetAddress getStreetAddress() {
+        return streetAddress;
+    }
+
+    public void setStreetAddress(StreetAddress streetAddress) {
+        this.streetAddress = streetAddress;
+    }
+
+    public BigDecimal getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(BigDecimal sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    @Override
+    public int hashCode() {
+        return streetAddress.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Property)) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+
+        Property property = (Property) obj;
+        return new EqualsBuilder().append(streetAddress, property.streetAddress).isEquals();
     }
 }

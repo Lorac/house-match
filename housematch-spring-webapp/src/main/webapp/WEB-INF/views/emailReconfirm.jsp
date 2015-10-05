@@ -33,15 +33,15 @@
 							</div>
 							<div class="form-group">
 								<label for="inputEmail" class="sr-only">Email</label>
-								<form:input type="email" path="email" id="inputEmail"
-									minlength="3" maxlength="32" class="form-control" tabindex="2"
+								<form:input type="email" path="email" minlength="3"
+									maxlength="32" class="form-control" tabindex="1"
 									placeholder="Email" />
 							</div>
 							<div class="form-group">
 								<div class="row">
 									<div class="col-sm-6 col-sm-offset-3">
 										<input type="submit" name="email-reconfirm-submit"
-											id="email-reconfirm-submit" tabindex="4"
+											id="email-reconfirm-submit" tabindex="2"
 											class="form-control btn" value="Resend Activation Link">
 									</div>
 								</div>

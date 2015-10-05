@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.validators;
+package ca.ulaval.glo4003.housematch.validators.user;
 
 import static org.junit.Assert.fail;
 
@@ -51,6 +51,11 @@ public class UserRegistrationValidatorTest {
     @Test(expected = UserRegistrationValidationException.class)
     public void userRegistrationUsingBlankPasswordThrowsUserRegistrationValidationException() throws Exception {
         userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_BLANK_EXPRESSION, SAMPLE_ROLE);
+    }
+
+    @Test(expected = UserRegistrationValidationException.class)
+    public void userRegistrationWithNoRoleSpecifiedThrowsUserRegistrationValidationException() throws Exception {
+        userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, null);
     }
 
     @Test(expected = UserRegistrationValidationException.class)

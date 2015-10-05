@@ -9,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.persistence.user.XmlUserRootElement;
 
 public class XmlUserRootElementTest {
 

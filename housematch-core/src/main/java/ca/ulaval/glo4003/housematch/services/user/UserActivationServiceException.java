@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services;
+package ca.ulaval.glo4003.housematch.services.user;
 
 public class UserActivationServiceException extends Exception {
 
@@ -9,7 +9,7 @@ public class UserActivationServiceException extends Exception {
     }
 
     public UserActivationServiceException(final Exception e) {
-        super(e);
+        super(e.getMessage(), e);
     }
 
     public UserActivationServiceException(final String message, final Exception e) {

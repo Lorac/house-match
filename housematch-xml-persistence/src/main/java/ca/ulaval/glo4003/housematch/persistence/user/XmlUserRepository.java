@@ -8,7 +8,6 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.domain.user.XmlUserAdapter;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
@@ -30,13 +29,27 @@ public class XmlUserRepository implements UserRepository {
     }
 
     @Override
-    public void persist(User newUser) throws UserAlreadyExistsException {
-        if (users.stream().anyMatch(u -> u.equals(newUser))) {
+    public void persist(User user) throws UserAlreadyExistsException {
+        if (users.stream().anyMatch(u -> u.equals(user))) {
             throw new UserAlreadyExistsException(
-                    String.format("A user with username '%s' already exists.", newUser.getUsername()));
+                    String.format("A user with username '%s' already exists.", user.getUsername()));
         }
 
-        users.add(newUser);
+        users.add(user);
+        marshal();
+    }
+
+    @Override
+    public void update(User user) {
+        if (!users.contains(user)) {
+            throw new IllegalStateException("Update requested for an object that is not persisted.");
+        } else if (users.get(users.indexOf(user)).hashCode() != user.hashCode()) {
+            throw new IllegalStateException(
+                    "Object hash code has changed, which could put the repository into an invalid state.");
+        }
+
+        users.remove(user);
+        users.add(user);
         marshal();
     }
 

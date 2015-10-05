@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services;
+package ca.ulaval.glo4003.housematch.services.user;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,8 +10,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
-import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidator;
+import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
+import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
 public class UserService {
 
@@ -41,8 +41,8 @@ public class UserService {
         try {
             userCreationValidator.validateUserCreation(username, email, password, role);
             User user = new User(username, email, password, role);
-            userRepository.persist(user);
             userActivationService.beginActivation(user);
+            userRepository.persist(user);
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {
             throw new UserServiceException(e);
         }

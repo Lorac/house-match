@@ -1,20 +1,21 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-public class User {
-    String username;
-    String email;
-    String password;
-    UserRole role;
-    UUID activationCode;
-    boolean activated = false;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 
-    User() {
-        // Required for instanciation by reflection
-    }
+public class User {
+    private String username;
+    private String email;
+    private String password;
+    private UserRole role;
+    private UUID activationCode;
+    private Boolean activated = false;
+    private List<Property> propertyListings = new ArrayList<Property>();
 
     public User(final String username, final String email, final String password, final UserRole role) {
         setUsername(username);
@@ -47,12 +48,6 @@ public class User {
         this.password = password;
     }
 
-    public void validatePassword(String password) throws InvalidPasswordException {
-        if (!this.password.equals(password)) {
-            throw new InvalidPasswordException("Password does not match.");
-        }
-    }
-
     public UUID getActivationCode() {
         return activationCode;
     }
@@ -61,10 +56,12 @@ public class User {
         this.activationCode = activationCode;
     }
 
-    public void validateActivation() throws UserNotActivatedException {
-        if (!this.activated) {
-            throw new UserNotActivatedException("User is not activated.");
-        }
+    public Boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     public UserRole getRole() {
@@ -75,17 +72,37 @@ public class User {
         this.role = role;
     }
 
+    public List<Property> getPropertyListings() {
+        return propertyListings;
+    }
+
+    public void setPropertyListings(List<Property> propertyListings) {
+        this.propertyListings = propertyListings;
+    }
+
+    public void validatePassword(String password) throws InvalidPasswordException {
+        if (!this.password.equals(password)) {
+            throw new InvalidPasswordException("Password does not match.");
+        }
+    }
+
+    public void validateActivation() throws UserNotActivatedException {
+        if (!this.activated) {
+            throw new UserNotActivatedException("User is not activated.");
+        }
+    }
+
     public Boolean hasRole(UserRole role) {
         return this.role.equals(role);
     }
 
     public void activate() {
-        this.activated = true;
-        this.activationCode = null;
+        activated = true;
+        activationCode = null;
     }
 
-    public boolean isActivated() {
-        return activated;
+    public void addPropertyListing(Property property) {
+        propertyListings.add(property);
     }
 
     @Override
@@ -109,5 +126,4 @@ public class User {
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
     }
-
 }

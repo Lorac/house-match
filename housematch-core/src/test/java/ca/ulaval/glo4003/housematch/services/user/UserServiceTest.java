@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services;
+package ca.ulaval.glo4003.housematch.services.user;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -20,8 +20,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidationException;
-import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidator;
+import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
+import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -30,7 +30,7 @@ public class UserServiceTest {
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private UserRepository userRepositoryMock;
-    private UserRegistrationValidator userCreationValidatorMock;
+    private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
     private User userMock;
 
@@ -39,18 +39,14 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userCreationValidatorMock, userActivationServiceMock);
+        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock);
     }
 
-    private void initMocks() throws Exception {
-        stubMethods();
-    }
-
-    private void stubMethods() {
+    private void initMocks() {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         userActivationServiceMock = mock(UserActivationService.class);
-        userCreationValidatorMock = mock(UserRegistrationValidator.class);
+        userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
     }
 
     @Test
@@ -97,7 +93,7 @@ public class UserServiceTest {
     @Test
     public void userRegistrationCallsTheUserCreationValidator() throws Exception {
         registerUser();
-        verify(userCreationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+        verify(userRegistrationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
     }
 
@@ -109,7 +105,7 @@ public class UserServiceTest {
 
     @Test(expected = UserServiceException.class)
     public void userRegistrationThrowsUserServiceExceptionOnUserRegistrationValidationException() throws Exception {
-        doThrow(new UserRegistrationValidationException()).when(userCreationValidatorMock)
+        doThrow(new UserRegistrationValidationException()).when(userRegistrationValidatorMock)
                 .validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         registerUser();
     }

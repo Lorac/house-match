@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services;
+package ca.ulaval.glo4003.housematch.services.user;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -74,6 +74,12 @@ public class UserActivationServiceTest {
         verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
     }
 
+    @Test
+    public void updatingActivationEmailPushesUserUpdateToRepository() throws Exception {
+        userActivationService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
+        verify(userRepositoryMock).update(userMock);
+    }
+
     @Test(expected = UserActivationServiceException.class)
     public void updatingActivationEmailThrowsUserActivationServiceExceptionOnMailSendException() throws Exception {
         doThrow(new MailSendException()).when(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
@@ -93,13 +99,19 @@ public class UserActivationServiceTest {
     }
 
     @Test
-    public void activationCompletionActivatesUserFromTheSpecifiedActivationCode() throws Exception {
+    public void completingActivationActivatesUserFromTheSpecifiedActivationCode() throws Exception {
         userActivationService.completeActivation(SAMPLE_ACTIVATION_CODE);
         verify(userRepositoryMock).getByActivationCode(SAMPLE_ACTIVATION_CODE);
     }
 
+    @Test
+    public void completingActivationPushesUserUpdateToRepository() throws Exception {
+        userActivationService.completeActivation(SAMPLE_ACTIVATION_CODE);
+        verify(userRepositoryMock).update(userMock);
+    }
+
     @Test(expected = UserActivationServiceException.class)
-    public void activationCompletionThrowsUserActivationServiceExceptionOnUserNotFoundException() throws Exception {
+    public void completingActivationThrowsUserActivationServiceExceptionOnUserNotFoundException() throws Exception {
         doThrow(new UserNotFoundException()).when(userRepositoryMock).getByActivationCode(SAMPLE_ACTIVATION_CODE);
         userActivationService.completeActivation(SAMPLE_ACTIVATION_CODE);
     }

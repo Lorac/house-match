@@ -11,10 +11,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.services.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.services.UserServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
 @Controller
