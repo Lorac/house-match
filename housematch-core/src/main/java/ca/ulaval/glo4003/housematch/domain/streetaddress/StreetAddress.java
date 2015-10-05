@@ -7,7 +7,7 @@ public class StreetAddress {
 
     Integer addressNumber;
     String streetName;
-    String additionalAddressFields;
+    String additionalAddressInfo;
     String zipCode;
     State state;
 
@@ -27,12 +27,12 @@ public class StreetAddress {
         this.streetName = streetName;
     }
 
-    public String getAdditionalAddressFields() {
-        return additionalAddressFields;
+    public String getAdditionalAddressInfo() {
+        return additionalAddressInfo;
     }
 
-    public void setAdditionalAddressFields(String additionalAddressFields) {
-        this.additionalAddressFields = additionalAddressFields;
+    public void setAdditionalAddressInfo(String additionalAddressInfo) {
+        this.additionalAddressInfo = additionalAddressInfo;
     }
 
     public String getZipCode() {
@@ -53,7 +53,7 @@ public class StreetAddress {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressFields)
+        return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressInfo)
                 .append(state.ordinal()).toHashCode();
     }
 
@@ -69,7 +69,7 @@ public class StreetAddress {
         StreetAddress streetAddress = (StreetAddress) obj;
         return new EqualsBuilder().append(addressNumber, streetAddress.addressNumber)
                 .append(streetName, streetAddress.streetName)
-                .append(additionalAddressFields, streetAddress.additionalAddressFields)
+                .append(additionalAddressInfo, streetAddress.additionalAddressInfo)
                 .append(state, streetAddress.state).isEquals();
     }
 }

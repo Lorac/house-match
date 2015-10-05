@@ -62,7 +62,7 @@
 					Unit (optional):</label>
 				<div class="col-sm-10">
 					<form:input type="text"
-						path="streetAddress.additionalAddressFields" class="form-control"
+						path="streetAddress.additionalAddressInfo" class="form-control"
 						minlength="3" maxlength="32" tabindex="5"
 						placeholder="Floor / Building / Unit (optional)" />
 				</div>

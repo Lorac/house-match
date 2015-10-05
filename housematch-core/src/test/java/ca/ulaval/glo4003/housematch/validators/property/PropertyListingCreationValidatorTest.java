@@ -21,7 +21,7 @@ public class PropertyListingCreationValidatorTest {
     private static final Integer SAMPLE_ADDRESS_NUMBER = 890;
     private static final Integer SAMPLE_NEGATIVE_ADDRESS_NUMBER = -890;
     private static final String SAMPLE_STREET_NAME = "street";
-    private static final String SAMPLE_ADDITIONNAL_ADDRESS_FIELDS = "Apt #8";
+    private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #8";
     private static final String SAMPLE_ZIPCODE = "G1V 3X4";
     private static final String SAMPLE_INVALID_ZIPCODE = "3433";
     private static final State SAMPLE_STATE = State.QC;
@@ -41,7 +41,7 @@ public class PropertyListingCreationValidatorTest {
     private void stubMethods() {
         when(streetAddressMock.getAddressNumber()).thenReturn(SAMPLE_ADDRESS_NUMBER);
         when(streetAddressMock.getStreetName()).thenReturn(SAMPLE_STREET_NAME);
-        when(streetAddressMock.getAdditionalAddressFields()).thenReturn(SAMPLE_ADDITIONNAL_ADDRESS_FIELDS);
+        when(streetAddressMock.getAdditionalAddressInfo()).thenReturn(SAMPLE_ADDITIONNAL_ADDRESS_INFO);
         when(streetAddressMock.getZipCode()).thenReturn(SAMPLE_ZIPCODE);
         when(streetAddressMock.getState()).thenReturn(SAMPLE_STATE);
     }
