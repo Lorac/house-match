@@ -3,6 +3,8 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+	<!-- User -->
+	   
     <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.user.XmlUserRepository">
         <constructor-arg ref="xmlUserRepositoryMarshaller"/>
 		<constructor-arg ref="xmlUserAdapter"/>
@@ -19,6 +21,8 @@
 		<constructor-arg ref="basicTextEncryptor"/>
 	</bean>
 	
+	<!-- Property -->
+	
 	<bean id="xmlPropertyRepository" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyRepository">
         <constructor-arg ref="xmlPropertyRepositoryMarshaller"/>
     </bean>
@@ -29,10 +33,12 @@
         <constructor-arg type="java.lang.String" value="/data/housematch-properties.xml"/>
     </bean>
 	
-	<bean id="basicTextEncryptor" class="org.jasypt.util.text.BasicTextEncryptor">
-        <property name="password" value="9fhaoisadw43"/>
-    </bean>
+	<!-- Utils -->
 
     <bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.utils.ResourceLoader"/>
 
+	<bean id="basicTextEncryptor" class="org.jasypt.util.text.BasicTextEncryptor">
+        <property name="password" value="9fhaoisadw43"/>
+    </bean>
+	
 </beans>
