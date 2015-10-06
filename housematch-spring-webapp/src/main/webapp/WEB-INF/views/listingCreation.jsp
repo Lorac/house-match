@@ -79,7 +79,7 @@
 				<label class="control-label col-sm-2">Zip / Postal Code:</label>
 				<div class="col-sm-10">
 					<form:input type="text" path="address.postCode"
-						class="form-control" minlength="3" maxlength="32" tabindex="6"
+						class="form-control" minlength="3" maxlength="7" tabindex="6"
 						placeholder="Zip Code / Postal Code" />
 				</div>
 			</div>
