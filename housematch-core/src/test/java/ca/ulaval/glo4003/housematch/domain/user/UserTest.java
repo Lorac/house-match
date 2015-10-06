@@ -157,6 +157,18 @@ public class UserTest {
     }
 
     @Test
+    public void updatingTheEmailUpdatesTheSpecifiedEmail() {
+        user.updateEmail(ANOTHER_SAMPLE_EMAIL);
+        assertEquals(ANOTHER_SAMPLE_EMAIL, user.getEmail());
+    }
+
+    @Test
+    public void updatingTheEmailSetsTheActivationFlagToFalse() {
+        user.updateEmail(ANOTHER_SAMPLE_EMAIL);
+        assertFalse(user.isActivated());
+    }
+
+    @Test
     public void settingTheActivationCodeSetsTheSpecifiedActivationCode() {
         user.setActivationCode(SAMPLE_ACTIVATION_CODE);
         assertEquals(SAMPLE_ACTIVATION_CODE, user.getActivationCode());

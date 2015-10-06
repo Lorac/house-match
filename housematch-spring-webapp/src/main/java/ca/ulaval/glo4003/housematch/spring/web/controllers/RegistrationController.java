@@ -77,7 +77,7 @@ public class RegistrationController extends MvcController {
             HttpSession session) {
 
         try {
-            userActivationService.updateActivationEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
+            userService.updateUserEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
             session.invalidate();
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
         } catch (UserActivationServiceException e) {
