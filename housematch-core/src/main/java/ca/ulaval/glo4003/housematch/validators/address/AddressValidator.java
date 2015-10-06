@@ -18,13 +18,28 @@ public class AddressValidator {
     public void validateAddress(Address address) throws AddressValidationException {
         validateAddressNumber(address);
         validateStreetName(address);
+        validateCity(address);
         validateZipCode(address);
         validateRegion(address);
     }
 
-    private void validateRegion(Address address) throws AddressValidationException {
-        if (address.getRegion() == null) {
-            throw new AddressValidationException("State or province must be specified.");
+    private void validateAddressNumber(Address address) throws AddressValidationException {
+        if (address.getAddressNumber() == null) {
+            throw new AddressValidationException("Address number must be specified.");
+        } else if (address.getAddressNumber() <= 0) {
+            throw new AddressValidationException("Address number must be greater than 0.");
+        }
+    }
+
+    private void validateStreetName(Address address) throws AddressValidationException {
+        if (StringUtils.isBlank(address.getStreetName())) {
+            throw new AddressValidationException("Street name cannot be blank.");
+        }
+    }
+
+    private void validateCity(Address address) throws AddressValidationException {
+        if (StringUtils.isBlank(address.getCity())) {
+            throw new AddressValidationException("City cannot be blank.");
         }
     }
 
@@ -36,17 +51,9 @@ public class AddressValidator {
         }
     }
 
-    private void validateStreetName(Address address) throws AddressValidationException {
-        if (StringUtils.isBlank(address.getStreetName())) {
-            throw new AddressValidationException("Street name cannot be blank.");
-        }
-    }
-
-    private void validateAddressNumber(Address address) throws AddressValidationException {
-        if (address.getAddressNumber() == null) {
-            throw new AddressValidationException("Address number must be specified.");
-        } else if (address.getAddressNumber() <= 0) {
-            throw new AddressValidationException("Address number must be greater than 0.");
+    private void validateRegion(Address address) throws AddressValidationException {
+        if (address.getRegion() == null) {
+            throw new AddressValidationException("State or province must be specified.");
         }
     }
 }
