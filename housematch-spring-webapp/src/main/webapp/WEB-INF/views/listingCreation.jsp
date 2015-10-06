@@ -13,7 +13,6 @@
 <title>HouseMatch - Sell</title>
 </head>
 <body>
-	<c:set var="homeLinkActive" value="active" scope="request" />
 	<jsp:include page="../includes/navigationBar.jsp" />
 	<div class="container">
 		<h1 class="center">Sell a property</h1>
