@@ -27,5 +27,7 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
+	
+	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

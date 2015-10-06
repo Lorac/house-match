@@ -1,28 +1,26 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+
 public class User {
-    String username;
-    String email;
-    String password;
-    String address;
-    String postCode;
-    String city;
-    String region;
-    String country;
-
-    UserRole role;
-    Integer activationCode;
-    boolean activated = false;
-    UUID modifcationCode;
-    String temporaryEmail;
-
-    User() {
-        // Required for instanciation by reflection
-    }
+    private String username;
+    private String email;
+    private String password;
+    private UserRole role;
+    private UUID activationCode;
+    private Boolean activated = false;
+    private String address;
+    private String postCode;
+    private String city;
+    private String region;
+    private String country;
+    private List<Property> propertyListings = new ArrayList<Property>();
 
     public User(final String username, final String email, final String password, final UserRole role) {
         setUsername(username);
@@ -95,24 +93,20 @@ public class User {
         this.country = country;
     }
 
-    public void validatePassword(String password) throws InvalidPasswordException {
-        if (!this.password.equals(password)) {
-            throw new InvalidPasswordException("Password does not match.");
-        }
-    }
-
-    public Integer getActivationCode() {
+    public UUID getActivationCode() {
         return activationCode;
     }
 
-    public void setActivationCode(Integer activationCode) {
+    public void setActivationCode(UUID activationCode) {
         this.activationCode = activationCode;
     }
 
-    public void validateActivation() throws UserNotActivatedException {
-        if (!this.activated) {
-            throw new UserNotActivatedException("User is not activated.");
-        }
+    public Boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     public UserRole getRole() {
@@ -123,37 +117,37 @@ public class User {
         this.role = role;
     }
 
+    public List<Property> getPropertyListings() {
+        return propertyListings;
+    }
+
+    public void setPropertyListings(List<Property> propertyListings) {
+        this.propertyListings = propertyListings;
+    }
+
+    public void validatePassword(String password) throws InvalidPasswordException {
+        if (!this.password.equals(password)) {
+            throw new InvalidPasswordException("Password does not match.");
+        }
+    }
+
+    public void validateActivation() throws UserNotActivatedException {
+        if (!this.activated) {
+            throw new UserNotActivatedException("User is not activated.");
+        }
+    }
+
     public Boolean hasRole(UserRole role) {
         return this.role.equals(role);
     }
 
     public void activate() {
-        this.activated = true;
-        this.activationCode = null;
+        activated = true;
+        activationCode = null;
     }
 
-    public boolean isActivated() {
-        return activated;
-    }
-
-    public void startModification(UUID code) {
-        this.modifcationCode = code;
-    }
-
-    public void endModification() {
-        this.modifcationCode = null;
-    }
-
-    public UUID getModificationCode() {
-        return modifcationCode;
-    }
-
-    public void setTemporaryEmail(String email) {
-        this.temporaryEmail = email;
-    }
-
-    public String getTemporaryEmail() {
-        return temporaryEmail;
+    public void addPropertyListing(Property property) {
+        propertyListings.add(property);
     }
 
     @Override
@@ -177,5 +171,4 @@ public class User {
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
     }
-
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<housematch>
+    <users>
+        <user>
+            <username>olrob13</username>
+            <email>o.robert@hotmail.com</email>
+            <password>u58bEgW68K/uYKumAxVd8g==</password>
+            <role>SELLER</role>
+            <activated>true</activated>
+			<propertyListings>
+                <propertyListingRef>-1004861530</propertyListingRef>
+            </propertyListings>
+        </user>
+    </users>
+</housematch>

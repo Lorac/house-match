@@ -1,18 +1,24 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import org.junit.Before;
+import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
 
 public class MvcControllerTest {
 
     protected MockMvc mockMvc;
     protected InternalResourceViewResolver viewResolver;
+    protected AuthorizationValidator authorizationValidatorMock;
     protected User userMock;
     protected MockHttpSession mockHttpSession;
 
@@ -23,6 +29,7 @@ public class MvcControllerTest {
     public void init() {
         initViewResolver();
 
+        authorizationValidatorMock = mock(AuthorizationValidator.class);
         userMock = mock(User.class);
 
         mockHttpSession = new MockHttpSession();
@@ -33,5 +40,10 @@ public class MvcControllerTest {
         viewResolver = new InternalResourceViewResolver();
         viewResolver.setPrefix(VIEW_NAME_PREFIX);
         viewResolver.setSuffix(VIEW_NAME_SUFFIX);
+    }
+
+    protected ResultActions performGetRequest(String url) throws Exception {
+        MockHttpServletRequestBuilder getRequest = get(url).accept(MediaType.ALL).session(mockHttpSession);
+        return mockMvc.perform(getRequest);
     }
 }

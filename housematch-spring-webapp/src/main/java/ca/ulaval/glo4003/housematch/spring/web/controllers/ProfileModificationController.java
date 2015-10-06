@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import java.util.UUID;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +17,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
-import ca.ulaval.glo4003.housematch.services.UserMailModificationException;
-import ca.ulaval.glo4003.housematch.services.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserMailModificationException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ProfileModificationFormViewModel;
 
@@ -25,13 +29,16 @@ public class ProfileModificationController extends MvcController {
 
     @Autowired
     private UserService userService;
+    private UserActivationService userActivationService;
 
     protected ProfileModificationController() {
         // Required for Mockito
     }
 
-    public ProfileModificationController(final UserService userService) {
+    public ProfileModificationController(final UserService userService,
+            final UserActivationService userActivationService) {
         this.userService = userService;
+        this.userActivationService = userActivationService;
     }
 
     @RequestMapping(value = MODIFY_USER_URL, method = RequestMethod.GET)
@@ -57,13 +64,13 @@ public class ProfileModificationController extends MvcController {
     }
 
     @RequestMapping(value = EMAIL_MODIFICATION_URL, method = RequestMethod.GET)
-    public final ModelAndView activate(@PathVariable Integer code, @PathVariable String user,
-            RedirectAttributes redirectAttributes) {
+    public final ModelAndView activate(@PathVariable UUID modificationCode, RedirectAttributes redirectAttributes) {
         try {
-            userService.completeEmailModification(code, user);
-        } catch (UserNotFoundException e) {
+            userActivationService.completeActivation(modificationCode);
+        } catch (UserActivationServiceException e) {
             return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(), e.getMessage());
         }
+
         return new ModelAndView(MODIFIED_USER_SAVED_VIEW_NAME);
 
     }

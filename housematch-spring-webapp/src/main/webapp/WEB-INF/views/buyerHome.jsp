@@ -22,5 +22,7 @@
 			<li><a href="/modifyProfile">Modify user Profile</a></li>
 		</ul>
 	</div>
+	
+	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

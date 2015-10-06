@@ -1,15 +1,23 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 
 public class UserTest {
 
@@ -30,10 +38,15 @@ public class UserTest {
     private static final String SAMPLE_CITY = "Potatown";
     private static final UUID SAMPLE_CODE = UUID.randomUUID();
 
+    private Property propertyMock;
+
+    private List<Property> propertyListings;
     private User user;
 
     @Before
     public void init() throws Exception {
+        propertyMock = mock(Property.class);
+        propertyListings = new ArrayList<Property>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
@@ -45,6 +58,31 @@ public class UserTest {
     }
 
     @Test
+    public void usersWithDifferentUsernamesShouldBeConsideredAsDifferent() throws Exception {
+        User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        assertFalse(user.equals(anotherUser));
+    }
+
+    @Test
+    public void usersWithTheSameUsernameShouldHaveTheSameHashCode() throws Exception {
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
+                ANOTHER_SAMPLE_ROLE);
+        assertEquals(user.hashCode(), anotherUser.hashCode());
+    }
+
+    @Test
+    public void usersWithDifferentUsernamesShouldNotHaveTheSameHashCode() throws Exception {
+        User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        assertNotEquals(user.hashCode(), anotherUser.hashCode());
+    }
+
+    @Test
+    public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() throws Exception {
+        User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        assertTrue(user.equals(anotherUser));
+    }
+
+    @Test
     public void userComparedWithItselfShouldBeConsideredAsEqual() {
         assertTrue(user.equals(user));
     }
@@ -52,18 +90,6 @@ public class UserTest {
     @Test
     public void userComparedWithAnotherObjectShouldNotBeConsideredAsEqual() {
         assertFalse(user.equals(SAMPLE_OBJECT));
-    }
-
-    @Test
-    public void usersWithDifferentUsernameShouldBeConsideredAsDifferent() throws Exception {
-        User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        assertFalse(user.equals(anotherUser));
-    }
-
-    @Test
-    public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
-        assertTrue(user.equals(anotherUser));
     }
 
     @Test
@@ -87,20 +113,20 @@ public class UserTest {
 
     @Test
     public void settingTheUsernameSetsTheSpecifiedUsername() throws Exception {
-        user.setUsername(SAMPLE_USERNAME);
-        assertEquals(SAMPLE_USERNAME, user.getUsername());
+        user.setUsername(ANOTHER_SAMPLE_USERNAME);
+        assertEquals(ANOTHER_SAMPLE_USERNAME, user.getUsername());
     }
 
     @Test
     public void settingTheEmailSetsTheSpecifiedEmail() throws Exception {
-        user.setEmail(SAMPLE_EMAIL);
-        assertEquals(SAMPLE_EMAIL, user.getEmail());
+        user.setEmail(ANOTHER_SAMPLE_EMAIL);
+        assertEquals(ANOTHER_SAMPLE_EMAIL, user.getEmail());
     }
 
     @Test
     public void settingThePasswordSetsTheSpecifiedPassword() throws Exception {
-        user.setPassword(SAMPLE_PASSWORD);
-        assertEquals(SAMPLE_PASSWORD, user.getPassword());
+        user.setPassword(ANOTHER_SAMPLE_PASSWORD);
+        assertEquals(ANOTHER_SAMPLE_PASSWORD, user.getPassword());
     }
 
     @Test
@@ -119,8 +145,8 @@ public class UserTest {
 
     @Test
     public void settingTheRoleSetsTheSpecifiedRole() {
-        user.setRole(SAMPLE_ROLE);
-        assertEquals(SAMPLE_ROLE, user.getRole());
+        user.setRole(ANOTHER_SAMPLE_ROLE);
+        assertEquals(ANOTHER_SAMPLE_ROLE, user.getRole());
     }
 
     @Test
@@ -130,9 +156,15 @@ public class UserTest {
     }
 
     @Test
-    public void userShouldHaveTheSpecifiedRoleWhenThatRoleHasBeenAdded() {
-        user.setRole(SAMPLE_ROLE);
-        assertTrue(user.hasRole(SAMPLE_ROLE));
+    public void userShouldHaveTheSpecifiedRoleWhenThatRoleHasBeenSet() {
+        user.setRole(ANOTHER_SAMPLE_ROLE);
+        assertTrue(user.hasRole(ANOTHER_SAMPLE_ROLE));
+    }
+
+    @Test
+    public void settingTheActivationCodeSetsTheSpecifiedActivationCode() {
+        user.setActivationCode(SAMPLE_CODE);
+        assertEquals(SAMPLE_CODE, user.getActivationCode());
     }
 
     @Test
@@ -141,13 +173,26 @@ public class UserTest {
     }
 
     @Test
-    public void activationOfTheUserActivatesTheUser() throws Exception {
+    public void settingActivationFlagSetsTheAcvtivationFlag() {
+        user.setActivated(Boolean.TRUE);
+        assertEquals(Boolean.TRUE, user.isActivated());
+    }
+
+    @Test
+    public void activatingTheUserActivatesTheUser() throws Exception {
         user.activate();
         try {
             user.validateActivation();
         } catch (Exception e) {
             fail();
         }
+    }
+
+    @Test
+    public void activatingTheUserClearsTheActivationCode() throws Exception {
+        user.setActivationCode(SAMPLE_CODE);
+        user.activate();
+        assertNull(user.getActivationCode());
     }
 
     @Test(expected = UserNotActivatedException.class)
@@ -186,20 +231,14 @@ public class UserTest {
     }
 
     @Test
-    public void settingTheModifcationOnSetsTheSpecifiedModificationCode() throws Exception {
-        user.startModification(SAMPLE_CODE);
-        assertEquals(SAMPLE_CODE, user.getModificationCode());
+    public void settingThePropertyListingsSetsTheSpecifiedPropertyListings() {
+        user.setPropertyListings(propertyListings);
+        assertEquals(propertyListings, user.getPropertyListings());
     }
 
     @Test
-    public void endingTheModifcationOnRemovesTheModificationCode() throws Exception {
-        user.endModification();
-        assertNull(user.getActivationCode());
-    }
-
-    @Test
-    public void settingTheTemporaryEmailSetsTheSpecifiedTemporaryEmail() throws Exception {
-        user.setTemporaryEmail(SAMPLE_EMAIL);
-        assertEquals(SAMPLE_EMAIL, user.getTemporaryEmail());
+    public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
+        user.addPropertyListing(propertyMock);
+        assertThat(user.getPropertyListings(), contains(propertyMock));
     }
 }

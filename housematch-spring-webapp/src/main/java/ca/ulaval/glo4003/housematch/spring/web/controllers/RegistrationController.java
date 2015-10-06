@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,10 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.UserService;
-import ca.ulaval.glo4003.housematch.services.UserServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
@@ -85,7 +86,7 @@ public class RegistrationController extends MvcController {
     }
 
     @RequestMapping(value = ACTIVATION_URL, method = RequestMethod.GET)
-    public final ModelAndView activate(@PathVariable Integer activationCode, RedirectAttributes redirectAttributes) {
+    public final ModelAndView activate(@PathVariable UUID activationCode, RedirectAttributes redirectAttributes) {
         try {
             userActivationService.completeActivation(activationCode);
             return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(),

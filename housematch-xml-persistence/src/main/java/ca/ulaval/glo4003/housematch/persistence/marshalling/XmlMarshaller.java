@@ -10,8 +10,6 @@ import javax.xml.bind.Unmarshaller;
 
 public class XmlMarshaller<T> {
 
-    private static final Object XML_MARSHALL_LOCK = new Object();
-
     protected Marshaller marshaller;
     protected Unmarshaller unmarshaller;
     private Class<T> type;
@@ -59,9 +57,7 @@ public class XmlMarshaller<T> {
 
     public void marshal(T element, OutputStream outputStream) {
         try {
-            synchronized (XML_MARSHALL_LOCK) {
-                marshaller.marshal(element, outputStream);
-            }
+            marshaller.marshal(element, outputStream);
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to marshall objects to the specified output stream.", e);
         }
@@ -70,9 +66,7 @@ public class XmlMarshaller<T> {
     @SuppressWarnings("unchecked")
     public T unmarshal(InputStream inputStream) {
         try {
-            synchronized (XML_MARSHALL_LOCK) {
-                return (T) unmarshaller.unmarshal(inputStream);
-            }
+            return (T) unmarshaller.unmarshal(inputStream);
         } catch (JAXBException e) {
             throw new MarshallingException("Failed to unmarshall objects from the specified input stream.", e);
         }
