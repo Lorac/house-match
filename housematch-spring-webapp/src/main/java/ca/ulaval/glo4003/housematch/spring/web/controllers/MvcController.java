@@ -43,7 +43,6 @@ public class MvcController {
     protected static final String USER_ATTRIBUTE_NAME = "user";
     protected static final String MODIFY_USER_URL = "/modifyProfile";
     protected static final String MODIFY_USER_VIEW_NAME = "modifyUserProfile";
-    protected static final String MODIFY_USER_FORM_VIEWMODEL_NAME = "profileModificationForm";
     protected static final String MODIFIED_USER_SAVED_URL = "/profileSaved";
     protected static final String MODIFIED_USER_SAVED_VIEW_NAME = "savedUserProfile";
 

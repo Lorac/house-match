@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 
 public class User {
@@ -15,11 +16,7 @@ public class User {
     private UserRole role;
     private UUID activationCode;
     private Boolean activated = false;
-    private String address;
-    private String postCode;
-    private String city;
-    private String region;
-    private String country;
+    private Address address;
     private List<Property> propertyListings = new ArrayList<Property>();
 
     public User(final String username, final String email, final String password, final UserRole role) {
@@ -53,44 +50,12 @@ public class User {
         this.password = password;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public String getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
     }
 
     public UUID getActivationCode() {

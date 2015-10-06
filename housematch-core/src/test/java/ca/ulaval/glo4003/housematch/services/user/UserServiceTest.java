@@ -20,7 +20,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSender;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
@@ -33,7 +33,7 @@ public class UserServiceTest {
     private UserRepository userRepositoryMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
-    private MailSender mailSenderMock;
+    private AddressValidator addressValidatorMock;
     private User userMock;
 
     private UserService userService;
@@ -42,7 +42,7 @@ public class UserServiceTest {
     public void init() throws Exception {
         initMocks();
         userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
-                mailSenderMock);
+                addressValidatorMock);
     }
 
     private void initMocks() {
@@ -50,6 +50,7 @@ public class UserServiceTest {
         userMock = mock(User.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
+        addressValidatorMock = mock(AddressValidator.class);
     }
 
     @Test

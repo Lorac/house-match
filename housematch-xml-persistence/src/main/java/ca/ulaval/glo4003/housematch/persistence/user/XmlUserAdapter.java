@@ -49,10 +49,6 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.activationCode = user.getActivationCode();
         xmlUser.activated = user.isActivated();
         xmlUser.address = user.getAddress();
-        xmlUser.postCode = user.getPostCode();
-        xmlUser.city = user.getCity();
-        xmlUser.region = user.getRegion();
-        xmlUser.country = user.getCountry();
 
         for (Property property : user.getPropertyListings()) {
             xmlUser.propertyListingsRef.add(property.hashCode());

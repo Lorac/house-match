@@ -31,11 +31,6 @@ public class UserTest {
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
     private static final Object SAMPLE_OBJECT = new Object();
-    private static final String SAMPLE_ADDRESS = "123 potato street";
-    private static final String SAMPLE_POST_CODE = "X1X1X1";
-    private static final String SAMPLE_REGION = "Quebec";
-    private static final String SAMPLE_COUNTRY = "Canada";
-    private static final String SAMPLE_CITY = "Potatown";
     private static final UUID SAMPLE_CODE = UUID.randomUUID();
 
     private Property propertyMock;
@@ -210,36 +205,6 @@ public class UserTest {
     @Test(expected = UserNotActivatedException.class)
     public void activationValidationOnNonActivatedUserThrowsUserNotActivatedException() throws Exception {
         user.validateActivation();
-    }
-
-    @Test
-    public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
-        user.setAddress(SAMPLE_ADDRESS);
-        assertEquals(SAMPLE_ADDRESS, user.getAddress());
-    }
-
-    @Test
-    public void settingThePostCodeSetsTheSpecifiedPostCode() throws Exception {
-        user.setPostCode(SAMPLE_POST_CODE);
-        assertEquals(SAMPLE_POST_CODE, user.getPostCode());
-    }
-
-    @Test
-    public void settingTheRegionSetsTheSpecifiedRegion() throws Exception {
-        user.setRegion(SAMPLE_REGION);
-        assertEquals(SAMPLE_REGION, user.getRegion());
-    }
-
-    @Test
-    public void settingTheCountrySetsTheSpecifiedCountry() throws Exception {
-        user.setCountry(SAMPLE_COUNTRY);
-        assertEquals(SAMPLE_COUNTRY, user.getCountry());
-    }
-
-    @Test
-    public void settingTheCitySetsTheSpecifiedCity() throws Exception {
-        user.setCity(SAMPLE_CITY);
-        assertEquals(SAMPLE_CITY, user.getCity());
     }
 
     @Test

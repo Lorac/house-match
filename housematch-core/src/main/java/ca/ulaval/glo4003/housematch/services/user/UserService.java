@@ -4,13 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.email.MailSender;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
@@ -18,12 +20,14 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserActivationService userActivationService;
-    private UserRegistrationValidator userCreationValidator;
+    private UserRegistrationValidator userRegistrationValidator;
+    private AddressValidator addressValidator;
 
-    public UserService(final UserRepository userRepository, final UserRegistrationValidator userCreationValidator,
-            final UserActivationService userActivationService, final MailSender mailSender) {
+    public UserService(final UserRepository userRepository, final UserRegistrationValidator userRegistrationValidator,
+            final UserActivationService userActivationService, final AddressValidator addressValidator) {
         this.userRepository = userRepository;
-        this.userCreationValidator = userCreationValidator;
+        this.userRegistrationValidator = userRegistrationValidator;
+        this.addressValidator = addressValidator;
         this.userActivationService = userActivationService;
     }
 
@@ -40,7 +44,7 @@ public class UserService {
     public void registerUser(String username, String email, String password, UserRole role)
             throws UserServiceException {
         try {
-            userCreationValidator.validateUserCreation(username, email, password, role);
+            userRegistrationValidator.validateUserCreation(username, email, password, role);
             User user = new User(username, email, password, role);
             userActivationService.beginActivation(user);
             userRepository.persist(user);
@@ -61,14 +65,11 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void updateUserCoordinate(String username, String address, String postCode, String city, String region,
-            String country, String email) throws UserNotFoundException, UserActivationServiceException {
+    public void updateUserCoordinate(String username, Address address, String email)
+            throws UserNotFoundException, UserActivationServiceException, AddressValidationException {
         User user = userRepository.getByUsername(username);
+        addressValidator.validateAddress(address);
         user.setAddress(address);
-        user.setPostCode(postCode);
-        user.setCity(city);
-        user.setRegion(region);
-        user.setCountry(country);
         userRepository.update(user);
         if (!email.equals(user.getEmail())) {
             updateUserEmail(user, email);

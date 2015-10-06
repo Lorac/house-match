@@ -36,24 +36,27 @@
                                         <%@include file="../includes/alertMessage.jsp" %>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="address" class="form-control" minlength="3" maxlength="32" tabindex="1"
-                                            value="${user.address}" placeholder="Address" />
+                                        <form:input type="text" path="address.addressNumber" class="form-control" minlength="3" maxlength="32" tabindex="1"
+                                            value="${user.address.addressNumber}" placeholder="Address Number" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="postCode" class="form-control" minlength="3" maxlength="128" tabindex="2"
-                                            value="${user.postCode}" placeholder="Post Code" />
+                                        <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="32" tabindex="1"
+                                            value="${user.address.streetName}" placeholder="Street Name" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="city" class="form-control" minlength="3" maxlength="32" tabindex="3"
-                                            value="${user.city}" placeholder="City" />
+                                        <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="128" tabindex="2"
+                                            value="${user.address.postCode}" placeholder="Post Code" />
                                     </div>
                                    	<div class="form-group">
-                                        <form:input type="text" path="region" class="form-control" minlength="3" maxlength="32" tabindex="3"
-                                            value="${user.region}" placeholder="Region" />
+                                        <form:select path="address.region" class="form-control" selected="${user.address.region}"
+											tabindex="7">
+											<form:options items="${address.region}"  itemLabel="name"></form:options>
+										</form:select>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="country" class="form-control" minlength="3" maxlength="32" tabindex="3"
-                                            value="${user.country}" placeholder="Country" />
+                                        <select class="form-control" tabindex="8" disabled>
+											<option>Canada</option>
+										</select>
                                     </div>
                                     <div class="form-group">
                                         <form:input type="email" path="email" class="form-control" minlength="3" maxlength="32" tabindex="3"
