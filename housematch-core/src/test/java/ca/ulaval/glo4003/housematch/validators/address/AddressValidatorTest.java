@@ -16,6 +16,7 @@ public class AddressValidatorTest {
     private static final Integer SAMPLE_NEGATIVE_ADDRESS_NUMBER = -890;
     private static final String SAMPLE_STREET_NAME = "street";
     private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #8";
+    private static final String SAMPLE_CITY = "city";
     private static final String SAMPLE_POSTCODE = "G1V 3X4";
     private static final String SAMPLE_INVALID_POSTCODE = "3433";
     private static final Region SAMPLE_REGION = Region.QC;
@@ -36,6 +37,7 @@ public class AddressValidatorTest {
         when(addressMock.getAddressNumber()).thenReturn(SAMPLE_ADDRESS_NUMBER);
         when(addressMock.getStreetName()).thenReturn(SAMPLE_STREET_NAME);
         when(addressMock.getAdditionalAddressInfo()).thenReturn(SAMPLE_ADDITIONNAL_ADDRESS_INFO);
+        when(addressMock.getCity()).thenReturn(SAMPLE_CITY);
         when(addressMock.getPostCode()).thenReturn(SAMPLE_POSTCODE);
         when(addressMock.getRegion()).thenReturn(SAMPLE_REGION);
     }
@@ -73,6 +75,12 @@ public class AddressValidatorTest {
     @Test(expected = AddressValidationException.class)
     public void addressValidationWithBlankPostCodeThrowsPropertyListingCreationValidationException() throws Exception {
         when(addressMock.getPostCode()).thenReturn(SAMPLE_BLANK_EXPRESSION);
+        addressValidator.validateAddress(addressMock);
+    }
+
+    @Test(expected = AddressValidationException.class)
+    public void addressValidationWithBlankCityThrowsPropertyListingCreationValidationException() throws Exception {
+        when(addressMock.getCity()).thenReturn(SAMPLE_BLANK_EXPRESSION);
         addressValidator.validateAddress(addressMock);
     }
 

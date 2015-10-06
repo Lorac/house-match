@@ -24,6 +24,7 @@
 				<%@include file="../includes/alertMessage.jsp"%>
 			</div>
 			<h2>Basic property information</h2>
+			<br>
 			<div class="form-group">
 				<label class="control-label col-sm-2">Property Type:</label>
 				<div class="col-sm-10">
@@ -42,7 +43,7 @@
 			<h2>Property location</h2>
 			<br>
 			<div class="form-group">
-				<label class="control-label col-sm-2">Address:</label>
+				<label class="control-label col-sm-2">Street Number:</label>
 				<div class="col-sm-10">
 					<form:input type="number" path="address.addressNumber"
 						class="form-control" min="0" tabindex="3"
@@ -68,11 +69,19 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="control-label col-sm-2">City / Town:</label>
+				<div class="col-sm-10">
+					<form:input type="text" path="address.city"
+						class="form-control" minlength="3" maxlength="32" tabindex="6"
+						placeholder="City / Town" />
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="control-label col-sm-2">Zip / Postal Code:</label>
 				<div class="col-sm-10">
 					<form:input type="text" path="address.postCode"
 						class="form-control" minlength="3" maxlength="32" tabindex="6"
-						placeholder="Zip Code" />
+						placeholder="Zip Code / Postal Code" />
 				</div>
 			</div>
 			<div class="form-group">
