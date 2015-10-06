@@ -40,26 +40,31 @@
                                             value="${user.address.addressNumber}" placeholder="Address Number" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="32" tabindex="1"
+                                        <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="32" tabindex="2"
                                             value="${user.address.streetName}" placeholder="Street Name" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="128" tabindex="2"
+                                        <form:input type="text" path="address.city" class="form-control" minlength="3" maxlength="32" tabindex="3"
+                                            value="${user.address.city}" placeholder="City" />
+                                    </div>
+                                    <div class="form-group">
+                                        <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="128" tabindex="4"
                                             value="${user.address.postCode}" placeholder="Post Code" />
                                     </div>
                                    	<div class="form-group">
-                                        <form:select path="address.region" class="form-control" selected="${user.address.region}"
-											tabindex="7">
+                                        <form:select path="address.region" class="form-control" 
+											tabindex="5">
+											<form:option value="${user.address.region.name}"></form:option>
 											<form:options items="${address.region}"  itemLabel="name"></form:options>
 										</form:select>
                                     </div>
                                     <div class="form-group">
-                                        <select class="form-control" tabindex="8" disabled>
+                                        <select class="form-control" tabindex="6" disabled>
 											<option>Canada</option>
 										</select>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="email" path="email" class="form-control" minlength="3" maxlength="32" tabindex="3"
+                                        <form:input type="email" path="email" class="form-control" minlength="3" maxlength="32" tabindex="7"
                                             value="${user.email}" placeholder="Email" />
                                     </div>
                                     <div class="form-group">
