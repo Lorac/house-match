@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -27,6 +28,7 @@ import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
+    private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
@@ -34,6 +36,8 @@ public class UserServiceTest {
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
     private AddressValidator addressValidatorMock;
+    private Address addressMock;
+
     private User userMock;
 
     private UserService userService;
@@ -45,31 +49,30 @@ public class UserServiceTest {
                 addressValidatorMock);
     }
 
-    private void initMocks() {
+    private void initMocks() throws UserNotFoundException {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
         addressValidatorMock = mock(AddressValidator.class);
+        addressMock = mock(Address.class);
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }
 
     @Test
     public void gettingUserByLoginCredentialsValidatesPasswordFromTheUserObject() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test
     public void gettingUserByLoginCredentialsRetrievesUserByUsernameFromRepository() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
     }
 
     @Test
     public void gettingUserByLoginCredentialsReturnsTheUser() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         User user = userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         assertSame(userMock, user);
     }
@@ -142,6 +145,24 @@ public class UserServiceTest {
     public void updatingUserEmailPushesUserUpdateToRepository() throws Exception {
         userService.updateUserEmail(userMock, SAMPLE_EMAIL);
         verify(userRepositoryMock).update(userMock);
+    }
+
+    @Test
+    public void updatingUserCoordinatesRetrievesUserByUsernameFromRepository() throws Exception {
+        userService.updateUserCoordinate(SAMPLE_USERNAME, addressMock, SAMPLE_EMAIL);
+        verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
+    }
+
+    @Test
+    public void updatingUserCoordinatesValidatesAddress() throws Exception {
+        userService.updateUserCoordinate(SAMPLE_USERNAME, addressMock, SAMPLE_EMAIL);
+        verify(addressValidatorMock).validateAddress(addressMock);
+    }
+
+    @Test
+    public void updatingUserCoordinatesSetsNewAddress() throws Exception {
+        userService.updateUserCoordinate(SAMPLE_USERNAME, addressMock, SAMPLE_EMAIL);
+        verify(userMock).setAddress(addressMock);
     }
 
     @Test
