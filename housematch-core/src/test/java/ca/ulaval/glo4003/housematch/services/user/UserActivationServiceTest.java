@@ -23,7 +23,6 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 public class UserActivationServiceTest {
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final String SAMPLE_EMAIL = "test@test.com";
-    private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
 
     private UserRepository userRepositoryMock;
     private MailSender emailSenderMock;
@@ -62,31 +61,6 @@ public class UserActivationServiceTest {
     }
 
     @Test
-    public void updatingActivationEmailUpdatesTheEmailFromOfTheUserObject() throws Exception {
-        userActivationService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(userMock).setEmail(eq(ANOTHER_SAMPLE_EMAIL));
-    }
-
-    @Test
-    public void updatingActivationEmailSendsTheActivationLink() throws Exception {
-        when(userMock.getEmail()).thenReturn(ANOTHER_SAMPLE_EMAIL);
-        userActivationService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(ANOTHER_SAMPLE_EMAIL));
-    }
-
-    @Test
-    public void updatingActivationEmailPushesUserUpdateToRepository() throws Exception {
-        userActivationService.updateActivationEmail(userMock, ANOTHER_SAMPLE_EMAIL);
-        verify(userRepositoryMock).update(userMock);
-    }
-
-    @Test(expected = UserActivationServiceException.class)
-    public void updatingActivationEmailThrowsUserActivationServiceExceptionOnMailSendException() throws Exception {
-        doThrow(new MailSendException()).when(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
-        userActivationService.updateActivationEmail(userMock, SAMPLE_EMAIL);
-    }
-
-    @Test
     public void beginningTheActivationSetsTheUserActivationCode() throws Exception {
         userActivationService.beginActivation(userMock);
         verify(userMock).setActivationCode(any(UUID.class));
@@ -96,6 +70,12 @@ public class UserActivationServiceTest {
     public void beginningTheActivationSendsTheActivationLink() throws Exception {
         userActivationService.beginActivation(userMock);
         verify(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
+    }
+
+    @Test(expected = UserActivationServiceException.class)
+    public void beginningTheActivationThrowsUserActivationServiceExceptionOnMailSendException() throws Exception {
+        doThrow(new MailSendException()).when(emailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
+        userActivationService.beginActivation(userMock);
     }
 
     @Test

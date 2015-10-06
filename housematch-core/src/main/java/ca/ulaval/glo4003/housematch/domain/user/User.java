@@ -141,6 +141,11 @@ public class User {
         return this.role.equals(role);
     }
 
+    public void updateEmail(String email) {
+        this.email = email;
+        activated = false;
+    }
+
     public void activate() {
         activated = true;
         activationCode = null;

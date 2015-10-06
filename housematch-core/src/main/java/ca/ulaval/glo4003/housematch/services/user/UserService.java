@@ -59,6 +59,12 @@ public class UserService {
         }
     }
 
+    public void updateUserEmail(User user, String email) throws UserActivationServiceException {
+        user.updateEmail(email);
+        userActivationService.beginActivation(user);
+        userRepository.update(user);
+    }
+
     public List<UserRole> getPubliclyRegistrableUserRoles() {
         List<UserRole> userRoles = Arrays.asList(UserRole.values());
 

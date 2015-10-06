@@ -126,6 +126,24 @@ public class UserServiceTest {
     }
 
     @Test
+    public void updatingUserEmailUpdatesTheEmailFromTheUserObject() throws Exception {
+        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        verify(userMock).updateEmail(SAMPLE_EMAIL);
+    }
+
+    @Test
+    public void updatingUserEmailBeginsTheUserActivationProcess() throws Exception {
+        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        verify(userActivationServiceMock).beginActivation(userMock);
+    }
+
+    @Test
+    public void updatingUserEmailPushesUserUpdateToRepository() throws Exception {
+        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        verify(userRepositoryMock).update(userMock);
+    }
+
+    @Test
     public void gettingPubliclyRegistrableUserRolesReturnsAListOfPubliclyRegistrableUserRoles() {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());

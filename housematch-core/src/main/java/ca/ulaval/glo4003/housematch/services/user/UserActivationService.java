@@ -32,12 +32,6 @@ public class UserActivationService {
         }
     }
 
-    public void updateActivationEmail(User user, String email) throws UserActivationServiceException {
-        user.setEmail(email);
-        sendActivationMail(user);
-        userRepository.update(user);
-    }
-
     public void beginActivation(User user) throws UserActivationServiceException {
         user.setActivationCode(UUID.randomUUID());
         sendActivationMail(user);

@@ -122,18 +122,16 @@ public class RegistrationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void registrationControllerUpdatesTheActivationEmailOfTheUserObjectDuringEmailReconfirmation()
-            throws Exception {
+    public void registrationControllerUpdatesTheEmailOfTheUserObjectDuringEmailReconfirmation() throws Exception {
         postEmailReconfirmationForm();
 
-        verify(userActivationServiceMock).updateActivationEmail(userMock, SAMPLE_EMAIL);
+        verify(userServiceMock).updateUserEmail(userMock, SAMPLE_EMAIL);
     }
 
     @Test
     public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringEmailReconfirmation()
             throws Exception {
-        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).updateActivationEmail(userMock,
-                SAMPLE_EMAIL);
+        doThrow(new UserActivationServiceException()).when(userServiceMock).updateUserEmail(userMock, SAMPLE_EMAIL);
 
         ResultActions results = postEmailReconfirmationForm();
 
