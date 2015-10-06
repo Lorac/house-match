@@ -24,6 +24,7 @@
 				<%@include file="../includes/alertMessage.jsp"%>
 			</div>
 			<h2>Basic property information</h2>
+			<br>
 			<div class="form-group">
 				<label class="control-label col-sm-2">Property Type:</label>
 				<div class="col-sm-10">
