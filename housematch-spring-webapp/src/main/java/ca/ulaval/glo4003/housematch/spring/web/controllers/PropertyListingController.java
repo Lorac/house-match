@@ -48,9 +48,19 @@ public class PropertyListingController extends MvcController {
             propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
                     propertyListingCreationForm.getAddress(), propertyListingCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
-            return new ModelAndView(PROPERTY_LISTING_CONFIRMATION_VIEW_NAME);
+            return new ModelAndView(PROPERTY_LISTING_UDPATE_VIEW_NAME,
+                    PropertyListingCreationFormViewModel.VIEWMODEL_NAME, propertyListingCreationForm);
         } catch (PropertyServiceException e) {
             return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, propertyListingCreationForm, e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
+    public final ModelAndView editPropertyListingPage(HttpSession httpSession, PropertyListingCreationFormViewModel propertyListingCreationForm) {
+        try {
+            throw new PropertyServiceException();
+        } catch (PropertyServiceException e) {
+            return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, propertyListingCreationForm, "Not implemented");
         }
     }
 }
