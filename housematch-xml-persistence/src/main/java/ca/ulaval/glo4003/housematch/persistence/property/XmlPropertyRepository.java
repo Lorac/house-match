@@ -50,17 +50,16 @@ public class XmlPropertyRepository implements PropertyRepository {
         xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
 
-	@Override
-	public void update(Property property) {
-		if (!properties.contains(property)) {
-			throw new IllegalStateException("Update requested for an object that is not persisted.");
-		}
-		else if (properties.get(properties.indexOf(property)).hashCode() != property.hashCode()) {
-			throw new IllegalStateException(
+    @Override
+    public void update(Property property) {
+        if (!properties.contains(property)) {
+            throw new IllegalStateException("Update requested for an object that is not persisted.");
+        } else if (properties.get(properties.indexOf(property)).hashCode() != property.hashCode()) {
+            throw new IllegalStateException(
                     "Object hash code has changed, which could put the repository into an invalid state.");
         }
-	    properties.remove(property);
-	    properties.add(property);
-	    marshal();
-	}
+        properties.remove(property);
+        properties.add(property);
+        marshal();
+    }
 }

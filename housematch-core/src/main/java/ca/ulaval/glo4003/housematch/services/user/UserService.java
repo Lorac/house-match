@@ -41,8 +41,8 @@ public class UserService {
         try {
             userCreationValidator.validateUserCreation(username, email, password, role);
             User user = new User(username, email, password, role);
-            userActivationService.beginActivation(user);
             userRepository.persist(user);
+            userActivationService.beginActivation(user);
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {
             throw new UserServiceException(e);
         }
