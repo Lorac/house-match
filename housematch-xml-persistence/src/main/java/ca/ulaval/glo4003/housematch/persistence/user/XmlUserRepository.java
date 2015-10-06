@@ -43,9 +43,6 @@ public class XmlUserRepository implements UserRepository {
     public void update(User user) {
         if (!users.contains(user)) {
             throw new IllegalStateException("Update requested for an object that is not persisted.");
-        } else if (users.get(users.indexOf(user)).hashCode() != user.hashCode()) {
-            throw new IllegalStateException(
-                    "Object hash code has changed, which could put the repository into an invalid state.");
         }
 
         users.remove(user);
