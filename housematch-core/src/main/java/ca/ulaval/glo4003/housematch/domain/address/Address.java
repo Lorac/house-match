@@ -29,7 +29,7 @@ public class Address {
     }
 
     public String getCity() {
-        return streetName;
+        return city;
     }
 
     public void setCity(String city) {
