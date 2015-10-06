@@ -7,9 +7,11 @@ public final class ProfileModificationFormViewModel {
     @NotNull
     private String address;
     @NotNull
-    private String postalCode;
+    private String postCode;
     @NotNull
     private String city;
+    @NotNull
+    private String region;
     @NotNull
     private String country;
     @NotNull
@@ -23,12 +25,12 @@ public final class ProfileModificationFormViewModel {
         this.address = address;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getCity() {
@@ -37,6 +39,14 @@ public final class ProfileModificationFormViewModel {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getCountry() {

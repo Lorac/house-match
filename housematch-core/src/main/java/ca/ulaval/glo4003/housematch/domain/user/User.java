@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.util.UUID;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 public class User {
@@ -7,14 +9,15 @@ public class User {
     String email;
     String password;
     String address;
-    String postalCode;
+    String postCode;
     String city;
+    String region;
     String country;
 
     UserRole role;
     Integer activationCode;
     boolean activated = false;
-    Integer modifcationCode;
+    UUID modifcationCode;
     String temporaryEmail;
 
     User() {
@@ -60,12 +63,12 @@ public class User {
         this.address = address;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPostCode() {
+        return postCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     public String getCity() {
@@ -74,6 +77,14 @@ public class User {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
     }
 
     public String getCountry() {
@@ -125,7 +136,7 @@ public class User {
         return activated;
     }
 
-    public void startModification(Integer code) {
+    public void startModification(UUID code) {
         this.modifcationCode = code;
     }
 
@@ -133,7 +144,7 @@ public class User {
         this.modifcationCode = null;
     }
 
-    public Integer getModificationCode() {
+    public UUID getModificationCode() {
         return modifcationCode;
     }
 

@@ -17,6 +17,7 @@
 	<jsp:include page="../includes/navigationBar.jsp" />
 	<div class="container">
 		<p>Your profile has been saved!</p>
+		<p>If you changed you email address, a confirmation link has been sent to your new email address to complete the modification.</p>
 	</div>
 </body>
 </html>

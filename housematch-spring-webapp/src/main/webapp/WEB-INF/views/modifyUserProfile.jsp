@@ -40,12 +40,16 @@
                                             value="${user.address}" placeholder="Address" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="postalCode" class="form-control" minlength="3" maxlength="128" tabindex="2"
-                                            value="${user.postalCode}" placeholder="Postal Code" />
+                                        <form:input type="text" path="postCode" class="form-control" minlength="3" maxlength="128" tabindex="2"
+                                            value="${user.postCode}" placeholder="Post Code" />
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="city" class="form-control" minlength="3" maxlength="32" tabindex="3"
                                             value="${user.city}" placeholder="City" />
+                                    </div>
+                                   	<div class="form-group">
+                                        <form:input type="text" path="region" class="form-control" minlength="3" maxlength="32" tabindex="3"
+                                            value="${user.region}" placeholder="Region" />
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="country" class="form-control" minlength="3" maxlength="32" tabindex="3"

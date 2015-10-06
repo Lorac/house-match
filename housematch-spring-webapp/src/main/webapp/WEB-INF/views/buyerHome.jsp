@@ -18,6 +18,9 @@
 	<div class="container">
 		<p>Hello ${sessionScope.user.username}! You are connected as a
 			${sessionScope.user.role.displayName}.</p>
+		<ul>
+			<li><a href="/modifyProfile">Modify user Profile</a></li>
+		</ul>
 	</div>
 </body>
 </html>

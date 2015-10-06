@@ -21,8 +21,9 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.role = xmlUser.role;
         user.activated = xmlUser.activated;
         user.address = xmlUser.address;
-        user.postalCode = xmlUser.postalCode;
+        user.postCode = xmlUser.postCode;
         user.city = xmlUser.city;
+        user.region = xmlUser.region;
         user.country = xmlUser.country;
         return user;
     }
@@ -36,8 +37,9 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.role = user.role;
         xmlUser.activated = user.activated;
         xmlUser.address = user.address;
-        xmlUser.postalCode = user.postalCode;
+        xmlUser.postCode = user.postCode;
         xmlUser.city = user.city;
+        xmlUser.region = user.region;
         xmlUser.country = user.country;
         return xmlUser;
     }

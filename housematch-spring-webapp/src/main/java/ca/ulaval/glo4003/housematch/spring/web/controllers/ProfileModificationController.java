@@ -34,11 +34,6 @@ public class ProfileModificationController extends MvcController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = PROFILE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayProfile(ModelMap modelMap, HttpSession session) {
-        return new ModelAndView(PROFILE_VIEW_NAME);
-    }
-
     @RequestMapping(value = MODIFY_USER_URL, method = RequestMethod.GET)
     public final ModelAndView modifyUserProfile(Model model, HttpSession session) {
         return new ModelAndView(MODIFY_USER_VIEW_NAME, MODIFY_USER_FORM_VIEWMODEL_NAME,
@@ -51,8 +46,8 @@ public class ProfileModificationController extends MvcController {
                     throws UserNotFoundException, UserMailModificationException {
         User user = getUserFromHttpSession(session);
         userService.updateUserCoordinate(user.getUsername(), modificationForm.getAddress(),
-                modificationForm.getPostalCode(), modificationForm.getCity(), modificationForm.getCountry(),
-                modificationForm.getEmail());
+                modificationForm.getPostCode(), modificationForm.getCity(), modificationForm.getRegion(),
+                modificationForm.getCountry(), modificationForm.getEmail());
         return new ModelAndView(new RedirectView(MODIFIED_USER_SAVED_URL));
     }
 

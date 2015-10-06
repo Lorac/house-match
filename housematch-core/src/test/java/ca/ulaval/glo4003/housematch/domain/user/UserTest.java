@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,10 +24,11 @@ public class UserTest {
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
     private static final Object SAMPLE_OBJECT = new Object();
     private static final String SAMPLE_ADDRESS = "123 potato street";
-    private static final String SAMPLE_POSTAL_CODE = "X1X1X1";
+    private static final String SAMPLE_POST_CODE = "X1X1X1";
+    private static final String SAMPLE_REGION = "Quebec";
     private static final String SAMPLE_COUNTRY = "Canada";
     private static final String SAMPLE_CITY = "Potatown";
-    private static final Integer SAMPLE_CODE = 1234567890;
+    private static final UUID SAMPLE_CODE = UUID.randomUUID();
 
     private User user;
 
@@ -159,9 +162,15 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePostalCodeSetsTheSpecifiedPostalCode() throws Exception {
-        user.setPostalCode(SAMPLE_POSTAL_CODE);
-        assertEquals(SAMPLE_POSTAL_CODE, user.getPostalCode());
+    public void settingThePostCodeSetsTheSpecifiedPostCode() throws Exception {
+        user.setPostCode(SAMPLE_POST_CODE);
+        assertEquals(SAMPLE_POST_CODE, user.getPostCode());
+    }
+
+    @Test
+    public void settingTheRegionSetsTheSpecifiedRegion() throws Exception {
+        user.setRegion(SAMPLE_REGION);
+        assertEquals(SAMPLE_REGION, user.getRegion());
     }
 
     @Test
@@ -174,12 +183,6 @@ public class UserTest {
     public void settingTheCitySetsTheSpecifiedCity() throws Exception {
         user.setCity(SAMPLE_CITY);
         assertEquals(SAMPLE_CITY, user.getCity());
-    }
-
-    @Test
-    public void settingTheActivationCodeSetsTheSpecifiedActivationCode() throws Exception {
-        user.setActivationCode(SAMPLE_CODE);
-        assertEquals(SAMPLE_CODE, user.getActivationCode());
     }
 
     @Test

@@ -10,7 +10,8 @@ public class XmlUser {
     public UserRole role;
     public boolean activated;
     public String address;
-    public String postalCode;
+    public String postCode;
     public String city;
+    public String region;
     public String country;
 }

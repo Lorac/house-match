@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.housematch.services;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
@@ -19,11 +19,9 @@ import ca.ulaval.glo4003.housematch.validators.UserRegistrationValidator;
 public class UserService {
 
     private static final String MODIFICATION_BASE_URL = "http://localhost:8080/modifyProfile/";
-    private static final String MODIFICATION_EMAIL_BODY = "Confirm your email modification by <a href=\"%s%s/%d\">"
-            + "confirming this mail</a>.";
+    private static final String MODIFICATION_EMAIL_BODY = "Confirm your email modification by <a href=\"%s%s/%s\">"
+            + "clicking this link</a>.";
     private static final String MODIFICATION_EMAIL_SUBJECT = "Confirm account modification";
-    private static final Integer MODIFICATION_CODE_MIN_VALUE = 1;
-    private static final Integer MODIFICATION_CODE_MAX_VALUE = Integer.MAX_VALUE;
 
     private UserRepository userRepository;
     private UserActivationService userActivationService;
@@ -67,12 +65,13 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void updateUserCoordinate(String username, String address, String postalCode, String city, String country,
-            String email) throws UserNotFoundException, UserMailModificationException {
+    public void updateUserCoordinate(String username, String address, String postCode, String city, String region,
+            String country, String email) throws UserNotFoundException, UserMailModificationException {
         User user = userRepository.getByUsername(username);
         user.setAddress(address);
-        user.setPostalCode(postalCode);
+        user.setPostCode(postCode);
         user.setCity(city);
+        user.setRegion(region);
         user.setCountry(country);
         if (!email.equals(user.getEmail())) {
             user.setTemporaryEmail(email);
@@ -88,7 +87,7 @@ public class UserService {
     }
 
     private void sendConfirmationMail(User user, String email) throws UserMailModificationException {
-        Integer code = ThreadLocalRandom.current().nextInt(MODIFICATION_CODE_MIN_VALUE, MODIFICATION_CODE_MAX_VALUE);
+        UUID code = UUID.randomUUID();
         user.startModification(code);
         try {
             mailSender.sendAsync(MODIFICATION_EMAIL_SUBJECT,
@@ -97,17 +96,5 @@ public class UserService {
             throw new UserMailModificationException(String.format(
                     "Could not send the mail. Please check that '%s' is a valid email address.", user.getEmail()), e);
         }
-    }
-
-    public void completeActivation(Integer activationCode, String username) throws UserActivationServiceException {
-        User user;
-        try {
-            user = userRepository.getByUsername(username);
-        } catch (UserNotFoundException e) {
-            throw new UserActivationServiceException(
-                    String.format("Activation code '%s' is not valid.", activationCode), e);
-        }
-
-        user.activate();
     }
 }
