@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.services.user.InvalidEmailException;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
@@ -80,7 +81,7 @@ public class RegistrationController extends MvcController {
             userService.updateUserEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
             session.invalidate();
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
-        } catch (UserActivationServiceException e) {
+        } catch (UserActivationServiceException | InvalidEmailException e) {
             return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, emailReconfirmForm, e.getMessage());
         }
     }

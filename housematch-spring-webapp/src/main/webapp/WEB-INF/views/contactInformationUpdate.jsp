@@ -13,13 +13,12 @@
 <title>HouseMatch - Profile</title>
 </head>
 <body>
-	<c:set var="homeLinkActive" value="active" scope="request" />
     <jsp:include page="../includes/navigationBar.jsp"/>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
-                <div class="panel">
-                    <div class="panel-heading">
+                <div class="form">
+                    <div class="form-heading">
                         <div class="row">
                             <div class="col-xs-12">
                                 <p>Update Contact Information</p>
@@ -27,10 +26,10 @@
                         </div>
                         <hr>
                     </div>
-                    <div class="panel-body">
+                    <div class="form-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="profile-form" role="form" commandName="profileModificationForm" action="/updateContactInformation"
+                                <form:form id="profile-form" role="form" commandName="userProfileForm" action="/updateContactInformation"
                                     method="POST">
                                     <div class="form-group">
                                         <%@include file="../includes/alertMessage.jsp" %>
@@ -54,7 +53,7 @@
                                    	<div class="form-group">
                                         <form:select path="address.region" class="form-control" 
 											tabindex="5">
-											<form:options items="${user.address.region.name}"  itemLabel="name"></form:options>
+											<form:options items="${address.region}"  itemLabel="name"></form:options>
 										</form:select>
                                     </div>
                                     <div class="form-group">

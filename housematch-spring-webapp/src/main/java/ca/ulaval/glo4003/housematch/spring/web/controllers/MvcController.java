@@ -42,7 +42,7 @@ public class MvcController {
     protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingCreationConfirmation";
     protected static final String USER_ATTRIBUTE_NAME = "user";
     protected static final String CONTACT_INFO_UPDATE_URL = "/updateContactInformation";
-    protected static final String CONTACT_INFO_UPDATE_VIEW_NAME = "contactInformationUpdate";
+    public static final String CONTACT_INFO_UPDATE_VIEW_NAME = "contactInformationUpdate";
     protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_URL = "/contactInformationUpdateConfirmation";
     protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "contactInformationUpdateConfirmation";
 

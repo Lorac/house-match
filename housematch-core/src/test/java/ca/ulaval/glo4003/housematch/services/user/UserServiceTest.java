@@ -148,13 +148,13 @@ public class UserServiceTest {
 
     @Test
     public void updatingUserCoordinatesValidatesAddress() throws Exception {
-        userService.updateUserCoordinate(userMock, addressMock, SAMPLE_EMAIL);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(addressValidatorMock).validateAddress(addressMock);
     }
 
     @Test
     public void updatingUserCoordinatesSetsNewAddress() throws Exception {
-        userService.updateUserCoordinate(userMock, addressMock, SAMPLE_EMAIL);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userMock).setAddress(addressMock);
     }
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.services.user.InvalidEmailException;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
@@ -43,10 +44,10 @@ public class UserProfileController extends MvcController {
             throws UserNotFoundException, UserActivationServiceException, AuthenticationException {
         authorizationValidator.validateResourceAccess(CONTACT_INFO_UPDATE_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         try {
-            userService.updateUserCoordinate(getUserFromHttpSession(httpSession), userProfileForm.getAddress(),
+            userService.updateUserContactInformation(getUserFromHttpSession(httpSession), userProfileForm.getAddress(),
                     userProfileForm.getEmail());
             return new ModelAndView(CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME);
-        } catch (AddressValidationException e) {
+        } catch (AddressValidationException | InvalidEmailException e) {
             return showAlertMessage(CONTACT_INFO_UPDATE_VIEW_NAME, userProfileForm, e.getMessage());
         }
 

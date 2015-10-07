@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -53,9 +55,15 @@ public class UserService {
         }
     }
 
-    public void updateUserEmail(User user, String email) throws UserActivationServiceException {
-        user.updateEmail(email);
-        userActivationService.beginActivation(user);
+    public void updateUserEmail(User user, String email) throws UserActivationServiceException, InvalidEmailException {
+        if (!email.equals(user.getEmail())) {
+            if (!EmailValidator.getInstance(false).isValid(email)) {
+                throw new InvalidEmailException("The email format is not valid.");
+            } else {
+                user.updateEmail(email);
+                userActivationService.beginActivation(user);
+            }
+        }
         userRepository.update(user);
     }
 
@@ -65,14 +73,10 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void updateUserCoordinate(User user, Address address, String email)
-            throws UserNotFoundException, UserActivationServiceException, AddressValidationException {
+    public void updateUserContactInformation(User user, Address address, String email) throws UserNotFoundException,
+            UserActivationServiceException, AddressValidationException, InvalidEmailException {
         addressValidator.validateAddress(address);
         user.setAddress(address);
-        userRepository.update(user);
-        if (!email.equals(user.getEmail())) {
-            updateUserEmail(user, email);
-        }
-
+        updateUserEmail(user, email);
     }
 }
