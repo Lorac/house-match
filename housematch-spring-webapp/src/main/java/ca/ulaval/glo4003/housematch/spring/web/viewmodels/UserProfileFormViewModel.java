@@ -4,9 +4,9 @@ import javax.validation.constraints.NotNull;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 
-public final class ProfileModificationFormViewModel extends ViewModel {
+public final class UserProfileFormViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "profileModificationForm";
+    public static final String VIEWMODEL_NAME = "userProfileForm";
 
     @NotNull
     private Address address;

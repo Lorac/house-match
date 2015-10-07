@@ -65,9 +65,8 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void updateUserCoordinate(String username, Address address, String email)
+    public void updateUserCoordinate(User user, Address address, String email)
             throws UserNotFoundException, UserActivationServiceException, AddressValidationException {
-        User user = userRepository.getByUsername(username);
         addressValidator.validateAddress(address);
         user.setAddress(address);
         userRepository.update(user);

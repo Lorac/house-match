@@ -27,6 +27,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         User user = new User(xmlUser.username, xmlUser.email, textEncryptor.decrypt(xmlUser.password), xmlUser.role);
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
+        user.setAddress(xmlUser.address);
         user.setPropertyListings(dereferencePropertyListings(xmlUser));
         return user;
     }

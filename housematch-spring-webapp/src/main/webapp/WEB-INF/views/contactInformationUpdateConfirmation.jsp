@@ -10,14 +10,14 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Profile</title>
+<title>HouseMatch - Contact Information Update Confirmation</title>
 </head>
 <body>
-	<c:set var="homeLinkActive" value="active" scope="request" />
 	<jsp:include page="../includes/navigationBar.jsp" />
 	<div class="container">
 		<p>Your profile has been saved!</p>
 		<p>If you changed you email address, a confirmation link has been sent to your new email address to complete the modification.</p>
 	</div>
+	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

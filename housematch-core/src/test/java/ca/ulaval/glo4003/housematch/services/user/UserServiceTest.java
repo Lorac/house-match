@@ -28,7 +28,6 @@ import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
-    private static final String ANOTHER_SAMPLE_EMAIL = "test2@test.com";
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
@@ -148,20 +147,14 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatingUserCoordinatesRetrievesUserByUsernameFromRepository() throws Exception {
-        userService.updateUserCoordinate(SAMPLE_USERNAME, addressMock, SAMPLE_EMAIL);
-        verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
-    }
-
-    @Test
     public void updatingUserCoordinatesValidatesAddress() throws Exception {
-        userService.updateUserCoordinate(SAMPLE_USERNAME, addressMock, SAMPLE_EMAIL);
+        userService.updateUserCoordinate(userMock, addressMock, SAMPLE_EMAIL);
         verify(addressValidatorMock).validateAddress(addressMock);
     }
 
     @Test
     public void updatingUserCoordinatesSetsNewAddress() throws Exception {
-        userService.updateUserCoordinate(SAMPLE_USERNAME, addressMock, SAMPLE_EMAIL);
+        userService.updateUserCoordinate(userMock, addressMock, SAMPLE_EMAIL);
         verify(userMock).setAddress(addressMock);
     }
 

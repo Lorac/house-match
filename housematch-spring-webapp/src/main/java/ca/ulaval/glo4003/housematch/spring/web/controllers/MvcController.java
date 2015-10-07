@@ -41,10 +41,10 @@ public class MvcController {
     public static final String PROPERTY_LISTING_CREATION_VIEW_NAME = "listingCreation";
     protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingCreationConfirmation";
     protected static final String USER_ATTRIBUTE_NAME = "user";
-    protected static final String MODIFY_USER_URL = "/modifyProfile";
-    protected static final String MODIFY_USER_VIEW_NAME = "modifyUserProfile";
-    protected static final String MODIFIED_USER_SAVED_URL = "/profileSaved";
-    protected static final String MODIFIED_USER_SAVED_VIEW_NAME = "savedUserProfile";
+    protected static final String CONTACT_INFO_UPDATE_URL = "/updateContactInformation";
+    protected static final String CONTACT_INFO_UPDATE_VIEW_NAME = "contactInformationUpdate";
+    protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_URL = "/contactInformationUpdateConfirmation";
+    protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "contactInformationUpdateConfirmation";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;

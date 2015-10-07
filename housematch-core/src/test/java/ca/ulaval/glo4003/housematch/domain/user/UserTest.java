@@ -32,7 +32,7 @@ public class UserTest {
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
     private static final Object SAMPLE_OBJECT = new Object();
-    private static final UUID SAMPLE_CODE = UUID.randomUUID();
+    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private Address addressMock;
 
     private Property propertyMock;
@@ -173,8 +173,8 @@ public class UserTest {
 
     @Test
     public void settingTheActivationCodeSetsTheSpecifiedActivationCode() {
-        user.setActivationCode(SAMPLE_CODE);
-        assertEquals(SAMPLE_CODE, user.getActivationCode());
+        user.setActivationCode(SAMPLE_ACTIVATION_CODE);
+        assertEquals(SAMPLE_ACTIVATION_CODE, user.getActivationCode());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class UserTest {
 
     @Test
     public void activatingTheUserClearsTheActivationCode() throws Exception {
-        user.setActivationCode(SAMPLE_CODE);
+        user.setActivationCode(SAMPLE_ACTIVATION_CODE);
         user.activate();
         assertNull(user.getActivationCode());
     }

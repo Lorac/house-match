@@ -13,7 +13,7 @@
 <title>HouseMatch - Profile</title>
 </head>
 <body>
-    <c:set var="registerLinkActive" value="active" scope="request"/>
+	<c:set var="homeLinkActive" value="active" scope="request" />
     <jsp:include page="../includes/navigationBar.jsp"/>
     <div class="container">
         <div class="row">
@@ -22,7 +22,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-12">
-                                <p>User Profile</p>
+                                <p>Update Contact Information</p>
                             </div>
                         </div>
                         <hr>
@@ -30,13 +30,13 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="profile-form" role="form" commandName="profileModificationForm" action="/modifyProfile"
+                                <form:form id="profile-form" role="form" commandName="profileModificationForm" action="/updateContactInformation"
                                     method="POST">
                                     <div class="form-group">
                                         <%@include file="../includes/alertMessage.jsp" %>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="address.addressNumber" class="form-control" minlength="3" maxlength="32" tabindex="1"
+                                        <form:input type="number" path="address.addressNumber" class="form-control" min="0" tabindex="1"
                                             value="${user.address.addressNumber}" placeholder="Address Number" />
                                     </div>
                                     <div class="form-group">
@@ -48,14 +48,13 @@
                                             value="${user.address.city}" placeholder="City" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="128" tabindex="4"
+                                        <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="7" tabindex="4"
                                             value="${user.address.postCode}" placeholder="Post Code" />
                                     </div>
                                    	<div class="form-group">
                                         <form:select path="address.region" class="form-control" 
 											tabindex="5">
-											<form:option value="${user.address.region.name}"></form:option>
-											<form:options items="${address.region}"  itemLabel="name"></form:options>
+											<form:options items="${user.address.region.name}"  itemLabel="name"></form:options>
 										</form:select>
                                     </div>
                                     <div class="form-group">
@@ -86,7 +85,6 @@
     </div>
 
     <%@include file="../includes/footer.jsp"%>
-    <script src="/resources/js/login.js"></script>
 
 </body>
 </html>
