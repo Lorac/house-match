@@ -1,6 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<% pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values()); %>
 
 <html>
 <head>
@@ -29,7 +30,7 @@
                     <div class="form-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="profile-form" role="form" commandName="userProfileForm" action="/updateContactInformation"
+                                <form:form id="profile-form" role="form" commandName="contactInformationForm" action="/updateContactInformation"
                                     method="POST">
                                     <div class="form-group">
                                         <%@include file="../includes/alertMessage.jsp" %>
@@ -53,7 +54,9 @@
                                    	<div class="form-group">
                                         <form:select path="address.region" class="form-control" 
 											tabindex="5">
-											<form:options items="${address.region}"  itemLabel="name"></form:options>
+											<c:forEach var="region" items="${regions}">                                         
+												<option value="${region}" ${region == user.address.region ? 'selected' : ''}>${region.name}</option>
+											</c:forEach>
 										</form:select>
                                     </div>
                                     <div class="form-group">

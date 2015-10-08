@@ -36,7 +36,7 @@
                     <key>
                         <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.CONTACT_INFO_UPDATE_VIEW_NAME" />
                     </key>
-                    <ref bean="userProfileAccessControlList" />
+                    <ref bean="contactInformationAccessControlList" />
                 </entry>
             </map>
         </constructor-arg>
@@ -74,7 +74,7 @@
         </constructor-arg>
     </bean>
     
-    <bean id="userProfileAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
+    <bean id="contactInformationAccessControlList" class="ca.ulaval.glo4003.housematch.spring.web.security.AccessControlList">
         <constructor-arg>
             <set>
                 <value>BUYER</value>

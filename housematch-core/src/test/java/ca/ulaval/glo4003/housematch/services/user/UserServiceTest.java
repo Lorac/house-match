@@ -141,19 +141,19 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatingUserEmailPushesUserUpdateToRepository() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+    public void updatingUserContactInformationsPushesUserUpdateToRepository() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userRepositoryMock).update(userMock);
     }
 
     @Test
-    public void updatingUserCoordinatesValidatesAddress() throws Exception {
+    public void updatingUserContactInformationsValidatesAddress() throws Exception {
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(addressValidatorMock).validateAddress(addressMock);
     }
 
     @Test
-    public void updatingUserCoordinatesSetsNewAddress() throws Exception {
+    public void updatingUserContactInformationsSetsNewAddress() throws Exception {
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userMock).setAddress(addressMock);
     }

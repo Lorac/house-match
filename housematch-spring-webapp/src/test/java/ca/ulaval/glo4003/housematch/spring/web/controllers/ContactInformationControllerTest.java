@@ -16,41 +16,41 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.services.user.UserService;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.UserProfileFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel;
 
-public class ProfileModificationControllerTest extends MvcControllerTest {
+public class ContactInformationControllerTest extends MvcControllerTest {
 
     private static final String ADDRESS_PARAMETER_NAME = "address";
     private static final String EMAIL_PARAMETER_NAME = "email";
     private static final String SAMPLE_EMAIL = "Potato@gmail.com";
 
     private UserService userServiceMock;
-    private UserProfileController profileModificationController;
+    private ContactInformationController contactInformationController;
 
     @Before
     public void init() {
         super.init();
         userServiceMock = mock(UserService.class);
-        profileModificationController = new UserProfileController(authorizationValidatorMock, userServiceMock);
-        mockMvc = MockMvcBuilders.standaloneSetup(profileModificationController).setViewResolvers(viewResolver).build();
+        contactInformationController = new ContactInformationController(authorizationValidatorMock, userServiceMock);
+        mockMvc = MockMvcBuilders.standaloneSetup(contactInformationController).setViewResolvers(viewResolver).build();
     }
 
     @Test
     public void userProfileControllerRendersModifyUserProfileView() throws Exception {
-        ResultActions results = performGetRequest(UserProfileController.CONTACT_INFO_UPDATE_URL);
+        ResultActions results = performGetRequest(ContactInformationController.CONTACT_INFO_UPDATE_URL);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name(UserProfileController.CONTACT_INFO_UPDATE_VIEW_NAME));
+        results.andExpect(view().name(ContactInformationController.CONTACT_INFO_UPDATE_VIEW_NAME));
     }
 
     @Test
     public void userProfileControllerRendersUserProfileControllerWithTheCorrectFields() throws Exception {
-        ResultActions results = performGetRequest(UserProfileController.CONTACT_INFO_UPDATE_URL);
+        ResultActions results = performGetRequest(ContactInformationController.CONTACT_INFO_UPDATE_URL);
 
         results.andExpect(
-                model().attribute(UserProfileFormViewModel.VIEWMODEL_NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
+                model().attribute(ContactInformationFormViewModel.VIEWMODEL_NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(UserProfileFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+                model().attribute(ContactInformationFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test
@@ -66,11 +66,11 @@ public class ProfileModificationControllerTest extends MvcControllerTest {
         ResultActions results = postUserProfileModificationForm();
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name(UserProfileController.CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME));
+        results.andExpect(view().name(ContactInformationController.CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME));
     }
 
     private ResultActions postUserProfileModificationForm() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post(UserProfileController.CONTACT_INFO_UPDATE_URL)
+        MockHttpServletRequestBuilder postRequest = post(ContactInformationController.CONTACT_INFO_UPDATE_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
         postRequest = buildPropertyListingCreationFormParams(postRequest);
 

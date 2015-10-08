@@ -64,7 +64,7 @@ public class UserService {
                 userActivationService.beginActivation(user);
             }
         }
-        userRepository.update(user);
+
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {
@@ -73,10 +73,14 @@ public class UserService {
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
-    public void updateUserContactInformation(User user, Address address, String email) throws UserNotFoundException,
-            UserActivationServiceException, AddressValidationException, InvalidEmailException {
-        addressValidator.validateAddress(address);
-        user.setAddress(address);
-        updateUserEmail(user, email);
+    public void updateUserContactInformation(User user, Address address, String email) throws UserServiceException {
+        try {
+            addressValidator.validateAddress(address);
+            user.setAddress(address);
+            updateUserEmail(user, email);
+            userRepository.update(user);
+        } catch (UserActivationServiceException | AddressValidationException | InvalidEmailException e) {
+            throw new UserServiceException("Can not update user contact informations", e);
+        }
     }
 }

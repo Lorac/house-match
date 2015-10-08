@@ -81,7 +81,7 @@
         <constructor-arg ref="propertyService"/>
     </bean>
     
-    <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController">
+    <bean id="contactInformationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController">
     	<constructor-arg ref="authorizationValidator"/>
 		<constructor-arg ref="userService"/>
     </bean>
