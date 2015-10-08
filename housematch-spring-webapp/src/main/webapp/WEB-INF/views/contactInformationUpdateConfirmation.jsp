@@ -16,7 +16,7 @@
 	<jsp:include page="../includes/navigationBar.jsp" />
 	<div class="container">
 		<p>Your contact informations have been updated!</p>
-		<p>If you changed you email address, a confirmation link has been sent to your new email address to complete the modification.</p>
+		<p>If you changed your email address, a confirmation link has been sent to your new email address to complete the modification.</p>
 	</div>
 	<%@include file="../includes/footer.jsp"%>
 </body>
