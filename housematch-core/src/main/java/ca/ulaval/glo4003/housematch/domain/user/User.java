@@ -104,6 +104,19 @@ public class User {
     public void addPropertyListing(Property property) {
         propertyListings.add(property);
     }
+    
+    public void updateProperty(Property property) throws UserPropertyNotListedException {
+        for(Property aUserProperty : propertyListings){
+            if(aUserProperty.hashCode() == property.hashCode()){
+                propertyListings.remove(aUserProperty);
+                propertyListings.add(property);
+            }
+        }
+        
+        if(!propertyListings.contains(property)){
+            throw new UserPropertyNotListedException("User does not have property listed");
+        }
+    }
 
     @Override
     public int hashCode() {

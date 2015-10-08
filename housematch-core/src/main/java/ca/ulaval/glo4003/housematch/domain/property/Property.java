@@ -5,12 +5,15 @@ import java.math.BigDecimal;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.services.property.PropertyDTO;
 
 public class Property {
 
     private PropertyType propertyType;
     private Address address;
     private BigDecimal sellingPrice;
+    
+    private String info;
 
     Property() {
         // Required for instanciation by reflection
@@ -20,6 +23,7 @@ public class Property {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
+        this.info = "";
     }
 
     public PropertyType getPropertyType() {
@@ -46,6 +50,14 @@ public class Property {
         this.sellingPrice = sellingPrice;
     }
 
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+    
     @Override
     public int hashCode() {
         return address.hashCode();

@@ -9,7 +9,10 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -34,14 +37,16 @@ public class UserTest {
     private static final Object SAMPLE_OBJECT = new Object();
 
     private Property propertyMock;
-
+    
     private List<Property> propertyListings;
+    private List<Property> propertyListingsMock;
     private User user;
 
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
         propertyListings = new ArrayList<Property>();
+        propertyListingsMock = mock(List.class);
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
@@ -205,5 +210,24 @@ public class UserTest {
     public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
         user.addPropertyListing(propertyMock);
         assertThat(user.getPropertyListings(), contains(propertyMock));
+    }
+    
+    @Test (expected = UserPropertyNotListedException.class)
+    public void updatingPropertyNotExistingInUserThrowsUserPropertyNotListed() throws Exception {
+       user.updateProperty(propertyMock);
+    }
+    
+    @Test
+    public void updatingPropertyUpdatePropertyInList() throws Exception{  
+       Property property1 = propertyMock;
+       when(property1.getInfo()).thenReturn("");
+       Property property2 = propertyMock;
+       when(property2.getInfo()).thenReturn("Updated info");
+       user.addPropertyListing(property1);
+       
+       user.updateProperty(property2);
+       assertEquals(user.getPropertyListings().size(), 1);
+       assertEquals(user.getPropertyListings().get(0).getInfo(),"Updated info");
+     
     }
 }
