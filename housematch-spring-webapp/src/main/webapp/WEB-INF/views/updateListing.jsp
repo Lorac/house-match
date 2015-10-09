@@ -15,9 +15,29 @@
 <body>
 	<jsp:include page="../includes/navigationBar.jsp" />
 	
-	<h1>Edit Listing Details</h1>
 	<div class="container">
-		<p>Your property has been successfully put on for sale and is now visible to buyers. <a href="../">Go back to your profile</a>.</p>
+		<h1>Edit Property Listing</h1>
+		<form:form id="property-listing-update-form" class="form-horizontal" role="form"
+			commandName="propertyListingUpdateForm" action="/updateListing" method="POST">
+			
+			<div class="form-group">
+				<%@include file="../includes/alertMessage.jsp"%>
+			</div>
+			
+			<h2>Extended Property Listing Details</h2>
+			
+			<p>Not implemented.</p>
+			
+			<div class="form-group">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-3">
+						<input type="submit" name="property-listing-update-submit"
+							id="property-listing-creation-submit" tabindex="8" class="form-control btn"
+							value="Save Details">
+					</div>
+				</div>
+			</div>
+		</form:form>
 	</div>
 	
 	<%@include file="../includes/footer.jsp"%>

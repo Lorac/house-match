@@ -14,8 +14,10 @@
 </head>
 <body>
 	<jsp:include page="../includes/navigationBar.jsp" />
+	
 	<div class="container">
-		<p>Your property has been successfully put on for sale and is now visible to buyers. <a href="../">Go back to your profile</a>.</p>
+		<h1>Property Listing Details Saved</h1>
+		<p>Congratulations! All your details have saved successfully. You may continue to explore the site via the navigation bar.</p>
 	</div>
 	
 	<%@include file="../includes/footer.jsp"%>
