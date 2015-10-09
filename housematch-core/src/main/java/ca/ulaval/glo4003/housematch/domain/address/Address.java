@@ -12,15 +12,14 @@ public class Address {
     String postCode;
     Region region;
 
-    
-    public String getCity(){
-    	return this.city;
+    public String getCity() {
+        return this.city;
     }
-    
+
     public void setCity(String city) {
-    	this.city = city;
+        this.city = city;
     }
-    
+
     public Integer getAddressNumber() {
         return addressNumber;
     }
@@ -77,9 +76,8 @@ public class Address {
         }
 
         Address address = (Address) obj;
-        return new EqualsBuilder().append(addressNumber, address.addressNumber)
-                .append(streetName, address.streetName).append(city, address.city)
-                .append(additionalAddressInfo, address.additionalAddressInfo)
+        return new EqualsBuilder().append(addressNumber, address.addressNumber).append(streetName, address.streetName)
+                .append(city, address.city).append(additionalAddressInfo, address.additionalAddressInfo)
                 .append(region, address.region).isEquals();
     }
 }

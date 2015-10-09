@@ -27,13 +27,13 @@ public class PropertyService {
         this.propertyListingCreationValidator = propertyListingCreationValidator;
     }
 
-    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
-            User user) throws PropertyServiceException {
+    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
+            throws PropertyServiceException {
         Property property = createProperty(propertyType, address, sellingPrice);
         user.addPropertyListing(property);
         userRepository.update(user);
     }
-    
+
     public void updateProperty(Integer hashcodeId, PropertyDTO propertyDTO, User user) throws PropertyServiceException {
         try {
             Property property = propertyRepository.getByHashCode(hashcodeId);
