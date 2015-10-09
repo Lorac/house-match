@@ -3,25 +3,27 @@ package ca.ulaval.glo4003.housematch.domain.property;
 public class PropertyListingDetails {
 
     // Listed here are the possible options for the extended details of a property
-    String propertyStyle;
-    String priceDetail;
-    Integer numberOfBedrooms;
-    String bedroomDetails;
-    Integer numberOfBathrooms;
-    String bathroomDetails;
-    Integer totalNumberOfRooms;
-    Integer numberOfLevels; // excludes basement
-    Integer numberOfHalfbaths;
-    String livingSpaceArea;
-    String buildingDimensions;
-    String lotDimensions;
-    Integer yearOfConstruction;
-    Integer municipalAssessment;
-    Integer locatedOnWhichFloor;
-    Integer numberOfExteriorParking;
-    Integer numberOfInteriorParking;
-    String ownership;
-    String backyardFaces;
+    static final Integer INVALID_NUMERAL = 0;
+    static final String EMPTY_FIELD = "";
+    String propertyStyle = EMPTY_FIELD;
+    String priceDetail = EMPTY_FIELD;
+    Integer numberOfBedrooms = INVALID_NUMERAL;
+    String bedroomDetails = EMPTY_FIELD;
+    Integer numberOfBathrooms = INVALID_NUMERAL;
+    String bathroomDetails = EMPTY_FIELD;
+    Integer totalNumberOfRooms = INVALID_NUMERAL;
+    Integer numberOfLevels = INVALID_NUMERAL; // excludes basement
+    Integer numberOfHalfbaths = INVALID_NUMERAL;
+    String livingSpaceArea = EMPTY_FIELD;
+    String buildingDimensions = EMPTY_FIELD;
+    String lotDimensions = EMPTY_FIELD;
+    Integer yearOfConstruction = INVALID_NUMERAL;
+    Integer municipalAssessment = INVALID_NUMERAL;
+    Integer locatedOnWhichFloor = INVALID_NUMERAL;
+    Integer numberOfExteriorParking = INVALID_NUMERAL;
+    Integer numberOfInteriorParking = INVALID_NUMERAL;
+    String ownership = EMPTY_FIELD;
+    String backyardFaces = EMPTY_FIELD;
 
     public PropertyListingDetails() {
 
