@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
 
 public class UserTest {
 
@@ -37,16 +38,18 @@ public class UserTest {
     private static final Object SAMPLE_OBJECT = new Object();
 
     private Property propertyMock;
+    private PropertyListingDetails propertyDetailsMock;
+    private PropertyListingDetails propertyDetailsMock2;
     
     private List<Property> propertyListings;
-    private List<Property> propertyListingsMock;
     private User user;
 
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
+        propertyDetailsMock = mock(PropertyListingDetails.class);
+        propertyDetailsMock2 = mock(PropertyListingDetails.class);
         propertyListings = new ArrayList<Property>();
-        propertyListingsMock = mock(List.class);
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
@@ -220,14 +223,14 @@ public class UserTest {
     @Test
     public void updatingPropertyUpdatePropertyInList() throws Exception{  
        Property property1 = propertyMock;
-       when(property1.getInfo()).thenReturn("");
+       when(property1.getPropertyDetails()).thenReturn(propertyDetailsMock);
        Property property2 = propertyMock;
-       when(property2.getInfo()).thenReturn("Updated info");
+       when(property2.getPropertyDetails()).thenReturn(propertyDetailsMock2);
        user.addPropertyListing(property1);
        
        user.updateProperty(property2);
        assertEquals(user.getPropertyListings().size(), 1);
-       assertEquals(user.getPropertyListings().get(0).getInfo(),"Updated info");
+       assertEquals(user.getPropertyListings().get(0).getPropertyDetails(), propertyDetailsMock2);
      
     }
 }

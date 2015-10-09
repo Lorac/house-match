@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
@@ -34,15 +35,25 @@ public class PropertyService {
         userRepository.update(user);
     }
 
-    public void updateProperty(Integer hashcodeId, PropertyListingDetailsDTO propertyDTO, User user) throws PropertyServiceException {
+    public void updateProperty(Address address, PropertyListingDetails details, User user) throws PropertyServiceException {
         try {
-            Property property = propertyRepository.getByHashCode(hashcodeId);
-            property.setInfo(propertyDTO.getInfo());
+            int hashCode = fetchUserPropertyByAddress(address, user).hashCode();
+            Property property = propertyRepository.getByHashCode(hashCode);
+            property.setPropertyDetails(details);
             propertyRepository.update(property);
             user.updateProperty(property);
         } catch (PropertyNotFoundException | UserPropertyNotListedException e) {
             throw new PropertyServiceException(e);
         }
+    }
+
+    private Property fetchUserPropertyByAddress(Address address, User user) throws PropertyServiceException {
+        for (Property property : user.getPropertyListings()) {
+            if (property.getAddress() == address) {
+                return property;
+            }
+        }
+        throw new PropertyServiceException();
     }
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
