@@ -63,7 +63,7 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressInfo)
+        return new HashCodeBuilder().append(addressNumber).append(streetName).append(city).append(additionalAddressInfo)
                 .append(region.ordinal()).toHashCode();
     }
 
@@ -78,7 +78,7 @@ public class Address {
 
         Address address = (Address) obj;
         return new EqualsBuilder().append(addressNumber, address.addressNumber)
-                .append(streetName, address.streetName)
+                .append(streetName, address.streetName).append(city, address.city)
                 .append(additionalAddressInfo, address.additionalAddressInfo)
                 .append(region, address.region).isEquals();
     }
