@@ -77,12 +77,12 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void propertyControllerRendersPropertyListingCreationConfirmationUponPropertyIsSuccessfullyListed()
+    public void propertyControllerRedirectsToPropertyUpdatePageWhenCreationSucessful()
             throws Exception {
         ResultActions results = postPropertyListingCreationForm();
 
         results.andExpect(status().isOk());
-      //  results.andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CREATION_VIEW_NAME));
+        results.andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
     }
 
     @Test
