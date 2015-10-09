@@ -62,7 +62,7 @@
 				<div class="col-sm-10">
 					<form:input type="text" path="address.city"
 						class="form-control" minlength="3" maxlength="32" tabindex="5"
-						placeholder="Street Name" />
+						placeholder="City" />
 				</div>
 			</div>
 			<div class="form-group">

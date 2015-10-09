@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
-public class PropertyDTO {
+public class PropertyListingDetailsDTO {
 
     private String info = "";
 
-    public PropertyDTO(final String info) {
+    public PropertyListingDetailsDTO(final String info) {
         this.info = info;
     }
 

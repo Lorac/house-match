@@ -11,7 +11,7 @@ public class Property {
     private PropertyType propertyType;
     private Address address;
     private BigDecimal sellingPrice;
-
+    private PropertyListingDetails propertyDetails;
     private String info;
 
     Property() {
@@ -55,6 +55,14 @@ public class Property {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public PropertyListingDetails getPropertyDetails() {
+        return propertyDetails;
+    }
+
+    public void setPropertyDetails(PropertyListingDetails propertyDetails) {
+        this.propertyDetails = propertyDetails;
     }
 
     @Override

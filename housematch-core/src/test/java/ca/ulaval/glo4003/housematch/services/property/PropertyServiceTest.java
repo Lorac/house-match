@@ -91,7 +91,7 @@ public class PropertyServiceTest {
     public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
 
-        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDTO(SAMPLE_PROPERTY_INFO), userMock);
+        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetailsDTO(SAMPLE_PROPERTY_INFO), userMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
     
@@ -99,7 +99,7 @@ public class PropertyServiceTest {
     public void propertyEditingChangesUpdatePropertyInUser() throws Exception   {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
         
-        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDTO(SAMPLE_PROPERTY_INFO), userMock);
+        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetailsDTO(SAMPLE_PROPERTY_INFO), userMock);
         verify(userMock).updateProperty(propertyMock);
     }
 

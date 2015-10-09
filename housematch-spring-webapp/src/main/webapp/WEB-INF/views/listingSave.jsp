@@ -17,7 +17,7 @@
 	
 	<div class="container">
 		<h1>Property Listing Details Saved</h1>
-		<p>Congratulations! All your details have saved successfully. You may continue to explore the site via the navigation bar.</p>
+		<p>Congratulations! All your details have been saved successfully. You may continue to explore the site via the navigation bar.</p>
 	</div>
 	
 	<%@include file="../includes/footer.jsp"%>

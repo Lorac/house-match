@@ -34,7 +34,7 @@ public class PropertyService {
         userRepository.update(user);
     }
 
-    public void updateProperty(Integer hashcodeId, PropertyDTO propertyDTO, User user) throws PropertyServiceException {
+    public void updateProperty(Integer hashcodeId, PropertyListingDetailsDTO propertyDTO, User user) throws PropertyServiceException {
         try {
             Property property = propertyRepository.getByHashCode(hashcodeId);
             property.setInfo(propertyDTO.getInfo());

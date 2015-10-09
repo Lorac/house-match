@@ -69,7 +69,7 @@ public class PropertyListingController extends MvcController {
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyListingDetails(HttpSession httpSession, ModelMap map) {
-        //TODO : insert service method to save the detail changes
+        //TODO : uses services to update property in the database
         return new ModelAndView(PROPERTY_LISTING_CONFIRMATION_VIEW_NAME);
     }
 }
