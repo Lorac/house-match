@@ -18,7 +18,7 @@
 	<div class="container">
 		<h1>Extended Property Listing Details</h1>
 		<form:form id="property-listing-update-form" class="form-horizontal" role="form"
-			commandName="propertyListingUpdateForm" action="/updateListing" method="POST">
+			commandName="propertyListingUpdateForm" action="/updateListing/${propertyId}" method="POST">
 			
 			<div class="form-group">
 				<%@include file="../includes/alertMessage.jsp"%>

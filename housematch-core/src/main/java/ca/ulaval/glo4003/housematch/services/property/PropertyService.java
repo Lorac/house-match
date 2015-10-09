@@ -28,17 +28,17 @@ public class PropertyService {
         this.propertyListingCreationValidator = propertyListingCreationValidator;
     }
 
-    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
+    public int createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
             throws PropertyServiceException {
         Property property = createProperty(propertyType, address, sellingPrice);
         user.addPropertyListing(property);
         userRepository.update(user);
+        return property.hashCode();
     }
 
-    public void updateProperty(Address address, PropertyListingDetails details, User user) throws PropertyServiceException {
+    public void updateProperty(int propertyId, PropertyListingDetails details, User user) throws PropertyServiceException {
         try {
-            int hashCode = fetchUserPropertyByAddress(address, user).hashCode();
-            Property property = propertyRepository.getByHashCode(hashCode);
+            Property property = propertyRepository.getByHashCode(propertyId);
             property.setPropertyDetails(details);
             propertyRepository.update(property);
             user.updateProperty(property);

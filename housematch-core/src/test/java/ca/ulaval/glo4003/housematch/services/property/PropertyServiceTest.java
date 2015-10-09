@@ -14,6 +14,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
@@ -88,21 +89,21 @@ public class PropertyServiceTest {
     }
     
     //TODO : update tests to reflect actual use of methods
-//    @Test
-//    public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
-//        when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-//
-//        //propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetailsDTO(SAMPLE_PROPERTY_INFO), userMock);
-//        verify(propertyRepositoryMock).update(propertyMock);
-//    }
-//    
-//    @Test
-//    public void propertyEditingChangesUpdatePropertyInUser() throws Exception   {
-//        when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-//        
-//        //propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetailsDTO(SAMPLE_PROPERTY_INFO), userMock);
-//        verify(userMock).updateProperty(propertyMock);
-//    }
+    @Test
+    public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
+        when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
+
+        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetails(), userMock);
+        verify(propertyRepositoryMock).update(propertyMock);
+    }
+    
+    @Test
+    public void propertyEditingChangesUpdatePropertyInUser() throws Exception   {
+        when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
+        
+        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetails(), userMock);
+        verify(userMock).updateProperty(propertyMock);
+    }
 
     private void createPropertyListing() throws PropertyServiceException {
         propertyService.createPropertyListing(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, userMock);

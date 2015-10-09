@@ -8,6 +8,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -81,8 +82,10 @@ public class PropertyListingControllerTest extends MvcControllerTest {
             throws Exception {
         ResultActions results = postPropertyListingCreationForm();
 
-        results.andExpect(status().isOk());
-        results.andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
+        results.andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:" + PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
+        
+    
     }
 
     @Test

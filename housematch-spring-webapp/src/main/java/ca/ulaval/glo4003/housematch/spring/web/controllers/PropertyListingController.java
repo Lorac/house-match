@@ -6,10 +6,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
@@ -47,29 +49,38 @@ public class PropertyListingController extends MvcController {
         authorizationValidator.validateResourceAccess(PROPERTY_LISTING_CREATION_VIEW_NAME, httpSession,
                 USER_ATTRIBUTE_NAME);
         try {
-            propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
+            int propertyId = propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
                     propertyListingCreationForm.getAddress(), propertyListingCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
 
             ModelMap map = new ModelMap();
-            map.put(PropertyListingCreationFormViewModel.VIEWMODEL_NAME, propertyListingCreationForm);
-            map.put(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME, new PropertyListingUpdateFormViewModel());
-
-            return displayPropertyListingDetails(httpSession, map);
+            map.put("propertyId", propertyId);
+            map.addAttribute(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
+                    new PropertyListingUpdateFormViewModel());
+            return new ModelAndView("redirect:" + PROPERTY_LISTING_UDPATE_VIEW_NAME, map);
         } catch (PropertyServiceException e) {
+
             return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, propertyListingCreationForm, e.getMessage());
         }
     }
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyListingDetails(HttpSession httpSession, ModelMap map) {
+    public final ModelAndView displayPropertyListingDetails(@PathVariable(value = "propertyId") int propertyId,
+            HttpSession httpSession, ModelMap map) {
+
         return new ModelAndView(PROPERTY_LISTING_UDPATE_VIEW_NAME, PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
                 map.get(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME));
     }
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
-    public final ModelAndView updatePropertyListingDetails(HttpSession httpSession, ModelMap map) {
-        //TODO : uses services to update property in the database
+    public final ModelAndView updatePropertyListingDetails(@PathVariable int propertyId, HttpSession httpSession,
+            PropertyListingUpdateFormViewModel detailsForm) {
+        User user = getUserFromHttpSession(httpSession);
+        try {
+            propertyService.updateProperty(propertyId, detailsForm.getDetails(), user);
+        } catch (PropertyServiceException e) {
+            return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, detailsForm, e.getMessage());
+        }
         return new ModelAndView(PROPERTY_LISTING_CONFIRMATION_VIEW_NAME);
     }
 }
