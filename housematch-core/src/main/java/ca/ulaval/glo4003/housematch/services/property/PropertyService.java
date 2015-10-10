@@ -36,7 +36,8 @@ public class PropertyService {
         return property.hashCode();
     }
 
-    public void updateProperty(int propertyId, PropertyListingDetails details, User user) throws PropertyServiceException {
+    public void updateProperty(int propertyId, PropertyListingDetails details, User user)
+            throws PropertyServiceException {
         try {
             Property property = propertyRepository.getByHashCode(propertyId);
             property.setPropertyDetails(details);
@@ -46,10 +47,10 @@ public class PropertyService {
             throw new PropertyServiceException(e);
         }
     }
-    
+
     public void findProperty(int propertyId) throws PropertyServiceException {
         try {
-            Property property = propertyRepository.getByHashCode(propertyId);
+            propertyRepository.getByHashCode(propertyId);
         } catch (PropertyNotFoundException e) {
             throw new PropertyServiceException(e);
         }

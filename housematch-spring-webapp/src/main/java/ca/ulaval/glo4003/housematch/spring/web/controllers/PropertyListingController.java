@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
@@ -37,6 +38,13 @@ public class PropertyListingController extends MvcController {
         this.propertyService = propertyService;
     }
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @RequestMapping(value = RESOURCE_NOT_FOUND_URL)
+    public final ModelAndView handleResourceNotFoundException() {
+        return new ModelAndView(RESOURCE_NOT_FOUND_VIEW_NAME);
+    }
+
     @RequestMapping(value = PROPERTY_LISTING_CREATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyListingCreationPage(HttpSession httpSession)
             throws AuthenticationException {
@@ -55,21 +63,19 @@ public class PropertyListingController extends MvcController {
             int propertyId = propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
                     propertyListingCreationForm.getAddress(), propertyListingCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
-
-            ModelMap map = new ModelMap();
-            map.put("propertyId", propertyId);
-            map.addAttribute(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
-                    new PropertyListingUpdateFormViewModel());
-            return new ModelAndView("redirect:" + PROPERTY_LISTING_UDPATE_VIEW_NAME, map);
+            return new ModelAndView(new RedirectView(
+                    PROPERTY_LISTING_UPDATE_URL.replace("{propertyId}", Integer.toString(propertyId))));
         } catch (PropertyServiceException e) {
-
             return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, propertyListingCreationForm, e.getMessage());
         }
     }
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyListingDetails(@PathVariable(value = "propertyId") int propertyId,
-            HttpSession httpSession, ModelMap map) {
+    public final ModelAndView displayPropertyListingDetails(@PathVariable int propertyId, HttpSession httpSession) {
+        ModelMap map = new ModelMap();
+        map.put("propertyId", propertyId);
+        map.addAttribute(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME, new PropertyListingUpdateFormViewModel());
+
         try {
             propertyService.findProperty(propertyId);
         } catch (PropertyServiceException e) {
@@ -79,12 +85,6 @@ public class PropertyListingController extends MvcController {
                 map.get(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME));
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public final ModelAndView handleResourceNotFoundException() {
-        return new ModelAndView(RESOURCE_NOT_FOUND_VIEW_NAME);
-    }
-    
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyListingDetails(@PathVariable int propertyId, HttpSession httpSession,
             PropertyListingUpdateFormViewModel detailsForm) {

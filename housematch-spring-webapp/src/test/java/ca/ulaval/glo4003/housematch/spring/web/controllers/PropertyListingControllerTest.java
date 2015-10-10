@@ -2,17 +2,17 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import java.math.BigDecimal;
 
@@ -24,7 +24,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -33,7 +32,6 @@ import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListingCreationFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListingUpdateFormViewModel;
 
 public class PropertyListingControllerTest extends MvcControllerTest {
 
@@ -85,14 +83,9 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void propertyControllerRedirectsToPropertyUpdatePageWhenCreationSucessful()
-            throws Exception {
+    public void propertyControllerRedirectsToPropertyUpdatePageWhenCreationSucessful() throws Exception {
         ResultActions results = postPropertyListingCreationForm();
-
-        results.andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:" + PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
-        
-    
+        results.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl(SAMPLE_UPDATE_URL));
     }
 
     @Test
@@ -122,39 +115,40 @@ public class PropertyListingControllerTest extends MvcControllerTest {
         results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
-    
+
     @Test
     public void whenGivenInvalidHashUpdatePageDisplaysErrorMessage() throws Exception {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).findProperty(any(int.class));
-        getPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.RESOURCE_NOT_FOUND_VIEW_NAME));
+        getPropertyListingUpdateForm().andExpect(view().name(PropertyListingController.RESOURCE_NOT_FOUND_VIEW_NAME));
     }
-    
+
     @Test
     public void whenGivenValidHashUpdatePageRendersSuccessfully() throws Exception {
         getPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
+                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
     }
-    
+
     @Test
     public void whenDetailsUpdateMadeOnInvalidHashDisplayErrorMessage() throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(int.class), any(PropertyListingDetails.class), any(User.class));;
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(int.class),
+                any(PropertyListingDetails.class), any(User.class));
+        ;
         postPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
+                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
     }
-    
+
     @Test
     public void whenDetailsUpdateMadeOnValidHashDisplayRedirectToConfirmation() throws Exception {
         postPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
+                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
     }
-    
+
     @Test
     public void whenValidDetailsUpdateGivenRedirectToConfirmation() throws Exception {
         postPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
+                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
     }
-    
+
     private ResultActions postPropertyListingUpdateForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(SAMPLE_UPDATE_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -162,7 +156,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
 
         return mockMvc.perform(postRequest);
     }
-    
+
     private ResultActions getPropertyListingUpdateForm() throws Exception {
         MockHttpServletRequestBuilder getRequest = get(SAMPLE_UPDATE_URL);
         getRequest = buildPropertyListingUpdateFormParams(getRequest);
@@ -174,7 +168,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
             MockHttpServletRequestBuilder postRequest) {
         return postRequest.session(mockHttpSession);
     }
-    
+
     private ResultActions postPropertyListingCreationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(PropertyListingController.PROPERTY_LISTING_CREATION_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
