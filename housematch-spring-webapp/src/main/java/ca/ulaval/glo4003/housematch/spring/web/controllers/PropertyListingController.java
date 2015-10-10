@@ -45,6 +45,13 @@ public class PropertyListingController extends MvcController {
         return new ModelAndView(RESOURCE_NOT_FOUND_VIEW_NAME);
     }
 
+    @ExceptionHandler(ResourceForbiddenException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @RequestMapping(value = RESOURCE_FORBIDDEN_URL)
+    public final ModelAndView handleResourceForbiddenException() {
+        return new ModelAndView(RESOURCE_FORBIDDEN_VIEW_NAME);
+    }
+
     @RequestMapping(value = PROPERTY_LISTING_CREATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyListingCreationPage(HttpSession httpSession)
             throws AuthenticationException {
@@ -77,12 +84,16 @@ public class PropertyListingController extends MvcController {
         map.addAttribute(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME, new PropertyListingUpdateFormViewModel());
 
         try {
-            propertyService.findProperty(propertyId);
+            if (propertyService.propertyBelongsToSeller(propertyId, getUserFromHttpSession(httpSession))) {
+                return new ModelAndView(PROPERTY_LISTING_UDPATE_VIEW_NAME,
+                        PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
+                        map.get(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME));
+            } else {
+                throw new ResourceForbiddenException();
+            }
         } catch (PropertyServiceException e) {
             throw new ResourceNotFoundException();
         }
-        return new ModelAndView(PROPERTY_LISTING_UDPATE_VIEW_NAME, PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
-                map.get(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME));
     }
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)

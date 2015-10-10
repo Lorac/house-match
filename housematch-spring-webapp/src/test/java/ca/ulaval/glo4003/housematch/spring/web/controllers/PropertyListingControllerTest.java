@@ -7,6 +7,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -118,12 +119,13 @@ public class PropertyListingControllerTest extends MvcControllerTest {
 
     @Test
     public void whenGivenInvalidHashUpdatePageDisplaysErrorMessage() throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).findProperty(any(int.class));
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).propertyBelongsToSeller(any(int.class), any(User.class));
         getPropertyListingUpdateForm().andExpect(view().name(PropertyListingController.RESOURCE_NOT_FOUND_VIEW_NAME));
     }
 
     @Test
     public void whenGivenValidHashUpdatePageRendersSuccessfully() throws Exception {
+        when(propertyServiceMock.propertyBelongsToSeller(any(int.class), any(User.class))).thenReturn(true);
         getPropertyListingUpdateForm()
                 .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
     }
@@ -149,6 +151,20 @@ public class PropertyListingControllerTest extends MvcControllerTest {
                 .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
     }
 
+    @Test
+    public void buyerCanEditPropertyThatBelongsToHim() throws Exception {
+        when(propertyServiceMock.propertyBelongsToSeller(any(int.class), any(User.class))).thenReturn(true);
+        getPropertyListingUpdateForm()
+        .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
+    }
+    
+    @Test
+    public void buyerCannotEditPropertyThatDoesNotBelongToHim() throws Exception {
+        when(propertyServiceMock.propertyBelongsToSeller(any(int.class), any(User.class))).thenReturn(false);
+        getPropertyListingUpdateForm()
+        .andExpect(view().name(PropertyListingController.RESOURCE_FORBIDDEN_VIEW_NAME));
+    }
+    
     private ResultActions postPropertyListingUpdateForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(SAMPLE_UPDATE_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);

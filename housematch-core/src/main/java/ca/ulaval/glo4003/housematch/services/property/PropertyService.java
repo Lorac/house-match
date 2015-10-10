@@ -48,6 +48,17 @@ public class PropertyService {
         }
     }
 
+    public boolean propertyBelongsToSeller(int propertyId, User user) throws PropertyServiceException {
+        try {
+            if (user.propertyBelongsToUser(propertyRepository.getByHashCode(propertyId))) {
+                return true;
+            }
+        } catch (PropertyNotFoundException e) {
+            throw new PropertyServiceException(e);
+        }
+        return false;
+    }
+
     public void findProperty(int propertyId) throws PropertyServiceException {
         try {
             propertyRepository.getByHashCode(propertyId);

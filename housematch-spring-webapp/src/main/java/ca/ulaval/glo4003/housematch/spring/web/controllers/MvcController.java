@@ -45,6 +45,8 @@ public class MvcController {
     protected static final String USER_ATTRIBUTE_NAME = "user";
     protected static final String RESOURCE_NOT_FOUND_VIEW_NAME = "404";
     protected static final String RESOURCE_NOT_FOUND_URL = "/404";
+    protected static final String RESOURCE_FORBIDDEN_VIEW_NAME = "403";
+    protected static final String RESOURCE_FORBIDDEN_URL = "/403";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;

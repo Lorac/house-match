@@ -118,6 +118,15 @@ public class User {
         }
     }
 
+    public boolean propertyBelongsToUser(Property property) {
+        for (Property prop : getPropertyListings()) {
+            if (prop.hashCode() == property.hashCode()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int hashCode() {
         return username.toLowerCase().hashCode();
