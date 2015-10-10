@@ -43,6 +43,7 @@ public class MvcController {
     protected static final String PROPERTY_LISTING_UDPATE_VIEW_NAME = "updateListing";
     protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingSave";
     protected static final String USER_ATTRIBUTE_NAME = "user";
+    protected static final String RESOURCE_NOT_FOUND_VIEW_NAME = "404";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;

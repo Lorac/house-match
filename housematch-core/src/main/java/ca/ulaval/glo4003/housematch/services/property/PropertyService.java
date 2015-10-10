@@ -46,14 +46,13 @@ public class PropertyService {
             throw new PropertyServiceException(e);
         }
     }
-
-    private Property fetchUserPropertyByAddress(Address address, User user) throws PropertyServiceException {
-        for (Property property : user.getPropertyListings()) {
-            if (property.getAddress() == address) {
-                return property;
-            }
+    
+    public void findProperty(int propertyId) throws PropertyServiceException {
+        try {
+            Property property = propertyRepository.getByHashCode(propertyId);
+        } catch (PropertyNotFoundException e) {
+            throw new PropertyServiceException(e);
         }
-        throw new PropertyServiceException();
     }
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
