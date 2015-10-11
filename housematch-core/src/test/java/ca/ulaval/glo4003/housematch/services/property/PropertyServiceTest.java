@@ -88,11 +88,9 @@ public class PropertyServiceTest {
         createPropertyListing();
     }
     
-    //TODO : update tests to reflect actual use of methods
     @Test
     public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-
         propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDetails(), userMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
@@ -100,7 +98,6 @@ public class PropertyServiceTest {
     @Test
     public void propertyEditingChangesUpdatePropertyInUser() throws Exception   {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-        
         propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDetails(), userMock);
         verify(userMock).updateProperty(propertyMock);
     }

@@ -36,10 +36,10 @@ public class PropertyService {
         return property.hashCode();
     }
 
-    public void updateProperty(int propertyId, PropertyDetails details, User user)
+    public void updateProperty(int propertyHashCode, PropertyDetails details, User user)
             throws PropertyServiceException {
         try {
-            Property property = propertyRepository.getByHashCode(propertyId);
+            Property property = propertyRepository.getByHashCode(propertyHashCode);
             property.setPropertyDetails(details);
             propertyRepository.update(property);
             user.updateProperty(property);
