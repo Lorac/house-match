@@ -1,7 +1,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <html>
 <head>
 <%@include file="../includes/header.jsp"%>
@@ -10,22 +10,14 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Home</title>
+<title>HouseMatch - Sell Confirmation</title>
 </head>
 <body>
-
-
 	<jsp:include page="../includes/navigationBar.jsp" />
+	
 	<div class="container">
-		<c:choose>
-			<c:when test="${not empty sessionScope.user}">
-				<p>Hello ${sessionScope.user.username}! You are connected as a
-					${sessionScope.user.role.displayName}.</p>
-			</c:when>
-			<c:otherwise>
-				<p>You are viewing this page as anonymous.</p>
-			</c:otherwise>
-		</c:choose>
+		<h1>Oops!</h1>
+		<p>Seems we couldn't find what you were asking for. Please continue browsing the site via the navigation bar.</p>
 	</div>
 	
 	<%@include file="../includes/footer.jsp"%>

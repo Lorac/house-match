@@ -1,14 +1,13 @@
 package ca.ulaval.glo4003.housematch.validators.address;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.address.Region;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.address.Region;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class AddressValidatorTest {
 
@@ -16,11 +15,11 @@ public class AddressValidatorTest {
     private static final Integer SAMPLE_NEGATIVE_ADDRESS_NUMBER = -890;
     private static final String SAMPLE_STREET_NAME = "street";
     private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #8";
-    private static final String SAMPLE_CITY = "city";
     private static final String SAMPLE_POSTCODE = "G1V 3X4";
     private static final String SAMPLE_INVALID_POSTCODE = "3433";
     private static final Region SAMPLE_REGION = Region.QC;
     private static final String SAMPLE_BLANK_EXPRESSION = "  ";
+    private static final String SAMPLE_CITY = "Quebec";
 
     private Address addressMock;
 
@@ -40,6 +39,7 @@ public class AddressValidatorTest {
         when(addressMock.getCity()).thenReturn(SAMPLE_CITY);
         when(addressMock.getPostCode()).thenReturn(SAMPLE_POSTCODE);
         when(addressMock.getRegion()).thenReturn(SAMPLE_REGION);
+        when(addressMock.getCity()).thenReturn(SAMPLE_CITY);
     }
 
     @Test

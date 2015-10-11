@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.housematch.validators.address;
 
-import java.util.regex.Pattern;
-
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import org.apache.commons.lang3.StringUtils;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.util.regex.Pattern;
 
 public class AddressValidator {
 
@@ -23,6 +22,12 @@ public class AddressValidator {
         validateRegion(address);
     }
 
+    private void validateCity(Address address) throws AddressValidationException {
+        if (StringUtils.isBlank(address.getCity())) {
+            throw new AddressValidationException("City must be specified.");
+        }
+    }
+
     private void validateAddressNumber(Address address) throws AddressValidationException {
         if (address.getAddressNumber() == null) {
             throw new AddressValidationException("Address number must be specified.");
@@ -34,12 +39,6 @@ public class AddressValidator {
     private void validateStreetName(Address address) throws AddressValidationException {
         if (StringUtils.isBlank(address.getStreetName())) {
             throw new AddressValidationException("Street name cannot be blank.");
-        }
-    }
-
-    private void validateCity(Address address) throws AddressValidationException {
-        if (StringUtils.isBlank(address.getCity())) {
-            throw new AddressValidationException("City cannot be blank.");
         }
     }
 

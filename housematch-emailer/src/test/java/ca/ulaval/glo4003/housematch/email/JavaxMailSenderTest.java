@@ -26,7 +26,7 @@ public class JavaxMailSenderTest {
     private static final String SMTP_HOST_PROPERTY_NAME = "mail.smtp.host";
     private static final String SMTP_HOST_PROPERTY_VALUE = "localhost";
     private static final String SMTP_PORT_PROPERTY_NAME = "mail.smtp.port";
-    private static final int SMTP_PORT_VALUE = 597;
+    private static final int SMTP_PORT_VALUE = 5597;
     private static final String SMTP_SENDPARTIAL_PROPERTY_NAME = "mail.smtp.sendpartial";
     private static final String SMTP_SENDPARTIAL_PROPERTY_VALUE = "true";
     private static final String SMTP_USER_PROPERTY_NAME = "mail.user";

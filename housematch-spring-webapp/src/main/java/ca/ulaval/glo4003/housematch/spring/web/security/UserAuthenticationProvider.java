@@ -43,13 +43,9 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     }
 
     private Authentication validateUserPassword(User user, String password) {
-        if (user.validatePassword(password)) {
-            List<GrantedAuthority> roles = new ArrayList<>();
-            roles.add(new SimpleGrantedAuthority(user.getRole().getDisplayName()));
-            return new UsernamePasswordAuthenticationToken(user, password, roles);
-        }
-
-        return null;
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(user.getRole().getDisplayName()));
+        return new UsernamePasswordAuthenticationToken(user, password, roles);
     }
 
     @Override

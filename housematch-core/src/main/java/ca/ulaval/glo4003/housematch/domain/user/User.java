@@ -108,6 +108,28 @@ public class User {
         propertyListings.add(property);
     }
 
+    public void updateProperty(Property property) throws UserPropertyNotListedException {
+        for (Property aUserProperty : propertyListings) {
+            if (aUserProperty.hashCode() == property.hashCode()) {
+                propertyListings.remove(aUserProperty);
+                propertyListings.add(property);
+            }
+        }
+
+        if (!propertyListings.contains(property)) {
+            throw new UserPropertyNotListedException("User does not have property listed");
+        }
+    }
+
+    public boolean propertyBelongsToUser(Property property) {
+        for (Property prop : getPropertyListings()) {
+            if (prop.hashCode() == property.hashCode()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public int hashCode() {
         return username.toLowerCase().hashCode();

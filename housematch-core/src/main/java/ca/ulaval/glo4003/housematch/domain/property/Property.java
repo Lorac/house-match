@@ -11,6 +11,7 @@ public class Property {
     private PropertyType propertyType;
     private Address address;
     private BigDecimal sellingPrice;
+    private PropertyListingDetails propertyDetails;
 
     Property() {
         // Required for instanciation by reflection
@@ -20,6 +21,7 @@ public class Property {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
+        this.propertyDetails = new PropertyListingDetails();
     }
 
     public PropertyType getPropertyType() {
@@ -44,6 +46,14 @@ public class Property {
 
     public void setSellingPrice(BigDecimal sellingPrice) {
         this.sellingPrice = sellingPrice;
+    }
+
+    public PropertyListingDetails getPropertyDetails() {
+        return propertyDetails;
+    }
+
+    public void setPropertyDetails(PropertyListingDetails propertyDetails) {
+        this.propertyDetails = propertyDetails;
     }
 
     @Override

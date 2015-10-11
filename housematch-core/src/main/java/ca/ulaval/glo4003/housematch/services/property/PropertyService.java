@@ -5,9 +5,12 @@ import java.math.BigDecimal;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserPropertyNotListedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator;
@@ -25,11 +28,43 @@ public class PropertyService {
         this.propertyListingCreationValidator = propertyListingCreationValidator;
     }
 
-    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
-            User user) throws PropertyServiceException {
+    public int createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
+            throws PropertyServiceException {
         Property property = createProperty(propertyType, address, sellingPrice);
         user.addPropertyListing(property);
         userRepository.update(user);
+        return property.hashCode();
+    }
+
+    public void updateProperty(int propertyId, PropertyListingDetails details, User user)
+            throws PropertyServiceException {
+        try {
+            Property property = propertyRepository.getByHashCode(propertyId);
+            property.setPropertyDetails(details);
+            propertyRepository.update(property);
+            user.updateProperty(property);
+        } catch (PropertyNotFoundException | UserPropertyNotListedException e) {
+            throw new PropertyServiceException(e);
+        }
+    }
+
+    public boolean propertyBelongsToSeller(int propertyId, User user) throws PropertyServiceException {
+        try {
+            if (user.propertyBelongsToUser(propertyRepository.getByHashCode(propertyId))) {
+                return true;
+            }
+        } catch (PropertyNotFoundException e) {
+            throw new PropertyServiceException(e);
+        }
+        return false;
+    }
+
+    public void findProperty(int propertyId) throws PropertyServiceException {
+        try {
+            propertyRepository.getByHashCode(propertyId);
+        } catch (PropertyNotFoundException e) {
+            throw new PropertyServiceException(e);
+        }
     }
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)

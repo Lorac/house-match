@@ -11,6 +11,8 @@
     <http pattern="/resources/**" security="none"/>
     <http pattern="/register" security="none"/>
     <http pattern="/activation/**" security="none"/>
+    <http pattern="/403" security="none"/>
+    <http pattern="/404" security="none"/>
 
 
     <http use-expressions="true" disable-url-rewriting="true">
