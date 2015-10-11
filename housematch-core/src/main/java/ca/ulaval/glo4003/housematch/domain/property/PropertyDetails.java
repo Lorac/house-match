@@ -1,8 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-public class PropertyListingDetails {
+public class PropertyDetails {
 
-    // Listed here are the possible options for the extended details of a property
     static final Integer INVALID_NUMERAL = 0;
     static final String EMPTY_FIELD = "";
     String propertyStyle = EMPTY_FIELD;
@@ -20,12 +19,12 @@ public class PropertyListingDetails {
     Integer yearOfConstruction = INVALID_NUMERAL;
     Integer municipalAssessment = INVALID_NUMERAL;
     Integer locatedOnWhichFloor = INVALID_NUMERAL;
-    Integer numberOfExteriorParking = INVALID_NUMERAL;
-    Integer numberOfInteriorParking = INVALID_NUMERAL;
+    Integer numberOfExteriorParkingSpaces = INVALID_NUMERAL;
+    Integer numberOfInteriorParkingSpaces = INVALID_NUMERAL;
     String ownership = EMPTY_FIELD;
-    String backyardFaces = EMPTY_FIELD;
+    String backyardOrientation = EMPTY_FIELD;
 
-    public PropertyListingDetails() {
+    public PropertyDetails() {
 
     }
 
@@ -134,19 +133,19 @@ public class PropertyListingDetails {
     }
 
     public Integer getNumberOfExteriorParking() {
-        return numberOfExteriorParking;
+        return numberOfExteriorParkingSpaces;
     }
 
     public void setNumberOfExteriorParking(Integer numberOfExteriorParking) {
-        this.numberOfExteriorParking = numberOfExteriorParking;
+        this.numberOfExteriorParkingSpaces = numberOfExteriorParking;
     }
 
     public Integer getNumberOfInteriorParking() {
-        return numberOfInteriorParking;
+        return numberOfInteriorParkingSpaces;
     }
 
     public void setNumberOfInteriorParking(Integer numberOfInteriorParking) {
-        this.numberOfInteriorParking = numberOfInteriorParking;
+        this.numberOfInteriorParkingSpaces = numberOfInteriorParking;
     }
 
     public String getOwnership() {
@@ -174,10 +173,10 @@ public class PropertyListingDetails {
     }
 
     public String getBackyardFaces() {
-        return backyardFaces;
+        return backyardOrientation;
     }
 
     public void setBackyardFaces(String backyardFaces) {
-        this.backyardFaces = backyardFaces;
+        this.backyardOrientation = backyardFaces;
     }
 }

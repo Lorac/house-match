@@ -21,7 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 
 public class UserTest {
 
@@ -38,8 +38,8 @@ public class UserTest {
     private static final Object SAMPLE_OBJECT = new Object();
 
     private Property propertyMock;
-    private PropertyListingDetails propertyDetailsMock;
-    private PropertyListingDetails propertyDetailsMock2;
+    private PropertyDetails propertyDetailsMock;
+    private PropertyDetails propertyDetailsMock2;
     
     private List<Property> propertyListings;
     private User user;
@@ -47,8 +47,8 @@ public class UserTest {
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
-        propertyDetailsMock = mock(PropertyListingDetails.class);
-        propertyDetailsMock2 = mock(PropertyListingDetails.class);
+        propertyDetailsMock = mock(PropertyDetails.class);
+        propertyDetailsMock2 = mock(PropertyDetails.class);
         propertyListings = new ArrayList<Property>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }

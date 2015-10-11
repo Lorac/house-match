@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
@@ -36,7 +36,7 @@ public class PropertyService {
         return property.hashCode();
     }
 
-    public void updateProperty(int propertyId, PropertyListingDetails details, User user)
+    public void updateProperty(int propertyId, PropertyDetails details, User user)
             throws PropertyServiceException {
         try {
             Property property = propertyRepository.getByHashCode(propertyId);

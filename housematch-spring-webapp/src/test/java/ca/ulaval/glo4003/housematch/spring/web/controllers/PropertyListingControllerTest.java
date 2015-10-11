@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
@@ -133,7 +133,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     @Test
     public void whenDetailsUpdateMadeOnInvalidHashDisplayErrorMessage() throws Exception {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(int.class),
-                any(PropertyListingDetails.class), any(User.class));
+                any(PropertyDetails.class), any(User.class));
         ;
         postPropertyListingUpdateForm()
                 .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));

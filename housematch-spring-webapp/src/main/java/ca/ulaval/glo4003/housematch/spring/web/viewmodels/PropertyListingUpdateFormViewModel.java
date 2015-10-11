@@ -2,19 +2,19 @@ package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
 import javax.validation.constraints.NotNull;
 
-import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 
 public class PropertyListingUpdateFormViewModel extends ViewModel {
     public static final String VIEWMODEL_NAME = "propertyListingUpdateForm";
 
     @NotNull
-    private PropertyListingDetails details;
+    private PropertyDetails details;
 
-    public PropertyListingDetails getDetails() {
+    public PropertyDetails getDetails() {
         return details;
     }
 
-    public void setDetails(PropertyListingDetails details) {
+    public void setDetails(PropertyDetails details) {
         this.details = details;
     }
 
