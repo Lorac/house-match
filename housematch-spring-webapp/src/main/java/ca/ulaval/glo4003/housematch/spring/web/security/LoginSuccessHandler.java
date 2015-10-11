@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -39,9 +39,9 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         if (isAdmin(roles)) {
             url = "/admin";
         } else if (isBuyer(roles)) {
-            url = "/buyer";
+            url = "/buyerHome";
         } else if (isSeller(roles)) {
-            url = "/sell";
+            url = "/sellerHome";
         } else {
             url = "/";
         }

@@ -14,8 +14,8 @@
         </property>
     </bean>
 
-	<!-- Email -->
-		
+    <!-- Email -->
+
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <value>
@@ -37,52 +37,49 @@
     <bean id="mailSender" class="ca.ulaval.glo4003.housematch.email.MailSender">
         <constructor-arg ref="javaXMailSender"/>
     </bean>
-	
-	<!-- Validators -->
-	
-	<bean id="userRegistrationValidator" class="ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator"/>
-	
-	<bean id="propertyListingCreationValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator">
-		<constructor-arg ref="addressValidator"/>
-	</bean>
-	
-	<bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator"/>
-	
-	<!-- Services -->
+
+    <!-- Validators -->
+
+    <bean id="userRegistrationValidator" class="ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator"/>
+
+    <bean id="propertyListingCreationValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator">
+        <constructor-arg ref="addressValidator"/>
+    </bean>
+
+    <bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator"/>
+
+    <!-- Services -->
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.user.UserService">
         <constructor-arg ref="xmlUserRepository"/>
-		<constructor-arg ref="userRegistrationValidator"/>
+        <constructor-arg ref="userRegistrationValidator"/>
         <constructor-arg ref="userActivationService"/>
     </bean>
-	
-	<bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.user.UserActivationService">
+
+    <bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.user.UserActivationService">
         <constructor-arg ref="xmlUserRepository"/>
         <constructor-arg ref="mailSender"/>
     </bean>
 
     <bean id="propertyService" class="ca.ulaval.glo4003.housematch.services.property.PropertyService">
         <constructor-arg ref="xmlPropertyRepository"/>
-		<constructor-arg ref="xmlUserRepository"/>
-		<constructor-arg ref="propertyListingCreationValidator"/>
+        <constructor-arg ref="xmlUserRepository"/>
+        <constructor-arg ref="propertyListingCreationValidator"/>
     </bean>
-	
-	<!-- Controllers -->
 
-    <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">
-        <constructor-arg ref="userService"/>
-		<constructor-arg ref="userActivationService"/>
-    </bean>
+    <!-- Controllers -->
+
+    <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController"/>
 
     <bean id="registrationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController">
         <constructor-arg ref="userService"/>
-		<constructor-arg ref="userActivationService"/>
+        <constructor-arg ref="userActivationService"/>
     </bean>
-	
-	<bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
+
+    <bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
     </bean>
-	
-	<bean id="propertyListingController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyListingController">
+
+    <bean id="propertyListingController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyListingController">
         <constructor-arg ref="propertyService"/>
     </bean>
 

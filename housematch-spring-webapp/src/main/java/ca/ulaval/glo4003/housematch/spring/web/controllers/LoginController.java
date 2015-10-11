@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,14 +11,6 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController extends MvcController {
-
-    protected LoginController() {
-        // Required for Mockito
-    }
-
-    public LoginController(final UserService userService, final UserActivationService userActivationService) {
-
-    }
 
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET)
     public final ModelAndView displayLogin(HttpSession httpSession) {

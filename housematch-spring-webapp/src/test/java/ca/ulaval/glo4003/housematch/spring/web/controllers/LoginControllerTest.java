@@ -1,24 +1,5 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
@@ -26,6 +7,18 @@ import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class LoginControllerTest extends MvcControllerTest {
 
@@ -43,7 +36,7 @@ public class LoginControllerTest extends MvcControllerTest {
         super.init();
         userServiceMock = mock(UserService.class);
         userActivationServiceMock = mock(UserActivationService.class);
-        loginController = new LoginController(userServiceMock, userActivationServiceMock);
+        loginController = new LoginController();
         mockMvc = MockMvcBuilders.standaloneSetup(loginController).setViewResolvers(viewResolver).build();
     }
 

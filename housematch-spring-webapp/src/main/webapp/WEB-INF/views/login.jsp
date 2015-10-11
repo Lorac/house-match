@@ -36,19 +36,19 @@
                     <div class="row">
                         <div class="col-lg-12">
 
-                            <form action="/login" id="login-form" method="POST">
+                            <form:form action="/login" id="login-form" commandName="loginForm" method="POST">
                                 <div class="form-group">
                                     <%@include file="../includes/alertMessage.jsp" %>
                                 </div>
                                 <div class="form-group">
                                     <label for="username">Username:</label>
-                                    <input id="username" name="username" class="form-control" minlength="3" maxlength="32" tabindex="1"
-                                           placeholder="Username"/>
+                                    <form:input id="username" name="username" class="form-control" minlength="3" maxlength="32" tabindex="1"
+                                                placeholder="Username" path="username"/>
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password:</label>
-                                    <input id="password" name="password" type="password" minlength="3" maxlength="32" class="form-control" tabindex="2"
-                                           placeholder="Password"/>
+                                    <form:input id="password" name="password" type="password" minlength="3" maxlength="32" class="form-control" tabindex="2"
+                                                placeholder="Password" path="password"/>
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
@@ -58,7 +58,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form:form>
                         </div>
                     </div>
                 </div>
