@@ -43,7 +43,7 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     public void init() {
         super.init();
         propertyServiceMock = mock(PropertyService.class);
-        propertyController = new PropertyListingController(authorizationValidatorMock, propertyServiceMock);
+        propertyController = new PropertyListingController(propertyServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
     }
 
@@ -68,15 +68,6 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void propertyControllerCallsAuthorizationValidationServiceOnPropertyListingCreationViewAccess()
-            throws Exception {
-        performGetRequest(PropertyListingController.PROPERTY_LISTING_CREATION_URL);
-        verify(authorizationValidatorMock).validateResourceAccess(
-                PropertyListingController.PROPERTY_LISTING_CREATION_VIEW_NAME, mockHttpSession,
-                PropertyListingController.USER_ATTRIBUTE_NAME);
-    }
-
-    @Test
     public void propertyControllerRendersPropertyListingCreationConfirmationUponPropertyIsSuccessfullyListed()
             throws Exception {
         ResultActions results = postPropertyListingCreationForm();
@@ -90,14 +81,6 @@ public class PropertyListingControllerTest extends MvcControllerTest {
         postPropertyListingCreationForm();
         verify(propertyServiceMock).createPropertyListing(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
                 any(BigDecimal.class), eq(userMock));
-    }
-
-    @Test
-    public void propertyControllerCallsAuthorizationValidationServiceDuringPropertyListingCreation() throws Exception {
-        postPropertyListingCreationForm();
-        verify(authorizationValidatorMock).validateResourceAccess(
-                PropertyListingController.PROPERTY_LISTING_CREATION_VIEW_NAME, mockHttpSession,
-                HomeController.USER_ATTRIBUTE_NAME);
     }
 
     @Test

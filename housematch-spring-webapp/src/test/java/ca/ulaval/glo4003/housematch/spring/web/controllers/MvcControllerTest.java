@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import static org.mockito.Mockito.mock;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import org.junit.Before;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
@@ -11,25 +9,21 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
+import static org.mockito.Mockito.mock;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 public class MvcControllerTest {
 
-    protected MockMvc mockMvc;
-    protected InternalResourceViewResolver viewResolver;
-    protected AuthorizationValidator authorizationValidatorMock;
-    protected User userMock;
-    protected MockHttpSession mockHttpSession;
-
     private static final String VIEW_NAME_PREFIX = "/WEB-INF/views/";
     private static final String VIEW_NAME_SUFFIX = ".jsp";
+    protected MockMvc mockMvc;
+    protected InternalResourceViewResolver viewResolver;
+    protected User userMock;
+    protected MockHttpSession mockHttpSession;
 
     @Before
     public void init() {
         initViewResolver();
-
-        authorizationValidatorMock = mock(AuthorizationValidator.class);
         userMock = mock(User.class);
 
         mockHttpSession = new MockHttpSession();

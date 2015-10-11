@@ -1,23 +1,17 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.property.Property;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class UserTest {
 
@@ -41,7 +35,7 @@ public class UserTest {
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
-        propertyListings = new ArrayList<Property>();
+        propertyListings = new ArrayList<>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
@@ -126,16 +120,12 @@ public class UserTest {
 
     @Test
     public void validationOfTheRightPasswordDoesNotThrowAnException() throws Exception {
-        try {
-            user.validatePassword(SAMPLE_PASSWORD);
-        } catch (Exception e) {
-            fail();
-        }
+        user.validatePassword(SAMPLE_PASSWORD);
     }
 
-    @Test(expected = InvalidPasswordException.class)
+    @Test
     public void validationOfTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
-        user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
+        assertFalse(user.validatePassword(ANOTHER_SAMPLE_PASSWORD));
     }
 
     @Test

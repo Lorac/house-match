@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -73,14 +74,6 @@ public class UserServiceTest {
     @Test(expected = UserServiceException.class)
     public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnUserNotFoundException() throws Exception {
         doThrow(new UserNotFoundException()).when(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
-        userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
-    }
-
-    @Test(expected = UserServiceException.class)
-    public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnInvalidPasswordException() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
-        doThrow(new InvalidPasswordException()).when(userMock).validatePassword(SAMPLE_PASSWORD);
-
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
     }
 

@@ -1,16 +1,14 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 public class HomeControllerTest extends MvcControllerTest {
 
@@ -19,7 +17,7 @@ public class HomeControllerTest extends MvcControllerTest {
     @Before
     public void init() {
         super.init();
-        homeController = new HomeController(authorizationValidatorMock);
+        homeController = new HomeController();
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
     }
 
@@ -31,14 +29,6 @@ public class HomeControllerTest extends MvcControllerTest {
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(HomeController.HOME_VIEW_NAME));
-    }
-
-    @Test
-    public void homeControllerCallsAuthorizationValidationServiceOnHomeViewAccess() throws Exception {
-        when(userMock.getRole()).thenReturn(UserRole.ADMINISTRATOR);
-        performGetRequest(HomeController.HOME_URL);
-        verify(authorizationValidatorMock).validateResourceAccess(HomeController.ADMIN_HOME_VIEW_NAME, mockHttpSession,
-                HomeController.USER_ATTRIBUTE_NAME);
     }
 
     @Test

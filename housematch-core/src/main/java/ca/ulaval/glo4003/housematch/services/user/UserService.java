@@ -1,10 +1,5 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
@@ -13,6 +8,10 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UserService {
 
     private UserRepository userRepository;
@@ -20,7 +19,7 @@ public class UserService {
     private UserRegistrationValidator userCreationValidator;
 
     public UserService(final UserRepository userRepository, final UserRegistrationValidator userCreationValidator,
-            final UserActivationService userActivationService) {
+                       final UserActivationService userActivationService) {
         this.userRepository = userRepository;
         this.userCreationValidator = userCreationValidator;
         this.userActivationService = userActivationService;
@@ -31,7 +30,7 @@ public class UserService {
             User user = userRepository.getByUsername(username);
             user.validatePassword(password);
             return user;
-        } catch (UserNotFoundException | InvalidPasswordException e) {
+        } catch (UserNotFoundException e) {
             throw new UserServiceException("Invalid username or password.", e);
         }
     }

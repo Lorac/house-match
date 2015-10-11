@@ -4,7 +4,15 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml"/>
-    <import resource="housematch-servlet/housematch-security.xml"/>
+
+    <bean id="messageSource"
+          class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>myMessages</value>
+            </list>
+        </property>
+    </bean>
 
 	<!-- Email -->
 		
@@ -72,11 +80,9 @@
     </bean>
 	
 	<bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
-		<constructor-arg ref="authorizationValidator"/>
     </bean>
 	
 	<bean id="propertyListingController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyListingController">
-		<constructor-arg ref="authorizationValidator"/>
         <constructor-arg ref="propertyService"/>
     </bean>
 

@@ -1,12 +1,11 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import ca.ulaval.glo4003.housematch.domain.property.Property;
 
 public class User {
     private String username;
@@ -80,10 +79,9 @@ public class User {
         this.propertyListings = propertyListings;
     }
 
-    public void validatePassword(String password) throws InvalidPasswordException {
-        if (!this.password.equals(password)) {
-            throw new InvalidPasswordException("Password does not match.");
-        }
+    public boolean validatePassword(String password) {
+        return this.password.equals(password);
+
     }
 
     public void validateActivation() throws UserNotActivatedException {
