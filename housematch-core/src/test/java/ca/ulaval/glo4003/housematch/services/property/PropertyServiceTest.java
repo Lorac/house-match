@@ -14,6 +14,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
@@ -87,11 +88,12 @@ public class PropertyServiceTest {
         createPropertyListing();
     }
     
+    //TODO : update tests to reflect actual use of methods
     @Test
     public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
 
-        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDTO(SAMPLE_PROPERTY_INFO), userMock);
+        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetails(), userMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
     
@@ -99,7 +101,7 @@ public class PropertyServiceTest {
     public void propertyEditingChangesUpdatePropertyInUser() throws Exception   {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
         
-        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDTO(SAMPLE_PROPERTY_INFO), userMock);
+        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyListingDetails(), userMock);
         verify(userMock).updateProperty(propertyMock);
     }
 

@@ -39,10 +39,14 @@ public class MvcController {
     protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
     protected static final String PROPERTY_LISTING_CREATION_URL = "/sell";
     public static final String PROPERTY_LISTING_CREATION_VIEW_NAME = "listingCreation";
-    protected static final String PROPERTY_LISTING_UPDATE_URL = "/updateListing";
+    protected static final String PROPERTY_LISTING_UPDATE_URL = "/updateListing/{propertyId}";
     protected static final String PROPERTY_LISTING_UDPATE_VIEW_NAME = "updateListing";
     protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingSave";
     protected static final String USER_ATTRIBUTE_NAME = "user";
+    protected static final String RESOURCE_NOT_FOUND_VIEW_NAME = "404";
+    protected static final String RESOURCE_NOT_FOUND_URL = "/404";
+    protected static final String RESOURCE_FORBIDDEN_VIEW_NAME = "403";
+    protected static final String RESOURCE_FORBIDDEN_URL = "/403";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;

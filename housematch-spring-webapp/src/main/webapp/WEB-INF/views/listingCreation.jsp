@@ -58,12 +58,20 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="control-label col-sm-2">City:</label>
+				<div class="col-sm-10">
+					<form:input type="text" path="address.city"
+						class="form-control" minlength="3" maxlength="32" tabindex="5"
+						placeholder="City" />
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="control-label col-sm-2">Floor / Building /
 					Unit (optional):</label>
 				<div class="col-sm-10">
 					<form:input type="text"
 						path="address.additionalAddressInfo" class="form-control"
-						minlength="3" maxlength="32" tabindex="5"
+						minlength="3" maxlength="32" tabindex="6"
 						placeholder="Floor / Building / Unit (optional)" />
 				</div>
 			</div>
@@ -71,7 +79,7 @@
 				<label class="control-label col-sm-2">Zip / Postal Code:</label>
 				<div class="col-sm-10">
 					<form:input type="text" path="address.postCode"
-						class="form-control" minlength="3" maxlength="32" tabindex="6"
+						class="form-control" minlength="3" maxlength="32" tabindex="7"
 						placeholder="Zip Code" />
 				</div>
 			</div>
@@ -79,7 +87,7 @@
 				<label class="control-label col-sm-2">State / Province:</label>
 				<div class="col-sm-10">
 					<form:select path="address.region" class="form-control"
-						tabindex="7">
+						tabindex="8">
 						<form:options items="${address.region}" itemLabel="name"></form:options>
 					</form:select>
 				</div>
@@ -87,7 +95,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">Country:</label>
 				<div class="col-sm-10">
-					<select class="form-control" tabindex="8" disabled>
+					<select class="form-control" tabindex="9" disabled>
 						<option>Canada</option>
 					</select>
 				</div>
@@ -96,7 +104,7 @@
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
 						<input type="submit" name="property-listing-creation-submit"
-							id="property-listing-creation-submit" tabindex="8" class="form-control btn"
+							id="property-listing-creation-submit" tabindex="10" class="form-control btn"
 							value="Sell property">
 					</div>
 				</div>

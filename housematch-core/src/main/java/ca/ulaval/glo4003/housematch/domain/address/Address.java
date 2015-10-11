@@ -8,8 +8,17 @@ public class Address {
     Integer addressNumber;
     String streetName;
     String additionalAddressInfo;
+    String city;
     String postCode;
     Region region;
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     public Integer getAddressNumber() {
         return addressNumber;
@@ -53,7 +62,7 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressInfo)
+        return new HashCodeBuilder().append(addressNumber).append(streetName).append(city).append(additionalAddressInfo)
                 .append(region.ordinal()).toHashCode();
     }
 
@@ -67,9 +76,8 @@ public class Address {
         }
 
         Address address = (Address) obj;
-        return new EqualsBuilder().append(addressNumber, address.addressNumber)
-                .append(streetName, address.streetName)
-                .append(additionalAddressInfo, address.additionalAddressInfo)
+        return new EqualsBuilder().append(addressNumber, address.addressNumber).append(streetName, address.streetName)
+                .append(city, address.city).append(additionalAddressInfo, address.additionalAddressInfo)
                 .append(region, address.region).isEquals();
     }
 }

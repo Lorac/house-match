@@ -16,8 +16,8 @@
 	<jsp:include page="../includes/navigationBar.jsp" />
 	
 	<div class="container">
-		<h1>Property Listing Details Saved</h1>
-		<p>Congratulations! All your details have been saved successfully. You may continue to explore the site via the navigation bar.</p>
+		<h1>Watch where you're going!</h1>
+		<p>Seems like you're not allowed to view this page.</p>
 	</div>
 	
 	<%@include file="../includes/footer.jsp"%>

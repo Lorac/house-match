@@ -20,6 +20,7 @@ public class AddressValidatorTest {
     private static final String SAMPLE_INVALID_POSTCODE = "3433";
     private static final Region SAMPLE_REGION = Region.QC;
     private static final String SAMPLE_BLANK_EXPRESSION = "  ";
+    private static final String SAMPLE_CITY = "Quebec";
 
     private Address addressMock;
 
@@ -38,6 +39,7 @@ public class AddressValidatorTest {
         when(addressMock.getAdditionalAddressInfo()).thenReturn(SAMPLE_ADDITIONNAL_ADDRESS_INFO);
         when(addressMock.getPostCode()).thenReturn(SAMPLE_POSTCODE);
         when(addressMock.getRegion()).thenReturn(SAMPLE_REGION);
+        when(addressMock.getCity()).thenReturn(SAMPLE_CITY);
     }
 
     @Test
