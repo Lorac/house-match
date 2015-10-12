@@ -109,7 +109,7 @@ public class User {
         if (propertyListings.remove(property)) {
             propertyListings.add(property);
         } else {
-            throw new UserPropertyNotListedException("User does not have property listed"); 
+            throw new UserPropertyNotListedException("User does not have property listed");
         }
     }
 
