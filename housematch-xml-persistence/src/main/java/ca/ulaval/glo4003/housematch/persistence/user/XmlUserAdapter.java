@@ -27,6 +27,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         User user = new User(xmlUser.username, xmlUser.email, textEncryptor.decrypt(xmlUser.password), xmlUser.role);
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
+        user.setAddress(xmlUser.address);
         user.setPropertyListings(dereferencePropertyListings(xmlUser));
         return user;
     }
@@ -48,6 +49,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.role = user.getRole();
         xmlUser.activationCode = user.getActivationCode();
         xmlUser.activated = user.isActivated();
+        xmlUser.address = user.getAddress();
 
         for (Property property : user.getPropertyListings()) {
             xmlUser.propertyListingsRef.add(property.hashCode());

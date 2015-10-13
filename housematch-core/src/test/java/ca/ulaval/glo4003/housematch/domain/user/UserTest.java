@@ -17,6 +17,7 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 
 public class UserTest {
@@ -30,8 +31,9 @@ public class UserTest {
     private static final String SAMPLE_USERNAME = "Alice";
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
-    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final Object SAMPLE_OBJECT = new Object();
+    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
+    private Address addressMock;
 
     private Property propertyMock;
 
@@ -43,6 +45,7 @@ public class UserTest {
         propertyMock = mock(Property.class);
         propertyListings = new ArrayList<Property>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        addressMock = mock(Address.class);
     }
 
     @Test
@@ -217,5 +220,11 @@ public class UserTest {
     public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
         user.addPropertyListing(propertyMock);
         assertThat(user.getPropertyListings(), contains(propertyMock));
+    }
+
+    @Test
+    public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
+        user.setAddress(addressMock);
+        assertEquals(addressMock, user.getAddress());
     }
 }

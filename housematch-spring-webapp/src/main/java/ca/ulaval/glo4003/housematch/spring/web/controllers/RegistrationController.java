@@ -80,7 +80,7 @@ public class RegistrationController extends MvcController {
             userService.updateUserEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
             session.invalidate();
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
-        } catch (UserActivationServiceException e) {
+        } catch (UserActivationServiceException | UserServiceException e) {
             return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, emailReconfirmForm, e.getMessage());
         }
     }

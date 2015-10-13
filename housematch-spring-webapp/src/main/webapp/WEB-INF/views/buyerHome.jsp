@@ -18,8 +18,23 @@
 	<div class="container">
 		<p>Hello ${sessionScope.user.username}! You are connected as a
 			${sessionScope.user.role.displayName}.</p>
-	</div>
-	
+		<div class="profileMenu">
+			<div class="row">
+				<div class="col-sm-4 menuItem">
+				<a href="/updateContactInformation">
+					<span class="icon glyphicon glyphicon-tag"></span>
+						<p class="itemLabel">Modify user Profile</p></a>
+				</div>
+				<div class="col-sm-4 menuItem">
+					<span class="icon glyphicon glyphicon-question-sign"></span>
+						<p class="itemLabel">Sample menu item</p>
+				</div>
+				<div class="col-sm-4 menuItem">
+					<span class="icon glyphicon glyphicon-question-sign"></span>
+						<p class="itemLabel">Sample menu item</p>
+				</div>
+			</div>
+		</div>
 	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

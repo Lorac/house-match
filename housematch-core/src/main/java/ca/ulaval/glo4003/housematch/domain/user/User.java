@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 
 public class User {
@@ -15,6 +16,7 @@ public class User {
     private UserRole role;
     private UUID activationCode;
     private Boolean activated = false;
+    private Address address;
     private List<Property> propertyListings = new ArrayList<Property>();
 
     public User(final String username, final String email, final String password, final UserRole role) {
@@ -46,6 +48,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public UUID getActivationCode() {

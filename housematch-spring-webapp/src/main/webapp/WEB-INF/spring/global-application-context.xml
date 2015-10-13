@@ -46,6 +46,7 @@
         <constructor-arg ref="xmlUserRepository"/>
 		<constructor-arg ref="userRegistrationValidator"/>
         <constructor-arg ref="userActivationService"/>
+        <constructor-arg ref="addressValidator"/>
     </bean>
 	
 	<bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.user.UserActivationService">
@@ -78,6 +79,11 @@
 	<bean id="propertyListingController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyListingController">
 		<constructor-arg ref="authorizationValidator"/>
         <constructor-arg ref="propertyService"/>
+    </bean>
+    
+    <bean id="contactInformationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController">
+    	<constructor-arg ref="authorizationValidator"/>
+		<constructor-arg ref="userService"/>
     </bean>
 
 

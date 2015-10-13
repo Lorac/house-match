@@ -14,12 +14,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
@@ -32,6 +34,9 @@ public class UserServiceTest {
     private UserRepository userRepositoryMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
+    private AddressValidator addressValidatorMock;
+    private Address addressMock;
+
     private User userMock;
 
     private UserService userService;
@@ -39,33 +44,34 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock);
+        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
+                addressValidatorMock);
     }
 
-    private void initMocks() {
+    private void initMocks() throws UserNotFoundException {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
+        addressValidatorMock = mock(AddressValidator.class);
+        addressMock = mock(Address.class);
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }
 
     @Test
     public void gettingUserByLoginCredentialsValidatesPasswordFromTheUserObject() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test
     public void gettingUserByLoginCredentialsRetrievesUserByUsernameFromRepository() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
     }
 
     @Test
     public void gettingUserByLoginCredentialsReturnsTheUser() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         User user = userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         assertSame(userMock, user);
     }
@@ -135,9 +141,21 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatingUserEmailPushesUserUpdateToRepository() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+    public void updatingUserContactInformationsPushesUserUpdateToRepository() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userRepositoryMock).update(userMock);
+    }
+
+    @Test
+    public void updatingUserContactInformationsValidatesAddress() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+        verify(addressValidatorMock).validateAddress(addressMock);
+    }
+
+    @Test
+    public void updatingUserContactInformationsSetsNewAddress() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+        verify(userMock).setAddress(addressMock);
     }
 
     @Test

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 @XmlRootElement(name = "user")
@@ -18,7 +19,7 @@ public class XmlUser {
     public UserRole role;
     public UUID activationCode;
     public boolean activated;
-
+    public Address address;
     @XmlElementWrapper(name = "propertyListings")
     @XmlElement(name = "propertyListingRef")
     public List<Integer> propertyListingsRef = new ArrayList<Integer>();
