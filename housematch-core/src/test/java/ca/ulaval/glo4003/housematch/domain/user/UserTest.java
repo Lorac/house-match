@@ -214,23 +214,4 @@ public class UserTest {
         user.addPropertyListing(propertyMock);
         assertThat(user.getPropertyListings(), contains(propertyMock));
     }
-    
-    @Test (expected = UserPropertyNotListedException.class)
-    public void updatingPropertyNotExistingInUserThrowsUserPropertyNotListed() throws Exception {
-       user.updateProperty(propertyMock);
-    }
-    
-    @Test
-    public void updatingPropertyUpdatePropertyInList() throws Exception{  
-       Property property1 = propertyMock;
-       when(property1.getPropertyDetails()).thenReturn(propertyDetailsMock);
-       Property property2 = propertyMock;
-       when(property2.getPropertyDetails()).thenReturn(propertyDetailsMock2);
-       user.addPropertyListing(property1);
-       
-       user.updateProperty(property2);
-       assertEquals(user.getPropertyListings().size(), 1);
-       assertEquals(user.getPropertyListings().get(0).getPropertyDetails(), propertyDetailsMock2);
-     
-    }
 }

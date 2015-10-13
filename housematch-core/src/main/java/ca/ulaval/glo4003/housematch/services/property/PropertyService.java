@@ -10,7 +10,6 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserPropertyNotListedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator;
@@ -36,16 +35,10 @@ public class PropertyService {
         return property.hashCode();
     }
 
-    public void updateProperty(int propertyHashCode, PropertyDetails details, User user)
+    public void updateProperty(Property property, PropertyDetails details)
             throws PropertyServiceException {
-        try {
-            Property property = propertyRepository.getByHashCode(propertyHashCode);
-            property.setPropertyDetails(details);
-            propertyRepository.update(property);
-            user.updateProperty(property);
-        } catch (PropertyNotFoundException | UserPropertyNotListedException e) {
-            throw new PropertyServiceException(e);
-        }
+        property.setPropertyDetails(details);
+        propertyRepository.update(property);
     }
 
     public boolean propertyBelongsToSeller(int propertyId, User user) throws PropertyServiceException {
@@ -79,6 +72,16 @@ public class PropertyService {
             throw new PropertyServiceException(e);
         }
 
+        return property;
+    }
+
+    public Property getPropertyByHashCode(int propertyHashCode) throws PropertyServiceException {
+        Property property;
+        try {
+            property = propertyRepository.getByHashCode(propertyHashCode);
+        } catch (PropertyNotFoundException e) {
+            throw new PropertyServiceException(e);
+        }
         return property;
     }
 }

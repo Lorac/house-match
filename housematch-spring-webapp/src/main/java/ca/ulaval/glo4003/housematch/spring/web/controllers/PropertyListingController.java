@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
@@ -97,11 +98,11 @@ public class PropertyListingController extends MvcController {
     }
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
-    public final ModelAndView updatePropertyListingDetails(@PathVariable int propertyId, HttpSession httpSession,
+    public final ModelAndView updatePropertyListingDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
             PropertyListingUpdateFormViewModel detailsForm) {
-        User user = getUserFromHttpSession(httpSession);
         try {
-            propertyService.updateProperty(propertyId, detailsForm.getDetails(), user);
+            Property property = propertyService.getPropertyByHashCode(propertyHashCode);
+            propertyService.updateProperty(property, detailsForm.getDetails());
         } catch (PropertyServiceException e) {
             return showAlertMessage(PROPERTY_LISTING_UDPATE_VIEW_NAME, detailsForm, e.getMessage());
         }

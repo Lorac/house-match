@@ -19,7 +19,6 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserPropertyNotListedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator;
@@ -91,15 +90,8 @@ public class PropertyServiceTest {
     @Test
     public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
         when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDetails(), userMock);
+        propertyService.updateProperty(propertyMock, new PropertyDetails());
         verify(propertyRepositoryMock).update(propertyMock);
-    }
-    
-    @Test
-    public void propertyEditingChangesUpdatePropertyInUser() throws Exception   {
-        when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-        propertyService.updateProperty(SAMPLE_PROPERTY_HASHCODE, new PropertyDetails(), userMock);
-        verify(userMock).updateProperty(propertyMock);
     }
 
     private void createPropertyListing() throws PropertyServiceException {

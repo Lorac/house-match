@@ -105,14 +105,6 @@ public class User {
         propertyListings.add(property);
     }
 
-    public void updateProperty(Property property) throws UserPropertyNotListedException {
-        if (propertyListings.remove(property)) {
-            propertyListings.add(property);
-        } else {
-            throw new UserPropertyNotListedException("User does not have property listed");
-        }
-    }
-
     public boolean propertyBelongsToUser(Property property) {
         for (Property prop : getPropertyListings()) {
             if (prop.hashCode() == property.hashCode()) {

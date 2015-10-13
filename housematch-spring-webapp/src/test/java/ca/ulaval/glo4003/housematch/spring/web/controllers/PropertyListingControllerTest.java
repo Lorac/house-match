@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -132,8 +133,8 @@ public class PropertyListingControllerTest extends MvcControllerTest {
 
     @Test
     public void whenDetailsUpdateMadeOnInvalidHashDisplayErrorMessage() throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(int.class),
-                any(PropertyDetails.class), any(User.class));
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(Property.class),
+                any(PropertyDetails.class));
         ;
         postPropertyListingUpdateForm()
                 .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
@@ -141,12 +142,14 @@ public class PropertyListingControllerTest extends MvcControllerTest {
 
     @Test
     public void whenDetailsUpdateMadeOnValidHashDisplayRedirectToConfirmation() throws Exception {
+        when(propertyServiceMock.getPropertyByHashCode(any(int.class))).thenReturn(mock(Property.class));
         postPropertyListingUpdateForm()
                 .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
     }
 
     @Test
     public void whenValidDetailsUpdateGivenRedirectToConfirmation() throws Exception {
+        when(propertyServiceMock.getPropertyByHashCode(any(int.class))).thenReturn(mock(Property.class));
         postPropertyListingUpdateForm()
                 .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
     }
