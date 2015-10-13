@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
@@ -68,24 +67,25 @@ public class PropertyListingController extends MvcController {
         authorizationValidator.validateResourceAccess(PROPERTY_LISTING_CREATION_VIEW_NAME, httpSession,
                 USER_ATTRIBUTE_NAME);
         try {
-            int propertyId = propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
+            int propertyHashCode = propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
                     propertyListingCreationForm.getAddress(), propertyListingCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
             return new ModelAndView(new RedirectView(
-                    PROPERTY_LISTING_UPDATE_URL.replace("{propertyId}", Integer.toString(propertyId))));
+                    PROPERTY_LISTING_UPDATE_URL.replace("{propertyHashCode}", Integer.toString(propertyHashCode))));
         } catch (PropertyServiceException e) {
             return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, propertyListingCreationForm, e.getMessage());
         }
     }
 
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyListingDetails(@PathVariable int propertyId, HttpSession httpSession) {
+    public final ModelAndView displayPropertyListingDetails(@PathVariable int propertyHashCode,
+            HttpSession httpSession) {
         ModelMap map = new ModelMap();
-        map.put("propertyId", propertyId);
+        map.put("propertyId", propertyHashCode);
         map.addAttribute(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME, new PropertyListingUpdateFormViewModel());
 
         try {
-            if (propertyService.propertyBelongsToSeller(propertyId, getUserFromHttpSession(httpSession))) {
+            if (propertyService.propertyBelongsToSeller(propertyHashCode, getUserFromHttpSession(httpSession))) {
                 return new ModelAndView(PROPERTY_LISTING_UDPATE_VIEW_NAME,
                         PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
                         map.get(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME));
@@ -100,6 +100,7 @@ public class PropertyListingController extends MvcController {
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyListingDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
             PropertyListingUpdateFormViewModel detailsForm) {
+
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
             propertyService.updateProperty(property, detailsForm.getDetails());

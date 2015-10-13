@@ -41,7 +41,6 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
     private static final String ADDRESS_PARAMETER_NAME = "address";
     private static final String SELLING_PRICE_PARAMETER_NAME = "propertyType";
-    private static final String SAMPLE_PROPERT_ID = "0";
     private static final String SAMPLE_UPDATE_URL = "/updateListing/0";
 
     private PropertyService propertyServiceMock;
