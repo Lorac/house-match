@@ -40,13 +40,15 @@
 	
 	<bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator"/>
 	
+	<bean id="partialAddressValidator" class="ca.ulaval.glo4003.housematch.validators.address.PartialAddressValidator"/>
+	
 	<!-- Services -->
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.user.UserService">
         <constructor-arg ref="xmlUserRepository"/>
 		<constructor-arg ref="userRegistrationValidator"/>
         <constructor-arg ref="userActivationService"/>
-        <constructor-arg ref="addressValidator"/>
+        <constructor-arg ref="partialAddressValidator"/>
     </bean>
 	
 	<bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.user.UserActivationService">

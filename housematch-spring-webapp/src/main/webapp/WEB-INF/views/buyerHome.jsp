@@ -22,8 +22,8 @@
 			<div class="row">
 				<div class="col-sm-4 menuItem">
 				<a href="/updateContactInformation">
-					<span class="icon glyphicon glyphicon-tag"></span>
-						<p class="itemLabel">Modify user Profile</p></a>
+					<span class="icon glyphicon glyphicon-envelope"></span>
+						<p class="itemLabel">Update contact information</p></a>
 				</div>
 				<div class="col-sm-4 menuItem">
 					<span class="icon glyphicon glyphicon-question-sign"></span>
@@ -35,6 +35,8 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	
 	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

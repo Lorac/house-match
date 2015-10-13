@@ -45,8 +45,6 @@ public class XmlUserRepository implements UserRepository {
             throw new IllegalStateException("Update requested for an object that is not persisted.");
         }
 
-        users.remove(user);
-        users.add(user);
         marshal();
     }
 

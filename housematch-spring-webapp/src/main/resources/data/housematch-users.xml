@@ -2,10 +2,17 @@
 <housematch>
     <users>
         <user>
-            <username>olrob13</username>
+            <username>seller1</username>
             <email>o.robert@hotmail.com</email>
             <password>u58bEgW68K/uYKumAxVd8g==</password>
             <role>SELLER</role>
+            <activated>true</activated>
+        </user>
+		<user>
+            <username>buyer1</username>
+            <email>o.robert@hotmail.com</email>
+            <password>u58bEgW68K/uYKumAxVd8g==</password>
+            <role>BUYER</role>
             <activated>true</activated>
         </user>
     </users>

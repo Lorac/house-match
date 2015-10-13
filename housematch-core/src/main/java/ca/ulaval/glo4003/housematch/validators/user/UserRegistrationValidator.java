@@ -13,7 +13,7 @@ public class UserRegistrationValidator {
             throw new UserRegistrationValidationException("Username cannot be blank.");
         } else if (StringUtils.isBlank(email)) {
             throw new UserRegistrationValidationException("Email cannot be blank.");
-        } else if (!EmailValidator.getInstance(false).isValid(email)) {
+        } else if (!EmailValidator.getInstance().isValid(email)) {
             throw new UserRegistrationValidationException("The email format is not valid.");
         } else if (StringUtils.isBlank(password)) {
             throw new UserRegistrationValidationException("Password cannot be blank.");

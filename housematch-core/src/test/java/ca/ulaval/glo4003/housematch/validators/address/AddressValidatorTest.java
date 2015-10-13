@@ -79,21 +79,20 @@ public class AddressValidatorTest {
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithBlankCityThrowsPropertyListingCreationValidationException() throws Exception {
-        when(addressMock.getCity()).thenReturn(SAMPLE_BLANK_EXPRESSION);
-        addressValidator.validateAddress(addressMock);
-    }
-
-    @Test(expected = AddressValidationException.class)
-    public void paddressValidationWithInvalidPostCodeFormatThrowsPropertyListingCreationValidationException()
+    public void addressValidationWithInvalidPostCodeFormatThrowsPropertyListingCreationValidationException()
             throws Exception {
         when(addressMock.getPostCode()).thenReturn(SAMPLE_INVALID_POSTCODE);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithNoRegionSpecifiedThrowsPropertyListingCreationValidationException()
-            throws Exception {
+    public void addressValidationWithBlankCityThrowsPropertyListingCreationValidationException() throws Exception {
+        when(addressMock.getCity()).thenReturn(SAMPLE_BLANK_EXPRESSION);
+        addressValidator.validateAddress(addressMock);
+    }
+
+    @Test(expected = AddressValidationException.class)
+    public void addressValidationWithBlankRegionThrowsPropertyListingCreationValidationException() throws Exception {
         when(addressMock.getRegion()).thenReturn(null);
         addressValidator.validateAddress(addressMock);
     }

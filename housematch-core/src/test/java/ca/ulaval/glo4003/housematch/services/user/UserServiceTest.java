@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +22,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
@@ -28,6 +30,7 @@ import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
+    private static final String SAMPLE_INVALID_EMAIL = "asd@asd<!";
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
@@ -140,6 +143,18 @@ public class UserServiceTest {
         verify(userActivationServiceMock).beginActivation(userMock);
     }
 
+    @Test(expected = UserServiceException.class)
+    public void updatingUserEmailUsingInvalidEmaiThrowsUserServiceExceptionl() throws Exception {
+        userService.updateUserEmail(userMock, SAMPLE_INVALID_EMAIL);
+    }
+
+    @Test
+    public void updatingUserEmailWithTheSameEmailDoesNotBeginTheUserActivationProcess() throws Exception {
+        when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
+        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        verify(userActivationServiceMock, never()).beginActivation(userMock);
+    }
+
     @Test
     public void updatingUserContactInformationsPushesUserUpdateToRepository() throws Exception {
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
@@ -147,15 +162,29 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatingUserContactInformationsValidatesAddress() throws Exception {
+    public void updatingUserContactInformationsValidatesTheAddress() throws Exception {
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(addressValidatorMock).validateAddress(addressMock);
     }
 
     @Test
-    public void updatingUserContactInformationsSetsNewAddress() throws Exception {
+    public void updatingUserContactInformationsSetsTheNewAddressInTheUserObject() throws Exception {
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userMock).setAddress(addressMock);
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void updatingUserContactInformationsThrowsUserServiceExceptionOnUserActivationServiceException()
+            throws Exception {
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).beginActivation(userMock);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void updatingUserContactInformationsThrowsUserServiceExceptionOnAddressValidationException()
+            throws Exception {
+        doThrow(new AddressValidationException()).when(addressValidatorMock).validateAddress(addressMock);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
     }
 
     @Test

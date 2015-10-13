@@ -11,7 +11,7 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Profile</title>
+<title>HouseMatch - Update Contact Information</title>
 </head>
 <body>
     <jsp:include page="../includes/navigationBar.jsp"/>
@@ -22,7 +22,7 @@
                     <div class="form-heading">
                         <div class="row">
                             <div class="col-xs-12">
-                                <p>Update Contact Information</p>
+                                <h1>Update Contact Information</h1>
                             </div>
                         </div>
                         <hr>
@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="7" tabindex="4"
-                                            value="${user.address.postCode}" placeholder="Post Code" />
+                                            value="${user.address.postCode}" placeholder="Postal Code" />
                                     </div>
                                    	<div class="form-group">
                                         <form:select path="address.region" class="form-control" 

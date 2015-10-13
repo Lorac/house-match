@@ -48,7 +48,5 @@ public class ContactInformationController extends MvcController {
         } catch (UserServiceException e) {
             return showAlertMessage(CONTACT_INFO_UPDATE_VIEW_NAME, contactInformationForm, e.getMessage());
         }
-
     }
-
 }

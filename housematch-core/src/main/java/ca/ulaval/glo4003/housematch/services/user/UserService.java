@@ -56,20 +56,17 @@ public class UserService {
     }
 
     public void updateUserEmail(User user, String email) throws UserActivationServiceException, UserServiceException {
-        if (!email.equals(user.getEmail())) {
-            if (!EmailValidator.getInstance(false).isValid(email)) {
-                throw new UserServiceException("The email format is not valid.");
-            } else {
-                user.updateEmail(email);
-                userActivationService.beginActivation(user);
-            }
+        if (email.equals(user.getEmail())) {
+            return;
+        } else if (!EmailValidator.getInstance().isValid(email)) {
+            throw new UserServiceException("The email format is not valid.");
         }
-
+        user.updateEmail(email);
+        userActivationService.beginActivation(user);
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {
         List<UserRole> userRoles = Arrays.asList(UserRole.values());
-
         return userRoles.stream().filter(UserRole::isPubliclyRegistrable).collect(Collectors.toList());
     }
 
@@ -80,7 +77,7 @@ public class UserService {
             updateUserEmail(user, email);
             userRepository.update(user);
         } catch (UserActivationServiceException | AddressValidationException e) {
-            throw new UserServiceException("Can not update user contact informations", e);
+            throw new UserServiceException(e.getMessage(), e);
         }
     }
 }

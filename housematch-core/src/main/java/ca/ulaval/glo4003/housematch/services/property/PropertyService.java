@@ -25,8 +25,8 @@ public class PropertyService {
         this.propertyListingCreationValidator = propertyListingCreationValidator;
     }
 
-    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
-            User user) throws PropertyServiceException {
+    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
+            throws PropertyServiceException {
         Property property = createProperty(propertyType, address, sellingPrice);
         user.addPropertyListing(property);
         userRepository.update(user);
@@ -34,8 +34,8 @@ public class PropertyService {
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
             throws PropertyServiceException {
-        Property property;
 
+        Property property;
         try {
             propertyListingCreationValidator.validatePropertyListingCreation(propertyType, address, sellingPrice);
             property = new Property(propertyType, address, sellingPrice);
@@ -43,7 +43,6 @@ public class PropertyService {
         } catch (PropertyListingCreationValidationException | PropertyAlreadyExistsException e) {
             throw new PropertyServiceException(e);
         }
-
         return property;
     }
 }

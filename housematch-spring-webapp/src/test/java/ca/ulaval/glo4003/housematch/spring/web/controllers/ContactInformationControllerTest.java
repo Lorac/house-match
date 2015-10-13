@@ -1,6 +1,10 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,7 +19,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel;
 
 public class ContactInformationControllerTest extends MvcControllerTest {
@@ -36,7 +44,7 @@ public class ContactInformationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void userProfileControllerRendersModifyUserProfileView() throws Exception {
+    public void contactInformationControllerRendersUpdateView() throws Exception {
         ResultActions results = performGetRequest(ContactInformationController.CONTACT_INFO_UPDATE_URL);
 
         results.andExpect(status().isOk());
@@ -44,7 +52,7 @@ public class ContactInformationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void userProfileControllerRendersUserProfileControllerWithTheCorrectFields() throws Exception {
+    public void contactInformationControllerRendersUpdateViewWithTheCorrectFields() throws Exception {
         ResultActions results = performGetRequest(ContactInformationController.CONTACT_INFO_UPDATE_URL);
 
         results.andExpect(
@@ -54,31 +62,42 @@ public class ContactInformationControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void userProfileControllerCallsAuthorizationValidationServiceOnUserProfileViewAccess() throws Exception {
+    public void contactInformationControllerCallsAuthorizationValidationServiceOnUpdateViewAccess() throws Exception {
         performGetRequest(PropertyListingController.CONTACT_INFO_UPDATE_URL);
         verify(authorizationValidatorMock).validateResourceAccess(
-                PropertyListingController.CONTACT_INFO_UPDATE_VIEW_NAME, mockHttpSession,
-                PropertyListingController.USER_ATTRIBUTE_NAME);
+                ContactInformationController.CONTACT_INFO_UPDATE_VIEW_NAME, mockHttpSession,
+                ContactInformationController.USER_ATTRIBUTE_NAME);
     }
 
     @Test
-    public void userProfileControllerRendersUserProfileConfirmationUponModification() throws Exception {
-        ResultActions results = postUserProfileModificationForm();
+    public void contactInformationControllerRendersUpdateConfirmationUponSuccessfulUpdate() throws Exception {
+        ResultActions results = postContactInformationForm();
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(ContactInformationController.CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME));
     }
 
-    private ResultActions postUserProfileModificationForm() throws Exception {
+    @Test
+    public void contactInformationControllerRendersAlertMessageOnUserServiceExceptionDuringUpdate() throws Exception {
+        doThrow(new UserServiceException()).when(userServiceMock).updateUserContactInformation(eq(userMock),
+                any(Address.class), eq(SAMPLE_EMAIL));
+
+        ResultActions results = postContactInformationForm();
+
+        results.andExpect(view().name(ContactInformationController.CONTACT_INFO_UPDATE_VIEW_NAME));
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
+    }
+
+    private ResultActions postContactInformationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(ContactInformationController.CONTACT_INFO_UPDATE_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
-        postRequest = buildPropertyListingCreationFormParams(postRequest);
+        postRequest = buildContactInformationFormParams(postRequest);
 
         return mockMvc.perform(postRequest);
     }
 
-    private MockHttpServletRequestBuilder buildPropertyListingCreationFormParams(
-            MockHttpServletRequestBuilder postRequest) {
+    private MockHttpServletRequestBuilder buildContactInformationFormParams(MockHttpServletRequestBuilder postRequest) {
         return postRequest.param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL).session(mockHttpSession);
     }
 }
