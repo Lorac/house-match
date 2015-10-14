@@ -17,21 +17,20 @@ public class AddressValidator {
     }
 
     public void validateAddress(Address address) throws AddressValidationException {
-        validateAddressNumber(address);
+        validateStreetNumber(address);
         validateStreetName(address);
-        validateCity(address);
+        validateTown(address);
         validateZipCode(address);
         validateRegion(address);
-        validateCity(address);
     }
 
-    private void validateAddressNumber(Address address) throws AddressValidationException {
-        if (address.getAddressNumber() == null) {
+    private void validateStreetNumber(Address address) throws AddressValidationException {
+        if (address.getStreetNumber() == null) {
             if (!allowPartialAddress) {
-                throw new AddressValidationException("Address number must be specified.");
+                throw new AddressValidationException("Street number must be specified.");
             }
-        } else if (address.getAddressNumber() <= 0) {
-            throw new AddressValidationException("Address number must be greater than 0.");
+        } else if (address.getStreetNumber() <= 0) {
+            throw new AddressValidationException("Street number must be greater than 0.");
         }
     }
 
@@ -41,25 +40,25 @@ public class AddressValidator {
         }
     }
 
-    private void validateCity(Address address) throws AddressValidationException {
-        if (StringUtils.isBlank(address.getCity()) && !allowPartialAddress) {
-            throw new AddressValidationException("City cannot be blank.");
+    private void validateTown(Address address) throws AddressValidationException {
+        if (StringUtils.isBlank(address.getTown()) && !allowPartialAddress) {
+            throw new AddressValidationException("City / Town cannot be blank.");
         }
     }
 
     private void validateZipCode(Address address) throws AddressValidationException {
         if (StringUtils.isBlank(address.getPostCode())) {
             if (!allowPartialAddress) {
-                throw new AddressValidationException("Zip code cannot be blank.");
+                throw new AddressValidationException("Zip / Postal code cannot be blank.");
             }
         } else if (!postCodeValidationRegExPattern.matcher(address.getPostCode()).matches()) {
-            throw new AddressValidationException("Zip code must be in the 'A8A 8A8' format.");
+            throw new AddressValidationException("Zip / Postal code must be in the 'A8A 8A8' format.");
         }
     }
 
     private void validateRegion(Address address) throws AddressValidationException {
         if (address.getRegion() == null && !allowPartialAddress) {
-            throw new AddressValidationException("State or province must be specified.");
+            throw new AddressValidationException("State / Province must be specified.");
         }
     }
 }

@@ -18,7 +18,7 @@ public class PartialAddressValidatorTest {
     public void init() throws Exception {
         addressMock = mock(Address.class);
         partialAddressValidator = new PartialAddressValidator();
-        when(addressMock.getAddressNumber()).thenReturn(null);
+        when(addressMock.getStreetNumber()).thenReturn(null);
     }
 
     @Test

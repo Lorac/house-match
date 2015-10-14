@@ -52,9 +52,9 @@
 									<h2>Property location</h2>
 									<br>
 									<div class="form-group">
-										<form:input type="number" path="address.addressNumber"
+										<form:input type="number" path="address.streetNumber"
 											class="form-control" min="0" tabindex="3"
-											placeholder="Address" />
+											placeholder="Street Number" />
 									</div>
 									<div class="form-group">
 										<form:input type="text" path="address.streetName"
@@ -67,14 +67,14 @@
 											tabindex="5" placeholder="Floor / Building / Unit (optional)" />
 									</div>
 									<div class="form-group">
-										<form:input type="text" path="address.city"
+										<form:input type="text" path="address.town"
 											class="form-control" minlength="3" maxlength="32"
 											tabindex="6" placeholder="City / Town" />
 									</div>
 									<div class="form-group">
 										<form:input type="text" path="address.postCode"
 											class="form-control" minlength="3" maxlength="7" tabindex="6"
-											placeholder="Zip Code / Postal Code" />
+											placeholder="Zip / Postal Code" />
 									</div>
 									<div class="form-group">
 										<form:select path="address.region" class="form-control"

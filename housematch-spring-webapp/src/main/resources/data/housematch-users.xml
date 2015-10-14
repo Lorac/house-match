@@ -16,8 +16,8 @@
             <role>BUYER</role>
             <activated>true</activated>
             <address>
-                <addressNumber>23423</addressNumber>
-                <city>dsf</city>
+                <streetNumber>23423</streetNumber>
+                <town>dsf</town>
                 <postCode>G1V 3X4</postCode>
                 <region>QC</region>
                 <streetName>dfgdf</streetName>

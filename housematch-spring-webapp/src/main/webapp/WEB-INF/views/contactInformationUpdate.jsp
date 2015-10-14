@@ -36,20 +36,20 @@
                                         <%@include file="../includes/alertMessage.jsp" %>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="number" path="address.addressNumber" class="form-control" min="0" tabindex="1"
-                                            value="${user.address.addressNumber}" placeholder="Address Number" />
+                                        <form:input type="number" path="address.streetNumber" class="form-control" min="0" tabindex="1"
+                                            value="${user.address.streetNumber}" placeholder="Street Number" />
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="32" tabindex="2"
                                             value="${user.address.streetName}" placeholder="Street Name" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="address.city" class="form-control" minlength="3" maxlength="32" tabindex="3"
-                                            value="${user.address.city}" placeholder="City" />
+                                        <form:input type="text" path="address.town" class="form-control" minlength="3" maxlength="32" tabindex="3"
+                                            value="${user.address.town}" placeholder="City / Town" />
                                     </div>
                                     <div class="form-group">
                                         <form:input type="text" path="address.postCode" class="form-control" minlength="3" maxlength="7" tabindex="4"
-                                            value="${user.address.postCode}" placeholder="Postal Code" />
+                                            value="${user.address.postCode}" placeholder="Zip / Postal Code" />
                                     </div>
                                    	<div class="form-group">
                                         <form:select path="address.region" class="form-control" 

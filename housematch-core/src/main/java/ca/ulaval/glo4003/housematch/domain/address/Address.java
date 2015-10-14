@@ -5,19 +5,19 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Address {
 
-    Integer addressNumber;
+    Integer streetNumber;
     String streetName;
     String additionalAddressInfo;
-    String city;
+    String town;
     String postCode;
     Region region;
 
-    public Integer getAddressNumber() {
-        return addressNumber;
+    public Integer getStreetNumber() {
+        return streetNumber;
     }
 
-    public void setAddressNumber(Integer addressNumber) {
-        this.addressNumber = addressNumber;
+    public void setStreetNumber(Integer streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     public String getStreetName() {
@@ -28,12 +28,12 @@ public class Address {
         this.streetName = streetName;
     }
 
-    public String getCity() {
-        return city;
+    public String getTown() {
+        return town;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setTown(String town) {
+        this.town = town;
     }
 
     public String getAdditionalAddressInfo() {
@@ -62,7 +62,7 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addressNumber).append(streetName).append(city).append(additionalAddressInfo)
+        return new HashCodeBuilder().append(streetNumber).append(streetName).append(town).append(additionalAddressInfo)
                 .append(region.ordinal()).toHashCode();
     }
 
@@ -76,8 +76,8 @@ public class Address {
         }
 
         Address address = (Address) obj;
-        return new EqualsBuilder().append(addressNumber, address.addressNumber).append(streetName, address.streetName)
-                .append(city, address.city).append(additionalAddressInfo, address.additionalAddressInfo)
+        return new EqualsBuilder().append(streetNumber, address.streetNumber).append(streetName, address.streetName)
+                .append(town, address.town).append(additionalAddressInfo, address.additionalAddressInfo)
                 .append(region, address.region).isEquals();
     }
 }
