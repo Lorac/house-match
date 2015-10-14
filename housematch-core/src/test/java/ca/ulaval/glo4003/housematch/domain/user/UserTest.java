@@ -198,13 +198,13 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePropertiesSetsTheSpecifiedProperties() {
+    public void settingThePropertiesSetsTheSpecifiedProperty() {
         user.setProperties(properties);
         assertEquals(properties, user.getProperties());
     }
 
     @Test
-    public void addingAPropertyAddsTheSpecifiedProperties() {
+    public void addingAPropertyAddsTheSpecifiedProperty() {
         user.addProperty(propertyMock);
         assertThat(user.getProperties(), contains(propertyMock));
     }

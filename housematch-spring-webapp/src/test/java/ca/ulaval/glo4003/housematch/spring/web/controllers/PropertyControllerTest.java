@@ -38,10 +38,10 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyCreationFormVi
 
 public class PropertyControllerTest extends MvcControllerTest {
 
-    private static final String PROPERTY_TYPE_PARAMETER_NAME = "propertyType";
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
+    private static final String PROPERTY_TYPE_PARAMETER_NAME = "propertyType";
     private static final String ADDRESS_PARAMETER_NAME = "address";
-    private static final String SELLING_PRICE_PARAMETER_NAME = "propertyType";
+    private static final String SELLING_PRICE_PARAMETER_NAME = "sellingPrice";
 
     private Property propertyMock;
     private PropertyService propertyServiceMock;
@@ -212,8 +212,7 @@ public class PropertyControllerTest extends MvcControllerTest {
         return mockMvc.perform(postRequest);
     }
 
-    private MockHttpServletRequestBuilder buildPropertyCreationFormParams(
-            MockHttpServletRequestBuilder postRequest) {
+    private MockHttpServletRequestBuilder buildPropertyCreationFormParams(MockHttpServletRequestBuilder postRequest) {
         return postRequest.param(PROPERTY_TYPE_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.toString())
                 .session(mockHttpSession);
     }

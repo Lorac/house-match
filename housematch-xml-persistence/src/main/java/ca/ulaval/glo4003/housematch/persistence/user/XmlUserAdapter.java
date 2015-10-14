@@ -33,7 +33,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
 
     private List<Property> dereferenceProperties(XmlUser xmlUser) throws PropertyNotFoundException {
         List<Property> properties = new ArrayList<Property>();
-        for (Integer propertyHashCode : xmlUser.propertyRefs) {
+        for (Integer propertyHashCode : xmlUser.propertyRef) {
             properties.add(propertyRepository.getByHashCode(propertyHashCode));
         }
         return properties;
@@ -50,7 +50,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.activated = user.isActivated();
 
         for (Property property : user.getProperties()) {
-            xmlUser.propertyRefs.add(property.hashCode());
+            xmlUser.propertyRef.add(property.hashCode());
         }
 
         return xmlUser;

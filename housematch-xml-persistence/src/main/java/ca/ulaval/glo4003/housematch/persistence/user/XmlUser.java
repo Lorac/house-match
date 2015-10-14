@@ -20,6 +20,6 @@ public class XmlUser {
     public boolean activated;
 
     @XmlElementWrapper(name = "properties")
-    @XmlElement(name = "propertyRefs")
-    public List<Integer> propertyRefs = new ArrayList<Integer>();
+    @XmlElement(name = "propertyRef")
+    public List<Integer> propertyRef = new ArrayList<Integer>();
 }

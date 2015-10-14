@@ -72,7 +72,7 @@ public class XmlUserAdapterTest {
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
         xmlUserMock.activated = SAMPLE_BOOLEAN;
-        xmlUserMock.propertyRefs = propertyRefs;
+        xmlUserMock.propertyRef = propertyRefs;
     }
 
     @Test
@@ -96,7 +96,7 @@ public class XmlUserAdapterTest {
     public void propertiesAreMarshalledAsReferencesDuringMarshalling() throws Exception {
         properties.add(propertyMock);
         XmlUser xmlUser = xmlUserAdapter.marshal(userMock);
-        assertThat(xmlUser.propertyRefs, contains(propertyMock.hashCode()));
+        assertThat(xmlUser.propertyRef, contains(propertyMock.hashCode()));
     }
 
     @Test

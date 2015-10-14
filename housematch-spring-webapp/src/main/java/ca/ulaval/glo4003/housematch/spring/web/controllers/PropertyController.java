@@ -90,16 +90,16 @@ public class PropertyController extends MvcController {
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
-            PropertyDetailsFormViewModel formViewModel) throws AuthenticationException {
+            PropertyDetailsFormViewModel propertyDetailsForm) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(PROPERTY_DETAILS_UPDATE_VIEW_NAME, httpSession,
                 USER_ATTRIBUTE_NAME);
         try {
             Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession),
                     propertyHashCode);
-            propertyService.updateProperty(property, formViewModel.getDetails());
+            propertyService.updateProperty(property, propertyDetailsForm.getDetails());
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
-            return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, formViewModel, e.getMessage());
+            return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, propertyDetailsForm, e.getMessage());
         }
     }
 }
