@@ -40,13 +40,13 @@ public class MvcController {
     protected static final String PROPERTY_LISTING_CREATION_URL = "/sell";
     public static final String PROPERTY_LISTING_CREATION_VIEW_NAME = "listingCreation";
     protected static final String PROPERTY_LISTING_UPDATE_URL = "/updateListing/{propertyHashCode}";
-    protected static final String PROPERTY_LISTING_UDPATE_VIEW_NAME = "updateListing";
-    protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingSave";
+    public static final String PROPERTY_LISTING_UDPATE_VIEW_NAME = "updateListing";
+    protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingUpdateConfirmation";
     protected static final String USER_ATTRIBUTE_NAME = "user";
-    protected static final String RESOURCE_NOT_FOUND_VIEW_NAME = "404";
-    protected static final String RESOURCE_NOT_FOUND_URL = "/404";
-    protected static final String RESOURCE_FORBIDDEN_VIEW_NAME = "403";
-    protected static final String RESOURCE_FORBIDDEN_URL = "/403";
+    protected static final String HTTP_NOT_FOUND_STATUS_VIEW_NAME = "customErrorPages/404";
+    protected static final String HTTP_NOT_FOUND_STATUS_URL = "/customErrorPages/404";
+    protected static final String HTTP_FORBIDDEN_STATUS_VIEW_NAME = "customErrorPages/403";
+    protected static final String HTTP_FORBIDDEN_STATUS_URL = "/customErrorPages/403";
 
     @Autowired
     protected AuthorizationValidator authorizationValidator;
@@ -77,5 +77,10 @@ public class MvcController {
     @ExceptionHandler(AccessDeniedException.class)
     public void accessDeniedExceptionHandler(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.FORBIDDEN.value(), "You do not have access to the specified resource.");
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public void resourceNotFoundExceptionHandler(HttpServletResponse response) {
+        response.setStatus(HttpStatus.NOT_FOUND.value());
     }
 }

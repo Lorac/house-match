@@ -59,6 +59,10 @@
 		<constructor-arg ref="propertyListingCreationValidator"/>
     </bean>
 	
+	<!-- Assemblers -->
+	
+	<bean id="propertyListingUpdateFormViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyListingUpdateFormViewModelAssembler"/>
+	
 	<!-- Controllers -->
 
     <bean id="loginController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController">
@@ -78,6 +82,8 @@
 	<bean id="propertyListingController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyListingController">
 		<constructor-arg ref="authorizationValidator"/>
         <constructor-arg ref="propertyService"/>
+		<constructor-arg ref="userService"/>
+		<constructor-arg ref="propertyListingUpdateFormViewModelAssembler"/>
     </bean>
 
 

@@ -2,11 +2,13 @@ package ca.ulaval.glo4003.housematch.domain.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 
 public class User {
     private String username;
@@ -105,13 +107,12 @@ public class User {
         propertyListings.add(property);
     }
 
-    public boolean propertyBelongsToUser(Property property) {
-        for (Property prop : getPropertyListings()) {
-            if (prop.hashCode() == property.hashCode()) {
-                return true;
-            }
+    public Property getPropertyListingByHashCode(int hashCode) throws PropertyNotFoundException {
+        try {
+            return propertyListings.stream().filter(p -> p.hashCode() == hashCode).findFirst().get();
+        } catch (NoSuchElementException e) {
+            throw new PropertyNotFoundException(String.format("Cannot find property with hashcode '%s'.", hashCode));
         }
-        return false;
     }
 
     @Override

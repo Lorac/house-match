@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -46,6 +48,10 @@ public class UserService {
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {
             throw new UserServiceException(e);
         }
+    }
+
+    public Property getPropertyListingByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
+        return user.getPropertyListingByHashCode(propertyHashCode);
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {

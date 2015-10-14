@@ -16,8 +16,7 @@
 	<jsp:include page="../includes/navigationBar.jsp" />
 	
 	<div class="container">
-		<h1>Oops!</h1>
-		<p>Seems we couldn't find what you were asking for. Please continue browsing the site via the navigation bar.</p>
+		<p>Your property has been successfully updated and visible to other buyers. <a href="../">Go back to your profile</a>.</p>
 	</div>
 	
 	<%@include file="../includes/footer.jsp"%>

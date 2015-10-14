@@ -21,5 +21,4 @@ public class PropertyListingUpdateFormViewModel extends ViewModel {
     public String getViewModelName() {
         return VIEWMODEL_NAME;
     }
-
 }

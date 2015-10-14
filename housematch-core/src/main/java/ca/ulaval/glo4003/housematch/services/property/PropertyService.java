@@ -6,7 +6,6 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -35,29 +34,9 @@ public class PropertyService {
         return property.hashCode();
     }
 
-    public void updateProperty(Property property, PropertyDetails details)
-            throws PropertyServiceException {
+    public void updateProperty(Property property, PropertyDetails details) throws PropertyServiceException {
         property.setPropertyDetails(details);
         propertyRepository.update(property);
-    }
-
-    public boolean propertyBelongsToSeller(int propertyId, User user) throws PropertyServiceException {
-        try {
-            if (user.propertyBelongsToUser(propertyRepository.getByHashCode(propertyId))) {
-                return true;
-            }
-        } catch (PropertyNotFoundException e) {
-            throw new PropertyServiceException(e);
-        }
-        return false;
-    }
-
-    public void findProperty(int propertyId) throws PropertyServiceException {
-        try {
-            propertyRepository.getByHashCode(propertyId);
-        } catch (PropertyNotFoundException e) {
-            throw new PropertyServiceException(e);
-        }
     }
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
@@ -72,16 +51,6 @@ public class PropertyService {
             throw new PropertyServiceException(e);
         }
 
-        return property;
-    }
-
-    public Property getPropertyByHashCode(int propertyHashCode) throws PropertyServiceException {
-        Property property;
-        try {
-            property = propertyRepository.getByHashCode(propertyHashCode);
-        } catch (PropertyNotFoundException e) {
-            throw new PropertyServiceException(e);
-        }
         return property;
     }
 }

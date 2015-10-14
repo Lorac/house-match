@@ -1,38 +1,34 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
+import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
+
 public class PropertyDetails {
 
-    static final Integer INVALID_NUMERAL = 0;
-    static final String EMPTY_FIELD = "";
-    String propertyStyle = EMPTY_FIELD;
-    String priceDetail = EMPTY_FIELD;
-    Integer numberOfBedrooms = INVALID_NUMERAL;
-    String bedroomDetails = EMPTY_FIELD;
-    Integer numberOfBathrooms = INVALID_NUMERAL;
-    String bathroomDetails = EMPTY_FIELD;
-    Integer totalNumberOfRooms = INVALID_NUMERAL;
-    Integer numberOfLevels = INVALID_NUMERAL; // excludes basement
-    Integer numberOfHalfbaths = INVALID_NUMERAL;
-    String livingSpaceArea = EMPTY_FIELD;
-    String buildingDimensions = EMPTY_FIELD;
-    String lotDimensions = EMPTY_FIELD;
-    Integer yearOfConstruction = INVALID_NUMERAL;
-    Integer municipalAssessment = INVALID_NUMERAL;
-    Integer locatedOnWhichFloor = INVALID_NUMERAL;
-    Integer numberOfExteriorParkingSpaces = INVALID_NUMERAL;
-    Integer numberOfInteriorParkingSpaces = INVALID_NUMERAL;
-    String ownership = EMPTY_FIELD;
-    String backyardOrientation = EMPTY_FIELD;
+    PropertyStyle propertyStyle;
+    String priceDetail;
+    Integer numberOfBedrooms;
+    String bedroomDetails;
+    Integer numberOfBathrooms;
+    String bathroomDetails;
+    Integer totalNumberOfRooms;
+    Integer numberOfLevels;
+    Integer numberOfHalfbaths;
+    Integer livingSpaceAreaInSquareFeet;
+    Integer buildingDimensionsInSquareFeet;
+    Integer lotDimensionsInSquareFeet;
+    Integer yearOfConstruction;
+    Integer municipalAssessment;
+    Integer floorNumber;
+    Integer numberOfExteriorParkingSpaces;
+    Integer numberOfInteriorParkingSpaces;
+    PropertyOwnershipType ownershipType;
+    CardinalDirection backyardDirection;
 
-    public PropertyDetails() {
-
-    }
-
-    public String getPropertyStyle() {
+    public PropertyStyle getPropertyStyle() {
         return propertyStyle;
     }
 
-    public void setPropertyStyle(String propertyStyle) {
+    public void setPropertyStyle(PropertyStyle propertyStyle) {
         this.propertyStyle = propertyStyle;
     }
 
@@ -84,28 +80,28 @@ public class PropertyDetails {
         this.numberOfHalfbaths = numberOfHalfbaths;
     }
 
-    public String getLivingSpaceArea() {
-        return livingSpaceArea;
+    public Integer getLivingSpaceAreaInSquareFeet() {
+        return livingSpaceAreaInSquareFeet;
     }
 
-    public void setLivingSpaceArea(String livingSpaceArea) {
-        this.livingSpaceArea = livingSpaceArea;
+    public void setLivingSpaceAreaInSquareFeet(Integer livingSpaceAreaInSquareFeet) {
+        this.livingSpaceAreaInSquareFeet = livingSpaceAreaInSquareFeet;
     }
 
-    public String getBuildingDimensions() {
-        return buildingDimensions;
+    public Integer getBuildingDimensionsInSquareFeet() {
+        return buildingDimensionsInSquareFeet;
     }
 
-    public void setBuildingDimensions(String buildingDimensions) {
-        this.buildingDimensions = buildingDimensions;
+    public void setBuildingDimensionsInSquareFeet(Integer buildingDimensionsInSquareFeet) {
+        this.buildingDimensionsInSquareFeet = buildingDimensionsInSquareFeet;
     }
 
-    public String getLotDimensions() {
-        return lotDimensions;
+    public Integer getLotDimensionsInSquareFeet() {
+        return lotDimensionsInSquareFeet;
     }
 
-    public void setLotDimensions(String lotDimensions) {
-        this.lotDimensions = lotDimensions;
+    public void setLotDimensionsInSquareFeet(Integer lotDimensionsInSquareFeet) {
+        this.lotDimensionsInSquareFeet = lotDimensionsInSquareFeet;
     }
 
     public Integer getYearOfConstruction() {
@@ -124,12 +120,12 @@ public class PropertyDetails {
         this.municipalAssessment = municipalAssessment;
     }
 
-    public Integer getLocatedOnWhichFloor() {
-        return locatedOnWhichFloor;
+    public Integer getFloorNumber() {
+        return floorNumber;
     }
 
-    public void setLocatedOnWhichFloor(Integer locatedOnWichFloor) {
-        this.locatedOnWhichFloor = locatedOnWichFloor;
+    public void setFloorNumber(Integer floorNumber) {
+        this.floorNumber = floorNumber;
     }
 
     public Integer getNumberOfExteriorParking() {
@@ -148,12 +144,12 @@ public class PropertyDetails {
         this.numberOfInteriorParkingSpaces = numberOfInteriorParking;
     }
 
-    public String getOwnership() {
-        return ownership;
+    public PropertyOwnershipType getOwnershipType() {
+        return ownershipType;
     }
 
-    public void setOwnership(String ownership) {
-        this.ownership = ownership;
+    public void setOwnershipType(PropertyOwnershipType ownershipType) {
+        this.ownershipType = ownershipType;
     }
 
     public String getBedroomDetails() {
@@ -172,11 +168,11 @@ public class PropertyDetails {
         this.bathroomDetails = bathroomDetails;
     }
 
-    public String getBackyardFaces() {
-        return backyardOrientation;
+    public CardinalDirection getBackyardDirection() {
+        return backyardDirection;
     }
 
-    public void setBackyardFaces(String backyardFaces) {
-        this.backyardOrientation = backyardFaces;
+    public void setBackyardDirection(CardinalDirection backyardDirection) {
+        this.backyardDirection = backyardDirection;
     }
 }
