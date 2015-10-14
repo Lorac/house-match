@@ -59,7 +59,7 @@ public class PropertyController extends MvcController {
             HttpSession httpSession) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(PROPERTY_CREATION_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         try {
-            Property property = propertyService.createPropertyListing(propertyCreationForm.getPropertyType(),
+            Property property = propertyService.createProperty(propertyCreationForm.getPropertyType(),
                     propertyCreationForm.getAddress(), propertyCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
             return new ModelAndView(

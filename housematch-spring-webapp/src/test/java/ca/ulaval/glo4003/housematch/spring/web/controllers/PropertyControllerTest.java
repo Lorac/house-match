@@ -70,7 +70,7 @@ public class PropertyControllerTest extends MvcControllerTest {
     }
 
     private void stubMethods() throws Exception {
-        when(propertyServiceMock.createPropertyListing(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
+        when(propertyServiceMock.createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
                 any(BigDecimal.class), eq(userMock))).thenReturn(propertyMock);
     }
 
@@ -110,7 +110,7 @@ public class PropertyControllerTest extends MvcControllerTest {
     @Test
     public void propertyControllerCreatesPropertyDuringPropertyCreation() throws Exception {
         postPropertyCreationForm();
-        verify(propertyServiceMock).createPropertyListing(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
+        verify(propertyServiceMock).createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
                 any(BigDecimal.class), eq(userMock));
     }
 
@@ -124,7 +124,7 @@ public class PropertyControllerTest extends MvcControllerTest {
     @Test
     public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyCreation()
             throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).createPropertyListing(
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).createProperty(
                 eq(SAMPLE_PROPERTY_TYPE), any(Address.class), any(BigDecimal.class), eq(userMock));
 
         ResultActions results = postPropertyCreationForm();

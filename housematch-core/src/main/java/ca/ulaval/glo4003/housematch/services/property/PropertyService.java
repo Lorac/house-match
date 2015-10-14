@@ -31,26 +31,16 @@ public class PropertyService {
         this.propertyDetailsValidator = propertyDetailsValidator;
     }
 
-    public Property createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
+    public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice,
             User user) throws PropertyServiceException {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
-            Property property = createProperty(propertyType, address, sellingPrice);
+            Property property = new Property(propertyType, address, sellingPrice);
             user.addProperty(property);
             userRepository.update(user);
-            return property;
-        } catch (PropertyCreationValidationException e) {
-            throw new PropertyServiceException(e);
-        }
-    }
-
-    private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
-            throws PropertyServiceException {
-        try {
-            Property property = new Property(propertyType, address, sellingPrice);
             propertyRepository.persist(property);
             return property;
-        } catch (PropertyAlreadyExistsException e) {
+        } catch (PropertyCreationValidationException | PropertyAlreadyExistsException e) {
             throw new PropertyServiceException(e);
         }
     }
