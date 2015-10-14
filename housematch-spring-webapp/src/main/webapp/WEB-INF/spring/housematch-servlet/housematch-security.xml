@@ -34,7 +34,7 @@
                 </entry>
 				<entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.PROPERTY_LISTING_UDPATE_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.PROPERTY_LISTING_UPDATE_VIEW_NAME" />
                     </key>
                     <ref bean="propertyListingUpdateAccessControlList" />
                 </entry>

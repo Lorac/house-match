@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -28,11 +29,13 @@ public class UserServiceTest {
     private static final String SAMPLE_EMAIL = "test@test.com";
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
+    private static final int SAMPLE_HASHCODE = new Object().hashCode();
 
     private UserRepository userRepositoryMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
     private User userMock;
+    private Property propertyMock;
 
     private UserService userService;
 
@@ -45,6 +48,7 @@ public class UserServiceTest {
     private void initMocks() {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
+        propertyMock = mock(Property.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
     }
@@ -120,6 +124,13 @@ public class UserServiceTest {
     public void userRegistrationThrowsUserServiceExceptionOnUserActivationServiceException() throws Exception {
         doThrow(new UserActivationServiceException()).when(userActivationServiceMock).beginActivation(any(User.class));
         registerUser();
+    }
+
+    @Test
+    public void gettingPropertyListingByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        when(userMock.getPropertyListingByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        Property returnedProperty = userService.getPropertyListingByHashCode(userMock, SAMPLE_HASHCODE);
+        assertSame(propertyMock, returnedProperty);
     }
 
     @Test

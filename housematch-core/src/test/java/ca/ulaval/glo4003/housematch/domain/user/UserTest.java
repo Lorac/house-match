@@ -6,13 +6,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 
 public class UserTest {
 
@@ -38,17 +36,13 @@ public class UserTest {
     private static final Object SAMPLE_OBJECT = new Object();
 
     private Property propertyMock;
-    private PropertyDetails propertyDetailsMock;
-    private PropertyDetails propertyDetailsMock2;
-    
+
     private List<Property> propertyListings;
     private User user;
 
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
-        propertyDetailsMock = mock(PropertyDetails.class);
-        propertyDetailsMock2 = mock(PropertyDetails.class);
         propertyListings = new ArrayList<Property>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
@@ -213,5 +207,17 @@ public class UserTest {
     public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
         user.addPropertyListing(propertyMock);
         assertThat(user.getPropertyListings(), contains(propertyMock));
+    }
+
+    @Test
+    public void gettingPropertyListingByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        user.addPropertyListing(propertyMock);
+        assertSame(propertyMock, user.getPropertyListingByHashCode(propertyMock.hashCode()));
+    }
+
+    @Test(expected = PropertyNotFoundException.class)
+    public void gettingPropertyListingByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()
+            throws Exception {
+        user.getPropertyListingByHashCode(propertyMock.hashCode());
     }
 }

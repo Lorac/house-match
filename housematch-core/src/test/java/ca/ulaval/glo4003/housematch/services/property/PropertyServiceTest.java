@@ -4,7 +4,6 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
@@ -15,7 +14,6 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -26,8 +24,6 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationV
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
-    private static final Integer SAMPLE_PROPERTY_HASHCODE = Integer.valueOf(2222);
-    private static final String SAMPLE_PROPERTY_INFO = "This is a big house";
 
     private PropertyRepository propertyRepositoryMock;
     private UserRepository userRepositoryMock;
@@ -35,7 +31,8 @@ public class PropertyServiceTest {
     private User userMock;
     private Address addressMock;
     private Property propertyMock;
-    
+    private PropertyDetails propertyDetailsMock;
+
     private PropertyService propertyService;
 
     @Before
@@ -52,6 +49,7 @@ public class PropertyServiceTest {
         addressMock = mock(Address.class);
         propertyListingCreationValidatorMock = mock(PropertyListingCreationValidator.class);
         propertyMock = mock(Property.class);
+        propertyDetailsMock = mock(PropertyDetails.class);
     }
 
     @Test
@@ -69,8 +67,8 @@ public class PropertyServiceTest {
     @Test
     public void propertyListingCreationCallsThePropertyListingCreationValidator() throws Exception {
         createPropertyListing();
-        verify(propertyListingCreationValidatorMock).validatePropertyListingCreation(SAMPLE_PROPERTY_TYPE,
-                addressMock, SAMPLE_SELLING_PRICE);
+        verify(propertyListingCreationValidatorMock).validatePropertyListingCreation(SAMPLE_PROPERTY_TYPE, addressMock,
+                SAMPLE_SELLING_PRICE);
     }
 
     @Test(expected = PropertyServiceException.class)
@@ -86,11 +84,16 @@ public class PropertyServiceTest {
         doThrow(new PropertyAlreadyExistsException()).when(propertyRepositoryMock).persist(any(Property.class));
         createPropertyListing();
     }
-    
+
     @Test
-    public void propertyEditingChangesUpdatePropertyInRepository() throws Exception {
-        when(propertyRepositoryMock.getByHashCode(SAMPLE_PROPERTY_HASHCODE)).thenReturn(propertyMock);
-        propertyService.updateProperty(propertyMock, new PropertyDetails());
+    public void propertyUpdateSetsThePropertyDetailsOnThePropertyObject() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock);
+        verify(propertyMock).setPropertyDetails(propertyDetailsMock);
+    }
+
+    @Test
+    public void propertyUpdatePushesThePropertyUpdateInTheRepository() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
 

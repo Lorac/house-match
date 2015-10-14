@@ -75,14 +75,14 @@ public class PropertyListingController extends MvcController {
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyListingDetails(@PathVariable int propertyHashCode, ModelMap modelMap,
             HttpSession httpSession) throws AuthenticationException {
-        authorizationValidator.validateResourceAccess(PROPERTY_LISTING_UDPATE_VIEW_NAME, httpSession,
+        authorizationValidator.validateResourceAccess(PROPERTY_LISTING_UPDATE_VIEW_NAME, httpSession,
                 USER_ATTRIBUTE_NAME);
         try {
             Property property = userService.getPropertyListingByHashCode(getUserFromHttpSession(httpSession),
                     propertyHashCode);
             modelMap.put(PropertyListingUpdateFormViewModel.VIEWMODEL_NAME,
                     propertyListingUpdateFormViewModelAssembler.assembleFromProperty(property));
-            return new ModelAndView(PROPERTY_LISTING_UDPATE_VIEW_NAME);
+            return new ModelAndView(PROPERTY_LISTING_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }
@@ -91,7 +91,7 @@ public class PropertyListingController extends MvcController {
     @RequestMapping(value = PROPERTY_LISTING_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyListingDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
             PropertyListingUpdateFormViewModel formViewModel) throws AuthenticationException {
-        authorizationValidator.validateResourceAccess(PROPERTY_LISTING_UDPATE_VIEW_NAME, httpSession,
+        authorizationValidator.validateResourceAccess(PROPERTY_LISTING_UPDATE_VIEW_NAME, httpSession,
                 USER_ATTRIBUTE_NAME);
         try {
             Property property = userService.getPropertyListingByHashCode(getUserFromHttpSession(httpSession),
@@ -99,7 +99,7 @@ public class PropertyListingController extends MvcController {
             propertyService.updateProperty(property, formViewModel.getDetails());
             return new ModelAndView(PROPERTY_LISTING_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
-            return showAlertMessage(PROPERTY_LISTING_UDPATE_VIEW_NAME, formViewModel, e.getMessage());
+            return showAlertMessage(PROPERTY_LISTING_UPDATE_VIEW_NAME, formViewModel, e.getMessage());
         }
     }
 }

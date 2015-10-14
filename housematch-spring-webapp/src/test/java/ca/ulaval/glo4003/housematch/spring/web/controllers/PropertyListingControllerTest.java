@@ -8,12 +8,11 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 
 import java.math.BigDecimal;
 
@@ -27,10 +26,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyListingUpdateFormViewModelAssembler;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListingCreationFormViewModel;
@@ -41,17 +42,29 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
     private static final String ADDRESS_PARAMETER_NAME = "address";
     private static final String SELLING_PRICE_PARAMETER_NAME = "propertyType";
-    private static final String SAMPLE_UPDATE_URL = "/updateListing/0";
+    private static final int SAMPLE_HASHCODE = new Object().hashCode();
+    private static final String SAMPLE_PROPERTY_UPDATE_URL = String.format("/updateListing/%s", SAMPLE_HASHCODE);
 
+    private Property propertyMock;
     private PropertyService propertyServiceMock;
+    private UserService userServiceMock;
+    private PropertyListingUpdateFormViewModelAssembler propertyListingUpdateFormViewModelAssemblerMock;
     private PropertyListingController propertyController;
 
     @Before
     public void init() {
         super.init();
-        propertyServiceMock = mock(PropertyService.class);
-        propertyController = new PropertyListingController(authorizationValidatorMock, propertyServiceMock);
+        initMocks();
+        propertyController = new PropertyListingController(authorizationValidatorMock, propertyServiceMock,
+                userServiceMock, propertyListingUpdateFormViewModelAssemblerMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
+    }
+
+    private void initMocks() {
+        propertyMock = mock(Property.class);
+        propertyServiceMock = mock(PropertyService.class);
+        userServiceMock = mock(UserService.class);
+        propertyListingUpdateFormViewModelAssemblerMock = mock(PropertyListingUpdateFormViewModelAssembler.class);
     }
 
     @Test
@@ -84,9 +97,11 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void propertyControllerRedirectsToPropertyUpdatePageWhenCreationSucessful() throws Exception {
+    public void propertyControllerRedirectsToPropertyUpdatePageUponSucessfulListingCreation() throws Exception {
+        when(propertyServiceMock.createPropertyListing(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
+                any(BigDecimal.class), eq(userMock))).thenReturn(SAMPLE_HASHCODE);
         ResultActions results = postPropertyListingCreationForm();
-        results.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl(SAMPLE_UPDATE_URL));
+        results.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl(SAMPLE_PROPERTY_UPDATE_URL));
     }
 
     @Test
@@ -118,73 +133,76 @@ public class PropertyListingControllerTest extends MvcControllerTest {
     }
 
     @Test
-    public void whenGivenInvalidHashUpdatePageDisplaysErrorMessage() throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).propertyBelongsToSeller(any(int.class), any(User.class));
-        getPropertyListingUpdateForm().andExpect(view().name(PropertyListingController.RESOURCE_NOT_FOUND_VIEW_NAME));
+    public void propertyControllerRendersPropertyListingUpdateView() throws Exception {
+        ResultActions results = performGetRequest(SAMPLE_PROPERTY_UPDATE_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UPDATE_VIEW_NAME));
     }
 
     @Test
-    public void whenGivenValidHashUpdatePageRendersSuccessfully() throws Exception {
-        when(propertyServiceMock.propertyBelongsToSeller(any(int.class), any(User.class))).thenReturn(true);
-        getPropertyListingUpdateForm()
-                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
+    public void propertyControllerCallsAuthorizationValidationServiceOnPropertyUpdateViewAccess() throws Exception {
+        performGetRequest(SAMPLE_PROPERTY_UPDATE_URL);
+        verify(authorizationValidatorMock).validateResourceAccess(
+                PropertyListingController.PROPERTY_LISTING_UPDATE_VIEW_NAME, mockHttpSession,
+                PropertyListingController.USER_ATTRIBUTE_NAME);
     }
 
     @Test
-    public void whenDetailsUpdateMadeOnInvalidHashDisplayErrorMessage() throws Exception {
+    public void propertyControllerGetsPropertyListingUsingTheSpecifiedHashCodeDuringUpdateViewAccess()
+            throws Exception {
+        performGetRequest(SAMPLE_PROPERTY_UPDATE_URL);
+        verify(userServiceMock).getPropertyListingByHashCode(userMock, SAMPLE_HASHCODE);
+    }
+
+    @Test
+    public void propertyControllerAssemblesTheViewModelFromThePropertyDuringUpdateViewAccess() throws Exception {
+        when(userServiceMock.getPropertyListingByHashCode(userMock, SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        performGetRequest(SAMPLE_PROPERTY_UPDATE_URL);
+        verify(propertyListingUpdateFormViewModelAssemblerMock).assembleFromProperty(propertyMock);
+    }
+
+    @Test
+    public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringUpdateViewAccess() throws Exception {
+        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyListingByHashCode(userMock,
+                SAMPLE_HASHCODE);
+        ResultActions results = performGetRequest(SAMPLE_PROPERTY_UPDATE_URL);
+        results.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void propertyControllerCallsAuthorizationValidationServiceOnPropertyUpdate() throws Exception {
+        postPropertyListingUpdateForm();
+        verify(authorizationValidatorMock).validateResourceAccess(
+                PropertyListingController.PROPERTY_LISTING_UPDATE_VIEW_NAME, mockHttpSession,
+                PropertyListingController.USER_ATTRIBUTE_NAME);
+    }
+
+    @Test
+    public void propertyControllerRendersPropertyUpdateConfirmationViewUponSuccessfulPropertyUpdate() throws Exception {
+        ResultActions results = postPropertyListingUpdateForm();
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
+    }
+
+    @Test
+    public void propertyControllerUpdatesThePropertyDuringPropertyUpdate() throws Exception {
+        when(userServiceMock.getPropertyListingByHashCode(userMock, SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        postPropertyListingUpdateForm();
+        verify(propertyServiceMock).updateProperty(eq(propertyMock), any(PropertyDetails.class));
+    }
+
+    @Test
+    public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyUpdate() throws Exception {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(Property.class),
                 any(PropertyDetails.class));
-        ;
-        postPropertyListingUpdateForm()
-                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
-    }
 
-    @Test
-    public void whenDetailsUpdateMadeOnValidHashDisplayRedirectToConfirmation() throws Exception {
-        when(propertyServiceMock.getPropertyByHashCode(any(int.class))).thenReturn(mock(Property.class));
-        postPropertyListingUpdateForm()
-                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
-    }
+        ResultActions results = postPropertyListingUpdateForm();
 
-    @Test
-    public void whenValidDetailsUpdateGivenRedirectToConfirmation() throws Exception {
-        when(propertyServiceMock.getPropertyByHashCode(any(int.class))).thenReturn(mock(Property.class));
-        postPropertyListingUpdateForm()
-                .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_CONFIRMATION_VIEW_NAME));
-    }
-
-    @Test
-    public void buyerCanEditPropertyThatBelongsToHim() throws Exception {
-        when(propertyServiceMock.propertyBelongsToSeller(any(int.class), any(User.class))).thenReturn(true);
-        getPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UDPATE_VIEW_NAME));
-    }
-    
-    @Test
-    public void buyerCannotEditPropertyThatDoesNotBelongToHim() throws Exception {
-        when(propertyServiceMock.propertyBelongsToSeller(any(int.class), any(User.class))).thenReturn(false);
-        getPropertyListingUpdateForm()
-        .andExpect(view().name(PropertyListingController.RESOURCE_FORBIDDEN_VIEW_NAME));
-    }
-    
-    private ResultActions postPropertyListingUpdateForm() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post(SAMPLE_UPDATE_URL)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED);
-        postRequest = buildPropertyListingUpdateFormParams(postRequest);
-
-        return mockMvc.perform(postRequest);
-    }
-
-    private ResultActions getPropertyListingUpdateForm() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(SAMPLE_UPDATE_URL);
-        getRequest = buildPropertyListingUpdateFormParams(getRequest);
-
-        return mockMvc.perform(getRequest);
-    }
-
-    private MockHttpServletRequestBuilder buildPropertyListingUpdateFormParams(
-            MockHttpServletRequestBuilder postRequest) {
-        return postRequest.session(mockHttpSession);
+        results.andExpect(view().name(PropertyListingController.PROPERTY_LISTING_UPDATE_VIEW_NAME));
+        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+                hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     private ResultActions postPropertyListingCreationForm() throws Exception {
@@ -199,5 +217,13 @@ public class PropertyListingControllerTest extends MvcControllerTest {
             MockHttpServletRequestBuilder postRequest) {
         return postRequest.param(PROPERTY_TYPE_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.toString())
                 .session(mockHttpSession);
+    }
+
+    private ResultActions postPropertyListingUpdateForm() throws Exception {
+        MockHttpServletRequestBuilder postRequest = post(SAMPLE_PROPERTY_UPDATE_URL);
+        postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
+        postRequest.session(mockHttpSession);
+
+        return mockMvc.perform(postRequest);
     }
 }
