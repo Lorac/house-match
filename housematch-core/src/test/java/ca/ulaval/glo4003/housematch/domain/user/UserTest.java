@@ -6,6 +6,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -19,6 +20,7 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 
 public class UserTest {
 
@@ -37,13 +39,13 @@ public class UserTest {
 
     private Property propertyMock;
 
-    private List<Property> propertyListings;
+    private List<Property> properties;
     private User user;
 
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
-        propertyListings = new ArrayList<Property>();
+        properties = new ArrayList<Property>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         addressMock = mock(Address.class);
     }
@@ -211,15 +213,27 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePropertyListingsSetsTheSpecifiedPropertyListings() {
-        user.setPropertyListings(propertyListings);
-        assertEquals(propertyListings, user.getPropertyListings());
+    public void settingThePropertiesSetsTheSpecifiedProperty() {
+        user.setProperties(properties);
+        assertEquals(properties, user.getProperties());
     }
 
     @Test
-    public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
-        user.addPropertyListing(propertyMock);
-        assertThat(user.getPropertyListings(), contains(propertyMock));
+    public void addingAPropertyAddsTheSpecifiedProperty() {
+        user.addProperty(propertyMock);
+        assertThat(user.getProperties(), contains(propertyMock));
+    }
+
+    @Test
+    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        user.addProperty(propertyMock);
+        assertSame(propertyMock, user.getPropertyByHashCode(propertyMock.hashCode()));
+    }
+
+    @Test(expected = PropertyNotFoundException.class)
+    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()
+            throws Exception {
+        user.getPropertyByHashCode(propertyMock.hashCode());
     }
 
     @Test

@@ -33,6 +33,7 @@ public class UserServiceTest {
     private static final String SAMPLE_INVALID_EMAIL = "asd@asd<!";
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
+    private static final int SAMPLE_HASHCODE = new Object().hashCode();
 
     private UserRepository userRepositoryMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
@@ -41,6 +42,7 @@ public class UserServiceTest {
     private Address addressMock;
 
     private User userMock;
+    private Property propertyMock;
 
     private UserService userService;
 
@@ -54,6 +56,7 @@ public class UserServiceTest {
     private void initMocks() throws UserNotFoundException {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
+        propertyMock = mock(Property.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
         addressValidatorMock = mock(AddressValidator.class);
@@ -136,6 +139,13 @@ public class UserServiceTest {
         userService.updateUserEmail(userMock, SAMPLE_EMAIL);
         verify(userMock).updateEmail(SAMPLE_EMAIL);
     }
+    
+    @Test //TODO: Valider
+    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        when(userMock.getPropertyByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        Property returnedProperty = userService.getPropertyByHashCode(userMock, SAMPLE_HASHCODE);
+        assertSame(propertyMock, returnedProperty);
+        }
 
     @Test
     public void updatingUserEmailBeginsTheUserActivationProcess() throws Exception {

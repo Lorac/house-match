@@ -4,8 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.validator.routines.EmailValidator;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -53,6 +51,10 @@ public class UserService {
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {
             throw new UserServiceException(e);
         }
+    }
+
+    public Property getPropertyByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
+        return user.getPropertyByHashCode(propertyHashCode);
     }
 
     public void updateUserEmail(User user, String email) throws UserActivationServiceException, UserServiceException {

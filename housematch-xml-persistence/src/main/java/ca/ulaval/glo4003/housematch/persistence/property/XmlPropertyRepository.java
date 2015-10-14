@@ -49,4 +49,13 @@ public class XmlPropertyRepository implements PropertyRepository {
         xmlPropertyRootElement.setProperties(properties);
         xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
+
+    @Override
+    public void update(Property property) {
+        if (!properties.contains(property)) {
+            throw new IllegalStateException("Update requested for an object that is not persisted.");
+        }
+
+        marshal();
+    }
 }

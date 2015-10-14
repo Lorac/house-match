@@ -47,7 +47,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     private RegistrationController registerController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
         userActivationServiceMock = mock(UserActivationService.class);

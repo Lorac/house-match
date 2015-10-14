@@ -7,9 +7,9 @@ import javax.validation.constraints.NotNull;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 
-public class PropertyListingCreationFormViewModel extends ViewModel {
+public class PropertyCreationFormViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "propertyListingCreationForm";
+    public static final String VIEWMODEL_NAME = "propertyCreationForm";
 
     @NotNull
     private PropertyType propertyType;

@@ -20,7 +20,7 @@ public class XmlUser {
     public UUID activationCode;
     public boolean activated;
     public Address address;
-    @XmlElementWrapper(name = "propertyListings")
-    @XmlElement(name = "propertyListingRef")
-    public List<Integer> propertyListingsRef = new ArrayList<Integer>();
+    @XmlElementWrapper(name = "properties")
+    @XmlElement(name = "propertyRef")
+    public List<Integer> propertyRef = new ArrayList<Integer>();
 }

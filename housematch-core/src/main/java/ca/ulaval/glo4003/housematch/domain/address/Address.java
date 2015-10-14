@@ -12,6 +12,14 @@ public class Address {
     String postCode;
     Region region;
 
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public Integer getAddressNumber() {
         return addressNumber;
     }
@@ -62,7 +70,7 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addressNumber).append(streetName).append(additionalAddressInfo).append(city)
+        return new HashCodeBuilder().append(addressNumber).append(streetName).append(city).append(additionalAddressInfo)
                 .append(region.ordinal()).toHashCode();
     }
 

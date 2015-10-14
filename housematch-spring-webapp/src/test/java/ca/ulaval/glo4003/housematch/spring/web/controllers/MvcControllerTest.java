@@ -26,7 +26,7 @@ public class MvcControllerTest {
     private static final String VIEW_NAME_SUFFIX = ".jsp";
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         initViewResolver();
 
         authorizationValidatorMock = mock(AuthorizationValidator.class);

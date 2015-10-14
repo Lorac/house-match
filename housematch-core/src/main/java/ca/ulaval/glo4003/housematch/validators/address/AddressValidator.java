@@ -22,6 +22,13 @@ public class AddressValidator {
         validateCity(address);
         validateZipCode(address);
         validateRegion(address);
+        validateCity(address);
+    }
+
+    private void validateCity(Address address) throws AddressValidationException {
+        if (StringUtils.isBlank(address.getCity())) {
+            throw new AddressValidationException("City must be specified.");
+        }
     }
 
     private void validateAddressNumber(Address address) throws AddressValidationException {

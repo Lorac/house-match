@@ -34,9 +34,11 @@
 	
 	<bean id="userRegistrationValidator" class="ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator"/>
 	
-	<bean id="propertyListingCreationValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator">
+	<bean id="propertyCreationValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator">
 		<constructor-arg ref="addressValidator"/>
 	</bean>
+	
+	<bean id="propertyDetailsValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator"/>
 	
 	<bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator"/>
 	
@@ -59,8 +61,13 @@
     <bean id="propertyService" class="ca.ulaval.glo4003.housematch.services.property.PropertyService">
         <constructor-arg ref="xmlPropertyRepository"/>
 		<constructor-arg ref="xmlUserRepository"/>
-		<constructor-arg ref="propertyListingCreationValidator"/>
+		<constructor-arg ref="propertyCreationValidator"/>
+		<constructor-arg ref="propertyDetailsValidator"/>
     </bean>
+	
+	<!-- Assemblers -->
+	
+	<bean id="propertyDetailsFormViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyDetailsFormViewModelAssembler"/>
 	
 	<!-- Controllers -->
 
@@ -78,9 +85,11 @@
 		<constructor-arg ref="authorizationValidator"/>
     </bean>
 	
-	<bean id="propertyListingController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyListingController">
+	<bean id="propertyController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController">
 		<constructor-arg ref="authorizationValidator"/>
         <constructor-arg ref="propertyService"/>
+		<constructor-arg ref="userService"/>
+		<constructor-arg ref="propertyDetailsFormViewModelAssembler"/>
     </bean>
     
     <bean id="contactInformationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController">

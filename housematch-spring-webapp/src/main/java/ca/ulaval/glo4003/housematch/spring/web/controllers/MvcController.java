@@ -37,10 +37,17 @@ public class MvcController {
     protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
     protected static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
     protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
-    protected static final String PROPERTY_LISTING_CREATION_URL = "/sell";
-    public static final String PROPERTY_LISTING_CREATION_VIEW_NAME = "listingCreation";
-    protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingCreationConfirmation";
+    protected static final String PROPERTY_CREATION_URL = "/sell";
+    public static final String PROPERTY_CREATION_VIEW_NAME = "propertyCreation";
+    protected static final String PROPERTY_DETAILS_UPDATE_URL = "/updatePropertyDetails/{propertyHashCode}";
+    protected static final String PROPERTY_DETAILS_UPDATE_URL_FORMAT = "/updatePropertyDetails/%s";
+    public static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "propertyDetailsUpdate";
+    protected static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "propertyDetailsUpdateConfirmation";
     protected static final String USER_ATTRIBUTE_NAME = "user";
+    protected static final String HTTP_NOT_FOUND_STATUS_VIEW_NAME = "customErrorPages/404";
+    protected static final String HTTP_NOT_FOUND_STATUS_URL = "/customErrorPages/404";
+    protected static final String HTTP_FORBIDDEN_STATUS_VIEW_NAME = "customErrorPages/403";
+    protected static final String HTTP_FORBIDDEN_STATUS_URL = "/customErrorPages/403";
     protected static final String CONTACT_INFO_UPDATE_URL = "/updateContactInformation";
     public static final String CONTACT_INFO_UPDATE_VIEW_NAME = "contactInformationUpdate";
     protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_URL = "/contactInformationUpdateConfirmation";
@@ -75,5 +82,10 @@ public class MvcController {
     @ExceptionHandler(AccessDeniedException.class)
     public void accessDeniedExceptionHandler(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.FORBIDDEN.value(), "You do not have access to the specified resource.");
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public void resourceNotFoundExceptionHandler(HttpServletResponse response) {
+        response.setStatus(HttpStatus.NOT_FOUND.value());
     }
 }

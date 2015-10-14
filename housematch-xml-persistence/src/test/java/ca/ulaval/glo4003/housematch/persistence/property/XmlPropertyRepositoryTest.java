@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -79,4 +80,18 @@ public class XmlPropertyRepositoryTest {
         xmlPropertyRepository.persist(propertyMock);
         xmlPropertyRepository.getByHashCode(SAMPLE_UNEXISTING_HASHCODE);
     }
+
+    @Test
+    public void updatingPropertyUpdatesPropertyToRepository() throws Exception {
+        xmlPropertyRepository.persist(propertyMock);
+        xmlPropertyRepository.update(propertyMock);
+
+        verify(xmlRepositoryMarshallerMock, times(2)).marshal(xmlPropertyRootElementMock);
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void updatingNonExistingPropertyThrowsIllegalStateException() throws Exception {
+        xmlPropertyRepository.update(propertyMock);
+    }
+
 }
