@@ -80,15 +80,15 @@ public class XmlPropertyRepositoryTest {
         xmlPropertyRepository.persist(propertyMock);
         xmlPropertyRepository.getByHashCode(SAMPLE_UNEXISTING_HASHCODE);
     }
-    
-    @Test
-    public void updatingPropertyUpdatesPropertyToRepository() throws Exception{
-    	 xmlPropertyRepository.persist(propertyMock);
-    	 xmlPropertyRepository.update(propertyMock);
 
-         verify(xmlRepositoryMarshallerMock, times(2)).marshal(xmlPropertyRootElementMock);
-     }
-    
+    @Test
+    public void updatingPropertyUpdatesPropertyToRepository() throws Exception {
+        xmlPropertyRepository.persist(propertyMock);
+        xmlPropertyRepository.update(propertyMock);
+
+        verify(xmlRepositoryMarshallerMock, times(2)).marshal(xmlPropertyRootElementMock);
+    }
+
     @Test(expected = IllegalStateException.class)
     public void updatingNonExistingPropertyThrowsIllegalStateException() throws Exception {
         xmlPropertyRepository.update(propertyMock);
