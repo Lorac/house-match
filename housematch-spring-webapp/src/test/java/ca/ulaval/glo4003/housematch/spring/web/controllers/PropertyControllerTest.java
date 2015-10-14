@@ -86,11 +86,11 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerRendersPropertyCreationViewWithTheCorrectFields() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_CREATION_URL);
 
-        results.andExpect(model().attribute(PropertyCreationFormViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME,
                 hasProperty(PROPERTY_TYPE_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(PropertyCreationFormViewModel.VIEWMODEL_NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
-        results.andExpect(model().attribute(PropertyCreationFormViewModel.VIEWMODEL_NAME,
+                model().attribute(PropertyCreationFormViewModel.NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
+        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME,
                 hasProperty(SELLING_PRICE_PARAMETER_NAME)));
     }
 
@@ -130,7 +130,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         ResultActions results = postPropertyCreationForm();
 
         results.andExpect(view().name(PropertyController.PROPERTY_CREATION_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -200,7 +200,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         ResultActions results = postPropertyDetailsForm();
 
         results.andExpect(view().name(PropertyController.PROPERTY_DETAILS_UPDATE_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

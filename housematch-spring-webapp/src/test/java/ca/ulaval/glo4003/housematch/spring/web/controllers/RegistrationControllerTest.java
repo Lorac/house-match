@@ -68,13 +68,13 @@ public class RegistrationControllerTest extends BaseControllerTest {
         ResultActions results = performGetRequest(RegistrationController.REGISTRATION_URL);
 
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(USERNAME_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(ROLE_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(ROLE_PARAMETER_NAME)));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -118,7 +118,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
         ResultActions results = performGetRequest(RegistrationController.EMAIL_RECONFIRM_URL);
 
         results.andExpect(
-                model().attribute(EmailReconfirmFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+                model().attribute(EmailReconfirmFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test
@@ -136,7 +136,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
         ResultActions results = postEmailReconfirmationForm();
 
         results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -172,7 +172,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
         ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

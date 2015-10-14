@@ -49,7 +49,7 @@ public class RegistrationController extends BaseController {
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayRegistrationView(ModelMap modelMap) {
-        modelMap.put(RegistrationFormViewModel.VIEWMODEL_NAME, new RegistrationFormViewModel());
+        modelMap.put(RegistrationFormViewModel.NAME, new RegistrationFormViewModel());
         return new ModelAndView(REGISTRATION_VIEW_NAME, modelMap);
     }
 
@@ -68,7 +68,7 @@ public class RegistrationController extends BaseController {
     public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
             ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
-        modelMap.put(EmailReconfirmFormViewModel.VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
+        modelMap.put(EmailReconfirmFormViewModel.NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
     }
 

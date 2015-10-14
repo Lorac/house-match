@@ -9,7 +9,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 
 public class PropertyCreationFormViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "propertyCreationForm";
+    public static final String NAME = "propertyCreationForm";
 
     @NotNull
     private PropertyType propertyType;
@@ -18,8 +18,8 @@ public class PropertyCreationFormViewModel extends ViewModel {
     @NotNull
     private BigDecimal sellingPrice;
 
-    public String getViewModelName() {
-        return VIEWMODEL_NAME;
+    public String getName() {
+        return NAME;
     }
 
     public PropertyType getPropertyType() {

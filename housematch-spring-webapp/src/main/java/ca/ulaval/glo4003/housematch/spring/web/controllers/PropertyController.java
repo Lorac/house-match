@@ -50,7 +50,7 @@ public class PropertyController extends BaseController {
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyCreationPage(HttpSession httpSession) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(PROPERTY_CREATION_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
-        return new ModelAndView(PROPERTY_CREATION_VIEW_NAME, PropertyCreationFormViewModel.VIEWMODEL_NAME,
+        return new ModelAndView(PROPERTY_CREATION_VIEW_NAME, PropertyCreationFormViewModel.NAME,
                 new PropertyCreationFormViewModel());
     }
 
@@ -77,7 +77,7 @@ public class PropertyController extends BaseController {
         try {
             Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession),
                     propertyHashCode);
-            modelMap.put(PropertyDetailsFormViewModel.VIEWMODEL_NAME,
+            modelMap.put(PropertyDetailsFormViewModel.NAME,
                     propertyDetailsFormViewModelAssembler.assembleFromProperty(property));
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {

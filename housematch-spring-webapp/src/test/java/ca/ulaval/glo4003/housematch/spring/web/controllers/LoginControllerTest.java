@@ -63,8 +63,8 @@ public class LoginControllerTest extends BaseControllerTest {
 
         ResultActions results = performGetRequest(LoginController.LOGIN_URL);
 
-        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty(USERNAME_PARAMETER_NAME)));
-        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
+        results.andExpect(model().attribute(LoginFormViewModel.NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+        results.andExpect(model().attribute(LoginFormViewModel.NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class LoginControllerTest extends BaseControllerTest {
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

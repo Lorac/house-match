@@ -33,7 +33,7 @@ public class ContactInformationController extends BaseController {
     @RequestMapping(value = CONTACT_INFO_UPDATE_URL, method = RequestMethod.GET)
     public final ModelAndView displayContactInformation(HttpSession httpSession) throws AuthenticationException {
         authorizationValidator.validateResourceAccess(CONTACT_INFO_UPDATE_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
-        return new ModelAndView(CONTACT_INFO_UPDATE_VIEW_NAME, ContactInformationFormViewModel.VIEWMODEL_NAME,
+        return new ModelAndView(CONTACT_INFO_UPDATE_VIEW_NAME, ContactInformationFormViewModel.NAME,
                 new ContactInformationFormViewModel());
     }
 

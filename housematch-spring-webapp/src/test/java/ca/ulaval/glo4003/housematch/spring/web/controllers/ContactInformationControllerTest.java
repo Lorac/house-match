@@ -56,9 +56,9 @@ public class ContactInformationControllerTest extends BaseControllerTest {
         ResultActions results = performGetRequest(ContactInformationController.CONTACT_INFO_UPDATE_URL);
 
         results.andExpect(
-                model().attribute(ContactInformationFormViewModel.VIEWMODEL_NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
+                model().attribute(ContactInformationFormViewModel.NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(ContactInformationFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+                model().attribute(ContactInformationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test
@@ -85,7 +85,7 @@ public class ContactInformationControllerTest extends BaseControllerTest {
         ResultActions results = postContactInformationForm();
 
         results.andExpect(view().name(ContactInformationController.CONTACT_INFO_UPDATE_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

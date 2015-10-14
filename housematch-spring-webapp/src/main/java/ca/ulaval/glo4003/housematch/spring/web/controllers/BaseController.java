@@ -67,8 +67,8 @@ public class BaseController {
     protected ModelAndView showAlertMessage(String viewName, ViewModel viewModel, String message,
             AlertMessageType messageType) {
         ModelMap modelMap = new ModelMap();
-        modelMap.put(AlertMessageViewModel.VIEWMODEL_NAME, new AlertMessageViewModel(message, messageType));
-        modelMap.put(viewModel.getViewModelName(), viewModel);
+        modelMap.put(AlertMessageViewModel.NAME, new AlertMessageViewModel(message, messageType));
+        modelMap.put(viewModel.getName(), viewModel);
         return new ModelAndView(viewName, modelMap);
     }
 

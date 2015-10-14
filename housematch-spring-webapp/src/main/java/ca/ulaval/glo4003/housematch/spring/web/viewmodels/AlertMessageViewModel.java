@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
 public class AlertMessageViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "alertMessage";
+    public static final String NAME = "alertMessage";
 
     private String message;
     private AlertMessageType messageType;
@@ -12,8 +12,8 @@ public class AlertMessageViewModel extends ViewModel {
         this.messageType = messageType;
     }
 
-    public String getViewModelName() {
-        return VIEWMODEL_NAME;
+    public String getName() {
+        return NAME;
     }
 
     public String getMessage() {

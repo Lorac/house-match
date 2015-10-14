@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class RegistrationFormViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "registrationForm";
+    public static final String NAME = "registrationForm";
 
     @NotNull
     private String username;
@@ -17,8 +17,8 @@ public class RegistrationFormViewModel extends ViewModel {
     @NotNull
     private UserRole role;
 
-    public String getViewModelName() {
-        return VIEWMODEL_NAME;
+    public String getName() {
+        return NAME;
     }
 
     public String getUsername() {

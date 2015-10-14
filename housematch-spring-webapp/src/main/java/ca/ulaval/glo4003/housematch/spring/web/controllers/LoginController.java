@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
         if (getUserFromHttpSession(httpSession) != null) {
             return new ModelAndView(new RedirectView(HOME_URL));
         }
-        return new ModelAndView(LOGIN_VIEW_NAME, LoginFormViewModel.VIEWMODEL_NAME, new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VIEW_NAME, LoginFormViewModel.NAME, new LoginFormViewModel());
     }
 
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.POST)
@@ -61,6 +61,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = LOGOUT_URL, method = RequestMethod.GET)
     public final ModelAndView logoutUser(HttpSession httpSession) {
         httpSession.invalidate();
-        return new ModelAndView(LOGIN_VIEW_NAME, LoginFormViewModel.VIEWMODEL_NAME, new LoginFormViewModel());
+        return new ModelAndView(LOGIN_VIEW_NAME, LoginFormViewModel.NAME, new LoginFormViewModel());
     }
 }

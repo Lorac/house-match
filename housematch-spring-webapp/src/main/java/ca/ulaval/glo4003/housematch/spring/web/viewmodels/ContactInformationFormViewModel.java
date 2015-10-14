@@ -6,15 +6,15 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public final class ContactInformationFormViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "contactInformationForm";
+    public static final String NAME = "contactInformationForm";
 
     @NotNull
     private Address address;
     @NotNull
     private String email;
 
-    public String getViewModelName() {
-        return VIEWMODEL_NAME;
+    public String getName() {
+        return NAME;
     }
 
     public Address getAddress() {

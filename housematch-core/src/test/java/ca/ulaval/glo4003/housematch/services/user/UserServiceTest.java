@@ -141,13 +141,6 @@ public class UserServiceTest {
         verify(userMock).updateEmail(SAMPLE_EMAIL);
     }
 
-    @Test // TODO: Valider
-    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
-        when(userMock.getPropertyByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
-        Property returnedProperty = userService.getPropertyByHashCode(userMock, SAMPLE_HASHCODE);
-        assertSame(propertyMock, returnedProperty);
-    }
-
     @Test
     public void updatingUserEmailBeginsTheUserActivationProcess() throws Exception {
         userService.updateUserEmail(userMock, SAMPLE_EMAIL);
@@ -198,6 +191,13 @@ public class UserServiceTest {
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
     }
 
+    @Test
+    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        when(userMock.getPropertyByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        Property returnedProperty = userService.getPropertyByHashCode(userMock, SAMPLE_HASHCODE);
+        assertSame(propertyMock, returnedProperty);
+    }
+    
     @Test
     public void gettingPubliclyRegistrableUserRolesReturnsAListOfPubliclyRegistrableUserRoles() {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
