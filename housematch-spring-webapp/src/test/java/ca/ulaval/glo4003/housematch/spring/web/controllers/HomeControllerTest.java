@@ -17,7 +17,7 @@ public class HomeControllerTest extends MvcControllerTest {
     private HomeController homeController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         homeController = new HomeController(authorizationValidatorMock);
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();

@@ -39,7 +39,7 @@ public class LoginControllerTest extends MvcControllerTest {
     private LoginController loginController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
         userActivationServiceMock = mock(UserActivationService.class);

@@ -40,6 +40,7 @@ public class MvcController {
     protected static final String PROPERTY_LISTING_CREATION_URL = "/sell";
     public static final String PROPERTY_LISTING_CREATION_VIEW_NAME = "listingCreation";
     protected static final String PROPERTY_LISTING_UPDATE_URL = "/updateListing/{propertyHashCode}";
+    protected static final String PROPERTY_LISTING_UPDATE_URL_FORMAT = "/updateListing/%s";
     public static final String PROPERTY_LISTING_UPDATE_VIEW_NAME = "updateListing";
     protected static final String PROPERTY_LISTING_CONFIRMATION_VIEW_NAME = "listingUpdateConfirmation";
     protected static final String USER_ATTRIBUTE_NAME = "user";

@@ -62,11 +62,11 @@ public class PropertyListingController extends MvcController {
         authorizationValidator.validateResourceAccess(PROPERTY_LISTING_CREATION_VIEW_NAME, httpSession,
                 USER_ATTRIBUTE_NAME);
         try {
-            int propertyHashCode = propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
+            Property property = propertyService.createPropertyListing(propertyListingCreationForm.getPropertyType(),
                     propertyListingCreationForm.getAddress(), propertyListingCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
-            return new ModelAndView(new RedirectView(
-                    PROPERTY_LISTING_UPDATE_URL.replace("{propertyHashCode}", Integer.toString(propertyHashCode))));
+            return new ModelAndView(
+                    new RedirectView(String.format(PROPERTY_LISTING_UPDATE_URL_FORMAT, property.hashCode())));
         } catch (PropertyServiceException e) {
             return showAlertMessage(PROPERTY_LISTING_CREATION_VIEW_NAME, propertyListingCreationForm, e.getMessage());
         }
