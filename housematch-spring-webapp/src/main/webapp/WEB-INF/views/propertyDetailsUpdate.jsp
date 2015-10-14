@@ -13,15 +13,15 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Listing Details</title>
+<title>HouseMatch - Property Details</title>
 </head>
 <body>
 	<jsp:include page="../includes/navigationBar.jsp" />
 	
 	<div class="container">
-		<h1>Extended Property Listing Details</h1>
-		<form:form id="property-listing-update-form" class="form-horizontal" role="form"
-			commandName="propertyListingUpdateForm" action="/updateListing/${propertyHashCode}" method="POST">
+		<h1>Extended Property Details</h1>
+		<form:form id="property-update-form" class="form-horizontal" role="form"
+			commandName="propertyDetailsForm" action="/updatePropertyDetails/${propertyHashCode}" method="POST">
 			
 			<div class="form-group">
 				<%@include file="../includes/alertMessage.jsp"%>
@@ -189,9 +189,9 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
-						<input type="submit" name="property-listing-update-submit"
-							id="property-listing-creation-submit" tabindex="19" class="form-control btn"
-							value="Save Details">
+						<input type="submit" name="property-details-uupdate-submit"
+							id="property-details-update-submit" tabindex="19" class="form-control btn"
+							value="Save Property Details">
 					</div>
 				</div>
 			</div>

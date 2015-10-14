@@ -30,7 +30,6 @@ public class XmlUserRepositoryTest {
     private XmlUserAdapter xmlUserAdapterMock;
     private XmlUserRootElement xmlUserRootElementMock;
     private User userMock;
-    private User anotherUserMock;
 
     private XmlUserRepository xmlUserRepository;
     private List<User> users;
@@ -46,7 +45,6 @@ public class XmlUserRepositoryTest {
     @SuppressWarnings("unchecked")
     private void initMocks() {
         userMock = mock(User.class);
-        anotherUserMock = mock(User.class);
         xmlUserAdapterMock = mock(XmlUserAdapter.class);
         xmlUserRootElementMock = mock(XmlUserRootElement.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
@@ -87,7 +85,7 @@ public class XmlUserRepositoryTest {
 
     @Test(expected = IllegalStateException.class)
     public void updatingNonExistingUserThrowsIllegalStateException() throws Exception {
-        xmlUserRepository.update(anotherUserMock);
+        xmlUserRepository.update(userMock);
     }
 
     @Test

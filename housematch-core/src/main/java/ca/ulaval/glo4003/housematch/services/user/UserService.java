@@ -50,8 +50,8 @@ public class UserService {
         }
     }
 
-    public Property getPropertyListingByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
-        return user.getPropertyListingByHashCode(propertyHashCode);
+    public Property getPropertyByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
+        return user.getPropertyByHashCode(propertyHashCode);
     }
 
     public List<UserRole> getPubliclyRegistrableUserRoles() {

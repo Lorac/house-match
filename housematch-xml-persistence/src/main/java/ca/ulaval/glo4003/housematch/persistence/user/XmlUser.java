@@ -19,7 +19,7 @@ public class XmlUser {
     public UUID activationCode;
     public boolean activated;
 
-    @XmlElementWrapper(name = "propertyListings")
-    @XmlElement(name = "propertyListingRef")
-    public List<Integer> propertyListingsRef = new ArrayList<Integer>();
+    @XmlElementWrapper(name = "properties")
+    @XmlElement(name = "propertyRefs")
+    public List<Integer> propertyRefs = new ArrayList<Integer>();
 }

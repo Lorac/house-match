@@ -18,8 +18,8 @@
 	<div class="container">
 		<h1 class="center">Sell a property</h1>
 		<br>
-		<form:form id="property-listing-creation-form" class="form-horizontal" role="form"
-			commandName="propertyListingCreationForm" action="/sell" method="POST">
+		<form:form id="property-creation-form" class="form-horizontal" role="form"
+			commandName="propertyCreationForm" action="/sell" method="POST">
 			<div class="form-group">
 				<%@include file="../includes/alertMessage.jsp"%>
 			</div>
@@ -103,8 +103,8 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-sm-6 col-sm-offset-3">
-						<input type="submit" name="property-listing-creation-submit"
-							id="property-listing-creation-submit" tabindex="10" class="form-control btn"
+						<input type="submit" name="property-creation-submit"
+							id="property-creation-submit" tabindex="10" class="form-control btn"
 							value="Sell property">
 					</div>
 				</div>

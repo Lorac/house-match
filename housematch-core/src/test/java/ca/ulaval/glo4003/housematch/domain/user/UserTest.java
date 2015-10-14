@@ -37,13 +37,13 @@ public class UserTest {
 
     private Property propertyMock;
 
-    private List<Property> propertyListings;
+    private List<Property> properties;
     private User user;
 
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
-        propertyListings = new ArrayList<Property>();
+        properties = new ArrayList<Property>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
@@ -198,26 +198,26 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePropertyListingsSetsTheSpecifiedPropertyListings() {
-        user.setPropertyListings(propertyListings);
-        assertEquals(propertyListings, user.getPropertyListings());
+    public void settingThePropertiesSetsTheSpecifiedProperties() {
+        user.setProperties(properties);
+        assertEquals(properties, user.getProperties());
     }
 
     @Test
-    public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
-        user.addPropertyListing(propertyMock);
-        assertThat(user.getPropertyListings(), contains(propertyMock));
+    public void addingAPropertyAddsTheSpecifiedProperties() {
+        user.addProperty(propertyMock);
+        assertThat(user.getProperties(), contains(propertyMock));
     }
 
     @Test
-    public void gettingPropertyListingByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
-        user.addPropertyListing(propertyMock);
-        assertSame(propertyMock, user.getPropertyListingByHashCode(propertyMock.hashCode()));
+    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        user.addProperty(propertyMock);
+        assertSame(propertyMock, user.getPropertyByHashCode(propertyMock.hashCode()));
     }
 
     @Test(expected = PropertyNotFoundException.class)
-    public void gettingPropertyListingByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()
+    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()
             throws Exception {
-        user.getPropertyListingByHashCode(propertyMock.hashCode());
+        user.getPropertyByHashCode(propertyMock.hashCode());
     }
 }

@@ -9,26 +9,26 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListingUpdateFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormViewModel;
 
-public class PropertyListingUpdateFormViewModelAssemblerTest {
+public class PropertyDetailsFormViewModelAssemblerTest {
 
     private Property propertyMock;
     private PropertyDetails propertyDetailsMock;
 
-    private PropertyListingUpdateFormViewModelAssembler assembler;
+    private PropertyDetailsFormViewModelAssembler assembler;
 
     @Before
     public void init() {
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
-        assembler = new PropertyListingUpdateFormViewModelAssembler();
+        assembler = new PropertyDetailsFormViewModelAssembler();
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedProperty() {
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
-        PropertyListingUpdateFormViewModel viewModel = assembler.assembleFromProperty(propertyMock);
+        PropertyDetailsFormViewModel viewModel = assembler.assembleFromProperty(propertyMock);
         assertSame(propertyDetailsMock, viewModel.getDetails());
     }
 }

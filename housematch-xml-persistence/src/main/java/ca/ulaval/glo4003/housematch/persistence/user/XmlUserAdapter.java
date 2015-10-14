@@ -27,16 +27,16 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         User user = new User(xmlUser.username, xmlUser.email, textEncryptor.decrypt(xmlUser.password), xmlUser.role);
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
-        user.setPropertyListings(dereferencePropertyListings(xmlUser));
+        user.setProperties(dereferenceProperties(xmlUser));
         return user;
     }
 
-    private List<Property> dereferencePropertyListings(XmlUser xmlUser) throws PropertyNotFoundException {
-        List<Property> propertyListings = new ArrayList<Property>();
-        for (Integer propertyHashCode : xmlUser.propertyListingsRef) {
-            propertyListings.add(propertyRepository.getByHashCode(propertyHashCode));
+    private List<Property> dereferenceProperties(XmlUser xmlUser) throws PropertyNotFoundException {
+        List<Property> properties = new ArrayList<Property>();
+        for (Integer propertyHashCode : xmlUser.propertyRefs) {
+            properties.add(propertyRepository.getByHashCode(propertyHashCode));
         }
-        return propertyListings;
+        return properties;
     }
 
     @Override
@@ -49,8 +49,8 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.activationCode = user.getActivationCode();
         xmlUser.activated = user.isActivated();
 
-        for (Property property : user.getPropertyListings()) {
-            xmlUser.propertyListingsRef.add(property.hashCode());
+        for (Property property : user.getProperties()) {
+            xmlUser.propertyRefs.add(property.hashCode());
         }
 
         return xmlUser;

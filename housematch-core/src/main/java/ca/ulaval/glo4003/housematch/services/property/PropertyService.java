@@ -10,36 +10,36 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
-import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator;
-import ca.ulaval.glo4003.housematch.validators.property.PropertyListingUpdateValidationException;
-import ca.ulaval.glo4003.housematch.validators.property.PropertyListingUpdateValidator;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
 
 public class PropertyService {
 
     private PropertyRepository propertyRepository;
     private UserRepository userRepository;
-    private PropertyListingCreationValidator propertyListingCreationValidator;
-    private PropertyListingUpdateValidator propertyListingUpdateValidator;
+    private PropertyCreationValidator propertyCreationValidator;
+    private PropertyDetailsValidator propertyDetailsValidator;
 
     public PropertyService(final PropertyRepository propertyRepository, final UserRepository userRepository,
-            final PropertyListingCreationValidator propertyListingCreationValidator,
-            final PropertyListingUpdateValidator propertyListingUpdateValidator) {
+            final PropertyCreationValidator propertyCreationValidator,
+            final PropertyDetailsValidator propertyDetailsValidator) {
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
-        this.propertyListingCreationValidator = propertyListingCreationValidator;
-        this.propertyListingUpdateValidator = propertyListingUpdateValidator;
+        this.propertyCreationValidator = propertyCreationValidator;
+        this.propertyDetailsValidator = propertyDetailsValidator;
     }
 
-    public Property createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
+    public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice,
             User user) throws PropertyServiceException {
         try {
-            propertyListingCreationValidator.validatePropertyListingCreation(propertyType, address, sellingPrice);
+            propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
             Property property = createProperty(propertyType, address, sellingPrice);
-            user.addPropertyListing(property);
+            user.addProperty(property);
             userRepository.update(user);
             return property;
-        } catch (PropertyListingCreationValidationException e) {
+        } catch (PropertyCreationValidationException e) {
             throw new PropertyServiceException(e);
         }
     }
@@ -57,10 +57,10 @@ public class PropertyService {
 
     public void updateProperty(Property property, PropertyDetails propertyDetails) throws PropertyServiceException {
         try {
-            propertyListingUpdateValidator.validatePropertyListingUpdate(propertyDetails);
+            propertyDetailsValidator.validatePropertyDetails(propertyDetails);
             property.setPropertyDetails(propertyDetails);
             propertyRepository.update(property);
-        } catch (PropertyListingUpdateValidationException e) {
+        } catch (PropertyDetailsValidationException e) {
             throw new PropertyServiceException(e);
         }
     }
