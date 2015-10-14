@@ -48,10 +48,8 @@ public class PropertyController extends MvcController {
     }
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyCreationPage(HttpSession httpSession)
-            throws AuthenticationException {
-        authorizationValidator.validateResourceAccess(PROPERTY_CREATION_VIEW_NAME, httpSession,
-                USER_ATTRIBUTE_NAME);
+    public final ModelAndView displayPropertyCreationPage(HttpSession httpSession) throws AuthenticationException {
+        authorizationValidator.validateResourceAccess(PROPERTY_CREATION_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         return new ModelAndView(PROPERTY_CREATION_VIEW_NAME, PropertyCreationFormViewModel.VIEWMODEL_NAME,
                 new PropertyCreationFormViewModel());
     }
@@ -59,10 +57,9 @@ public class PropertyController extends MvcController {
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.POST)
     public final ModelAndView createProperty(PropertyCreationFormViewModel propertyCreationForm,
             HttpSession httpSession) throws AuthenticationException {
-        authorizationValidator.validateResourceAccess(PROPERTY_CREATION_VIEW_NAME, httpSession,
-                USER_ATTRIBUTE_NAME);
+        authorizationValidator.validateResourceAccess(PROPERTY_CREATION_VIEW_NAME, httpSession, USER_ATTRIBUTE_NAME);
         try {
-            Property property = propertyService.createProperty(propertyCreationForm.getPropertyType(),
+            Property property = propertyService.createPropertyListing(propertyCreationForm.getPropertyType(),
                     propertyCreationForm.getAddress(), propertyCreationForm.getSellingPrice(),
                     getUserFromHttpSession(httpSession));
             return new ModelAndView(

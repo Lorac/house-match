@@ -29,8 +29,8 @@
 					<div class="form-body">
 						<div class="row">
 							<div class="col-lg-12">
-								<form:form id="property-listing-creation-form" role="form"
-									commandName="propertyListingCreationForm" action="/sell"
+								<form:form id="property-creation-form" role="form"
+									commandName="propertyCreationForm" action="/sell"
 									method="POST">
 									<div class="form-group">
 										<%@include file="../includes/alertMessage.jsp"%>
@@ -90,8 +90,8 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-6 col-sm-offset-3">
-												<input type="submit" name="property-listing-creation-submit"
-													id="property-listing-creation-submit" tabindex="8"
+												<input type="submit" name="property-creation-submit"
+													id="property-creation-submit" tabindex="8"
 													class="form-control btn" value="Sell property">
 											</div>
 										</div>

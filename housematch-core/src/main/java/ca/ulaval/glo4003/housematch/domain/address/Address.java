@@ -12,14 +12,6 @@ public class Address {
     String postCode;
     Region region;
 
-    public String getCity() {
-        return this.city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public Integer getAddressNumber() {
         return addressNumber;
     }

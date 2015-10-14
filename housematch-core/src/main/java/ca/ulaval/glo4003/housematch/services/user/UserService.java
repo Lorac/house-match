@@ -4,7 +4,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;

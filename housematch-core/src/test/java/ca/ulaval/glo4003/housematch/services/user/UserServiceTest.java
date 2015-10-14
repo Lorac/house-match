@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -139,13 +140,13 @@ public class UserServiceTest {
         userService.updateUserEmail(userMock, SAMPLE_EMAIL);
         verify(userMock).updateEmail(SAMPLE_EMAIL);
     }
-    
-    @Test //TODO: Valider
+
+    @Test // TODO: Valider
     public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
         when(userMock.getPropertyByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
         Property returnedProperty = userService.getPropertyByHashCode(userMock, SAMPLE_HASHCODE);
         assertSame(propertyMock, returnedProperty);
-        }
+    }
 
     @Test
     public void updatingUserEmailBeginsTheUserActivationProcess() throws Exception {

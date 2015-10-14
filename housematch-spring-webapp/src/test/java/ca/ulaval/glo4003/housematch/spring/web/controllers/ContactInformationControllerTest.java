@@ -36,7 +36,7 @@ public class ContactInformationControllerTest extends MvcControllerTest {
     private ContactInformationController contactInformationController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
         contactInformationController = new ContactInformationController(authorizationValidatorMock, userServiceMock);
@@ -63,7 +63,7 @@ public class ContactInformationControllerTest extends MvcControllerTest {
 
     @Test
     public void contactInformationControllerCallsAuthorizationValidationServiceOnUpdateViewAccess() throws Exception {
-        performGetRequest(PropertyListingController.CONTACT_INFO_UPDATE_URL);
+        performGetRequest(PropertyController.CONTACT_INFO_UPDATE_URL);
         verify(authorizationValidatorMock).validateResourceAccess(
                 ContactInformationController.CONTACT_INFO_UPDATE_VIEW_NAME, mockHttpSession,
                 ContactInformationController.USER_ATTRIBUTE_NAME);

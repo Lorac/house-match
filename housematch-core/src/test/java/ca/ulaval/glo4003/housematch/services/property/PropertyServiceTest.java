@@ -106,6 +106,6 @@ public class PropertyServiceTest {
     }
 
     private void createProperty() throws PropertyServiceException {
-        propertyService.createProperty(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, userMock);
+        propertyService.createPropertyListing(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, userMock);
     }
 }

@@ -31,8 +31,8 @@ public class PropertyService {
         this.propertyDetailsValidator = propertyDetailsValidator;
     }
 
-    public void createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
-            throws PropertyServiceException {
+    public Property createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
+            User user) throws PropertyServiceException {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
             Property property = createProperty(propertyType, address, sellingPrice);
@@ -46,7 +46,6 @@ public class PropertyService {
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
             throws PropertyServiceException {
-        Property property;
         try {
             Property property = new Property(propertyType, address, sellingPrice);
             propertyRepository.persist(property);

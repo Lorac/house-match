@@ -15,13 +15,12 @@ public class AddressValidatorTest {
     private static final Integer SAMPLE_ADDRESS_NUMBER = 890;
     private static final Integer SAMPLE_NEGATIVE_ADDRESS_NUMBER = -890;
     private static final String SAMPLE_STREET_NAME = "street";
-    private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #8";
-    private static final String SAMPLE_CITY = "city";
+    private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #4";
+    private static final String SAMPLE_CITY = "Quebec";
     private static final String SAMPLE_POSTCODE = "G1V 3X4";
     private static final String SAMPLE_INVALID_POSTCODE = "3433";
     private static final Region SAMPLE_REGION = Region.QC;
     private static final String SAMPLE_BLANK_EXPRESSION = "  ";
-    private static final String SAMPLE_CITY = "Quebec";
 
     private Address addressMock;
 
@@ -79,20 +78,19 @@ public class AddressValidatorTest {
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithInvalidPostCodeFormatThrowsPropertyListingCreationValidationException()
-            throws Exception {
+    public void addressValidationWithInvalidPostCodeFormatThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getPostCode()).thenReturn(SAMPLE_INVALID_POSTCODE);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithBlankCityThrowsPropertyListingCreationValidationException() throws Exception {
+    public void addressValidationWithBlankCityThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getCity()).thenReturn(SAMPLE_BLANK_EXPRESSION);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithBlankRegionThrowsPropertyListingCreationValidationException() throws Exception {
+    public void addressValidationWithBlankRegionThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getRegion()).thenReturn(null);
         addressValidator.validateAddress(addressMock);
     }
