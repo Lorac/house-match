@@ -81,7 +81,7 @@
 				<label class="control-label col-sm-2">Total Number of Rooms:</label>
 				<div class="col-sm-10">
 					<form:input type="number" path="details.totalNumberOfRooms"
-						class="form-control" min="0" tabindex="7"
+						class="form-control" min="1" tabindex="7"
 						placeholder="Total Number of Rooms" />
 				</div>
 			</div>
@@ -105,7 +105,7 @@
 				<label class="control-label col-sm-2">Living Space Area (ft²):</label>
 				<div class="col-sm-10">
 					<form:input type="number" path="details.livingSpaceAreaInSquareFeet"
-						class="form-control" min="0" tabindex="10"
+						class="form-control" min="1" tabindex="10"
 						placeholder="Living Space Area (ft²)" />
 				</div>
 			</div>
@@ -113,7 +113,7 @@
 				<label class="control-label col-sm-2">Building Dimensions (ft²):</label>
 				<div class="col-sm-10">
 					<form:input type="number" path="details.buildingDimensionsInSquareFeet"
-						class="form-control" min="0" tabindex="10"
+						class="form-control" min="1" tabindex="10"
 						placeholder="Building Dimensions (ft²)" />
 				</div>
 			</div>
@@ -121,7 +121,7 @@
 				<label class="control-label col-sm-2">Lot Dimensions (ft²):</label>
 				<div class="col-sm-10">
 					<form:input type="number" path="details.lotDimensionsInSquareFeet"
-						class="form-control" min="0" tabindex="11"
+						class="form-control" min="1" tabindex="11"
 						placeholder="Lot Dimensions (ft²)" />
 				</div>
 			</div>
@@ -137,7 +137,7 @@
 				<label class="control-label col-sm-2">Municipal Assessment:</label>
 				<div class="col-sm-10">
 					<form:input type="number" path="details.municipalAssessment"
-						class="form-control" min="0" tabindex="13"
+						class="form-control" min="1" tabindex="13"
 						placeholder="Municipal Assessment" />
 				</div>
 			</div>
@@ -152,7 +152,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">Number of Exterior Parking:</label>
 				<div class="col-sm-10">
-					<form:input type="number" path="details.numberOfExteriorParking"
+					<form:input type="number" path="details.numberOfExteriorParkingSpaces"
 						class="form-control" min="0" tabindex="15"
 						placeholder="Number of Exterior Parking" />
 				</div>
@@ -160,7 +160,7 @@
 			<div class="form-group">
 				<label class="control-label col-sm-2">Number of Interior Parking:</label>
 				<div class="col-sm-10">
-					<form:input type="number" path="details.numberOfInteriorParking"
+					<form:input type="number" path="details.numberOfInteriorParkingSpaces"
 						class="form-control" min="0" tabindex="16"
 						placeholder="Number of Interior Parking" />
 				</div>

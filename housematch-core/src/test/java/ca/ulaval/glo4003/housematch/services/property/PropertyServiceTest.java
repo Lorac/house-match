@@ -20,6 +20,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyListingUpdateValidator;
 
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
@@ -28,6 +29,7 @@ public class PropertyServiceTest {
     private PropertyRepository propertyRepositoryMock;
     private UserRepository userRepositoryMock;
     private PropertyListingCreationValidator propertyListingCreationValidatorMock;
+    private PropertyListingUpdateValidator propertyListingUpdateValidatorMock;
     private User userMock;
     private Address addressMock;
     private Property propertyMock;
@@ -39,7 +41,7 @@ public class PropertyServiceTest {
     public void init() throws Exception {
         initMocks();
         propertyService = new PropertyService(propertyRepositoryMock, userRepositoryMock,
-                propertyListingCreationValidatorMock);
+                propertyListingCreationValidatorMock, propertyListingUpdateValidatorMock);
     }
 
     private void initMocks() {
@@ -48,6 +50,7 @@ public class PropertyServiceTest {
         userMock = mock(User.class);
         addressMock = mock(Address.class);
         propertyListingCreationValidatorMock = mock(PropertyListingCreationValidator.class);
+        propertyListingUpdateValidatorMock = mock(PropertyListingUpdateValidator.class);
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
     }
@@ -83,6 +86,12 @@ public class PropertyServiceTest {
     public void propertyListingCreationThrowsUserServiceExceptionOnUserAlreadyExistsException() throws Exception {
         doThrow(new PropertyAlreadyExistsException()).when(propertyRepositoryMock).persist(any(Property.class));
         createPropertyListing();
+    }
+
+    @Test
+    public void propertyUpdateCallsThePropertyListingUpdateValidator() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock);
+        verify(propertyListingUpdateValidatorMock).validatePropertyListingUpdate(propertyDetailsMock);
     }
 
     @Test

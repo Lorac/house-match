@@ -38,6 +38,8 @@
 		<constructor-arg ref="addressValidator"/>
 	</bean>
 	
+	<bean id="propertyListingUpdateValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyListingUpdateValidator"/>
+	
 	<bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator"/>
 	
 	<!-- Services -->
@@ -57,6 +59,7 @@
         <constructor-arg ref="xmlPropertyRepository"/>
 		<constructor-arg ref="xmlUserRepository"/>
 		<constructor-arg ref="propertyListingCreationValidator"/>
+		<constructor-arg ref="propertyListingUpdateValidator"/>
     </bean>
 	
 	<!-- Assemblers -->

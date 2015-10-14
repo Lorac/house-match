@@ -128,7 +128,7 @@ public class PropertyDetails {
         this.floorNumber = floorNumber;
     }
 
-    public Integer getNumberOfExteriorParking() {
+    public Integer getNumberOfExteriorParkingSpaces() {
         return numberOfExteriorParkingSpaces;
     }
 
@@ -136,7 +136,7 @@ public class PropertyDetails {
         this.numberOfExteriorParkingSpaces = numberOfExteriorParking;
     }
 
-    public Integer getNumberOfInteriorParking() {
+    public Integer getNumberOfInteriorParkingSpaces() {
         return numberOfInteriorParkingSpaces;
     }
 

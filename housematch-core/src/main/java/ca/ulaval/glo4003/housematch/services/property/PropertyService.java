@@ -12,45 +12,56 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyListingCreationValidator;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyListingUpdateValidationException;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyListingUpdateValidator;
 
 public class PropertyService {
 
     private PropertyRepository propertyRepository;
     private UserRepository userRepository;
     private PropertyListingCreationValidator propertyListingCreationValidator;
+    private PropertyListingUpdateValidator propertyListingUpdateValidator;
 
     public PropertyService(final PropertyRepository propertyRepository, final UserRepository userRepository,
-            final PropertyListingCreationValidator propertyListingCreationValidator) {
+            final PropertyListingCreationValidator propertyListingCreationValidator,
+            final PropertyListingUpdateValidator propertyListingUpdateValidator) {
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
         this.propertyListingCreationValidator = propertyListingCreationValidator;
+        this.propertyListingUpdateValidator = propertyListingUpdateValidator;
     }
 
     public Property createPropertyListing(PropertyType propertyType, Address address, BigDecimal sellingPrice,
             User user) throws PropertyServiceException {
-        Property property = createProperty(propertyType, address, sellingPrice);
-        user.addPropertyListing(property);
-        userRepository.update(user);
-        return property;
-    }
-
-    public void updateProperty(Property property, PropertyDetails details) throws PropertyServiceException {
-        property.setPropertyDetails(details);
-        propertyRepository.update(property);
+        try {
+            propertyListingCreationValidator.validatePropertyListingCreation(propertyType, address, sellingPrice);
+            Property property = createProperty(propertyType, address, sellingPrice);
+            user.addPropertyListing(property);
+            userRepository.update(user);
+            return property;
+        } catch (PropertyListingCreationValidationException e) {
+            throw new PropertyServiceException(e);
+        }
     }
 
     private Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice)
             throws PropertyServiceException {
-        Property property;
-
         try {
-            propertyListingCreationValidator.validatePropertyListingCreation(propertyType, address, sellingPrice);
-            property = new Property(propertyType, address, sellingPrice);
+            Property property = new Property(propertyType, address, sellingPrice);
             propertyRepository.persist(property);
-        } catch (PropertyListingCreationValidationException | PropertyAlreadyExistsException e) {
+            return property;
+        } catch (PropertyAlreadyExistsException e) {
             throw new PropertyServiceException(e);
         }
+    }
 
-        return property;
+    public void updateProperty(Property property, PropertyDetails propertyDetails) throws PropertyServiceException {
+        try {
+            propertyListingUpdateValidator.validatePropertyListingUpdate(propertyDetails);
+            property.setPropertyDetails(propertyDetails);
+            propertyRepository.update(property);
+        } catch (PropertyListingUpdateValidationException e) {
+            throw new PropertyServiceException(e);
+        }
     }
 }
