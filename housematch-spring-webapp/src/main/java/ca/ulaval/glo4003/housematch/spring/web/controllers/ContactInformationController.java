@@ -15,7 +15,7 @@ import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel;
 
 @Controller
-public class ContactInformationController extends MvcController {
+public class ContactInformationController extends BaseController {
 
     @Autowired
     private UserService userService;

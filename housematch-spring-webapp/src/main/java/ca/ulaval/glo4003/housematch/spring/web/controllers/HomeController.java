@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
 
 @Controller
-public class HomeController extends MvcController {
+public class HomeController extends BaseController {
 
     protected HomeController() {
         // Required for Mockito

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HttpStatusController extends MvcController {
+public class HttpStatusController extends BaseController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @RequestMapping(value = HTTP_NOT_FOUND_STATUS_URL)

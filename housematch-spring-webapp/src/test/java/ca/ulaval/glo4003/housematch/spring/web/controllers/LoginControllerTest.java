@@ -27,7 +27,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
-public class LoginControllerTest extends MvcControllerTest {
+public class LoginControllerTest extends BaseControllerTest {
 
     private static final String USERNAME_PARAMETER_NAME = "username";
     private static final String SAMPLE_USERNAME = "Alice";

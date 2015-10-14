@@ -26,7 +26,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel;
 
-public class ContactInformationControllerTest extends MvcControllerTest {
+public class ContactInformationControllerTest extends BaseControllerTest {
 
     private static final String ADDRESS_PARAMETER_NAME = "address";
     private static final String EMAIL_PARAMETER_NAME = "email";

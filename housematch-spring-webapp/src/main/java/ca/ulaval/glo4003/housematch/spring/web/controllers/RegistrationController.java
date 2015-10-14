@@ -26,7 +26,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 
 @Controller
-public class RegistrationController extends MvcController {
+public class RegistrationController extends BaseController {
 
     @Autowired
     private UserService userService;

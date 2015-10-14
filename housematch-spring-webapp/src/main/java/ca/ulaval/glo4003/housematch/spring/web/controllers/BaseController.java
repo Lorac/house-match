@@ -20,7 +20,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
 
-public class MvcController {
+public class BaseController {
 
     protected static final String HOME_VIEW_NAME = "home";
     protected static final String HOME_URL = "/";

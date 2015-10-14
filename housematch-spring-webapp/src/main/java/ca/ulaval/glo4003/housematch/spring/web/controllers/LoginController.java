@@ -18,7 +18,7 @@ import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 
 @Controller
-public class LoginController extends MvcController {
+public class LoginController extends BaseController {
 
     @Autowired
     private UserService userService;

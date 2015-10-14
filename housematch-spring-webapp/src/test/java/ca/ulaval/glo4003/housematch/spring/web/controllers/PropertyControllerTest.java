@@ -36,7 +36,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyCreationFormViewModel;
 
-public class PropertyControllerTest extends MvcControllerTest {
+public class PropertyControllerTest extends BaseControllerTest {
 
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
     private static final String PROPERTY_TYPE_PARAMETER_NAME = "propertyType";

@@ -30,7 +30,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 
-public class RegistrationControllerTest extends MvcControllerTest {
+public class RegistrationControllerTest extends BaseControllerTest {
 
     private static final String USERNAME_PARAMETER_NAME = "username";
     private static final String SAMPLE_USERNAME = "Alice";

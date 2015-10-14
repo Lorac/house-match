@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.security.AuthorizationValidator;
 
-public class MvcControllerTest {
+public class BaseControllerTest {
 
     protected MockMvc mockMvc;
     protected InternalResourceViewResolver viewResolver;

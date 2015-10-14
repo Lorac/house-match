@@ -10,37 +10,37 @@
             <map>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.ADMIN_HOME_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController.ADMIN_HOME_VIEW_NAME" />
                     </key>
                     <ref bean="adminHomeAccessControlList" />
                 </entry>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.BUYER_HOME_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController.BUYER_HOME_VIEW_NAME" />
                     </key>
                     <ref bean="buyerHomeAccessControlList" />
                 </entry>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.SELLER_HOME_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController.SELLER_HOME_VIEW_NAME" />
                     </key>
                     <ref bean="sellerHomeAccessControlList" />
                 </entry>
                 <entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.PROPERTY_CREATION_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController.PROPERTY_CREATION_VIEW_NAME" />
                     </key>
                     <ref bean="propertyCreationAccessControlList" />
                 </entry>
 				<entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.PROPERTY_DETAILS_UPDATE_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController.PROPERTY_DETAILS_UPDATE_VIEW_NAME" />
                     </key>
                     <ref bean="propertyDetailsUpdateAccessControlList" />
                 </entry>
 				<entry>
                     <key>
-                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.MvcController.CONTACT_INFO_UPDATE_VIEW_NAME" />
+                        <util:constant static-field="ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController.CONTACT_INFO_UPDATE_VIEW_NAME" />
                     </key>
                     <ref bean="contactInformationAccessControlList" />
                 </entry>

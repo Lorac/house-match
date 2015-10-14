@@ -23,7 +23,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyCreationFormVi
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormViewModel;
 
 @Controller
-public class PropertyController extends MvcController {
+public class PropertyController extends BaseController {
 
     @Autowired
     private PropertyService propertyService;

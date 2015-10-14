@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-public class HomeControllerTest extends MvcControllerTest {
+public class HomeControllerTest extends BaseControllerTest {
 
     private HomeController homeController;
 
