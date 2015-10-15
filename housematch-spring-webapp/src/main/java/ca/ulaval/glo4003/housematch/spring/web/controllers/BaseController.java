@@ -31,7 +31,6 @@ public class BaseController {
     public static final String HOME_URL = "/";
     protected static final String LOGIN_VIEW_NAME = "login";
     protected static final String LOGIN_URL = "/login";
-    protected static final String LOGOUT_URL = "/logout";
     protected static final String REGISTRATION_VIEW_NAME = "registration";
     protected static final String REGISTRATION_URL = "/register";
     protected static final String ACTIVATION_BASE_URL = "/activation/";

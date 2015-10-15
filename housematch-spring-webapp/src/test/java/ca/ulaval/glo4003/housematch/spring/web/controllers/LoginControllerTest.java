@@ -54,12 +54,4 @@ public class LoginControllerTest extends BaseControllerTest {
         results.andExpect(status().is3xxRedirection());
         results.andExpect(redirectedUrl(LoginController.HOME_URL));
     }
-
-    @Test
-    public void logoutControllerRendersLoginPageUponLogout() throws Exception {
-        ResultActions results = performGetRequest(LoginController.LOGOUT_URL);
-
-        results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
-        results.andExpect(status().isOk());
-    }
 }
