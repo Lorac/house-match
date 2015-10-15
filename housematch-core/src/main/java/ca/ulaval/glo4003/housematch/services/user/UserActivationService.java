@@ -1,13 +1,12 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
+import java.util.UUID;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.email.MailSendException;
 import ca.ulaval.glo4003.housematch.email.MailSender;
-
-import java.util.UUID;
 
 public class UserActivationService {
 
@@ -22,14 +21,6 @@ public class UserActivationService {
     public UserActivationService(final MailSender mailSender, final UserRepository userRepository) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
-    }
-
-    public void validateActivation(User user) throws UserActivationServiceException {
-        try {
-            user.validateActivation();
-        } catch (UserNotActivatedException e) {
-            throw new UserActivationServiceException(e);
-        }
     }
 
     public void beginActivation(User user) throws UserActivationServiceException {

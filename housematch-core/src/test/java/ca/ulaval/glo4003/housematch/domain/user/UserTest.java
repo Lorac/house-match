@@ -1,18 +1,25 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 
 public class UserTest {
 
@@ -179,25 +186,10 @@ public class UserTest {
     }
 
     @Test
-    public void activatingTheUserActivatesTheUser() throws Exception {
-        user.activate();
-        try {
-            user.validateActivation();
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
     public void activatingTheUserClearsTheActivationCode() throws Exception {
         user.setActivationCode(SAMPLE_ACTIVATION_CODE);
         user.activate();
         assertNull(user.getActivationCode());
-    }
-
-    @Test(expected = UserNotActivatedException.class)
-    public void activationValidationOnNonActivatedUserThrowsUserNotActivatedException() throws Exception {
-        user.validateActivation();
     }
 
     @Test
@@ -217,7 +209,6 @@ public class UserTest {
         user.addProperty(propertyMock);
         assertSame(propertyMock, user.getPropertyByHashCode(propertyMock.hashCode()));
     }
-
 
     @Test(expected = PropertyNotFoundException.class)
     public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()

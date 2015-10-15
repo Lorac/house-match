@@ -1,14 +1,15 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 
 public class User {
     private String username;
@@ -94,12 +95,6 @@ public class User {
     public boolean validatePassword(String password) {
         return this.password.equals(password);
 
-    }
-
-    public void validateActivation() throws UserNotActivatedException {
-        if (!this.activated) {
-            throw new UserNotActivatedException("User is not activated.");
-        }
     }
 
     public Boolean hasRole(UserRole role) {
