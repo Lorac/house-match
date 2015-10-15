@@ -51,6 +51,6 @@ public class LoginControllerTest extends BaseControllerTest {
         ResultActions results = performGetRequest(LoginController.LOGIN_URL);
 
         results.andExpect(status().is3xxRedirection());
-        results.andExpect(redirectedUrl(LoginController.HOME_URL));
+        results.andExpect(redirectedUrl(HomeController.HOME_URL));
     }
 }

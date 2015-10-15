@@ -19,6 +19,8 @@ import org.springframework.security.web.RedirectStrategy;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController;
+import ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController;
+import ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController;
 
 public class LoginSuccessHandlerTest {
 
@@ -70,14 +72,15 @@ public class LoginSuccessHandlerTest {
     public void handlerRedirectsToEmailReconfirmationUrlWhenuserIsNotActivated() throws Exception {
         when(userMock.isActivated()).thenReturn(false);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
-        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock, BaseController.EMAIL_RECONFIRM_URL);
+        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock,
+                RegistrationController.EMAIL_RECONFIRM_URL);
     }
 
     @Test
     public void handlerRedirectsToHomeUrlWhenUserIsActivated() throws Exception {
         when(userMock.isActivated()).thenReturn(true);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
-        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock, BaseController.HOME_URL);
+        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock, HomeController.HOME_URL);
     }
 
     @Test

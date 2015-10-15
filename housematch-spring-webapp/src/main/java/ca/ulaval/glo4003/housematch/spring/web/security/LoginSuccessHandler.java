@@ -13,6 +13,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController;
+import ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController;
+import ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController;
 
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -38,9 +40,9 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     protected String determineTargetUrl(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         if (!user.isActivated()) {
-            return BaseController.EMAIL_RECONFIRM_URL;
+            return RegistrationController.EMAIL_RECONFIRM_URL;
         }
-        return BaseController.HOME_URL;
+        return HomeController.HOME_URL;
     }
 
     protected RedirectStrategy getRedirectStrategy() {

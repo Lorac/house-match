@@ -28,6 +28,14 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewMo
 @Controller
 public class RegistrationController extends BaseController {
 
+    static final String REGISTRATION_URL = "/register";
+    static final String REGISTRATION_VIEW_NAME = "registration";
+    static final String ACTIVATION_BASE_URL = "/activation/";
+    static final String ACTIVATION_URL = "/activation/{activationCode}";
+    static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
+    public static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
+    static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -87,10 +95,10 @@ public class RegistrationController extends BaseController {
     public final ModelAndView activate(@PathVariable UUID activationCode, RedirectAttributes redirectAttributes) {
         try {
             userActivationService.completeActivation(activationCode);
-            return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(),
+            return showAlertMessage(LoginController.LOGIN_VIEW_NAME, new LoginFormViewModel(),
                     "Your account has been successfully activated. You can now log in.", AlertMessageType.SUCCESS);
         } catch (UserActivationServiceException e) {
-            return showAlertMessage(LOGIN_VIEW_NAME, new LoginFormViewModel(), e.getMessage());
+            return showAlertMessage(LoginController.LOGIN_VIEW_NAME, new LoginFormViewModel(), e.getMessage());
         }
     }
 }
