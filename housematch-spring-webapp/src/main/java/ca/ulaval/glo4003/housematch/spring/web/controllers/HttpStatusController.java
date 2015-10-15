@@ -16,7 +16,7 @@ public class HttpStatusController extends BaseController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @RequestMapping(value = HTTP_NOT_FOUND_STATUS_URL)
-    public ModelAndView httpNotNotFoundStatusHandler() {
+    public ModelAndView httpNotFoundStatusHandler() {
         return new ModelAndView(HTTP_NOT_FOUND_STATUS_VIEW_NAME);
     }
 
