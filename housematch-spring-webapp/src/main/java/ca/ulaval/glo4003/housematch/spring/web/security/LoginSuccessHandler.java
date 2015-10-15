@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +15,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController;
 
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
@@ -23,17 +25,30 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException {
-        String targetUrl = determineTargetUrl(authentication);
-
         if (response.isCommitted()) {
             return;
         }
 
+        addUserToHttpSession(request.getSession(), authentication);
+
+        String targetUrl = determineTargetUrl(authentication);
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
+    private void addUserToHttpSession(HttpSession httpSession, Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        httpSession.setAttribute(BaseController.USER_ATTRIBUTE_NAME, user);
+    }
+
     protected String determineTargetUrl(Authentication authentication) {
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        User user = (User) authentication.getPrincipal();
+        if (!user.isActivated()) {
+            return BaseController.EMAIL_RECONFIRM_URL;
+        }
+        return determineTargetUrlFromAuthorities(authentication.getAuthorities());
+    }
+
+    private String determineTargetUrlFromAuthorities(Collection<? extends GrantedAuthority> authorities) {
         List<String> roles = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         if (isAdmin(roles)) {

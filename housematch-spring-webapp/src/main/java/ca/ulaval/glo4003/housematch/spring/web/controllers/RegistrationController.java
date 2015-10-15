@@ -1,14 +1,10 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.user.UserService;
-import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -19,9 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
-import java.util.List;
-import java.util.UUID;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 
 @Controller
 public class RegistrationController extends BaseController {
@@ -64,7 +66,7 @@ public class RegistrationController extends BaseController {
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
     public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
-                                                        ModelMap modelMap, RedirectAttributes redirectAttributes) {
+            ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
         modelMap.put(EmailReconfirmFormViewModel.NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
@@ -72,8 +74,7 @@ public class RegistrationController extends BaseController {
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.POST)
     public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm,
-                                                   HttpSession session) {
-
+            HttpSession session) {
         try {
             userService.updateUserEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
             session.invalidate();

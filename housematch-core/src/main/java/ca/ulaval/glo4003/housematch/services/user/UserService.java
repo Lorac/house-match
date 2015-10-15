@@ -1,12 +1,16 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.validator.routines.EmailValidator;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotActivatedException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -14,11 +18,6 @@ import ca.ulaval.glo4003.housematch.validators.address.AddressValidationExceptio
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
-import org.apache.commons.validator.routines.EmailValidator;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -28,7 +27,7 @@ public class UserService {
     private AddressValidator addressValidator;
 
     public UserService(final UserRepository userRepository, final UserRegistrationValidator userRegistrationValidator,
-                       final UserActivationService userActivationService, final AddressValidator addressValidator) {
+            final UserActivationService userActivationService, final AddressValidator addressValidator) {
         this.userRepository = userRepository;
         this.userRegistrationValidator = userRegistrationValidator;
         this.addressValidator = addressValidator;
@@ -39,12 +38,9 @@ public class UserService {
         try {
             User user = userRepository.getByUsername(username);
             user.validatePassword(password);
-            user.validateActivation();
             return user;
         } catch (UserNotFoundException e) {
             throw new UserServiceException("Invalid username or password.", e);
-        } catch (UserNotActivatedException e) {
-            throw new UserServiceException(e);
         }
     }
 

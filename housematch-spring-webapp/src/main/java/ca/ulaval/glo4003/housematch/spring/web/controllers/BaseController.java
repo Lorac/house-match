@@ -37,13 +37,13 @@ public class BaseController {
     protected static final String ACTIVATION_BASE_URL = "/activation/";
     protected static final String ACTIVATION_URL = "/activation/{activationCode}";
     protected static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
-    protected static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
+    public static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
     protected static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
     protected static final String PROPERTY_CREATION_URL = "/sell";
     protected static final String PROPERTY_DETAILS_UPDATE_URL = "/updatePropertyDetails/{propertyHashCode}";
     protected static final String PROPERTY_DETAILS_UPDATE_URL_FORMAT = "/updatePropertyDetails/%s";
     protected static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "propertyDetailsUpdateConfirmation";
-    protected static final String USER_ATTRIBUTE_NAME = "user";
+    public static final String USER_ATTRIBUTE_NAME = "user";
     protected static final String HTTP_NOT_FOUND_STATUS_VIEW_NAME = "customErrorPages/404";
     protected static final String HTTP_NOT_FOUND_STATUS_URL = "/customErrorPages/404";
     protected static final String HTTP_FORBIDDEN_STATUS_VIEW_NAME = "customErrorPages/403";

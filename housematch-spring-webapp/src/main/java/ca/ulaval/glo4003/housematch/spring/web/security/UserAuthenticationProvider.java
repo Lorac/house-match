@@ -38,15 +38,17 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
         try {
             User user = userService.getUserByLoginCredentials(name, password);
-            return validateUserPassword(user, password);
+            return createAuthenticationToken(user, password);
         } catch (UserServiceException e) {
             throw new BadCredentialsException(e.getMessage());
         }
     }
 
-    private Authentication validateUserPassword(User user, String password) {
+    private Authentication createAuthenticationToken(User user, String password) {
         List<GrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(user.getRole().getDisplayName()));
+        if (user.isActivated()) {
+            roles.add(new SimpleGrantedAuthority(user.getRole().getDisplayName()));
+        }
         return new UsernamePasswordAuthenticationToken(user, password, roles);
     }
 

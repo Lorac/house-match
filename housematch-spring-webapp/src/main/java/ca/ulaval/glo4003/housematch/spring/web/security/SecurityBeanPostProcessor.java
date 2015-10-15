@@ -7,11 +7,10 @@ import org.springframework.security.access.expression.method.DefaultMethodSecuri
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 
-public class RolePrefixPostProcessor implements BeanPostProcessor, PriorityOrdered {
+public class SecurityBeanPostProcessor implements BeanPostProcessor, PriorityOrdered {
 
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName)
-            throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
         if (bean instanceof DefaultMethodSecurityExpressionHandler) {
             ((DefaultMethodSecurityExpressionHandler) bean).setDefaultRolePrefix(null);
@@ -26,8 +25,7 @@ public class RolePrefixPostProcessor implements BeanPostProcessor, PriorityOrder
     }
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName)
-            throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
     }
 
