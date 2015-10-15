@@ -14,8 +14,8 @@
 </head>
 
 <body>
-	<c:set var="registerLinkActive" value="active" scope="request"/>
-	<jsp:include page="../includes/navigationBar.jsp"/>
+    <c:set var="registerLinkActive" value="active" scope="request" />
+    <jsp:include page="../includes/navigationBar.jsp" />
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -34,22 +34,21 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="register-form" role="form" commandName="registrationForm" action="/register"
-                                    method="POST">
+                                <form:form id="register-form" role="form" commandName="registrationForm" action="/register" method="POST">
                                     <div class="form-group">
-                                        <%@include file="../includes/alertMessage.jsp" %>
+                                        <%@include file="../includes/alertMessage.jsp"%>
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32" tabindex="1"
-                                            placeholder="Username" />
+                                        <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32"
+                                            tabindex="1" placeholder="Username" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="email" path="email" class="form-control" minlength="3" maxlength="128" tabindex="2"
-                                            placeholder="Email address" />
+                                        <form:input type="email" path="email" class="form-control" minlength="3" maxlength="128"
+                                            tabindex="2" placeholder="Email address" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="password" path="password" class="form-control" minlength="3" maxlength="32" tabindex="3"
-                                            placeholder="Password" />
+                                        <form:input type="password" path="password" class="form-control" minlength="3" maxlength="32"
+                                            tabindex="3" placeholder="Password" />
                                     </div>
                                     <div class="form-group">
                                         <label>Register as:</label>
@@ -60,9 +59,8 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="register-submit" id="register-submit"
-                                                    tabindex="4" class="form-control btn"
-                                                    value="Register Now">
+                                                <input type="submit" name="register-submit" id="register-submit" tabindex="4"
+                                                    class="form-control btn" value="Register Now">
                                             </div>
                                         </div>
                                     </div>

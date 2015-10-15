@@ -57,8 +57,7 @@ public class LoginSuccessHandlerTest {
     public void handlerDoesNotRedirectWhenHttpServletResponseIsCommitedOnLoginSuccess() throws Exception {
         when(httpServletResponseMock.isCommitted()).thenReturn(true);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
-        verify(redirectStrategyMock, never()).sendRedirect(eq(httpServletRequestMock), eq(httpServletResponseMock),
-                any(String.class));
+        verify(redirectStrategyMock, never()).sendRedirect(eq(httpServletRequestMock), eq(httpServletResponseMock), any(String.class));
     }
 
     @Test
@@ -71,16 +70,14 @@ public class LoginSuccessHandlerTest {
     public void handlerRedirectsToEmailReconfirmationUrlWhenuserIsNotActivated() throws Exception {
         when(userMock.isActivated()).thenReturn(false);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
-        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock,
-                BaseController.EMAIL_RECONFIRM_URL);
+        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock, BaseController.EMAIL_RECONFIRM_URL);
     }
 
     @Test
     public void handlerRedirectsToHomeUrlWhenUserIsActivated() throws Exception {
         when(userMock.isActivated()).thenReturn(true);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
-        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock,
-                BaseController.HOME_URL);
+        verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock, BaseController.HOME_URL);
     }
 
     @Test

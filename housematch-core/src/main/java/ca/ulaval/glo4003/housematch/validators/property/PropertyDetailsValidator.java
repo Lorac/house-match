@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.housematch.validators.property;
 
-import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import org.apache.commons.lang3.ObjectUtils;
+
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 
 public class PropertyDetailsValidator {
 
@@ -37,16 +38,13 @@ public class PropertyDetailsValidator {
 
     private void validateParkingSpaceValues(PropertyDetails propertyDetails) throws PropertyDetailsValidationException {
         if (ObjectUtils.compare(propertyDetails.getNumberOfExteriorParkingSpaces(), 0, true) < 0) {
-            throw new PropertyDetailsValidationException(
-                    "Number of exterior parking spaces must be greater than or equal to 0.");
+            throw new PropertyDetailsValidationException("Number of exterior parking spaces must be greater than or equal to 0.");
         } else if (ObjectUtils.compare(propertyDetails.getNumberOfInteriorParkingSpaces(), 0, true) < 0) {
-            throw new PropertyDetailsValidationException(
-                    "Number of interior parking spaces must be greater than or equal to 0.");
+            throw new PropertyDetailsValidationException("Number of interior parking spaces must be greater than or equal to 0.");
         }
     }
 
-    private void validateMiscellaneousPropertyValues(PropertyDetails propertyDetails)
-            throws PropertyDetailsValidationException {
+    private void validateMiscellaneousPropertyValues(PropertyDetails propertyDetails) throws PropertyDetailsValidationException {
         if (ObjectUtils.compare(propertyDetails.getMunicipalAssessment(), 0, true) <= 0) {
             throw new PropertyDetailsValidationException("Municipal assessment must be greater than 0.");
         } else if (ObjectUtils.compare(propertyDetails.getYearOfConstruction(), MININMUM_CONSTRUCTION_YEAR, true) < 0) {

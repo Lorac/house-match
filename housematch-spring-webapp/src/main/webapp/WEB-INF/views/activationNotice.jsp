@@ -13,13 +13,13 @@
 <title>HouseMatch - Administrator Home</title>
 </head>
 <body>
-	<jsp:include page="../includes/navigationBar.jsp" />
-	<div class="container">
-		<p>An activation link has been sent to your email address. Click
-			on the link to activate your account and complete your registration.</p>
-	</div>
-	
-	<%@include file="../includes/footer.jsp"%>
-	
+    <jsp:include page="../includes/navigationBar.jsp" />
+    <div class="container">
+        <p>An activation link has been sent to your email address. Click on the link to activate your account and complete your
+            registration.</p>
+    </div>
+
+    <%@include file="../includes/footer.jsp"%>
+
 </body>
 </html>

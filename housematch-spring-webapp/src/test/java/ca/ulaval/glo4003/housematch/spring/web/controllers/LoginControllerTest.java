@@ -47,8 +47,7 @@ public class LoginControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void loginControllerRedirectsToHomeViewWhenUserIsAlreadyLoggedInAndAttemptsToAccessLoginPage()
-            throws Exception {
+    public void loginControllerRedirectsToHomeViewWhenUserIsAlreadyLoggedInAndAttemptsToAccessLoginPage() throws Exception {
         ResultActions results = performGetRequest(LoginController.LOGIN_URL);
 
         results.andExpect(status().is3xxRedirection());

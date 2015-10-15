@@ -52,8 +52,7 @@ public class UserTest {
 
     @Test
     public void usersWithTheSameUsernameShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
-                ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
@@ -65,8 +64,7 @@ public class UserTest {
 
     @Test
     public void usersWithTheSameUsernameShouldHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
-                ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
         assertEquals(user.hashCode(), anotherUser.hashCode());
     }
 
@@ -94,8 +92,7 @@ public class UserTest {
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD,
-                ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
@@ -216,8 +213,7 @@ public class UserTest {
     }
 
     @Test(expected = PropertyNotFoundException.class)
-    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()
-            throws Exception {
+    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist() throws Exception {
         user.getPropertyByHashCode(propertyMock.hashCode());
     }
 

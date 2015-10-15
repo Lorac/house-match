@@ -48,10 +48,8 @@ public class PropertyControllerTest extends BaseControllerTest {
         super.init();
         initMocks();
         stubMethods();
-        samplePropertyDetailsUpdateUrl = String.format(PropertyController.PROPERTY_DETAILS_UPDATE_URL_FORMAT,
-                propertyMock.hashCode());
-        propertyController = new PropertyController(propertyServiceMock, userServiceMock,
-                propertyDetailsFormViewModelAssemblerMock);
+        samplePropertyDetailsUpdateUrl = String.format(PropertyController.PROPERTY_DETAILS_UPDATE_URL_FORMAT, propertyMock.hashCode());
+        propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyDetailsFormViewModelAssemblerMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
     }
 
@@ -63,8 +61,8 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     private void stubMethods() throws Exception {
-        when(propertyServiceMock.createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
-                any(BigDecimal.class), eq(userMock))).thenReturn(propertyMock);
+        when(propertyServiceMock.createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class), any(BigDecimal.class), eq(userMock)))
+                .thenReturn(propertyMock);
     }
 
     @Test
@@ -79,12 +77,9 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerRendersPropertyCreationViewWithTheCorrectFields() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_CREATION_URL);
 
-        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME,
-                hasProperty(PROPERTY_TYPE_PARAMETER_NAME)));
-        results.andExpect(
-                model().attribute(PropertyCreationFormViewModel.NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
-        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME,
-                hasProperty(SELLING_PRICE_PARAMETER_NAME)));
+        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME, hasProperty(PROPERTY_TYPE_PARAMETER_NAME)));
+        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
+        results.andExpect(model().attribute(PropertyCreationFormViewModel.NAME, hasProperty(SELLING_PRICE_PARAMETER_NAME)));
     }
 
     @Test
@@ -96,21 +91,18 @@ public class PropertyControllerTest extends BaseControllerTest {
     @Test
     public void propertyControllerCreatesPropertyDuringPropertyCreation() throws Exception {
         postPropertyCreationForm();
-        verify(propertyServiceMock).createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
-                any(BigDecimal.class), eq(userMock));
+        verify(propertyServiceMock).createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class), any(BigDecimal.class), eq(userMock));
     }
 
     @Test
-    public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyCreation()
-            throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).createProperty(
-                eq(SAMPLE_PROPERTY_TYPE), any(Address.class), any(BigDecimal.class), eq(userMock));
+    public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyCreation() throws Exception {
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).createProperty(eq(SAMPLE_PROPERTY_TYPE), any(Address.class),
+                any(BigDecimal.class), eq(userMock));
 
         ResultActions results = postPropertyCreationForm();
 
         results.andExpect(view().name(PropertyController.PROPERTY_CREATION_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -136,8 +128,7 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringDetailsViewAccess() throws Exception {
-        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyByHashCode(userMock,
-                propertyMock.hashCode());
+        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
         ResultActions results = performGetRequest(samplePropertyDetailsUpdateUrl);
         results.andExpect(status().isNotFound());
     }
@@ -159,14 +150,12 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringDetailsUpdate() throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(Property.class),
-                any(PropertyDetails.class));
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(Property.class), any(PropertyDetails.class));
 
         ResultActions results = postPropertyDetailsForm();
 
         results.andExpect(view().name(PropertyController.PROPERTY_DETAILS_UPDATE_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     private ResultActions postPropertyCreationForm() throws Exception {
@@ -178,8 +167,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     private MockHttpServletRequestBuilder buildPropertyCreationFormParams(MockHttpServletRequestBuilder postRequest) {
-        return postRequest.param(PROPERTY_TYPE_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.toString())
-                .session(mockHttpSession);
+        return postRequest.param(PROPERTY_TYPE_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.toString()).session(mockHttpSession);
     }
 
     private ResultActions postPropertyDetailsForm() throws Exception {

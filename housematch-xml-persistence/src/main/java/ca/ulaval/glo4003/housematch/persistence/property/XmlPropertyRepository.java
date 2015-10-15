@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 
 public class XmlPropertyRepository implements PropertyRepository {
 
@@ -29,8 +29,7 @@ public class XmlPropertyRepository implements PropertyRepository {
     @Override
     public void persist(Property property) throws PropertyAlreadyExistsException {
         if (properties.stream().anyMatch(p -> p.equals(property))) {
-            throw new PropertyAlreadyExistsException(
-                    String.format("A property with address '%s' already exists.", property.getAddress()));
+            throw new PropertyAlreadyExistsException(String.format("A property with address '%s' already exists.", property.getAddress()));
         }
 
         properties.add(property);

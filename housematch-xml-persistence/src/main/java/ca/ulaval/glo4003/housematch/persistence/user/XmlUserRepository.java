@@ -1,14 +1,14 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
 
 public class XmlUserRepository implements UserRepository {
 
@@ -17,7 +17,7 @@ public class XmlUserRepository implements UserRepository {
     private List<User> users;
 
     public XmlUserRepository(final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller,
-                             final XmlUserAdapter xmlUserAdapter) {
+            final XmlUserAdapter xmlUserAdapter) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository(xmlUserAdapter);
     }
@@ -31,8 +31,7 @@ public class XmlUserRepository implements UserRepository {
     @Override
     public void persist(User user) throws UserAlreadyExistsException {
         if (users.stream().anyMatch(u -> u.equals(user))) {
-            throw new UserAlreadyExistsException(
-                    String.format("A user with username '%s' already exists.", user.getUsername()));
+            throw new UserAlreadyExistsException(String.format("A user with username '%s' already exists.", user.getUsername()));
         }
 
         users.add(user);
@@ -60,8 +59,7 @@ public class XmlUserRepository implements UserRepository {
         try {
             return users.stream().filter(u -> activationCode.equals(u.getActivationCode())).findFirst().get();
         } catch (NoSuchElementException e) {
-            throw new UserNotFoundException(
-                    String.format("Cannot find user with activation code '%s'.", activationCode));
+            throw new UserNotFoundException(String.format("Cannot find user with activation code '%s'.", activationCode));
         }
     }
 

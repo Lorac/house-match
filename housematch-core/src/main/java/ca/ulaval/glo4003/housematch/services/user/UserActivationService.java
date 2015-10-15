@@ -31,12 +31,11 @@ public class UserActivationService {
     private void sendActivationMail(User user) throws UserActivationServiceException {
         try {
             mailSender.sendAsync(ACTIVATION_EMAIL_SUBJECT,
-                    String.format(ACTIVATION_EMAIL_BODY, ACTIVATION_BASE_URL, user.getActivationCode()),
-                    user.getEmail());
+                    String.format(ACTIVATION_EMAIL_BODY, ACTIVATION_BASE_URL, user.getActivationCode()), user.getEmail());
         } catch (MailSendException e) {
-            throw new UserActivationServiceException(String.format(
-                    "Could not send the activation mail. Please check that '%s' is a valid email address.",
-                    user.getEmail()), e);
+            throw new UserActivationServiceException(
+                    String.format("Could not send the activation mail. Please check that '%s' is a valid email address.", user.getEmail()),
+                    e);
         }
     }
 
@@ -46,8 +45,7 @@ public class UserActivationService {
         try {
             user = userRepository.getByActivationCode(activationCode);
         } catch (UserNotFoundException e) {
-            throw new UserActivationServiceException(
-                    String.format("Activation code '%s' is not valid.", activationCode), e);
+            throw new UserActivationServiceException(String.format("Activation code '%s' is not valid.", activationCode), e);
         }
 
         user.activate();

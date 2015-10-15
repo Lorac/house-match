@@ -50,8 +50,7 @@ public class BaseControllerTest {
     }
 
     protected ResultActions performGetRequest(String url) throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(url).accept(MediaType.ALL).session(mockHttpSession)
-                .principal(authenticationMock);
+        MockHttpServletRequestBuilder getRequest = get(url).accept(MediaType.ALL).session(mockHttpSession).principal(authenticationMock);
         return mockMvc.perform(getRequest);
     }
 }

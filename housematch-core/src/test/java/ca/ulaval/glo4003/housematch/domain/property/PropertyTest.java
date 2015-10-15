@@ -30,8 +30,7 @@ public class PropertyTest {
 
     @Test
     public void propertiesWithTheSameAddressShouldBeConsideredAsEqual() {
-        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock,
-                ANOTHER_SAMPLE_SELLING_PRICE);
+        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock, ANOTHER_SAMPLE_SELLING_PRICE);
         assertTrue(property.equals(anotherProperty));
     }
 
@@ -45,8 +44,7 @@ public class PropertyTest {
 
     @Test
     public void propertiesWithTheSameAddressShouldHaveTheSameHashCode() {
-        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock,
-                ANOTHER_SAMPLE_SELLING_PRICE);
+        Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock, ANOTHER_SAMPLE_SELLING_PRICE);
         assertEquals(property.hashCode(), anotherProperty.hashCode());
     }
 

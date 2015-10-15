@@ -120,8 +120,7 @@ public class User {
         try {
             return properties.stream().filter(p -> p.hashCode() == hashCode).findFirst().get();
         } catch (NoSuchElementException e) {
-            throw new PropertyNotFoundException(
-                    String.format("Cannot find property with hashcode '%s' belonging to this user.", hashCode));
+            throw new PropertyNotFoundException(String.format("Cannot find property with hashcode '%s' belonging to this user.", hashCode));
         }
     }
 

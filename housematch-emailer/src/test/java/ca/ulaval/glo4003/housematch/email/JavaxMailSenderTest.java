@@ -92,8 +92,7 @@ public class JavaxMailSenderTest {
         javaxMailSender.send();
     }
 
-    private void createMessage(String from, String recipient, String subject, String content)
-            throws MessagingException {
+    private void createMessage(String from, String recipient, String subject, String content) throws MessagingException {
         javaxMailSender.setFrom(new InternetAddress(from));
         javaxMailSender.setSubject(subject);
         javaxMailSender.setContent(content);

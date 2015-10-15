@@ -106,8 +106,7 @@ public class XmlUserRepositoryTest {
     }
 
     @Test(expected = UserNotFoundException.class)
-    public void gettingUserByActivationCodeUsingNonExistingActivationCodeThrowsUserNotFoundException()
-            throws Exception {
+    public void gettingUserByActivationCodeUsingNonExistingActivationCodeThrowsUserNotFoundException() throws Exception {
         xmlUserRepository.getByActivationCode(ANOTHER_SAMPLE_ACTIVATION_CODE);
     }
 }

@@ -43,8 +43,7 @@ public class UserRegistrationValidatorTest {
 
     @Test(expected = UserRegistrationValidationException.class)
     public void userRegistrationUsingBlankEmailThrowsUserRegistrationValidationException() throws Exception {
-        userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_BLANK_EXPRESSION, SAMPLE_PASSWORD,
-                SAMPLE_ROLE);
+        userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_BLANK_EXPRESSION, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test(expected = UserRegistrationValidationException.class)
@@ -59,7 +58,6 @@ public class UserRegistrationValidatorTest {
 
     @Test(expected = UserRegistrationValidationException.class)
     public void userRegistrationAsAnAdministratorThrowsUserRegistrationValidationException() throws Exception {
-        userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
-                UserRole.ADMINISTRATOR);
+        userCreationValidator.validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.ADMINISTRATOR);
     }
 }

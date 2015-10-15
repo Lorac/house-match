@@ -33,8 +33,8 @@ public class XmlRepositoryMarshallerTest {
     public void init() throws Exception {
         initMocks();
         stubMethods();
-        xmlRepositoryMarshaller = new XmlRepositoryMarshaller<Object>(marshallerMock, unmarshallerMock,
-                resourceLoaderMock, SAMPLE_RESOURCE_NAME);
+        xmlRepositoryMarshaller = new XmlRepositoryMarshaller<Object>(marshallerMock, unmarshallerMock, resourceLoaderMock,
+                SAMPLE_RESOURCE_NAME);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,8 +50,8 @@ public class XmlRepositoryMarshallerTest {
     private void stubMethods() throws Exception {
         when(resourceLoaderMock.loadResourceAsInputStream(any(XmlRepositoryMarshaller.class), eq(SAMPLE_RESOURCE_NAME)))
                 .thenReturn(inputStreamMock);
-        when(resourceLoaderMock.loadResourceAsOutputStream(any(XmlRepositoryMarshaller.class),
-                eq(SAMPLE_RESOURCE_NAME))).thenReturn(outputStreamMock);
+        when(resourceLoaderMock.loadResourceAsOutputStream(any(XmlRepositoryMarshaller.class), eq(SAMPLE_RESOURCE_NAME)))
+                .thenReturn(outputStreamMock);
         when(unmarshallerMock.unmarshal(any(InputStream.class))).thenReturn(SAMPLE_OBJECT);
     }
 

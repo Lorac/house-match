@@ -67,8 +67,7 @@ public class PropertyServiceTest {
     @Test
     public void propertyCreationCallsThePropertyCreationValidator() throws Exception {
         createProperty();
-        verify(propertyCreationValidatorMock).validatePropertyCreation(SAMPLE_PROPERTY_TYPE, addressMock,
-                SAMPLE_SELLING_PRICE);
+        verify(propertyCreationValidatorMock).validatePropertyCreation(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
     }
 
     @Test(expected = PropertyServiceException.class)

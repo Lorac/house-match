@@ -41,8 +41,7 @@ public class PropertyCreationValidatorTest {
     }
 
     @Test(expected = PropertyCreationValidationException.class)
-    public void propertyCreationWithNoSteetAddressSpecifiedThrowsPropertyCreationValidationException()
-            throws Exception {
+    public void propertyCreationWithNoSteetAddressSpecifiedThrowsPropertyCreationValidationException() throws Exception {
         propertyCreationValidator.validatePropertyCreation(SAMPLE_PROPERTY_TYPE, null, SAMPLE_SELLING_PRICE);
     }
 
@@ -53,21 +52,17 @@ public class PropertyCreationValidatorTest {
     }
 
     @Test(expected = PropertyCreationValidationException.class)
-    public void propertyCreationWithNoPropertyTypeSpecifiedThrowsPropertyCreationValidationException()
-            throws Exception {
+    public void propertyCreationWithNoPropertyTypeSpecifiedThrowsPropertyCreationValidationException() throws Exception {
         propertyCreationValidator.validatePropertyCreation(null, addressMock, SAMPLE_SELLING_PRICE);
     }
 
     @Test(expected = PropertyCreationValidationException.class)
-    public void propertyCreationWithNoSellingPriceSpecifiedThrowsPropertyCreationValidationException()
-            throws Exception {
+    public void propertyCreationWithNoSellingPriceSpecifiedThrowsPropertyCreationValidationException() throws Exception {
         propertyCreationValidator.validatePropertyCreation(SAMPLE_PROPERTY_TYPE, addressMock, null);
     }
 
     @Test(expected = PropertyCreationValidationException.class)
-    public void propertyCreationWithNegativeSellingPriceSpecifiedThrowsPropertyCreationValidationException()
-            throws Exception {
-        propertyCreationValidator.validatePropertyCreation(SAMPLE_PROPERTY_TYPE, addressMock,
-                SAMPLE_NEGATIVE_SELLING_PRICE);
+    public void propertyCreationWithNegativeSellingPriceSpecifiedThrowsPropertyCreationValidationException() throws Exception {
+        propertyCreationValidator.validatePropertyCreation(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_NEGATIVE_SELLING_PRICE);
     }
 }

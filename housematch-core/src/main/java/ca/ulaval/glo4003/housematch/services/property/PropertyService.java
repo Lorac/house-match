@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import java.math.BigDecimal;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -13,8 +15,6 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidato
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
 
-import java.math.BigDecimal;
-
 public class PropertyService {
 
     private PropertyRepository propertyRepository;
@@ -23,16 +23,15 @@ public class PropertyService {
     private PropertyDetailsValidator propertyDetailsValidator;
 
     public PropertyService(final PropertyRepository propertyRepository, final UserRepository userRepository,
-                           final PropertyCreationValidator propertyCreationValidator,
-                           final PropertyDetailsValidator propertyDetailsValidator) {
+            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator) {
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
     }
 
-    public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice,
-                                   User user) throws PropertyServiceException {
+    public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
+            throws PropertyServiceException {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
             Property property = new Property(propertyType, address, sellingPrice);

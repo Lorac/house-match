@@ -62,14 +62,10 @@ public class RegistrationControllerTest extends BaseControllerTest {
     public void registrationControllerRendersRegistrationViewWithTheCorrectFields() throws Exception {
         ResultActions results = performGetRequest(RegistrationController.REGISTRATION_URL);
 
-        results.andExpect(
-                model().attribute(RegistrationFormViewModel.NAME, hasProperty(USERNAME_PARAMETER_NAME)));
-        results.andExpect(
-                model().attribute(RegistrationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
-        results.andExpect(
-                model().attribute(RegistrationFormViewModel.NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
-        results.andExpect(
-                model().attribute(RegistrationFormViewModel.NAME, hasProperty(ROLE_PARAMETER_NAME)));
+        results.andExpect(model().attribute(RegistrationFormViewModel.NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+        results.andExpect(model().attribute(RegistrationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+        results.andExpect(model().attribute(RegistrationFormViewModel.NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
+        results.andExpect(model().attribute(RegistrationFormViewModel.NAME, hasProperty(ROLE_PARAMETER_NAME)));
     }
 
     @Test
@@ -81,8 +77,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void registrationControllerRegistersUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration()
-            throws Exception {
+    public void registrationControllerRegistersUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration() throws Exception {
         postRegistrationForm();
 
         verify(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
@@ -90,14 +85,12 @@ public class RegistrationControllerTest extends BaseControllerTest {
 
     @Test
     public void registrationControllerRendersAlertMessageOnUserServiceExceptionDuringRegistration() throws Exception {
-        doThrow(new UserServiceException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL,
-                SAMPLE_PASSWORD, SAMPLE_ROLE);
+        doThrow(new UserServiceException()).when(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
 
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -112,8 +105,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
     public void registrationControllerRendersEmailReconfirmationWithTheCorrectFields() throws Exception {
         ResultActions results = performGetRequest(RegistrationController.EMAIL_RECONFIRM_URL);
 
-        results.andExpect(
-                model().attribute(EmailReconfirmFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+        results.andExpect(model().attribute(EmailReconfirmFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test
@@ -124,15 +116,13 @@ public class RegistrationControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringEmailReconfirmation()
-            throws Exception {
+    public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringEmailReconfirmation() throws Exception {
         doThrow(new UserActivationServiceException()).when(userServiceMock).updateUserEmail(userMock, SAMPLE_EMAIL);
 
         ResultActions results = postEmailReconfirmationForm();
 
         results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     @Test
@@ -159,16 +149,13 @@ public class RegistrationControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringActivation()
-            throws Exception {
-        doThrow(new UserActivationServiceException()).when(userActivationServiceMock)
-                .completeActivation(SAMPLE_ACTIVATION_CODE);
+    public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringActivation() throws Exception {
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).completeActivation(SAMPLE_ACTIVATION_CODE);
 
         ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     private ResultActions postRegistrationForm() throws Exception {
@@ -189,16 +176,14 @@ public class RegistrationControllerTest extends BaseControllerTest {
     }
 
     private ResultActions performActivationRequest() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(
-                RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_CODE);
+        MockHttpServletRequestBuilder getRequest = get(RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_CODE);
         getRequest.accept(MediaType.ALL);
 
         return mockMvc.perform(getRequest);
     }
 
     private MockHttpServletRequestBuilder buildRegistrationFormParams(MockHttpServletRequestBuilder postRequest) {
-        return postRequest.param(USERNAME_PARAMETER_NAME, SAMPLE_USERNAME)
-                .param(PASSWORD_PARAMETER_NAME, SAMPLE_PASSWORD).param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL)
-                .param(ROLE_PARAMETER_NAME, SAMPLE_ROLE.toString());
+        return postRequest.param(USERNAME_PARAMETER_NAME, SAMPLE_USERNAME).param(PASSWORD_PARAMETER_NAME, SAMPLE_PASSWORD)
+                .param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL).param(ROLE_PARAMETER_NAME, SAMPLE_ROLE.toString());
     }
 }

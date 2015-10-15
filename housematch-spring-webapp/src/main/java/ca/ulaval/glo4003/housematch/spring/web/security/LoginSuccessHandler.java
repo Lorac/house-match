@@ -19,8 +19,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Override
-    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException {
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         if (response.isCommitted()) {
             return;
         }

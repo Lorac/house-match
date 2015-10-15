@@ -42,8 +42,7 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
-                addressValidatorMock);
+        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock, addressValidatorMock);
     }
 
     private void initMocks() throws UserNotFoundException {
@@ -90,8 +89,7 @@ public class UserServiceTest {
     @Test
     public void userRegistrationCallsTheUserCreationValidator() throws Exception {
         registerUser();
-        verify(userRegistrationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
-                SAMPLE_ROLE);
+        verify(userRegistrationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test
@@ -102,8 +100,8 @@ public class UserServiceTest {
 
     @Test(expected = UserServiceException.class)
     public void userRegistrationThrowsUserServiceExceptionOnUserRegistrationValidationException() throws Exception {
-        doThrow(new UserRegistrationValidationException()).when(userRegistrationValidatorMock)
-                .validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        doThrow(new UserRegistrationValidationException()).when(userRegistrationValidatorMock).validateUserCreation(SAMPLE_USERNAME,
+                SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         registerUser();
     }
 
@@ -162,15 +160,13 @@ public class UserServiceTest {
     }
 
     @Test(expected = UserServiceException.class)
-    public void updatingUserContactInformationsThrowsUserServiceExceptionOnUserActivationServiceException()
-            throws Exception {
+    public void updatingUserContactInformationsThrowsUserServiceExceptionOnUserActivationServiceException() throws Exception {
         doThrow(new UserActivationServiceException()).when(userActivationServiceMock).beginActivation(userMock);
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
     }
 
     @Test(expected = UserServiceException.class)
-    public void updatingUserContactInformationsThrowsUserServiceExceptionOnAddressValidationException()
-            throws Exception {
+    public void updatingUserContactInformationsThrowsUserServiceExceptionOnAddressValidationException() throws Exception {
         doThrow(new AddressValidationException()).when(addressValidatorMock).validateAddress(addressMock);
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
     }

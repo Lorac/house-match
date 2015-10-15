@@ -56,8 +56,8 @@ public class RegistrationController extends BaseController {
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.POST)
     public final ModelAndView register(RegistrationFormViewModel registrationForm) {
         try {
-            userService.registerUser(registrationForm.getUsername(), registrationForm.getEmail(),
-                    registrationForm.getPassword(), registrationForm.getRole());
+            userService.registerUser(registrationForm.getUsername(), registrationForm.getEmail(), registrationForm.getPassword(),
+                    registrationForm.getRole());
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
         } catch (UserServiceException e) {
             return showAlertMessage(REGISTRATION_VIEW_NAME, registrationForm, e.getMessage());
@@ -65,16 +65,15 @@ public class RegistrationController extends BaseController {
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
-    public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
-            ModelMap modelMap, RedirectAttributes redirectAttributes) {
+    public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm, ModelMap modelMap,
+            RedirectAttributes redirectAttributes) {
 
         modelMap.put(EmailReconfirmFormViewModel.NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.POST)
-    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm,
-            HttpSession session) {
+    public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm, HttpSession session) {
         try {
             userService.updateUserEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
             session.invalidate();

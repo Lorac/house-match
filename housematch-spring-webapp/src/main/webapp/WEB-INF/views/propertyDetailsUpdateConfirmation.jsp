@@ -13,12 +13,14 @@
 <title>HouseMatch - Property Update Confirmation</title>
 </head>
 <body>
-	<jsp:include page="../includes/navigationBar.jsp" />
-	
-	<div class="container">
-		<p>Your property has been successfully updated and is visible to other buyers. <a href="../">Go back to your profile</a>.</p>
-	</div>
-	
-	<%@include file="../includes/footer.jsp"%>
+    <jsp:include page="../includes/navigationBar.jsp" />
+
+    <div class="container">
+        <p>
+            Your property has been successfully updated and is visible to other buyers. <a href="../">Go back to your profile</a>.
+        </p>
+    </div>
+
+    <%@include file="../includes/footer.jsp"%>
 </body>
 </html>

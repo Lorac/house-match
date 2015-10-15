@@ -13,14 +13,14 @@ body {
     box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
-.panel > .panel-heading {
+.panel>.panel-heading {
     color: #00415d;
     background-color: #fff;
     border-color: #fff;
     text-align: center;
 }
 
-.panel > .panel-heading a {
+.panel>.panel-heading a {
     text-decoration: none;
     color: #666;
     font-weight: bold;
@@ -30,12 +30,12 @@ body {
     transition: all 0.1s linear;
 }
 
-.panel > .panel-heading a.active {
+.panel>.panel-heading a.active {
     color: #029f5b;
     font-size: 18px;
 }
 
-.panel > .panel-heading hr {
+.panel>.panel-heading hr {
     margin-top: 10px;
     margin-bottom: 0;
     clear: both;
@@ -56,8 +56,7 @@ body {
     transition: all 0.1s linear;
 }
 
-.panel input:hover,
-.panel input:focus {
+.panel input:hover, .panel input:focus {
     outline: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
@@ -76,26 +75,25 @@ body {
     border-color: #59B2E6;
 }
 
-.btn:hover,
-.btn:focus {
+.btn:hover, .btn:focus {
     color: #fff;
     background-color: #1CA347;
     border-color: #1CA347;
 }
 
 .form .form-heading h1 {
-	text-align: center;
+    text-align: center;
 }
 
 .profileMenu {
-	margin-top:30px;
-	text-align:center;
+    margin-top: 30px;
+    text-align: center;
 }
 
 .profileMenu  .menuItem  .icon {
-	 font-size: 2em;
+    font-size: 2em;
 }
 
 .profileMenu .menuItem  .itemLabel {
-	margin-top: 15px;
+    margin-top: 15px;
 }

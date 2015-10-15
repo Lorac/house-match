@@ -1,7 +1,5 @@
 package ca.ulaval.glo4003.housematch.utils;
 
-import org.apache.commons.io.FileUtils;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +9,8 @@ import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import org.apache.commons.io.FileUtils;
+
 public class ResourceLoader {
 
     public InputStream loadResourceAsInputStream(Object classObject, String resourceName) throws FileNotFoundException {
@@ -18,19 +18,16 @@ public class ResourceLoader {
         try {
             return FileUtils.openInputStream(file);
         } catch (IOException e) {
-            throw new UncheckedIOException(
-                    String.format("Failed to open file '%s' as an input stream.", file.getPath()), e);
+            throw new UncheckedIOException(String.format("Failed to open file '%s' as an input stream.", file.getPath()), e);
         }
     }
 
-    public OutputStream loadResourceAsOutputStream(Object classObject, String resourceName)
-            throws FileNotFoundException {
+    public OutputStream loadResourceAsOutputStream(Object classObject, String resourceName) throws FileNotFoundException {
         File file = getResourceAsFile(classObject, resourceName);
         try {
             return FileUtils.openOutputStream(file);
         } catch (IOException e) {
-            throw new UncheckedIOException(
-                    String.format("Failed to open file '%s' as an output stream.", file.getPath()), e);
+            throw new UncheckedIOException(String.format("Failed to open file '%s' as an output stream.", file.getPath()), e);
         }
     }
 
@@ -40,8 +37,7 @@ public class ResourceLoader {
         return file;
     }
 
-    private String getResourceFilePathFromClassPath(Object classObject, String resourceName)
-            throws FileNotFoundException {
+    private String getResourceFilePathFromClassPath(Object classObject, String resourceName) throws FileNotFoundException {
         String filePath;
         try {
             URL url = getResourceFromClassPath(classObject, resourceName);

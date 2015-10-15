@@ -77,7 +77,7 @@ public class Address {
 
         Address address = (Address) obj;
         return new EqualsBuilder().append(streetNumber, address.streetNumber).append(streetName, address.streetName)
-                .append(town, address.town).append(additionalAddressInfo, address.additionalAddressInfo)
-                .append(region, address.region).isEquals();
+                .append(town, address.town).append(additionalAddressInfo, address.additionalAddressInfo).append(region, address.region)
+                .isEquals();
     }
 }

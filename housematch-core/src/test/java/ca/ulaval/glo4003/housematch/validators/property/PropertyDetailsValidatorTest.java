@@ -81,15 +81,13 @@ public class PropertyDetailsValidatorTest {
     }
 
     @Test(expected = PropertyDetailsValidationException.class)
-    public void validationWithNegativeNumberOfExteriorParkingSpacesThrowsPropertyDetailsValidationException()
-            throws Exception {
+    public void validationWithNegativeNumberOfExteriorParkingSpacesThrowsPropertyDetailsValidationException() throws Exception {
         when(propertyDetailsMock.getNumberOfExteriorParkingSpaces()).thenReturn(SAMPLE_NEGATIVE_NUMBER);
         propertyDetailsValidator.validatePropertyDetails(propertyDetailsMock);
     }
 
     @Test(expected = PropertyDetailsValidationException.class)
-    public void validationWithNegativeNumberOfInteriorParkingSpacesThrowsPropertyDetailsValidationException()
-            throws Exception {
+    public void validationWithNegativeNumberOfInteriorParkingSpacesThrowsPropertyDetailsValidationException() throws Exception {
         when(propertyDetailsMock.getNumberOfInteriorParkingSpaces()).thenReturn(SAMPLE_NEGATIVE_NUMBER);
         propertyDetailsValidator.validatePropertyDetails(propertyDetailsMock);
     }

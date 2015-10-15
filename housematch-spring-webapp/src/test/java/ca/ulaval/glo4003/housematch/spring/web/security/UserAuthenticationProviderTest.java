@@ -63,8 +63,7 @@ public class UserAuthenticationProviderTest {
 
     @Test(expected = BadCredentialsException.class)
     public void authenticationProviderThrowsBadCredentialsExceptionOnUserServiceException() throws Exception {
-        doThrow(new UserServiceException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME,
-                SAMPLE_PASSWORD);
+        doThrow(new UserServiceException()).when(userServiceMock).getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         performAuthentication();
     }
 
@@ -85,8 +84,7 @@ public class UserAuthenticationProviderTest {
     }
 
     @Test
-    public void authenticationProviderCreatesTheAuthenticationTokenWithoutRolesWhenUserIsNotActivated()
-            throws Exception {
+    public void authenticationProviderCreatesTheAuthenticationTokenWithoutRolesWhenUserIsNotActivated() throws Exception {
         when(userMock.isActivated()).thenReturn(false);
         UsernamePasswordAuthenticationToken authenticationToken = performAuthentication();
         assertTrue(authenticationToken.getAuthorities().isEmpty());

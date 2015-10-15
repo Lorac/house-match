@@ -51,10 +51,8 @@ public class ContactInformationControllerTest extends BaseControllerTest {
     public void contactInformationControllerRendersUpdateViewWithTheCorrectFields() throws Exception {
         ResultActions results = performGetRequest(ContactInformationController.CONTACT_INFO_UPDATE_URL);
 
-        results.andExpect(
-                model().attribute(ContactInformationFormViewModel.NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
-        results.andExpect(
-                model().attribute(ContactInformationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+        results.andExpect(model().attribute(ContactInformationFormViewModel.NAME, hasProperty(ADDRESS_PARAMETER_NAME)));
+        results.andExpect(model().attribute(ContactInformationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test
@@ -67,14 +65,13 @@ public class ContactInformationControllerTest extends BaseControllerTest {
 
     @Test
     public void contactInformationControllerRendersAlertMessageOnUserServiceExceptionDuringUpdate() throws Exception {
-        doThrow(new UserServiceException()).when(userServiceMock).updateUserContactInformation(eq(userMock),
-                any(Address.class), eq(SAMPLE_EMAIL));
+        doThrow(new UserServiceException()).when(userServiceMock).updateUserContactInformation(eq(userMock), any(Address.class),
+                eq(SAMPLE_EMAIL));
 
         ResultActions results = postContactInformationForm();
 
         results.andExpect(view().name(ContactInformationController.CONTACT_INFO_UPDATE_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
-                hasProperty("messageType", is(AlertMessageType.ERROR))));
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
     private ResultActions postContactInformationForm() throws Exception {

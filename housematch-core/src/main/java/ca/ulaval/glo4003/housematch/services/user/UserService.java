@@ -45,8 +45,7 @@ public class UserService {
         }
     }
 
-    public void registerUser(String username, String email, String password, UserRole role)
-            throws UserServiceException {
+    public void registerUser(String username, String email, String password, UserRole role) throws UserServiceException {
         try {
             userRegistrationValidator.validateUserCreation(username, email, password, role);
             User user = new User(username, email, password, role);

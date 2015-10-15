@@ -52,8 +52,7 @@ public class AddressValidatorTest {
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithNoStreetNumberSpecifiedThrowsPropertyCreationValidationException()
-            throws Exception {
+    public void addressValidationWithNoStreetNumberSpecifiedThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getStreetNumber()).thenReturn(null);
         addressValidator.validateAddress(addressMock);
     }
