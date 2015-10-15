@@ -3,6 +3,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController;"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -26,7 +28,7 @@
         <div class="profileMenu">
             <div class="row">
                 <div class="col-sm-4 menuItem">
-                    <a href="/seller/sellProperty"><span class="icon glyphicon glyphicon-tag"></span>
+                    <a href="<%= PropertyController.PROPERTY_CREATION_URL %>"><span class="icon glyphicon glyphicon-tag"></span>
                         <p class="itemLabel">Sell a property</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">

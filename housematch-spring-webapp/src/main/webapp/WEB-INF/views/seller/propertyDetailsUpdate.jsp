@@ -1,6 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController;"%>
+
 <% pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values()); %>
 <% pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values()); %>
 <% pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values()); %>
@@ -21,7 +24,7 @@
     <div class="container">
         <h1 class="center">Extended Property Details</h1>
         <form:form id="property-update-form" class="form-horizontal" role="form" commandName="propertyDetailsForm"
-            action="/seller/updatePropertyDetails/${propertyHashCode}" method="POST">
+            action='<%= PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + request.getAttribute("propertyHashCode") %>' method="POST">
 
              <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
 

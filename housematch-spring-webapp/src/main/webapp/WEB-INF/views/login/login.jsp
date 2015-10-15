@@ -2,6 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController;"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -26,7 +28,7 @@
                                 <a href="#" class="active" id="login-form-link">Login</a>
                             </div>
                             <div class="col-xs-6">
-                                <a href="/register" id="register-form-link">Register</a>
+                                <a href="<%= RegistrationController.REGISTRATION_URL %>" id="register-form-link">Register</a>
                             </div>
                         </div>
                         <hr>

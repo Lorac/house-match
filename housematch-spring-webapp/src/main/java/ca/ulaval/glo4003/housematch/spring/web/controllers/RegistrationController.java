@@ -28,7 +28,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewMo
 @Controller
 public class RegistrationController extends BaseController {
 
-    static final String REGISTRATION_URL = "/register";
+    public static final String REGISTRATION_URL = "/register";
     static final String REGISTRATION_VIEW_NAME = "registration/registration";
     static final String ACTIVATION_BASE_URL = "/activation/";
     static final String ACTIVATION_URL = "/activation/{activationCode}";

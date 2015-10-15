@@ -1,9 +1,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%
-    pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values());
-%>
+
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController;"%>
+
+<% pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values()); %>
 
 <html>
 <head>
@@ -20,7 +21,7 @@
     <div class="container">
         <h1 class="center">Update Contact Information</h1>
         <form:form id="profile-form" class="form-horizontal" role="form" commandName="contactInformationForm"
-            action="/buyer/updateContactInformation" method="POST">
+            action="<%= ContactInformationController.CONTACT_INFO_UPDATE_URL %>" method="POST">
             
             <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
             

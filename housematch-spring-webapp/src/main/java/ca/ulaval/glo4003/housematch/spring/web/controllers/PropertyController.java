@@ -24,10 +24,10 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormVie
 @Controller
 public class PropertyController extends BaseController {
 
-    static final String PROPERTY_CREATION_URL = "/seller/sellProperty";
+    public static final String PROPERTY_CREATION_URL = "/seller/sellProperty";
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
     static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
-    static final String PROPERTY_DETAILS_UPDATE_URL_FORMAT = "/seller/updatePropertyDetails/%s";
+    public static final String PROPERTY_DETAILS_UPDATE_BASE_URL = "/seller/updatePropertyDetails/";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
     static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
 
@@ -62,7 +62,7 @@ public class PropertyController extends BaseController {
         try {
             Property property = propertyService.createProperty(propertyCreationForm.getPropertyType(), propertyCreationForm.getAddress(),
                     propertyCreationForm.getSellingPrice(), getUserFromHttpSession(httpSession));
-            return new ModelAndView(new RedirectView(String.format(PROPERTY_DETAILS_UPDATE_URL_FORMAT, property.hashCode())));
+            return new ModelAndView(new RedirectView(PROPERTY_DETAILS_UPDATE_BASE_URL + property.hashCode()));
         } catch (PropertyServiceException e) {
             return showAlertMessage(PROPERTY_CREATION_VIEW_NAME, propertyCreationForm, e.getMessage());
         }

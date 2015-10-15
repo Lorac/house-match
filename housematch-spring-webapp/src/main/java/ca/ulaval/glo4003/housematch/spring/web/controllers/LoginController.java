@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
 @Controller
 public class LoginController extends BaseController {
 
-    static final String LOGIN_URL = "/login";
+    public static final String LOGIN_URL = "/login";
     static final String LOGIN_VIEW_NAME = "login/login";
 
     @RequestMapping(value = LOGIN_URL, method = RequestMethod.GET)

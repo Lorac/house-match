@@ -3,6 +3,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController;"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -25,7 +27,7 @@
         <div class="profileMenu">
             <div class="row">
                 <div class="col-sm-4 menuItem">
-                    <a href="/buyer/updateContactInformation"> <span class="icon glyphicon glyphicon-envelope"></span>
+                    <a href="<%= ContactInformationController.CONTACT_INFO_UPDATE_URL %>"> <span class="icon glyphicon glyphicon-envelope"></span>
                         <p class="itemLabel">Update contact information</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">

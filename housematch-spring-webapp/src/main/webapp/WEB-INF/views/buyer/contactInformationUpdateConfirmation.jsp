@@ -2,6 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController;"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -23,7 +25,7 @@
             </p>
         </c:if>
         <p>
-            <a href="/buyer/home">Go back to your profile</a>
+            <a href="<%= HomeController.HOME_URL %>">Go back to your profile</a>
         </p>
     </div>
     <%@include file="/WEB-INF/includes/footer.jsp"%>

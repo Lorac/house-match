@@ -2,6 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController;"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -17,7 +19,7 @@
     <div class="container">
         <h1 class="center">Sell a property</h1>
 
-        <form:form id="property-creation-form" class="form-horizontal" role="form" commandName="propertyCreationForm" action="/seller/sellProperty"
+        <form:form id="property-creation-form" class="form-horizontal" role="form" commandName="propertyCreationForm" action="<%= PropertyController.PROPERTY_CREATION_URL %>"
             method="POST">
             
             <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
