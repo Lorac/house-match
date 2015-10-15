@@ -30,6 +30,8 @@ public class PropertyController extends BaseController {
     static final String PROPERTY_DETAILS_UPDATE_URL_FORMAT = "/updatePropertyDetails/%s";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "propertyDetailsUpdate";
     static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "propertyDetailsUpdateConfirmation";
+    static final String PROPERTY_LIST_SELLER_URL = "/myPropreties";
+    static final String PROPERTY_LIST_SELLER_VIEW_NAME = "sellerPropertyList";
 
     @Autowired
     private PropertyService propertyService;
@@ -90,5 +92,10 @@ public class PropertyController extends BaseController {
         } catch (PropertyNotFoundException | PropertyServiceException e) {
             return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, propertyDetailsForm, e.getMessage());
         }
+    }
+
+    @RequestMapping(value = PROPERTY_LIST_SELLER_URL, method = RequestMethod.GET)
+    public final ModelAndView listPropertySellerProperty(HttpSession httpSession) throws AuthenticationException {
+        return new ModelAndView(PROPERTY_LIST_SELLER_VIEW_NAME);
     }
 }

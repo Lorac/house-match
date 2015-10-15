@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.math.BigDecimal;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import java.math.BigDecimal;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class Property {
 
@@ -53,6 +54,10 @@ public class Property {
 
     public void setPropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
+    }
+
+    public int getHashCode() {
+        return address.hashCode();
     }
 
     @Override
