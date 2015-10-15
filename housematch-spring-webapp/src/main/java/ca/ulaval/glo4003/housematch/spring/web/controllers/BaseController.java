@@ -1,29 +1,34 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
 
 public class BaseController {
 
     public static final String ADMIN_HOME_VIEW_NAME = "adminHome";
+    public static final String ADMIN_HOME_URL = "/adminHome";
     public static final String SELLER_HOME_VIEW_NAME = "sellerHome";
+    public static final String SELLER_HOME_URL = "/sellerHome";
     public static final String BUYER_HOME_VIEW_NAME = "buyerHome";
+    public static final String BUYER_HOME_URL = "/buyerHome";
     public static final String PROPERTY_CREATION_VIEW_NAME = "propertyCreation";
     public static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "propertyDetailsUpdate";
     public static final String CONTACT_INFO_UPDATE_VIEW_NAME = "contactInformationUpdate";
     protected static final String HOME_VIEW_NAME = "home";
-    protected static final String HOME_URL = "/";
+    public static final String HOME_URL = "/";
     protected static final String LOGIN_VIEW_NAME = "login";
     protected static final String LOGIN_URL = "/login";
     protected static final String LOGOUT_URL = "/logout";
@@ -47,7 +52,6 @@ public class BaseController {
     protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_URL = "/contactInformationUpdateConfirmation";
     protected static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "contactInformationUpdateConfirmation";
 
-
     protected User getUserFromHttpSession(HttpSession httpSession) {
         return (User) httpSession.getAttribute(USER_ATTRIBUTE_NAME);
     }
@@ -57,7 +61,7 @@ public class BaseController {
     }
 
     protected ModelAndView showAlertMessage(String viewName, ViewModel viewModel, String message,
-                                            AlertMessageType messageType) {
+            AlertMessageType messageType) {
         ModelMap modelMap = new ModelMap();
         modelMap.put(AlertMessageViewModel.NAME, new AlertMessageViewModel(message, messageType));
         modelMap.put(viewModel.getName(), viewModel);

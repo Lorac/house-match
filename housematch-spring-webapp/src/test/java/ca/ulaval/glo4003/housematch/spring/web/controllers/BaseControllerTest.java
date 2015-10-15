@@ -1,16 +1,19 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 import org.junit.Before;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import static org.mockito.Mockito.mock;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import ca.ulaval.glo4003.housematch.domain.user.User;
 
 public class BaseControllerTest {
 
@@ -20,14 +23,13 @@ public class BaseControllerTest {
     protected InternalResourceViewResolver viewResolver;
     protected User userMock;
     protected MockHttpSession mockHttpSession;
+    private Authentication authenticationMock;
 
     @Before
     public void init() throws Exception {
         initViewResolver();
-        userMock = mock(User.class);
-
-        mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute(HomeController.USER_ATTRIBUTE_NAME, userMock);
+        initMocks();
+        initHttpSessionMock();
     }
 
     private void initViewResolver() {
@@ -36,8 +38,20 @@ public class BaseControllerTest {
         viewResolver.setSuffix(VIEW_NAME_SUFFIX);
     }
 
+    private void initMocks() {
+        userMock = mock(User.class);
+        authenticationMock = mock(Authentication.class);
+        when(authenticationMock.getPrincipal()).thenReturn(userMock);
+    }
+
+    private void initHttpSessionMock() {
+        mockHttpSession = new MockHttpSession();
+        mockHttpSession.setAttribute(HomeController.USER_ATTRIBUTE_NAME, userMock);
+    }
+
     protected ResultActions performGetRequest(String url) throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(url).accept(MediaType.ALL).session(mockHttpSession);
+        MockHttpServletRequestBuilder getRequest = get(url).accept(MediaType.ALL).session(mockHttpSession)
+                .principal(authenticationMock);
         return mockMvc.perform(getRequest);
     }
 }

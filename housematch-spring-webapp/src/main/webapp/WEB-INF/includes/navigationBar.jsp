@@ -14,17 +14,21 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="${homeLinkActive}"><a href="/">Home</a></li>
+            	<li class="${homeLinkActive}">
+	            	<sec:authorize access="hasRole('Administrator')">
+	                    <a href="/adminHome">Home</a>
+	                </sec:authorize>
+	            	<sec:authorize access="hasRole('Seller')">
+	                    <a href="/sellerHome">Home</a>
+	                </sec:authorize>
+	                <sec:authorize access="hasRole('Buyer')">
+	                    <a href="/buyerHome">Home</a>
+	                </sec:authorize>
+                </li>
                 <c:if test="${empty sessionScope.user}">
                     <li class="${loginLinkActive}"><a href="/login">Login</a></li>
                     <li class="${registerLinkActive}"><a href="/register">Register</a></li>
                 </c:if>
-                <sec:authorize access="hasRole('Seller')">
-                    <li class="sellerHome"><a href="/sellerHome">Seller</a></li>
-                </sec:authorize>
-                <sec:authorize access="hasRole('Buyer')">
-                    <li class="buyerHome"><a href="/sellerHome">Buyer</a></li>
-                </sec:authorize>
                 <c:if test="${not empty sessionScope.user}">
                     <li><a href="/logout">Logout</a></li>
                 </c:if>

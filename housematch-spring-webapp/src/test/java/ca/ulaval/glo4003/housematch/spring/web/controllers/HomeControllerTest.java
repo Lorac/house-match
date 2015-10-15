@@ -29,4 +29,27 @@ public class HomeControllerTest extends BaseControllerTest {
         results.andExpect(view().name(HomeController.HOME_VIEW_NAME));
     }
 
+    @Test
+    public void homeControllerRendersAdminHomeView() throws Exception {
+        ResultActions results = performGetRequest(HomeController.ADMIN_HOME_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(HomeController.ADMIN_HOME_VIEW_NAME));
+    }
+
+    @Test
+    public void homeControllerRendersSellerHomeView() throws Exception {
+        ResultActions results = performGetRequest(HomeController.SELLER_HOME_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(HomeController.SELLER_HOME_VIEW_NAME));
+    }
+
+    @Test
+    public void homeControllerRendersBuyerHomeView() throws Exception {
+        ResultActions results = performGetRequest(HomeController.BUYER_HOME_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(HomeController.BUYER_HOME_VIEW_NAME));
+    }
 }

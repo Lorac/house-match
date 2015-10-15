@@ -7,7 +7,7 @@ import org.springframework.security.access.expression.method.DefaultMethodSecuri
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 
-public class DefaultRolesPrefixPostProcessor implements BeanPostProcessor, PriorityOrdered {
+public class RolePrefixPostProcessor implements BeanPostProcessor, PriorityOrdered {
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName)

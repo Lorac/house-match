@@ -1,17 +1,20 @@
 package ca.ulaval.glo4003.housematch.spring.web.security;
 
+import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import ca.ulaval.glo4003.housematch.spring.web.controllers.BaseController;
 
 public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
@@ -30,23 +33,18 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     }
 
     protected String determineTargetUrl(Authentication authentication) {
-        String url;
-
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
         List<String> roles = authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         if (isAdmin(roles)) {
-            url = "/admin";
+            return BaseController.ADMIN_HOME_URL;
         } else if (isBuyer(roles)) {
-            url = "/buyerHome";
+            return BaseController.BUYER_HOME_URL;
         } else if (isSeller(roles)) {
-            url = "/sellerHome";
+            return BaseController.SELLER_HOME_URL;
         } else {
-            url = "/";
+            return BaseController.HOME_URL;
         }
-
-        return url;
     }
 
     private boolean isBuyer(List<String> roles) {

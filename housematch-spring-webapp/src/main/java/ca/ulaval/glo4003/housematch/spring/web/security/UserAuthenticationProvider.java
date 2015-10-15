@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.security;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.services.user.UserService;
-import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,8 +13,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
@@ -27,6 +28,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     }
 
     protected UserAuthenticationProvider() {
+        // Required for bean instanciation
     }
 
     @Override

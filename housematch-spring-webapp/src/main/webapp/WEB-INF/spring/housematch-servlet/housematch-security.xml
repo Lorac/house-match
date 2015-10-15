@@ -6,7 +6,7 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <global-method-security pre-post-annotations="enabled"/>
-    <beans:bean class="ca.ulaval.glo4003.housematch.spring.web.security.DefaultRolesPrefixPostProcessor"/>
+    <beans:bean class="ca.ulaval.glo4003.housematch.spring.web.security.RolePrefixPostProcessor"/>
 
     <http pattern="/resources/**" security="none"/>
     <http pattern="/register" security="none"/>
@@ -14,18 +14,16 @@
     <http pattern="/403" security="none"/>
     <http pattern="/404" security="none"/>
 
-
     <http use-expressions="true" disable-url-rewriting="true">
         <!-- Be careful, the order matters -->
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/login" access="permitAll"/>
-        <intercept-url pattern="/logout.jsp" access="permitAll"/>
+        <intercept-url pattern="/logout" access="permitAll"/>
         <intercept-url pattern="/admin/**" access="hasRole('Administrator')"/>
         <intercept-url pattern="/buyer/**" access="hasRole('Buyer')"/>
         <intercept-url pattern="/buyerHome/**" access="hasRole('Buyer')"/>
         <intercept-url pattern="/sellerHome/**" access="hasRole('Seller')"/>
         <intercept-url pattern="/sell/**" access="hasRole('Seller')"/>
-
 
         <!-- Use default provided form. See docs to customize. -->
         <form-login login-page="/login"
@@ -33,11 +31,9 @@
                     login-processing-url="/login"
                     authentication-success-handler-ref="customSuccessHandler"
                 />
-        <logout logout-success-url="/logout"/>
-        <!-- enable csrf protection -->
+        <logout logout-success-url="/login"/>
+        <!-- Enable csrf protection -->
         <csrf disabled="true"/>
-
-
     </http>
 
     <beans:bean id="userAuthenticationProvider"
@@ -51,14 +47,12 @@
             <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
         </beans:constructor-arg>
 
-
         <beans:property name="filterProcessesUrl" value="/logout"/>
     </beans:bean>
 
     <beans:bean id="loginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <beans:constructor-arg value="/login"/>
     </beans:bean>
-
 
     <authentication-manager>
         <authentication-provider ref="userAuthenticationProvider"/>
