@@ -13,25 +13,23 @@
 <title>HouseMatch - Home</title>
 </head>
 <body>
-
-
     <jsp:include page="../includes/navigationBar.jsp" />
     <div class="container">
         <c:choose>
-           <c:when test="${not empty user.properties}">
-               <ul>
-               <c:forEach var="property" items="${user.properties}">
-                   <a href="/updatePropertyDetails/${property.hashCode()}">
-                       <li>${property.address.streetNumber} ${property.address.streetName} - ${property.address.town}</li>
-                   </a>
-               </c:forEach>
-               </ul>
-           </c:when>
-           <c:otherwise>
-               <p>You have no properties for sale. You can put a property up for sale <a href="/sell">here</a></p>
-           </c:otherwise>
-       </c:choose>
-   </div>
+            <c:when test="${not empty user.properties}">
+                <ul>
+                    <c:forEach var="property" items="${user.properties}">
+                        <li><a href="/updatePropertyDetails/${property.hashCode()}">${property.address} </a></li>
+                    </c:forEach>
+                </ul>
+            </c:when>
+            <c:otherwise>
+                <p>
+                    You have no properties for sale. You can put a property up for sale <a href="/sell">here</a>
+                </p>
+            </c:otherwise>
+        </c:choose>
+    </div>
 
     <%@include file="../includes/footer.jsp"%>
 </body>
