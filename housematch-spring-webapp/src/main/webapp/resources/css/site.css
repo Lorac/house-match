@@ -1,9 +1,21 @@
+
+h1 {
+    margin-bottom: 30px;
+    text-transform:uppercase;
+    color: #666666;
+}
+
 h2 {
     margin-bottom: 10px;
+    color: #888888;
 }
 
 body {
     font-family: 'Open Sans', sans-serif;
+}
+
+.center {
+    text-align: center;
 }
 
 .panel {
@@ -81,8 +93,8 @@ body {
     border-color: #1CA347;
 }
 
-.form .form-heading h1 {
-    text-align: center;
+.form-horizontal .control-label {
+    text-align:left;
 }
 
 .profileMenu {

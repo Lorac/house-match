@@ -26,7 +26,7 @@
                                 <a href="#" class="active" id="login-form-link">Login</a>
                             </div>
                             <div class="col-xs-6">
-                                <a href="#" id="register-form-link" onclick="javascript: window.location.href = '/register'">Register</a>
+                                <a href="/register" id="register-form-link">Register</a>
                             </div>
                         </div>
                         <hr>
@@ -36,16 +36,14 @@
                             <div class="col-lg-12">
 
                                 <form:form action="/login" id="login-form" commandName="loginForm" method="POST">
+                                    
+                                    <%@include file="../includes/alertMessage.jsp"%>
+                                    
                                     <div class="form-group">
-                                        <%@include file="../includes/alertMessage.jsp"%>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="username">Username:</label>
                                         <form:input id="username" name="username" class="form-control" minlength="3" maxlength="32"
                                             tabindex="1" placeholder="Username" path="username" />
                                     </div>
                                     <div class="form-group">
-                                        <label for="password">Password:</label>
                                         <form:input id="password" name="password" type="password" minlength="3" maxlength="32"
                                             class="form-control" tabindex="2" placeholder="Password" path="password" />
                                     </div>

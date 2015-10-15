@@ -19,17 +19,15 @@
     <jsp:include page="../includes/navigationBar.jsp" />
 
     <div class="container">
-        <h1>Extended Property Details</h1>
+        <h1 class="center">Extended Property Details</h1>
         <form:form id="property-update-form" class="form-horizontal" role="form" commandName="propertyDetailsForm"
             action="/updatePropertyDetails/${propertyHashCode}" method="POST">
 
-            <div class="form-group">
-                <%@include file="../includes/alertMessage.jsp"%>
-            </div>
+             <%@include file="../includes/alertMessage.jsp"%>
 
             <div class="form-group">
-                <label class="control-label col-sm-2">Property Style:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Property Style:</label>
+                <div class="col-sm-9">
                     <form:select path="details.propertyStyle" class="form-control" tabindex="1">
                         <c:forEach var="propertyStyle" items="${propertyStyles}">
                             <option value="${propertyStyle}"
@@ -39,119 +37,119 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Price Detail:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Price Detail:</label>
+                <div class="col-sm-9">
                     <form:input type="text" path="details.priceDetail" class="form-control" min="0" tabindex="2" placeholder="Price Detail" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Number of Bedrooms:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Number of Bedrooms:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.numberOfBedrooms" class="form-control" min="0" tabindex="3"
                         placeholder="Number of Bedrooms" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Bedroom Details:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Bedroom Details:</label>
+                <div class="col-sm-9">
                     <form:input type="text" path="details.bedroomDetails" class="form-control" min="0" tabindex="4"
                         placeholder="Bedroom Details" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Number of Bathrooms:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Number of Bathrooms:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.numberOfBathrooms" class="form-control" min="0" tabindex="5"
                         placeholder="Number of Bathrooms" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Bathroom Details:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Bathroom Details:</label>
+                <div class="col-sm-9">
                     <form:input type="text" path="details.bathroomDetails" class="form-control" min="0" tabindex="6"
                         placeholder="Bathroom Details" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Total Number of Rooms:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Total Number of Rooms:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.totalNumberOfRooms" class="form-control" min="1" tabindex="7"
                         placeholder="Total Number of Rooms" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Number of Levels:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Number of Levels:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.numberOfLevels" class="form-control" min="0" tabindex="8"
                         placeholder="Number of Levels" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Number of Half Baths:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Number of Half Baths:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.numberOfHalfbaths" class="form-control" min="0" tabindex="9"
                         placeholder="Number of Half Baths" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Living Space Area (ft²):</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Living Space Area (ft²):</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.livingSpaceAreaInSquareFeet" class="form-control" min="1" tabindex="10"
                         placeholder="Living Space Area (ft²)" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Building Dimensions (ft²):</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Building Dimensions (ft²):</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.buildingDimensionsInSquareFeet" class="form-control" min="1" tabindex="10"
                         placeholder="Building Dimensions (ft²)" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Lot Dimensions (ft²):</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Lot Dimensions (ft²):</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.lotDimensionsInSquareFeet" class="form-control" min="1" tabindex="11"
                         placeholder="Lot Dimensions (ft²)" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Year of Construction:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Year of Construction:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.yearOfConstruction" class="form-control" min="0" tabindex="12"
                         placeholder="Year of Construction" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Municipal Assessment:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Municipal Assessment:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.municipalAssessment" class="form-control" min="1" tabindex="13"
                         placeholder="Municipal Assessment" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Located on Which Floor?:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Located on Which Floor?:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.floorNumber" class="form-control" min="0" tabindex="14"
                         placeholder="Located on Which Floor?" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Number of Exterior Parking:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Number of Exterior Parking Spaces:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.numberOfExteriorParkingSpaces" class="form-control" min="0" tabindex="15"
-                        placeholder="Number of Exterior Parking" />
+                        placeholder="Number of Exterior Parking Spaces" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Number of Interior Parking:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Number of Interior Parking Spaces:</label>
+                <div class="col-sm-9">
                     <form:input type="number" path="details.numberOfInteriorParkingSpaces" class="form-control" min="0" tabindex="16"
-                        placeholder="Number of Interior Parking" />
+                        placeholder="Number of Interior Parking Spaces" />
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Ownership Type:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Ownership Type:</label>
+                <div class="col-sm-9">
                     <form:select path="details.ownershipType" class="form-control" tabindex="17">
                         <c:forEach var="ownershipType" items="${propertyOwnershipTypes}">
                             <option value="${ownershipType}"
@@ -161,8 +159,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="control-label col-sm-2">Backyard Faces:</label>
-                <div class="col-sm-10">
+                <label class="control-label col-sm-3">Backyard Faces:</label>
+                <div class="col-sm-9">
                     <form:select path="details.backyardDirection" class="form-control" tabindex="17">
                         <c:forEach var="cardinalDirection" items="${cardinalDirections}">
                             <option value="${cardinalDirection}"

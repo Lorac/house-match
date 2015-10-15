@@ -23,7 +23,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="#" id="login-form-link" onclick="javascript: window.location.href = '/login'">Login</a>
+                                <a href="/login" id="login-form-link">Login</a>
                             </div>
                             <div class="col-xs-6">
                                 <a href="#" class="active" id="register-form-link">Register</a>
@@ -35,9 +35,9 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <form:form id="register-form" role="form" commandName="registrationForm" action="/register" method="POST">
-                                    <div class="form-group">
-                                        <%@include file="../includes/alertMessage.jsp"%>
-                                    </div>
+                                    
+                                    <%@include file="../includes/alertMessage.jsp"%>
+                                    
                                     <div class="form-group">
                                         <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32"
                                             tabindex="1" placeholder="Username" />
