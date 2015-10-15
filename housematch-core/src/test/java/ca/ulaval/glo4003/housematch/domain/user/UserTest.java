@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
@@ -130,12 +131,16 @@ public class UserTest {
 
     @Test
     public void validationOfTheRightPasswordDoesNotThrowAnException() throws Exception {
-        user.validatePassword(SAMPLE_PASSWORD);
+        try {
+            user.validatePassword(SAMPLE_PASSWORD);
+        } catch (Exception e) {
+            fail();
+        }
     }
 
-    @Test
+    @Test(expected = InvalidPasswordException.class)
     public void validationOfTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
-        assertFalse(user.validatePassword(ANOTHER_SAMPLE_PASSWORD));
+        user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
     }
 
     @Test

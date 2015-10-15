@@ -92,9 +92,10 @@ public class User {
         this.properties = properties;
     }
 
-    public boolean validatePassword(String password) {
-        return this.password.equals(password);
-
+    public void validatePassword(String password) throws InvalidPasswordException {
+        if (!this.password.equals(password)) {
+            throw new InvalidPasswordException("Password does not match.");
+        }
     }
 
     public Boolean hasRole(UserRole role) {
