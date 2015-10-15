@@ -24,12 +24,12 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormVie
 @Controller
 public class PropertyController extends BaseController {
 
-    static final String PROPERTY_CREATION_URL = "/sell";
-    static final String PROPERTY_CREATION_VIEW_NAME = "propertyCreation";
-    static final String PROPERTY_DETAILS_UPDATE_URL = "/updatePropertyDetails/{propertyHashCode}";
-    static final String PROPERTY_DETAILS_UPDATE_URL_FORMAT = "/updatePropertyDetails/%s";
-    static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "propertyDetailsUpdate";
-    static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "propertyDetailsUpdateConfirmation";
+    static final String PROPERTY_CREATION_URL = "/seller/sellProperty";
+    static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
+    static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
+    static final String PROPERTY_DETAILS_UPDATE_URL_FORMAT = "/seller/updatePropertyDetails/%s";
+    static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
+    static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
 
     @Autowired
     private PropertyService propertyService;

@@ -4,23 +4,26 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Property Update Confirmation</title>
+<title>HouseMatch - Administrator Home</title>
 </head>
 <body>
-    <jsp:include page="../includes/navigationBar.jsp" />
-
+    <c:set var="homeLinkActive" value="active" scope="request" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <p>
-            Your property has been successfully updated and is visible to other buyers. <a href="../">Go back to your profile</a>.
+            Hello
+            <sec:authentication property="principal.username" />
+            !
         </p>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
+
 </body>
 </html>

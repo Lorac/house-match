@@ -29,12 +29,12 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewMo
 public class RegistrationController extends BaseController {
 
     static final String REGISTRATION_URL = "/register";
-    static final String REGISTRATION_VIEW_NAME = "registration";
+    static final String REGISTRATION_VIEW_NAME = "registration/registration";
     static final String ACTIVATION_BASE_URL = "/activation/";
     static final String ACTIVATION_URL = "/activation/{activationCode}";
-    static final String ACTIVATION_NOTICE_VIEW_NAME = "activationNotice";
+    static final String ACTIVATION_NOTICE_VIEW_NAME = "registration/activationNotice";
     public static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
-    static final String EMAIL_RECONFIRM_VIEW_NAME = "emailReconfirm";
+    static final String EMAIL_RECONFIRM_VIEW_NAME = "registration/emailReconfirm";
 
     @Autowired
     private UserService userService;

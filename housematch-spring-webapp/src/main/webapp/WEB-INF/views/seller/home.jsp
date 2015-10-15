@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -15,7 +15,7 @@
 </head>
 <body>
     <c:set var="homeLinkActive" value="active" scope="request" />
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <p>
             Hello
@@ -26,18 +26,15 @@
         <div class="profileMenu">
             <div class="row">
                 <div class="col-sm-4 menuItem">
-                    <a href="/sell"> <span class="icon glyphicon glyphicon-tag"></span>
-
+                    <a href="/seller/sellProperty"><span class="icon glyphicon glyphicon-tag"></span>
                         <p class="itemLabel">Sell a property</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">
                     <span class="icon glyphicon glyphicon-question-sign"></span>
-
                     <p class="itemLabel">Sample menu item</p>
                 </div>
                 <div class="col-sm-4 menuItem">
                     <span class="icon glyphicon glyphicon-question-sign"></span>
-
                     <p class="itemLabel">Sample menu item</p>
                 </div>
             </div>
@@ -51,6 +48,6 @@
         </div>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 </body>
 </html>

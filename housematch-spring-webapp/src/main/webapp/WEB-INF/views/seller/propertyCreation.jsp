@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -13,14 +13,14 @@
 <title>HouseMatch - Sell</title>
 </head>
 <body>
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <h1 class="center">Sell a property</h1>
 
-        <form:form id="property-creation-form" class="form-horizontal" role="form" commandName="propertyCreationForm" action="/sell"
+        <form:form id="property-creation-form" class="form-horizontal" role="form" commandName="propertyCreationForm" action="/seller/sellProperty"
             method="POST">
             
-            <%@include file="../includes/alertMessage.jsp"%>
+            <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
             
             <h2>Basic property information</h2>
             <br>
@@ -103,7 +103,7 @@
         </form:form>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 
 </body>
 </html>

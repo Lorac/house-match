@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -13,7 +13,7 @@
 <title>HouseMatch - Contact Information Update Confirmation</title>
 </head>
 <body>
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <p>Your contact information has been updated.</p>
         <c:if test="${sessionScope.user.isActivated() == false}">
@@ -23,9 +23,9 @@
             </p>
         </c:if>
         <p>
-            <a href="../">Go back to your profile</a>
+            <a href="/buyer/home">Go back to your profile</a>
         </p>
     </div>
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 </body>
 </html>

@@ -7,7 +7,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -16,13 +16,13 @@
 <title>HouseMatch - Update Contact Information</title>
 </head>
 <body>
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <h1 class="center">Update Contact Information</h1>
         <form:form id="profile-form" class="form-horizontal" role="form" commandName="contactInformationForm"
-            action="/updateContactInformation" method="POST">
+            action="/buyer/updateContactInformation" method="POST">
             
-            <%@include file="../includes/alertMessage.jsp"%>
+            <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
             
             <div class="form-group">
                 <label class="control-label col-sm-2">Street Number:</label>
@@ -87,7 +87,7 @@
         </form:form>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 
 </body>
 </html>

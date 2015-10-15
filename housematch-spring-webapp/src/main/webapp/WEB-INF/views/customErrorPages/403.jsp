@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<%@include file="../../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -13,13 +13,13 @@
 <title>HouseMatch - Access Forbidden</title>
 </head>
 <body>
-    <jsp:include page="../../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
 
     <div class="container">
         <h1>Watch where you're going!</h1>
         <p>Seems like you're not allowed to view this page.</p>
     </div>
 
-    <%@include file="../../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 </body>
 </html>

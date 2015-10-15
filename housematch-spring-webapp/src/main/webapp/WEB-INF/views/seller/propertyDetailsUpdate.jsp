@@ -7,7 +7,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -16,14 +16,14 @@
 <title>HouseMatch - Property Details</title>
 </head>
 <body>
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
 
     <div class="container">
         <h1 class="center">Extended Property Details</h1>
         <form:form id="property-update-form" class="form-horizontal" role="form" commandName="propertyDetailsForm"
-            action="/updatePropertyDetails/${propertyHashCode}" method="POST">
+            action="/seller/updatePropertyDetails/${propertyHashCode}" method="POST">
 
-             <%@include file="../includes/alertMessage.jsp"%>
+             <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
 
             <div class="form-group">
                 <label class="control-label col-sm-3">Property Style:</label>
@@ -181,6 +181,6 @@
         </form:form>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 </body>
 </html>

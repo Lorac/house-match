@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -15,7 +15,7 @@
 
 <body>
     <c:set var="registerLinkActive" value="active" scope="request" />
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -36,7 +36,7 @@
                             <div class="col-lg-12">
                                 <form:form id="register-form" role="form" commandName="registrationForm" action="/register" method="POST">
                                     
-                                    <%@include file="../includes/alertMessage.jsp"%>
+                                    <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
                                     
                                     <div class="form-group">
                                         <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32"
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
     <script src="/resources/js/login.js"></script>
 
 </body>

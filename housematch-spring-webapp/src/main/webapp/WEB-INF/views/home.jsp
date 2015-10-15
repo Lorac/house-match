@@ -4,7 +4,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -15,7 +15,7 @@
 <body>
 
 
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <c:choose>
             <c:when test="${not empty sessionScope.user}">
@@ -27,6 +27,6 @@
         </c:choose>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
 </body>
 </html>

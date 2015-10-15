@@ -15,12 +15,12 @@ public class HomeController extends BaseController {
 
     public static final String HOME_URL = "/";
     static final String HOME_VIEW_NAME = "home";
-    static final String ADMIN_HOME_URL = "/adminHome";
-    static final String ADMIN_HOME_VIEW_NAME = "adminHome";
-    static final String SELLER_HOME_URL = "/sellerHome";
-    static final String SELLER_HOME_VIEW_NAME = "sellerHome";
-    static final String BUYER_HOME_URL = "/buyerHome";
-    static final String BUYER_HOME_VIEW_NAME = "buyerHome";
+    static final String ADMIN_HOME_URL = "/admin/home";
+    static final String ADMIN_HOME_VIEW_NAME = "admin/home";
+    static final String SELLER_HOME_URL = "/seller/home";
+    static final String SELLER_HOME_VIEW_NAME = "seller/home";
+    static final String BUYER_HOME_URL = "/buyer/home";
+    static final String BUYER_HOME_VIEW_NAME = "buyer/home";
 
     protected HomeController() {
         // Required for Mockito

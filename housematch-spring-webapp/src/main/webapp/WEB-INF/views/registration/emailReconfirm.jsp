@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <jsp:include page="../includes/navigationBar.jsp" />
+    <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -26,7 +26,7 @@
                         <form:form id="email-reconfirm-form" role="form" commandName="emailReconfirmForm" action="/emailReconfirm"
                             method="POST" modes="">
                             <div class="form-group">
-                                <%@include file="../includes/alertMessage.jsp"%>
+                                <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
                             </div>
                             <div class="form-group">
                                 <label for="inputEmail" class="sr-only">Email</label>
@@ -48,7 +48,7 @@
         </div>
     </div>
 
-    <%@include file="../includes/footer.jsp"%>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
     <script src="/resources/js/login.js"></script>
 </body>
 </html>
