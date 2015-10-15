@@ -21,7 +21,7 @@
 	    	<c:when test="${not empty user.properties}">
 	    	<ul>
 				<c:forEach var="property" items="${user.properties}">
-					<a href="/updatePropertyDetails/${property.hashCode}">
+					<a href="/updatePropertyDetails/${property.hashCode()}">
 						<li>${property.address.streetNumber} ${property.address.streetName} - ${property.address.town}</li>
 					</a>
 				</c:forEach>

@@ -56,10 +56,6 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
-    public int getHashCode() {
-        return address.hashCode();
-    }
-
     @Override
     public int hashCode() {
         return address.hashCode();

@@ -31,7 +31,7 @@
                         <p class="itemLabel">Sell a property</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">
-                    <a href="/myPropreties"> <span class="icon glyphicon glyphicon-tags"></span>
+                    <a href="/propertiesForSale"> <span class="icon glyphicon glyphicon-tags"></span>
 
                     <p class="itemLabel">Edit my properties</p></a>
                 </div>
