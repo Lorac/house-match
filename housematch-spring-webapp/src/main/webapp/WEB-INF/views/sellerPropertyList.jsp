@@ -28,7 +28,7 @@
                </ul>
            </c:when>
            <c:otherwise>
-               <p>ou have no properties for sale. You can put a property up for sale <a href="/sell">here</a></p>
+               <p>You have no properties for sale. You can put a property up for sale <a href="/sell">here</a></p>
            </c:otherwise>
        </c:choose>
    </div>
