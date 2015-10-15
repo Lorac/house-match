@@ -1,24 +1,21 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import org.jasypt.util.text.TextEncryptor;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.jasypt.util.text.TextEncryptor;
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 public class XmlUserAdapterTest {
 
@@ -36,8 +33,8 @@ public class XmlUserAdapterTest {
     private Property propertyMock;
 
     private XmlUserAdapter xmlUserAdapter;
-    private List<Property> propertyListings = new ArrayList<Property>();
-    private List<Integer> propertyListingRefs = new ArrayList<Integer>();
+    private List<Property> properties = new ArrayList<Property>();
+    private List<Integer> propertyRefs = new ArrayList<Integer>();
 
     @Before
     public void init() throws Exception {
@@ -61,7 +58,7 @@ public class XmlUserAdapterTest {
         when(userMock.getRole()).thenReturn(SAMPLE_ROLE);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
         when(userMock.isActivated()).thenReturn(SAMPLE_BOOLEAN);
-        when(userMock.getPropertyListings()).thenReturn(propertyListings);
+        when(userMock.getProperties()).thenReturn(properties);
     }
 
     private void initXmlUserMock() {
@@ -72,7 +69,7 @@ public class XmlUserAdapterTest {
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
         xmlUserMock.activated = SAMPLE_BOOLEAN;
-        xmlUserMock.propertyListingsRef = propertyListingRefs;
+        xmlUserMock.propertyRef = propertyRefs;
     }
 
     @Test
@@ -93,10 +90,10 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void propertyListingsAreMarshalledAsReferencesDuringMarshalling() throws Exception {
-        propertyListings.add(propertyMock);
+    public void propertiesAreMarshalledAsReferencesDuringMarshalling() throws Exception {
+        properties.add(propertyMock);
         XmlUser xmlUser = xmlUserAdapter.marshal(userMock);
-        assertThat(xmlUser.propertyListingsRef, contains(propertyMock.hashCode()));
+        assertThat(xmlUser.propertyRef, contains(propertyMock.hashCode()));
     }
 
     @Test
@@ -117,12 +114,12 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void propertyListingsAreDereferencedDuringUnmarshalling() throws Exception {
+    public void propertiesAreDereferencedDuringUnmarshalling() throws Exception {
         when(propertyRepositoryMock.getByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
-        propertyListingRefs.add(propertyMock.hashCode());
+        propertyRefs.add(propertyMock.hashCode());
 
         User user = xmlUserAdapter.unmarshal(xmlUserMock);
 
-        assertThat(user.getPropertyListings(), contains(propertyMock));
+        assertThat(user.getProperties(), contains(propertyMock));
     }
 }

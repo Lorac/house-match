@@ -6,10 +6,6 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-.center {
-	text-align:center;
-}
-
 .panel {
     border-color: #ccc;
     -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
@@ -85,6 +81,10 @@ body {
     color: #fff;
     background-color: #1CA347;
     border-color: #1CA347;
+}
+
+.form .form-heading h1 {
+	text-align: center;
 }
 
 .profileMenu {

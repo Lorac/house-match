@@ -1,24 +1,20 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
-import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.*;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -30,7 +26,6 @@ public class XmlUserRepositoryTest {
     private XmlUserAdapter xmlUserAdapterMock;
     private XmlUserRootElement xmlUserRootElementMock;
     private User userMock;
-    private User anotherUserMock;
 
     private XmlUserRepository xmlUserRepository;
     private List<User> users;
@@ -46,7 +41,6 @@ public class XmlUserRepositoryTest {
     @SuppressWarnings("unchecked")
     private void initMocks() {
         userMock = mock(User.class);
-        anotherUserMock = mock(User.class);
         xmlUserAdapterMock = mock(XmlUserAdapter.class);
         xmlUserRootElementMock = mock(XmlUserRootElement.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
@@ -87,7 +81,7 @@ public class XmlUserRepositoryTest {
 
     @Test(expected = IllegalStateException.class)
     public void updatingNonExistingUserThrowsIllegalStateException() throws Exception {
-        xmlUserRepository.update(anotherUserMock);
+        xmlUserRepository.update(userMock);
     }
 
     @Test

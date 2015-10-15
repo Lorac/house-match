@@ -20,7 +20,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-public class LoginControllerTest extends MvcControllerTest {
+public class LoginControllerTest extends BaseControllerTest {
 
     private static final String USERNAME_PARAMETER_NAME = "username";
     private static final String SAMPLE_USERNAME = "Alice";
@@ -32,7 +32,7 @@ public class LoginControllerTest extends MvcControllerTest {
     private LoginController loginController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
         userActivationServiceMock = mock(UserActivationService.class);
@@ -56,8 +56,8 @@ public class LoginControllerTest extends MvcControllerTest {
 
         ResultActions results = performGetRequest(LoginController.LOGIN_URL);
 
-        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty(USERNAME_PARAMETER_NAME)));
-        results.andExpect(model().attribute(LoginFormViewModel.VIEWMODEL_NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
+        results.andExpect(model().attribute(LoginFormViewModel.NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+        results.andExpect(model().attribute(LoginFormViewModel.NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
     }
 
     @Test
@@ -91,7 +91,7 @@ public class LoginControllerTest extends MvcControllerTest {
         ResultActions results = postLoginForm();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

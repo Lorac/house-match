@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-public class MvcControllerTest {
+public class BaseControllerTest {
 
     private static final String VIEW_NAME_PREFIX = "/WEB-INF/views/";
     private static final String VIEW_NAME_SUFFIX = ".jsp";
@@ -22,7 +22,7 @@ public class MvcControllerTest {
     protected MockHttpSession mockHttpSession;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         initViewResolver();
         userMock = mock(User.class);
 

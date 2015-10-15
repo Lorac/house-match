@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyListingDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -9,11 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class UserTest {
 
@@ -26,23 +25,21 @@ public class UserTest {
     private static final String SAMPLE_USERNAME = "Alice";
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
-    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final Object SAMPLE_OBJECT = new Object();
+    private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
+    private Address addressMock;
 
     private Property propertyMock;
-    private PropertyListingDetails propertyDetailsMock;
-    private PropertyListingDetails propertyDetailsMock2;
 
-    private List<Property> propertyListings;
+    private List<Property> properties;
     private User user;
 
     @Before
     public void init() throws Exception {
         propertyMock = mock(Property.class);
-        propertyDetailsMock = mock(PropertyListingDetails.class);
-        propertyDetailsMock2 = mock(PropertyListingDetails.class);
-        propertyListings = new ArrayList<>();
+        properties = new ArrayList<>();
         user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        addressMock = mock(Address.class);
     }
 
     @Test
@@ -204,33 +201,34 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePropertyListingsSetsTheSpecifiedPropertyListings() {
-        user.setPropertyListings(propertyListings);
-        assertEquals(propertyListings, user.getPropertyListings());
+    public void settingThePropertiesSetsTheSpecifiedProperty() {
+        user.setProperties(properties);
+        assertEquals(properties, user.getProperties());
     }
 
     @Test
-    public void addingAPropertyListingAddsTheSpecifiedPropertyListing() {
-        user.addPropertyListing(propertyMock);
-        assertThat(user.getPropertyListings(), contains(propertyMock));
-    }
-
-    @Test(expected = UserPropertyNotListedException.class)
-    public void updatingPropertyNotExistingInUserThrowsUserPropertyNotListed() throws Exception {
-        user.updateProperty(propertyMock);
+    public void addingAPropertyAddsTheSpecifiedProperty() {
+        user.addProperty(propertyMock);
+        assertThat(user.getProperties(), contains(propertyMock));
     }
 
     @Test
-    public void updatingPropertyUpdatePropertyInList() throws Exception {
-        Property property1 = propertyMock;
-        when(property1.getPropertyDetails()).thenReturn(propertyDetailsMock);
-        Property property2 = propertyMock;
-        when(property2.getPropertyDetails()).thenReturn(propertyDetailsMock2);
-        user.addPropertyListing(property1);
+    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        user.addProperty(propertyMock);
+        assertSame(propertyMock, user.getPropertyByHashCode(propertyMock.hashCode()));
+    }
 
-        user.updateProperty(property2);
-        assertEquals(user.getPropertyListings().size(), 1);
-        assertEquals(user.getPropertyListings().get(0).getPropertyDetails(), propertyDetailsMock2);
+
+    @Test(expected = PropertyNotFoundException.class)
+    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist()
+            throws Exception {
+        user.getPropertyByHashCode(propertyMock.hashCode());
+    }
+
+    @Test
+    public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
+        user.setAddress(addressMock);
+        assertEquals(addressMock, user.getAddress());
 
     }
 }

@@ -1,13 +1,13 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class XmlPropertyRepository implements PropertyRepository {
 
@@ -54,12 +54,8 @@ public class XmlPropertyRepository implements PropertyRepository {
     public void update(Property property) {
         if (!properties.contains(property)) {
             throw new IllegalStateException("Update requested for an object that is not persisted.");
-        } else if (properties.get(properties.indexOf(property)).hashCode() != property.hashCode()) {
-            throw new IllegalStateException(
-                    "Object hash code has changed, which could put the repository into an invalid state.");
         }
-        properties.remove(property);
-        properties.add(property);
+
         marshal();
     }
 }

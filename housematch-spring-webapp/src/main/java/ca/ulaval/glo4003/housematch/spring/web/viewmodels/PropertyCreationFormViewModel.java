@@ -1,15 +1,14 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
-import java.math.BigDecimal;
-
-import javax.validation.constraints.NotNull;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 
-public class PropertyListingCreationFormViewModel extends ViewModel {
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
-    public static final String VIEWMODEL_NAME = "propertyListingCreationForm";
+public class PropertyCreationFormViewModel extends ViewModel {
+
+    public static final String NAME = "propertyCreationForm";
 
     @NotNull
     private PropertyType propertyType;
@@ -18,8 +17,8 @@ public class PropertyListingCreationFormViewModel extends ViewModel {
     @NotNull
     private BigDecimal sellingPrice;
 
-    public String getViewModelName() {
-        return VIEWMODEL_NAME;
+    public String getName() {
+        return NAME;
     }
 
     public PropertyType getPropertyType() {

@@ -10,7 +10,7 @@ import javax.naming.AuthenticationException;
 import java.security.Principal;
 
 @Controller
-public class HomeController extends MvcController {
+public class HomeController extends BaseController {
 
     protected HomeController() {
         // Required for Mockito

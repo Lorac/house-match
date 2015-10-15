@@ -1,14 +1,14 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
-
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 
 public class XmlUserRepository implements UserRepository {
 
@@ -17,7 +17,7 @@ public class XmlUserRepository implements UserRepository {
     private List<User> users;
 
     public XmlUserRepository(final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller,
-            final XmlUserAdapter xmlUserAdapter) {
+                             final XmlUserAdapter xmlUserAdapter) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository(xmlUserAdapter);
     }
@@ -45,8 +45,6 @@ public class XmlUserRepository implements UserRepository {
             throw new IllegalStateException("Update requested for an object that is not persisted.");
         }
 
-        users.remove(user);
-        users.add(user);
         marshal();
     }
 

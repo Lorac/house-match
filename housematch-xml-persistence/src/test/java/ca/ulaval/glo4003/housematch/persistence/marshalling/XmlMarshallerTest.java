@@ -1,26 +1,22 @@
 package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.InputStream;
-import java.io.OutputStream;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.*;
 
 public class XmlMarshallerTest {
 
-    private XmlMarshaller<Object> xmlMarshaller;
     private static final Object SAMPLE_OBJECT = new Object();
+    private XmlMarshaller<Object> xmlMarshaller;
     private Marshaller marshallerMock;
     private Unmarshaller unmarshallerMock;
     private InputStream inputStreamMock;

@@ -1,72 +1,76 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.List;
-
-import jdk.nashorn.internal.ir.annotations.Ignore;
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
+import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
     private static final String SAMPLE_EMAIL = "test@test.com";
+    private static final String SAMPLE_INVALID_EMAIL = "asd@asd<!";
     private static final String SAMPLE_PASSWORD = "password1234";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
+    private static final int SAMPLE_HASHCODE = new Object().hashCode();
 
     private UserRepository userRepositoryMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
+    private AddressValidator addressValidatorMock;
+    private Address addressMock;
+
     private User userMock;
+    private Property propertyMock;
 
     private UserService userService;
 
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock);
+        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
+                addressValidatorMock);
     }
 
-    private void initMocks() {
+    private void initMocks() throws UserNotFoundException {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
+        propertyMock = mock(Property.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
+        addressValidatorMock = mock(AddressValidator.class);
+        addressMock = mock(Address.class);
+        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }
 
     @Test
     public void gettingUserByLoginCredentialsValidatesPasswordFromTheUserObject() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userMock).validatePassword(SAMPLE_PASSWORD);
     }
 
     @Test
     public void gettingUserByLoginCredentialsRetrievesUserByUsernameFromRepository() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         verify(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
     }
 
     @Test
     public void gettingUserByLoginCredentialsReturnsTheUser() throws Exception {
-        when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
         User user = userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
         assertSame(userMock, user);
     }
@@ -127,10 +131,55 @@ public class UserServiceTest {
         verify(userActivationServiceMock).beginActivation(userMock);
     }
 
+    @Test(expected = UserServiceException.class)
+    public void updatingUserEmailUsingInvalidEmaiThrowsUserServiceExceptionl() throws Exception {
+        userService.updateUserEmail(userMock, SAMPLE_INVALID_EMAIL);
+    }
+
     @Test
-    public void updatingUserEmailPushesUserUpdateToRepository() throws Exception {
+    public void updatingUserEmailWithTheSameEmailDoesNotBeginTheUserActivationProcess() throws Exception {
+        when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
         userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        verify(userActivationServiceMock, never()).beginActivation(userMock);
+    }
+
+    @Test
+    public void updatingUserContactInformationsPushesUserUpdateToRepository() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userRepositoryMock).update(userMock);
+    }
+
+    @Test
+    public void updatingUserContactInformationsValidatesTheAddress() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+        verify(addressValidatorMock).validateAddress(addressMock);
+    }
+
+    @Test
+    public void updatingUserContactInformationsSetsTheNewAddressInTheUserObject() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+        verify(userMock).setAddress(addressMock);
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void updatingUserContactInformationsThrowsUserServiceExceptionOnUserActivationServiceException()
+            throws Exception {
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).beginActivation(userMock);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+    }
+
+    @Test(expected = UserServiceException.class)
+    public void updatingUserContactInformationsThrowsUserServiceExceptionOnAddressValidationException()
+            throws Exception {
+        doThrow(new AddressValidationException()).when(addressValidatorMock).validateAddress(addressMock);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+    }
+
+    @Test
+    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        when(userMock.getPropertyByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        Property returnedProperty = userService.getPropertyByHashCode(userMock, SAMPLE_HASHCODE);
+        assertSame(propertyMock, returnedProperty);
     }
 
     @Test

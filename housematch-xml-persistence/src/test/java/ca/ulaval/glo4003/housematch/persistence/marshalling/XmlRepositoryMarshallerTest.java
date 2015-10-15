@@ -1,23 +1,19 @@
 package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
-import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.io.InputStream;
-import java.io.OutputStream;
+import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 public class XmlRepositoryMarshallerTest {
 

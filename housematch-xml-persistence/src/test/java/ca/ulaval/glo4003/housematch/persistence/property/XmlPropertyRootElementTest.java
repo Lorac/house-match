@@ -1,14 +1,13 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import static org.junit.Assert.assertSame;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.property.Property;
+import static org.junit.Assert.assertSame;
 
 public class XmlPropertyRootElementTest {
 

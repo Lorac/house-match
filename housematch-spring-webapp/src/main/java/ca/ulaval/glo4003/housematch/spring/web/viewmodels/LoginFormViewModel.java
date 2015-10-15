@@ -4,15 +4,15 @@ import javax.validation.constraints.NotNull;
 
 public final class LoginFormViewModel extends ViewModel {
 
-    public static final String VIEWMODEL_NAME = "loginForm";
+    public static final String NAME = "loginForm";
 
     @NotNull
     private String username;
     @NotNull
     private String password;
 
-    public String getViewModelName() {
-        return VIEWMODEL_NAME;
+    public String getName() {
+        return NAME;
     }
 
     public String getUsername() {

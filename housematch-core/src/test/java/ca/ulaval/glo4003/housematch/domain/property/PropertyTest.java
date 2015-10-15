@@ -1,17 +1,13 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-
-import java.math.BigDecimal;
-
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.math.BigDecimal;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class PropertyTest {
 
@@ -23,22 +19,24 @@ public class PropertyTest {
     private Address addressMock;
 
     private Property property;
+    private PropertyDetails propertyDetailsMock;
 
     @Before
     public void init() throws Exception {
         addressMock = mock(Address.class);
+        propertyDetailsMock = mock(PropertyDetails.class);
         property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
     }
 
     @Test
-    public void propertiesWithTheSameAddressShouldBeConsideredAsEqual() throws Exception {
+    public void propertiesWithTheSameAddressShouldBeConsideredAsEqual() {
         Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock,
                 ANOTHER_SAMPLE_SELLING_PRICE);
         assertTrue(property.equals(anotherProperty));
     }
 
     @Test
-    public void propertiesWithDifferentAddressesShouldBeConsideredAsDifferent() throws Exception {
+    public void propertiesWithDifferentAddressesShouldBeConsideredAsDifferent() {
         Address anotherAddressMock = mock(Address.class);
         Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE);
 
@@ -46,17 +44,16 @@ public class PropertyTest {
     }
 
     @Test
-    public void propertiesWithTheSameAddressShouldHaveTheSameHashCode() throws Exception {
+    public void propertiesWithTheSameAddressShouldHaveTheSameHashCode() {
         Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock,
                 ANOTHER_SAMPLE_SELLING_PRICE);
         assertEquals(property.hashCode(), anotherProperty.hashCode());
     }
 
     @Test
-    public void propertiesWithDifferentAddressesShouldNotHaveTheSameHashCode() throws Exception {
+    public void propertiesWithDifferentAddressesShouldNotHaveTheSameHashCode() {
         Address anotherAddressMock = mock(Address.class);
         Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE);
-
         assertNotEquals(property.hashCode(), anotherProperty.hashCode());
     }
 
@@ -71,21 +68,27 @@ public class PropertyTest {
     }
 
     @Test
-    public void settingThePropertyTypeSetsTheSpecifiedPropertyType() throws Exception {
+    public void settingThePropertyTypeSetsTheSpecifiedPropertyType() {
         property.setPropertyType(ANOTHER_SAMPLE_PROPERTY_TYPE);
         assertEquals(ANOTHER_SAMPLE_PROPERTY_TYPE, property.getPropertyType());
     }
 
     @Test
-    public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
+    public void settingTheAddressSetsTheSpecifiedAddress() {
         Address anotherAddressMock = mock(Address.class);
         property.setAddress(anotherAddressMock);
         assertEquals(anotherAddressMock, property.getAddress());
     }
 
     @Test
-    public void settingTheSellingPriceSetsTheSpecifiedSellingPrice() throws Exception {
+    public void settingTheSellingPriceSetsTheSpecifiedSellingPrice() {
         property.setSellingPrice(ANOTHER_SAMPLE_SELLING_PRICE);
         assertEquals(ANOTHER_SAMPLE_SELLING_PRICE, property.getSellingPrice());
+    }
+
+    @Test
+    public void settingThePropertyDetailsSetsTheSpecifiedPropertyDetails() {
+        property.setPropertyDetails(propertyDetailsMock);
+        assertEquals(propertyDetailsMock, property.getPropertyDetails());
     }
 }

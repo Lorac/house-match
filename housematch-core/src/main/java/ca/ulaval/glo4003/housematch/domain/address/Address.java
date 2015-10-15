@@ -5,27 +5,19 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Address {
 
-    Integer addressNumber;
+    Integer streetNumber;
     String streetName;
     String additionalAddressInfo;
-    String city;
+    String town;
     String postCode;
     Region region;
 
-    public String getCity() {
-        return this.city;
+    public Integer getStreetNumber() {
+        return streetNumber;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public Integer getAddressNumber() {
-        return addressNumber;
-    }
-
-    public void setAddressNumber(Integer addressNumber) {
-        this.addressNumber = addressNumber;
+    public void setStreetNumber(Integer streetNumber) {
+        this.streetNumber = streetNumber;
     }
 
     public String getStreetName() {
@@ -34,6 +26,14 @@ public class Address {
 
     public void setStreetName(String streetName) {
         this.streetName = streetName;
+    }
+
+    public String getTown() {
+        return town;
+    }
+
+    public void setTown(String town) {
+        this.town = town;
     }
 
     public String getAdditionalAddressInfo() {
@@ -62,7 +62,8 @@ public class Address {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(addressNumber).append(streetName).append(city).append(additionalAddressInfo).append(region.ordinal()).toHashCode();
+        return new HashCodeBuilder().append(streetNumber).append(streetName).append(town).append(additionalAddressInfo)
+                .append(region.ordinal()).toHashCode();
     }
 
     @Override
@@ -75,8 +76,8 @@ public class Address {
         }
 
         Address address = (Address) obj;
-        return new EqualsBuilder().append(addressNumber, address.addressNumber).append(streetName, address.streetName)
-                .append(city, address.city).append(additionalAddressInfo, address.additionalAddressInfo)
+        return new EqualsBuilder().append(streetNumber, address.streetNumber).append(streetName, address.streetName)
+                .append(town, address.town).append(additionalAddressInfo, address.additionalAddressInfo)
                 .append(region, address.region).isEquals();
     }
 }

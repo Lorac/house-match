@@ -14,12 +14,12 @@ public class AddressValidatorTest {
     private static final Integer SAMPLE_ADDRESS_NUMBER = 890;
     private static final Integer SAMPLE_NEGATIVE_ADDRESS_NUMBER = -890;
     private static final String SAMPLE_STREET_NAME = "street";
-    private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #8";
+    private static final String SAMPLE_ADDITIONNAL_ADDRESS_INFO = "Apt #4";
+    private static final String SAMPLE_TOWN = "Quebec";
     private static final String SAMPLE_POSTCODE = "G1V 3X4";
     private static final String SAMPLE_INVALID_POSTCODE = "3433";
     private static final Region SAMPLE_REGION = Region.QC;
     private static final String SAMPLE_BLANK_EXPRESSION = "  ";
-    private static final String SAMPLE_CITY = "Quebec";
 
     private Address addressMock;
 
@@ -33,13 +33,13 @@ public class AddressValidatorTest {
     }
 
     private void stubMethods() {
-        when(addressMock.getAddressNumber()).thenReturn(SAMPLE_ADDRESS_NUMBER);
+        when(addressMock.getStreetNumber()).thenReturn(SAMPLE_ADDRESS_NUMBER);
         when(addressMock.getStreetName()).thenReturn(SAMPLE_STREET_NAME);
         when(addressMock.getAdditionalAddressInfo()).thenReturn(SAMPLE_ADDITIONNAL_ADDRESS_INFO);
-        when(addressMock.getCity()).thenReturn(SAMPLE_CITY);
+        when(addressMock.getTown()).thenReturn(SAMPLE_TOWN);
         when(addressMock.getPostCode()).thenReturn(SAMPLE_POSTCODE);
         when(addressMock.getRegion()).thenReturn(SAMPLE_REGION);
-        when(addressMock.getCity()).thenReturn(SAMPLE_CITY);
+        when(addressMock.getTown()).thenReturn(SAMPLE_TOWN);
     }
 
     @Test
@@ -52,48 +52,44 @@ public class AddressValidatorTest {
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithNoAddressNumberSpecifiedThrowsPropertyListingCreationValidationException()
+    public void addressValidationWithNoStreetNumberSpecifiedThrowsPropertyCreationValidationException()
             throws Exception {
-        when(addressMock.getAddressNumber()).thenReturn(null);
+        when(addressMock.getStreetNumber()).thenReturn(null);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithNegativeAddressNumberThrowsPropertyListingCreationValidationException()
-            throws Exception {
-        when(addressMock.getAddressNumber()).thenReturn(SAMPLE_NEGATIVE_ADDRESS_NUMBER);
+    public void addressValidationWithNegativeStreetNumberThrowsPropertyCreationValidationException() throws Exception {
+        when(addressMock.getStreetNumber()).thenReturn(SAMPLE_NEGATIVE_ADDRESS_NUMBER);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithBlankStreetNameThrowsPropertyListingCreationValidationException()
-            throws Exception {
+    public void addressValidationWithBlankStreetNameThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getStreetName()).thenReturn(SAMPLE_BLANK_EXPRESSION);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithBlankPostCodeThrowsPropertyListingCreationValidationException() throws Exception {
+    public void addressValidationWithBlankPostCodeThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getPostCode()).thenReturn(SAMPLE_BLANK_EXPRESSION);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithBlankCityThrowsPropertyListingCreationValidationException() throws Exception {
-        when(addressMock.getCity()).thenReturn(SAMPLE_BLANK_EXPRESSION);
-        addressValidator.validateAddress(addressMock);
-    }
-
-    @Test(expected = AddressValidationException.class)
-    public void paddressValidationWithInvalidPostCodeFormatThrowsPropertyListingCreationValidationException()
-            throws Exception {
+    public void addressValidationWithInvalidPostCodeFormatThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getPostCode()).thenReturn(SAMPLE_INVALID_POSTCODE);
         addressValidator.validateAddress(addressMock);
     }
 
     @Test(expected = AddressValidationException.class)
-    public void addressValidationWithNoRegionSpecifiedThrowsPropertyListingCreationValidationException()
-            throws Exception {
+    public void addressValidationWithBlankTownThrowsPropertyCreationValidationException() throws Exception {
+        when(addressMock.getTown()).thenReturn(SAMPLE_BLANK_EXPRESSION);
+        addressValidator.validateAddress(addressMock);
+    }
+
+    @Test(expected = AddressValidationException.class)
+    public void addressValidationWithBlankRegionThrowsPropertyCreationValidationException() throws Exception {
         when(addressMock.getRegion()).thenReturn(null);
         addressValidator.validateAddress(addressMock);
     }

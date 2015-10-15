@@ -4,22 +4,22 @@
 
 <html>
 <head>
-<%@include file="../includes/header.jsp"%>
+<%@include file="../../includes/header.jsp"%>
 
 <!-- Custom styles for this page -->
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Sell Confirmation</title>
+<title>HouseMatch - Page Not Found</title>
 </head>
 <body>
-	<jsp:include page="../includes/navigationBar.jsp" />
+	<jsp:include page="../../includes/navigationBar.jsp" />
 	
 	<div class="container">
 		<h1>Oops!</h1>
-		<p>Seems we couldn't find what you were asking for. Please continue browsing the site via the navigation bar.</p>
+		<p>Seems we couldn't find what you were asking for. Please continue browsing the site using the navigation bar.</p>
 	</div>
 	
-	<%@include file="../includes/footer.jsp"%>
+	<%@include file="../../includes/footer.jsp"%>
 </body>
 </html>

@@ -1,17 +1,16 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import java.math.BigDecimal;
-
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.math.BigDecimal;
 
 public class Property {
 
     private PropertyType propertyType;
     private Address address;
     private BigDecimal sellingPrice;
-    private PropertyListingDetails propertyDetails;
+    private PropertyDetails propertyDetails;
 
     Property() {
         // Required for instanciation by reflection
@@ -21,7 +20,7 @@ public class Property {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
-        this.propertyDetails = new PropertyListingDetails();
+        this.propertyDetails = new PropertyDetails();
     }
 
     public PropertyType getPropertyType() {
@@ -48,11 +47,11 @@ public class Property {
         this.sellingPrice = sellingPrice;
     }
 
-    public PropertyListingDetails getPropertyDetails() {
+    public PropertyDetails getPropertyDetails() {
         return propertyDetails;
     }
 
-    public void setPropertyDetails(PropertyListingDetails propertyDetails) {
+    public void setPropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
     }
 

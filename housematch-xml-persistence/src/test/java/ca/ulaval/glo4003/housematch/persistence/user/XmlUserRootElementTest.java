@@ -1,14 +1,13 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import static org.junit.Assert.assertSame;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.user.User;
+import static org.junit.Assert.assertSame;
 
 public class XmlUserRootElementTest {
 

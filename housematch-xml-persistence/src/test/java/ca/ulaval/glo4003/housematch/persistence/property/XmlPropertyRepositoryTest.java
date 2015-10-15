@@ -1,23 +1,19 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.*;
 
 public class XmlPropertyRepositoryTest {
     private static final Integer SAMPLE_UNEXISTING_HASHCODE = 345435;
@@ -80,15 +76,15 @@ public class XmlPropertyRepositoryTest {
         xmlPropertyRepository.persist(propertyMock);
         xmlPropertyRepository.getByHashCode(SAMPLE_UNEXISTING_HASHCODE);
     }
-    
-    @Test
-    public void updatingPropertyUpdatesPropertyToRepository() throws Exception{
-    	 xmlPropertyRepository.persist(propertyMock);
-    	 xmlPropertyRepository.update(propertyMock);
 
-         verify(xmlRepositoryMarshallerMock, times(2)).marshal(xmlPropertyRootElementMock);
-     }
-    
+    @Test
+    public void updatingPropertyUpdatesPropertyToRepository() throws Exception {
+        xmlPropertyRepository.persist(propertyMock);
+        xmlPropertyRepository.update(propertyMock);
+
+        verify(xmlRepositoryMarshallerMock, times(2)).marshal(xmlPropertyRootElementMock);
+    }
+
     @Test(expected = IllegalStateException.class)
     public void updatingNonExistingPropertyThrowsIllegalStateException() throws Exception {
         xmlPropertyRepository.update(propertyMock);

@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.utils;
 
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -8,8 +10,6 @@ import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import org.apache.commons.io.FileUtils;
 
 public class ResourceLoader {
 

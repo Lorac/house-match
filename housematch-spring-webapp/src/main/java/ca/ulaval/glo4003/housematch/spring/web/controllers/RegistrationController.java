@@ -1,10 +1,14 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import java.util.List;
-import java.util.UUID;
-
-import javax.servlet.http.HttpSession;
-
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
+import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,18 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
-import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
-import ca.ulaval.glo4003.housematch.services.user.UserService;
-import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.UUID;
 
 @Controller
-public class RegistrationController extends MvcController {
+public class RegistrationController extends BaseController {
 
     @Autowired
     private UserService userService;
@@ -49,7 +47,7 @@ public class RegistrationController extends MvcController {
 
     @RequestMapping(value = REGISTRATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayRegistrationView(ModelMap modelMap) {
-        modelMap.put(RegistrationFormViewModel.VIEWMODEL_NAME, new RegistrationFormViewModel());
+        modelMap.put(RegistrationFormViewModel.NAME, new RegistrationFormViewModel());
         return new ModelAndView(REGISTRATION_VIEW_NAME, modelMap);
     }
 
@@ -66,21 +64,21 @@ public class RegistrationController extends MvcController {
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.GET)
     public final ModelAndView displayEmailReconfirmView(EmailReconfirmFormViewModel emailReconfirmForm,
-            ModelMap modelMap, RedirectAttributes redirectAttributes) {
+                                                        ModelMap modelMap, RedirectAttributes redirectAttributes) {
 
-        modelMap.put(EmailReconfirmFormViewModel.VIEWMODEL_NAME, new EmailReconfirmFormViewModel());
+        modelMap.put(EmailReconfirmFormViewModel.NAME, new EmailReconfirmFormViewModel());
         return new ModelAndView(EMAIL_RECONFIRM_VIEW_NAME);
     }
 
     @RequestMapping(value = EMAIL_RECONFIRM_URL, method = RequestMethod.POST)
     public final ModelAndView resendActivationLink(EmailReconfirmFormViewModel emailReconfirmForm,
-            HttpSession session) {
+                                                   HttpSession session) {
 
         try {
             userService.updateUserEmail(getUserFromHttpSession(session), emailReconfirmForm.getEmail());
             session.invalidate();
             return new ModelAndView(ACTIVATION_NOTICE_VIEW_NAME);
-        } catch (UserActivationServiceException e) {
+        } catch (UserActivationServiceException | UserServiceException e) {
             return showAlertMessage(EMAIL_RECONFIRM_VIEW_NAME, emailReconfirmForm, e.getMessage());
         }
     }

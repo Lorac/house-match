@@ -10,12 +10,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-public class HomeControllerTest extends MvcControllerTest {
+public class HomeControllerTest extends BaseControllerTest {
 
     private HomeController homeController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         homeController = new HomeController();
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();

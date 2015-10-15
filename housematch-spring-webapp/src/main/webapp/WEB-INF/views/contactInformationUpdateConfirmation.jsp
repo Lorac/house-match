@@ -10,16 +10,18 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Sell Confirmation</title>
+<title>HouseMatch - Contact Information Update Confirmation</title>
 </head>
 <body>
 	<jsp:include page="../includes/navigationBar.jsp" />
-	
 	<div class="container">
-		<h1>Property Listing Details Saved</h1>
-		<p>Congratulations! All your details have been saved successfully. You may continue to explore the site via the navigation bar.</p>
+		<p>Your contact information has been updated.</p>
+		<c:if test="${sessionScope.user.isActivated() == false}">
+			<p><b>IMPORTANT: </b>You need to confirm your new email address. Click
+			on the link that was sent to <i>${sessionScope.user.email}</i>. You will not be able to navigate the site until this step is complete.</p>
+		</c:if>
+		<p><a href="../">Go back to your profile</a></p>
 	</div>
-	
 	<%@include file="../includes/footer.jsp"%>
 </body>
 </html>

@@ -1,25 +1,5 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
-import java.util.UUID;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
@@ -29,8 +9,23 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.EmailReconfirmFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel;
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class RegistrationControllerTest extends MvcControllerTest {
+import java.util.UUID;
+
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+public class RegistrationControllerTest extends BaseControllerTest {
 
     private static final String USERNAME_PARAMETER_NAME = "username";
     private static final String SAMPLE_USERNAME = "Alice";
@@ -47,7 +42,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
     private RegistrationController registerController;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
         userActivationServiceMock = mock(UserActivationService.class);
@@ -68,13 +63,13 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = performGetRequest(RegistrationController.REGISTRATION_URL);
 
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(USERNAME_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(USERNAME_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(PASSWORD_PARAMETER_NAME)));
         results.andExpect(
-                model().attribute(RegistrationFormViewModel.VIEWMODEL_NAME, hasProperty(ROLE_PARAMETER_NAME)));
+                model().attribute(RegistrationFormViewModel.NAME, hasProperty(ROLE_PARAMETER_NAME)));
     }
 
     @Test
@@ -101,7 +96,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postRegistrationForm();
 
         results.andExpect(view().name(RegistrationController.REGISTRATION_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -118,7 +113,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = performGetRequest(RegistrationController.EMAIL_RECONFIRM_URL);
 
         results.andExpect(
-                model().attribute(EmailReconfirmFormViewModel.VIEWMODEL_NAME, hasProperty(EMAIL_PARAMETER_NAME)));
+                model().attribute(EmailReconfirmFormViewModel.NAME, hasProperty(EMAIL_PARAMETER_NAME)));
     }
 
     @Test
@@ -136,7 +131,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = postEmailReconfirmationForm();
 
         results.andExpect(view().name(RegistrationController.EMAIL_RECONFIRM_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
@@ -172,7 +167,7 @@ public class RegistrationControllerTest extends MvcControllerTest {
         ResultActions results = performActivationRequest();
 
         results.andExpect(view().name(RegistrationController.LOGIN_VIEW_NAME));
-        results.andExpect(model().attribute(AlertMessageViewModel.VIEWMODEL_NAME,
+        results.andExpect(model().attribute(AlertMessageViewModel.NAME,
                 hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 

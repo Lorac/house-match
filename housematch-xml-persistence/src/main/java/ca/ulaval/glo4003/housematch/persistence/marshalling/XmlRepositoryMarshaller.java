@@ -1,15 +1,14 @@
 package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UncheckedIOException;
+import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
 
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-
-import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UncheckedIOException;
 
 public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
 
@@ -19,13 +18,13 @@ public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
     private String resourceName;
 
     public XmlRepositoryMarshaller(final Class<T> type, final ResourceLoader resourceLoader,
-            final String resourceName) {
+                                   final String resourceName) {
         super(type);
         init(resourceLoader, resourceName);
     }
 
     public XmlRepositoryMarshaller(final Marshaller marshaller, final Unmarshaller unmarshaller,
-            final ResourceLoader resourceLoader, final String resourceName) {
+                                   final ResourceLoader resourceLoader, final String resourceName) {
         super(marshaller, unmarshaller);
         init(resourceLoader, resourceName);
     }
