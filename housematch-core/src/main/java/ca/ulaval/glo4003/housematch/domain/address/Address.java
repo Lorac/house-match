@@ -80,4 +80,9 @@ public class Address {
                 .append(town, address.town).append(additionalAddressInfo, address.additionalAddressInfo).append(region, address.region)
                 .isEquals();
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s, %s, %s %s, %s", streetNumber, streetName, town, region, postCode, region.getCountry());
+    }
 }
