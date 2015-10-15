@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -7,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class HomeControllerTest extends BaseControllerTest {
 
@@ -30,24 +33,30 @@ public class HomeControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void homeControllerRendersAdminHomeView() throws Exception {
-        ResultActions results = performGetRequest(HomeController.ADMIN_HOME_URL);
+    public void homeControllerShouldRenderAdminHomeViewWhenUserRoleIsAdmin() throws Exception {
+        when(userMock.getRole()).thenReturn(UserRole.ADMINISTRATOR);
+
+        ResultActions results = performGetRequest(HomeController.HOME_URL);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(HomeController.ADMIN_HOME_VIEW_NAME));
     }
 
     @Test
-    public void homeControllerRendersSellerHomeView() throws Exception {
-        ResultActions results = performGetRequest(HomeController.SELLER_HOME_URL);
+    public void homeControllerShouldRenderSellerHomeViewWhenUserRoleIsSeller() throws Exception {
+        when(userMock.getRole()).thenReturn(UserRole.SELLER);
+
+        ResultActions results = performGetRequest(HomeController.HOME_URL);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(HomeController.SELLER_HOME_VIEW_NAME));
     }
 
     @Test
-    public void homeControllerRendersBuyerHomeView() throws Exception {
-        ResultActions results = performGetRequest(HomeController.BUYER_HOME_URL);
+    public void homeControllerShouldRenderBuyerHomeViewWhenUserRoleIsBuyer() throws Exception {
+        when(userMock.getRole()).thenReturn(UserRole.BUYER);
+
+        ResultActions results = performGetRequest(HomeController.HOME_URL);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(HomeController.BUYER_HOME_VIEW_NAME));
