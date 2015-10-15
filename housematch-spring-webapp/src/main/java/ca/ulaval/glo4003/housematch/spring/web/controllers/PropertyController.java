@@ -35,7 +35,7 @@ public class PropertyController extends BaseController {
     private PropertyService propertyService;
 
     @Autowired
-    private UserService userService; // Will introduce a service locator after merge
+    private UserService userService;
 
     @Autowired
     private PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler;
