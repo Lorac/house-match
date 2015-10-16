@@ -16,6 +16,7 @@
     </bean>
 
     <bean id="xmlUserAdapter" class="ca.ulaval.glo4003.housematch.persistence.user.XmlUserAdapter">
+		<constructor-arg ref="userFactory" />
         <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="basicTextEncryptor" />
     </bean>

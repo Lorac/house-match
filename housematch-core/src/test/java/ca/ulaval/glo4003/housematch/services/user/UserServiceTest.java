@@ -1,9 +1,26 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -11,14 +28,6 @@ import ca.ulaval.glo4003.housematch.validators.address.AddressValidationExceptio
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -28,6 +37,7 @@ public class UserServiceTest {
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
     private static final int SAMPLE_HASHCODE = new Object().hashCode();
 
+    private UserFactory userFactoryMock;
     private UserRepository userRepositoryMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
@@ -42,10 +52,13 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        userService = new UserService(userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock, addressValidatorMock);
+        stubMethods();
+        userService = new UserService(userFactoryMock, userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
+                addressValidatorMock);
     }
 
     private void initMocks() throws UserNotFoundException {
+        userFactoryMock = mock(UserFactory.class);
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         propertyMock = mock(Property.class);
@@ -53,6 +66,10 @@ public class UserServiceTest {
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
         addressValidatorMock = mock(AddressValidator.class);
         addressMock = mock(Address.class);
+    }
+
+    private void stubMethods() throws UserNotFoundException {
+        when(userFactoryMock.getUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }
 

@@ -27,6 +27,7 @@
     <bean id="mailSender" class="ca.ulaval.glo4003.housematch.email.MailSender">
         <constructor-arg ref="javaXMailSender" />
     </bean>
+
     <!-- Validators -->
 
     <bean id="userRegistrationValidator" class="ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator" />
@@ -41,9 +42,16 @@
 
     <bean id="partialAddressValidator" class="ca.ulaval.glo4003.housematch.validators.address.PartialAddressValidator" />
 
+    <!-- Factories -->
+
+    <bean id="userFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory" />
+
+    <bean id="propertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory" />
+
     <!-- Services -->
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.user.UserService">
+        <constructor-arg ref="userFactory" />
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="userRegistrationValidator" />
         <constructor-arg ref="userActivationService" />
@@ -56,6 +64,7 @@
     </bean>
 
     <bean id="propertyService" class="ca.ulaval.glo4003.housematch.services.property.PropertyService">
+        <constructor-arg ref="propertyFactory" />
         <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="propertyCreationValidator" />

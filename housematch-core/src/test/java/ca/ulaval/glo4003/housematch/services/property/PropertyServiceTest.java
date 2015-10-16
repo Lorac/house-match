@@ -1,9 +1,21 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -11,18 +23,12 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
 
+    private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
     private UserRepository userRepositoryMock;
     private PropertyCreationValidator propertyCreationValidatorMock;
@@ -37,11 +43,13 @@ public class PropertyServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        propertyService = new PropertyService(propertyRepositoryMock, userRepositoryMock, propertyCreationValidatorMock,
-                propertyDetailsValidatorMock);
+        stubMethods();
+        propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
+                propertyCreationValidatorMock, propertyDetailsValidatorMock);
     }
 
     private void initMocks() {
+        propertyFactoryMock = mock(PropertyFactory.class);
         userRepositoryMock = mock(UserRepository.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
         userMock = mock(User.class);
@@ -50,6 +58,10 @@ public class PropertyServiceTest {
         propertyDetailsValidatorMock = mock(PropertyDetailsValidator.class);
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
+    }
+
+    private void stubMethods() {
+        when(propertyFactoryMock.getProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class))).thenReturn(propertyMock);
     }
 
     @Test

@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -17,13 +18,16 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator
 
 public class PropertyService {
 
+    private PropertyFactory propertyFactory;
     private PropertyRepository propertyRepository;
     private UserRepository userRepository;
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
 
-    public PropertyService(final PropertyRepository propertyRepository, final UserRepository userRepository,
-            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator) {
+    public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
+            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
+            final PropertyDetailsValidator propertyDetailsValidator) {
+        this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
         this.propertyCreationValidator = propertyCreationValidator;
@@ -34,7 +38,7 @@ public class PropertyService {
             throws PropertyServiceException {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
-            Property property = new Property(propertyType, address, sellingPrice);
+            Property property = propertyFactory.getProperty(propertyType, address, sellingPrice);
             user.addProperty(property);
             userRepository.update(user);
             propertyRepository.persist(property);

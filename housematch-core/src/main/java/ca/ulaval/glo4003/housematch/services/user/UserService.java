@@ -12,6 +12,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -22,13 +23,16 @@ import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
 public class UserService {
 
+    private UserFactory userFactory;
     private UserRepository userRepository;
     private UserActivationService userActivationService;
     private UserRegistrationValidator userRegistrationValidator;
     private AddressValidator addressValidator;
 
-    public UserService(final UserRepository userRepository, final UserRegistrationValidator userRegistrationValidator,
-            final UserActivationService userActivationService, final AddressValidator addressValidator) {
+    public UserService(final UserFactory userFactory, final UserRepository userRepository,
+            final UserRegistrationValidator userRegistrationValidator, final UserActivationService userActivationService,
+            final AddressValidator addressValidator) {
+        this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.userRegistrationValidator = userRegistrationValidator;
         this.addressValidator = addressValidator;
@@ -48,7 +52,7 @@ public class UserService {
     public void registerUser(String username, String email, String password, UserRole role) throws UserServiceException {
         try {
             userRegistrationValidator.validateUserCreation(username, email, password, role);
-            User user = new User(username, email, password, role);
+            User user = userFactory.getUser(username, email, password, role);
             userActivationService.beginActivation(user);
             userRepository.persist(user);
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {

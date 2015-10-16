@@ -1,31 +1,40 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import org.jasypt.util.text.TextEncryptor;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import org.jasypt.util.text.TextEncryptor;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class XmlUserAdapterTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
+    private static final String SAMPLE_ENCRYPTED_PASSWORD = "ENCRYPTEDPASSWORD";
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String SAMPLE_USERNAME = "Alice";
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final Boolean SAMPLE_BOOLEAN = true;
 
+    private UserFactory userFactoryMock;
     private PropertyRepository propertyRepositoryMock;
     private TextEncryptor textEncryptorMock;
     private User userMock;
@@ -39,10 +48,12 @@ public class XmlUserAdapterTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        xmlUserAdapter = new XmlUserAdapter(propertyRepositoryMock, textEncryptorMock);
+        stubMethods();
+        xmlUserAdapter = new XmlUserAdapter(userFactoryMock, propertyRepositoryMock, textEncryptorMock);
     }
 
     private void initMocks() {
+        userFactoryMock = mock(UserFactory.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
         textEncryptorMock = mock(TextEncryptor.class);
         propertyMock = mock(Property.class);
@@ -64,12 +75,17 @@ public class XmlUserAdapterTest {
     private void initXmlUserMock() {
         xmlUserMock = mock(XmlUser.class);
         xmlUserMock.username = SAMPLE_USERNAME;
-        xmlUserMock.password = SAMPLE_PASSWORD;
+        xmlUserMock.password = SAMPLE_ENCRYPTED_PASSWORD;
         xmlUserMock.email = SAMPLE_EMAIL;
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
         xmlUserMock.activated = SAMPLE_BOOLEAN;
         xmlUserMock.propertyRef = propertyRefs;
+    }
+
+    private void stubMethods() {
+        when(textEncryptorMock.decrypt(SAMPLE_ENCRYPTED_PASSWORD)).thenReturn(SAMPLE_PASSWORD);
+        when(userFactoryMock.getUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
     }
 
     @Test
@@ -110,16 +126,17 @@ public class XmlUserAdapterTest {
     @Test
     public void passwordIsDecrpytedDuringUnmarshalling() throws Exception {
         xmlUserAdapter.unmarshal(xmlUserMock);
-        verify(textEncryptorMock).decrypt(SAMPLE_PASSWORD);
+        verify(textEncryptorMock).decrypt(SAMPLE_ENCRYPTED_PASSWORD);
     }
 
     @Test
     public void propertiesAreDereferencedDuringUnmarshalling() throws Exception {
         when(propertyRepositoryMock.getByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
+        properties.add(propertyMock);
         propertyRefs.add(propertyMock.hashCode());
 
-        User user = xmlUserAdapter.unmarshal(xmlUserMock);
+        xmlUserAdapter.unmarshal(xmlUserMock);
 
-        assertThat(user.getProperties(), contains(propertyMock));
+        verify(userMock).setProperties(eq(properties));
     }
 }
