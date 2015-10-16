@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.jasypt.util.text.TextEncryptor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,7 +35,6 @@ public class XmlUserAdapterTest {
 
     private UserFactory userFactoryMock;
     private PropertyRepository propertyRepositoryMock;
-    private TextEncryptor textEncryptorMock;
     private User userMock;
     private XmlUser xmlUserMock;
     private Property propertyMock;
@@ -49,13 +47,12 @@ public class XmlUserAdapterTest {
     public void init() throws Exception {
         initMocks();
         stubMethods();
-        xmlUserAdapter = new XmlUserAdapter(userFactoryMock, propertyRepositoryMock, textEncryptorMock);
+        xmlUserAdapter = new XmlUserAdapter(userFactoryMock, propertyRepositoryMock);
     }
 
     private void initMocks() {
         userFactoryMock = mock(UserFactory.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
-        textEncryptorMock = mock(TextEncryptor.class);
         propertyMock = mock(Property.class);
         initUserMock();
         initXmlUserMock();
@@ -64,7 +61,7 @@ public class XmlUserAdapterTest {
     private void initUserMock() {
         userMock = mock(User.class);
         when(userMock.getUsername()).thenReturn(SAMPLE_USERNAME);
-        when(userMock.getPassword()).thenReturn(SAMPLE_PASSWORD);
+        when(userMock.getPasswordHash()).thenReturn(SAMPLE_PASSWORD);
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
         when(userMock.getRole()).thenReturn(SAMPLE_ROLE);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
@@ -75,7 +72,7 @@ public class XmlUserAdapterTest {
     private void initXmlUserMock() {
         xmlUserMock = mock(XmlUser.class);
         xmlUserMock.username = SAMPLE_USERNAME;
-        xmlUserMock.password = SAMPLE_ENCRYPTED_PASSWORD;
+        xmlUserMock.passwordHash = SAMPLE_ENCRYPTED_PASSWORD;
         xmlUserMock.email = SAMPLE_EMAIL;
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
@@ -84,8 +81,7 @@ public class XmlUserAdapterTest {
     }
 
     private void stubMethods() {
-        when(textEncryptorMock.decrypt(SAMPLE_ENCRYPTED_PASSWORD)).thenReturn(SAMPLE_PASSWORD);
-        when(userFactoryMock.getUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
+        when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
     }
 
     @Test
@@ -97,12 +93,6 @@ public class XmlUserAdapterTest {
         assertEquals(userMock.getRole(), xmlUserMock.role);
         assertEquals(userMock.getActivationCode(), xmlUserMock.activationCode);
         assertEquals(userMock.isActivated(), xmlUserMock.activated);
-    }
-
-    @Test
-    public void passwordIsEncryptedDuringMarshalling() throws Exception {
-        xmlUserAdapter.marshal(userMock);
-        verify(textEncryptorMock).encrypt(SAMPLE_PASSWORD);
     }
 
     @Test
@@ -121,12 +111,6 @@ public class XmlUserAdapterTest {
         assertEquals(xmlUserMock.role, userMock.getRole());
         assertEquals(xmlUserMock.activationCode, userMock.getActivationCode());
         assertEquals(xmlUserMock.activated, userMock.isActivated());
-    }
-
-    @Test
-    public void passwordIsDecrpytedDuringUnmarshalling() throws Exception {
-        xmlUserAdapter.unmarshal(xmlUserMock);
-        verify(textEncryptorMock).decrypt(SAMPLE_ENCRYPTED_PASSWORD);
     }
 
     @Test

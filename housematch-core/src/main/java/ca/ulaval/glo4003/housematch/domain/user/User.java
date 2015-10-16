@@ -10,22 +10,26 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User {
+    private StringHasher stringHasher;
+
     private String username;
     private String email;
-    private String password;
+    private String passwordHash;
     private UserRole role;
     private UUID activationCode;
     private Boolean activated = false;
     private List<Property> properties = new ArrayList<>();
     private Address address;
 
-    public User(final String username, final String email, final String password, final UserRole role) {
-        setUsername(username);
-        setEmail(email);
-        setPassword(password);
-        setRole(role);
+    public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
+        this.stringHasher = stringHasher;
+        this.username = username;
+        this.email = email;
+        this.passwordHash = stringHasher.hash(password);
+        this.role = role;
     }
 
     public String getUsername() {
@@ -44,12 +48,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPasswordHash() {
+        return passwordHash;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public Address getAddress() {
@@ -93,7 +97,7 @@ public class User {
     }
 
     public void validatePassword(String password) throws InvalidPasswordException {
-        if (!this.password.equals(password)) {
+        if (!this.passwordHash.equals(stringHasher.hash(password))) {
             throw new InvalidPasswordException("Password does not match.");
         }
     }

@@ -69,7 +69,7 @@ public class UserServiceTest {
     }
 
     private void stubMethods() throws UserNotFoundException {
-        when(userFactoryMock.getUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
+        when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }
 

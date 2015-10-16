@@ -61,7 +61,7 @@ public class PropertyServiceTest {
     }
 
     private void stubMethods() {
-        when(propertyFactoryMock.getProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class))).thenReturn(propertyMock);
+        when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class))).thenReturn(propertyMock);
     }
 
     @Test

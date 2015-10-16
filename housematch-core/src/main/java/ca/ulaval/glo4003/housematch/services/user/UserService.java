@@ -52,7 +52,7 @@ public class UserService {
     public void registerUser(String username, String email, String password, UserRole role) throws UserServiceException {
         try {
             userRegistrationValidator.validateUserCreation(username, email, password, role);
-            User user = userFactory.getUser(username, email, password, role);
+            User user = userFactory.createUser(username, email, password, role);
             userActivationService.beginActivation(user);
             userRepository.persist(user);
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {

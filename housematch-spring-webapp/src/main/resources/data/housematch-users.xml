@@ -4,26 +4,19 @@
         <user>
             <username>seller1</username>
             <email>o.robert@hotmail.com</email>
-            <password>PAh541w31W9QAlVpLKJHIg==</password>
+            <passwordHash>03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4</passwordHash>
             <role>SELLER</role>
             <activated>true</activated>
             <properties>
-                <propertyRef>670148063</propertyRef>
+                <propertyRef>-1681920877</propertyRef>
             </properties>
         </user>
         <user>
             <username>buyer1</username>
             <email>o.robert@hotmail.com</email>
-            <password>Xc0pynX4DrYyH8gBaIGiBQ==</password>
+            <passwordHash>03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4</passwordHash>
             <role>BUYER</role>
             <activated>true</activated>
-            <address>
-                <postCode>G1V 3X4</postCode>
-                <region>QC</region>
-                <streetName>dfgdf</streetName>
-                <streetNumber>23423</streetNumber>
-                <town>dsf</town>
-            </address>
             <properties/>
         </user>
     </users>

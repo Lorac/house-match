@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,14 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class UserTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
     private static final UserRole ANOTHER_SAMPLE_ROLE = UserRole.BUYER;
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
+    private static final String SAMPLE_PASSWORD_HASH = "asd098fsdfgw4";
     private static final String ANOTHER_SAMPLE_PASSWORD = "PASSWORD5678";
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String ANOTHER_SAMPLE_EMAIL = "email2@hotmail.com";
@@ -37,6 +40,7 @@ public class UserTest {
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private Address addressMock;
 
+    private StringHasher stringHasherMock;
     private Property propertyMock;
 
     private List<Property> properties;
@@ -44,39 +48,49 @@ public class UserTest {
 
     @Before
     public void init() throws Exception {
-        propertyMock = mock(Property.class);
+        initMocks();
+        stubMethods();
         properties = new ArrayList<>();
-        user = new User(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+    }
+
+    private void initMocks() {
+        stringHasherMock = mock(StringHasher.class);
+        propertyMock = mock(Property.class);
         addressMock = mock(Address.class);
+    }
+
+    private void stubMethods() {
+        when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
     }
 
     @Test
     public void usersWithTheSameUsernameShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
     @Test
     public void usersWithDifferentUsernamesShouldBeConsideredAsDifferent() throws Exception {
-        User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
     }
 
     @Test
     public void usersWithTheSameUsernameShouldHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
         assertEquals(user.hashCode(), anotherUser.hashCode());
     }
 
     @Test
     public void usersWithDifferentUsernamesShouldNotHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertNotEquals(user.hashCode(), anotherUser.hashCode());
     }
 
     @Test
     public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
@@ -92,19 +106,19 @@ public class UserTest {
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithDifferentUsernameAsDifferent() throws Exception {
-        User anotherUser = new User(ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
     public void usernameComparisonShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() throws Exception {
-        User anotherUser = new User(SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
@@ -122,8 +136,8 @@ public class UserTest {
 
     @Test
     public void settingThePasswordSetsTheSpecifiedPassword() throws Exception {
-        user.setPassword(ANOTHER_SAMPLE_PASSWORD);
-        assertEquals(ANOTHER_SAMPLE_PASSWORD, user.getPassword());
+        user.setPasswordHash(ANOTHER_SAMPLE_PASSWORD);
+        assertEquals(ANOTHER_SAMPLE_PASSWORD, user.getPasswordHash());
     }
 
     @Test

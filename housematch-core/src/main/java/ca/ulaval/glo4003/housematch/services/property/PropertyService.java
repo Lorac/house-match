@@ -38,7 +38,7 @@ public class PropertyService {
             throws PropertyServiceException {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
-            Property property = propertyFactory.getProperty(propertyType, address, sellingPrice);
+            Property property = propertyFactory.createProperty(propertyType, address, sellingPrice);
             user.addProperty(property);
             userRepository.update(user);
             propertyRepository.persist(property);

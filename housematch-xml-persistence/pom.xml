@@ -34,14 +34,6 @@
             <version>2.4</version>
         </dependency>
         
-        <!-- Encryption Components -->
-
-        <dependency>
-            <groupId>org.jasypt</groupId>
-            <artifactId>jasypt</artifactId>
-            <version>1.9.2</version>
-        </dependency>
-
         <!-- Test Components -->
         
         <dependency>

@@ -14,7 +14,7 @@ import java.util.UUID;
 public class XmlUser {
     public String username;
     public String email;
-    public String password;
+    public String passwordHash;
     public UserRole role;
     public UUID activationCode;
     public boolean activated;

@@ -27,6 +27,10 @@
     <bean id="mailSender" class="ca.ulaval.glo4003.housematch.email.MailSender">
         <constructor-arg ref="javaXMailSender" />
     </bean>
+    
+    <!-- Utils -->
+    
+    <bean id="stringHasher" class="ca.ulaval.glo4003.housematch.utils.StringHasher" />
 
     <!-- Validators -->
 
@@ -44,7 +48,9 @@
 
     <!-- Factories -->
 
-    <bean id="userFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory" />
+    <bean id="userFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory">
+        <constructor-arg ref="stringHasher" />
+    </bean>
 
     <bean id="propertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory" />
 

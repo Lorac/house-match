@@ -26,7 +26,7 @@ public class PropertyFactoryTest {
 
     @Test
     public void propertyFactoryCreatesPropertyWithTheSpecifiedAttributes() {
-        Property property = propertyFactory.getProperty(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
+        Property property = propertyFactory.createProperty(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
 
         assertEquals(SAMPLE_PROPERTY_TYPE, property.getPropertyType());
         assertEquals(addressMock, property.getAddress());

@@ -8,7 +8,7 @@
                 <region>QC</region>
                 <streetName>Isidore-Garon</streetName>
                 <streetNumber>890</streetNumber>
-                <town>Ste-Foy</town>
+                <town>Québec</town>
             </address>
             <propertyDetails>
                 <backyardDirection>NORTH</backyardDirection>
@@ -19,7 +19,7 @@
                 <propertyStyle>CHALET</propertyStyle>
             </propertyDetails>
             <propertyType>SINGLE_FAMILY_HOME</propertyType>
-            <sellingPrice>33455</sellingPrice>
+            <sellingPrice>928347</sellingPrice>
         </property>
     </properties>
 </housematch>

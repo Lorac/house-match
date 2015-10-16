@@ -18,7 +18,6 @@
     <bean id="xmlUserAdapter" class="ca.ulaval.glo4003.housematch.persistence.user.XmlUserAdapter">
 		<constructor-arg ref="userFactory" />
         <constructor-arg ref="xmlPropertyRepository" />
-        <constructor-arg ref="basicTextEncryptor" />
     </bean>
 
     <!-- Property -->
@@ -36,9 +35,5 @@
     <!-- Utils -->
 
     <bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.utils.ResourceLoader" />
-
-    <bean id="basicTextEncryptor" class="org.jasypt.util.text.BasicTextEncryptor">
-        <property name="password" value="9fhaoisadw43" />
-    </bean>
 
 </beans>
