@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_DETAILS_UPDATE_BASE_URL = "/seller/updatePropertyDetails/";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
     static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
-    static final String PROPERTY_LIST_SELLER_URL = "/myProperties";
-    static final String PROPERTY_LIST_SELLER_VIEW_NAME = "sellerPropertyList";
+    public static final String PROPERTY_LIST_SELLER_URL = "/seller/propertyList";
+    static final String PROPERTY_LIST_SELLER_VIEW_NAME = "seller/propertyList";
 
     @Autowired
     private PropertyService propertyService;
@@ -54,13 +53,12 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyCreationPage(HttpSession httpSession) throws AuthenticationException {
+    public final ModelAndView displayPropertyCreationPage(HttpSession httpSession) {
         return new ModelAndView(PROPERTY_CREATION_VIEW_NAME, PropertyCreationFormViewModel.NAME, new PropertyCreationFormViewModel());
     }
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.POST)
-    public final ModelAndView createProperty(PropertyCreationFormViewModel propertyCreationForm, HttpSession httpSession)
-            throws AuthenticationException {
+    public final ModelAndView createProperty(PropertyCreationFormViewModel propertyCreationForm, HttpSession httpSession) {
         try {
             Property property = propertyService.createProperty(propertyCreationForm.getPropertyType(), propertyCreationForm.getAddress(),
                     propertyCreationForm.getSellingPrice(), getUserFromHttpSession(httpSession));
@@ -71,8 +69,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyDetails(@PathVariable int propertyHashCode, ModelMap modelMap, HttpSession httpSession)
-            throws AuthenticationException {
+    public final ModelAndView displayPropertyDetails(@PathVariable int propertyHashCode, ModelMap modelMap, HttpSession httpSession) {
         try {
             Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             modelMap.put(PropertyDetailsFormViewModel.NAME, propertyDetailsFormViewModelAssembler.assembleFromProperty(property));
@@ -84,7 +81,7 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
-            PropertyDetailsFormViewModel propertyDetailsForm) throws AuthenticationException {
+            PropertyDetailsFormViewModel propertyDetailsForm) {
         try {
             Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             propertyService.updateProperty(property, propertyDetailsForm.getDetails());
@@ -95,7 +92,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_LIST_SELLER_URL, method = RequestMethod.GET)
-    public final ModelAndView listSellerProperties(HttpSession httpSession) throws AuthenticationException {
+    public final ModelAndView listSellerProperties(HttpSession httpSession) {
         return new ModelAndView(PROPERTY_LIST_SELLER_VIEW_NAME);
     }
 }

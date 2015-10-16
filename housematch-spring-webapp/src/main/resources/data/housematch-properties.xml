@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <housematch>
     <properties>
+        <property>
+            <address>
+                <additionalAddressInfo>Apt #6</additionalAddressInfo>
+                <postCode>G1V 3X4</postCode>
+                <region>QC</region>
+                <streetName>Isidore-Garon</streetName>
+                <streetNumber>890</streetNumber>
+                <town>Ste-Foy</town>
+            </address>
+            <propertyDetails>
+                <backyardDirection>NORTH</backyardDirection>
+                <bathroomDetails></bathroomDetails>
+                <bedroomDetails></bedroomDetails>
+                <ownershipType>SOLE_OWNERSHIP</ownershipType>
+                <priceDetail></priceDetail>
+                <propertyStyle>CHALET</propertyStyle>
+            </propertyDetails>
+            <propertyType>SINGLE_FAMILY_HOME</propertyType>
+            <sellingPrice>33455</sellingPrice>
+        </property>
     </properties>
 </housematch>
