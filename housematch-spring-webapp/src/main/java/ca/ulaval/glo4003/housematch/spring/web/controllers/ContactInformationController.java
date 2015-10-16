@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +19,7 @@ public class ContactInformationController extends BaseController {
     static final String CONTACT_INFO_UPDATE_VIEW_NAME = "buyer/contactInformationUpdate";
     static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "buyer/contactInformationUpdateConfirmation";
 
-    @Autowired
+    @Inject
     private UserService userService;
 
     protected ContactInformationController() {

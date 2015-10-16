@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,13 +32,13 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_LIST_SELLER_URL = "/seller/propertyList";
     static final String PROPERTY_LIST_SELLER_VIEW_NAME = "seller/propertyList";
 
-    @Autowired
+    @Inject
     private PropertyService propertyService;
 
-    @Autowired
+    @Inject
     private UserService userService;
 
-    @Autowired
+    @Inject
     private PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler;
 
     protected PropertyController() {

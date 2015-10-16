@@ -3,7 +3,8 @@ package ca.ulaval.glo4003.housematch.spring.web.security;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,7 +21,7 @@ import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 @Component
 public class UserAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
+    @Inject
     private UserService userService;
 
     public UserAuthenticationProvider(final UserService userService) {

@@ -3,9 +3,9 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import java.util.List;
 import java.util.UUID;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,9 +36,9 @@ public class RegistrationController extends BaseController {
     public static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
     static final String EMAIL_RECONFIRM_VIEW_NAME = "registration/emailReconfirm";
 
-    @Autowired
+    @Inject
     private UserService userService;
-    @Autowired
+    @Inject
     private UserActivationService userActivationService;
 
     protected RegistrationController() {
