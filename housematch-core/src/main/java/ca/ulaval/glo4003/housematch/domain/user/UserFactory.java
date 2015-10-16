@@ -6,7 +6,7 @@ public class UserFactory {
 
     StringHasher stringHasher;
 
-    public UserFactory(StringHasher stringHasher) {
+    public UserFactory(final StringHasher stringHasher) {
         this.stringHasher = stringHasher;
     }
 
