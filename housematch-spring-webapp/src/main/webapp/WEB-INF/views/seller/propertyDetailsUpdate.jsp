@@ -22,7 +22,7 @@
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
 
     <div class="container">
-        <h1 class="center">Extended Property Details</h1>
+        <h1 class="center">Property Details</h1>
         <form:form id="property-update-form" class="form-horizontal" role="form" commandName="propertyDetailsForm"
             action='<%= PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + request.getAttribute("propertyHashCode") %>' method="POST">
 
