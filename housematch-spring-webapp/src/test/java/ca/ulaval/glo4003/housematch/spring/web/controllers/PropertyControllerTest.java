@@ -165,6 +165,14 @@ public class PropertyControllerTest extends BaseControllerTest {
         results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
+    @Test
+    public void propertyControllerRendersSellerPropertyListView() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_LIST_SELLER_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyController.PROPERTY_LIST_SELLER_VIEW_NAME));
+    }
+
     private ResultActions postPropertyCreationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_CREATION_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
