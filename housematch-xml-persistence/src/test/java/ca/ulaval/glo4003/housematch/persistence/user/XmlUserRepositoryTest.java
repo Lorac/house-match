@@ -1,18 +1,21 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.UUID;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.UUID;
-
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.*;
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
@@ -26,11 +29,9 @@ public class XmlUserRepositoryTest {
     private User userMock;
 
     private XmlUserRepository xmlUserRepository;
-    private Collection<User> users;
 
     @Before
     public void init() {
-        users = new ArrayList<>();
         initMocks();
         stubMethods();
         xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock, xmlUserAdapterMock);
@@ -46,7 +47,6 @@ public class XmlUserRepositoryTest {
 
     private void stubMethods() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlUserRootElementMock);
-        when(xmlUserRootElementMock.getUsers()).thenReturn(users);
         when(userMock.getUsername()).thenReturn(SAMPLE_USERNAME);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
 
