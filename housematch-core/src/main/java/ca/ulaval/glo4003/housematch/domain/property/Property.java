@@ -1,8 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -14,7 +12,6 @@ public class Property {
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
-    private List<String> imagePaths = new ArrayList<String>();
 
     Property() {
         // Required for instanciation by reflection
@@ -59,17 +56,9 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
-    public List<String> getImagePaths() {
-        return imagePaths;
-    }
-
-    public void setImagePaths(List<String> imagePaths) {
-        this.imagePaths = imagePaths;
-    }
-
     @Override
     public int hashCode() {
-        return address.hashCode();
+        return Math.abs(address.hashCode());
     }
 
     @Override

@@ -10,7 +10,6 @@ public class PropertyViewModelAssembler {
         viewModel.setPropertyType(property.getPropertyType());
         viewModel.setAddress(property.getAddress());
         viewModel.setSellingPrice(property.getSellingPrice());
-        viewModel.setImagePaths(property.getImagePaths());
         viewModel.setPropertyDetails(property.getPropertyDetails());
         return viewModel;
     }
