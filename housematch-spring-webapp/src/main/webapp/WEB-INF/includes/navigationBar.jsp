@@ -12,13 +12,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="${homeLinkActive}"><sec:authorize access="hasRole('Administrator')">
-                        <a href="/adminHome">Home</a>
-                    </sec:authorize> <sec:authorize access="hasRole('Seller')">
-                        <a href="/sellerHome">Home</a>
-                    </sec:authorize> <sec:authorize access="hasRole('Buyer')">
-                        <a href="/buyerHome">Home</a>
-                    </sec:authorize></li>
+                <li class="${homeLinkActive}"><a href="/">Home</a></li>
                 <c:if test="${empty sessionScope.user}">
                     <li class="${loginLinkActive}"><a href="/login">Login</a></li>
                     <li class="${registerLinkActive}"><a href="/register">Register</a></li>

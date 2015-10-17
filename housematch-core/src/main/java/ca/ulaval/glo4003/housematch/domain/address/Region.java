@@ -20,4 +20,9 @@ public enum Region {
     public Country getCountry() {
         return country;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

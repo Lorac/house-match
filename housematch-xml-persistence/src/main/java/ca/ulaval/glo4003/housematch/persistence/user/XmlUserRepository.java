@@ -47,6 +47,7 @@ public class XmlUserRepository implements UserRepository {
         marshal();
     }
 
+    @Override
     public User getByUsername(String username) throws UserNotFoundException {
         try {
             return users.stream().filter(u -> u.usernameEquals(username)).findFirst().get();
@@ -55,6 +56,7 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
+    @Override
     public User getByActivationCode(UUID activationCode) throws UserNotFoundException {
         try {
             return users.stream().filter(u -> activationCode.equals(u.getActivationCode())).findFirst().get();

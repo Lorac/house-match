@@ -2,7 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController;"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.LoginController"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.RegistrationFormViewModel"%>
 
 <html>
 <head>
@@ -36,13 +37,13 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="register-form" role="form" commandName="registrationForm" action="/register" method="POST">
+                                <form:form id="register-form" role="form" modelAttribute="<%= RegistrationFormViewModel.NAME %>" action="/register" method="POST">
                                     
                                     <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
                                     
                                     <div class="form-group">
                                         <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32"
-                                            tabindex="1" placeholder="Username" />
+                                            tabindex="1" placeholder="Username" autofocus="true"/>
                                     </div>
                                     <div class="form-group">
                                         <form:input type="email" path="email" class="form-control" minlength="3" maxlength="128"
@@ -59,11 +60,9 @@
                                         </form:select>
                                     </div>
                                     <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="register-submit" id="register-submit" tabindex="4"
-                                                    class="form-control btn" value="Register Now">
-                                            </div>
+                                        <div class="row center">
+                                            <input type="submit" name="register-submit" id="register-submit" tabindex="4"
+                                                    class="btn btn-primary btn-lg" value="Register Now">
                                         </div>
                                     </div>
                                 </form:form>

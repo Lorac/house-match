@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-
 import javax.validation.constraints.NotNull;
+
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class RegistrationFormViewModel extends ViewModel {
 
@@ -17,6 +17,7 @@ public class RegistrationFormViewModel extends ViewModel {
     @NotNull
     private UserRole role;
 
+    @Override
     public String getName() {
         return NAME;
     }

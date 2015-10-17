@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-
 import javax.validation.constraints.NotNull;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public final class ContactInformationFormViewModel extends ViewModel {
 
@@ -13,6 +13,7 @@ public final class ContactInformationFormViewModel extends ViewModel {
     @NotNull
     private String email;
 
+    @Override
     public String getName() {
         return NAME;
     }

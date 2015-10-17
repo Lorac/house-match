@@ -12,6 +12,7 @@ public class AlertMessageViewModel extends ViewModel {
         this.messageType = messageType;
     }
 
+    @Override
     public String getName() {
         return NAME;
     }

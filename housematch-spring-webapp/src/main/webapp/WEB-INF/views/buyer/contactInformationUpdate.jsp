@@ -2,7 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController;"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel"%>
 
 <% pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values()); %>
 
@@ -20,7 +21,7 @@
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <h1 class="center">Update Contact Information</h1>
-        <form:form id="profile-form" class="form-horizontal" role="form" commandName="contactInformationForm"
+        <form:form id="profile-form" class="form-horizontal" role="form" modelAttribute="<%= ContactInformationFormViewModel.NAME %>"
             action="<%= ContactInformationController.CONTACT_INFO_UPDATE_URL %>" method="POST">
             
             <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
@@ -29,7 +30,7 @@
                 <label class="control-label col-sm-2">Street Number:</label>
                 <div class="col-sm-10">
                     <form:input type="number" path="address.streetNumber" class="form-control" min="0" tabindex="1"
-                        value="${user.address.streetNumber}" placeholder="Street Number" />
+                        value="${user.address.streetNumber}" placeholder="Street Number" autofocus="true"/>
                 </div>
             </div>
             <div class="form-group">
@@ -79,10 +80,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="row">
-                    <div class="col-sm-6 col-sm-offset-3">
-                        <input type="submit" name="profile-submit" id="profile-submit" tabindex="4" class="form-control btn" value="Save">
-                    </div>
+                <div class="row center">
+                    <input type="submit" name="profile-submit" id="profile-submit" tabindex="4" class="btn btn-primary btn-lg" value="Update">
                 </div>
             </div>
         </form:form>

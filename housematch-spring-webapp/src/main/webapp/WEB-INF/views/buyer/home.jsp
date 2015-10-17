@@ -3,7 +3,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController;"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
 
 <html>
 <head>
@@ -31,8 +32,8 @@
                         <p class="itemLabel">Update contact information</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">
-                    <span class="icon glyphicon glyphicon-question-sign"></span>
-                    <p class="itemLabel">Sample menu item</p>
+                    <a href="<%= PropertyController.PROPERTY_SEARCH_URL %>"><span class="icon glyphicon glyphicon-search"></span>
+                    <p class="itemLabel">Search properties for sale</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">
                     <span class="icon glyphicon glyphicon-question-sign"></span>

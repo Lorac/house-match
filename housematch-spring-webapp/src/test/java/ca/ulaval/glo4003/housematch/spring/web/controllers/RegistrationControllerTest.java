@@ -171,6 +171,11 @@ public class RegistrationControllerTest extends BaseControllerTest {
         return mockMvc.perform(postRequest);
     }
 
+    private MockHttpServletRequestBuilder buildRegistrationFormParams(MockHttpServletRequestBuilder postRequest) {
+        return postRequest.param(USERNAME_PARAMETER_NAME, SAMPLE_USERNAME).param(PASSWORD_PARAMETER_NAME, SAMPLE_PASSWORD)
+                .param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL).param(ROLE_PARAMETER_NAME, SAMPLE_ROLE.name());
+    }
+
     private ResultActions postEmailReconfirmationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(RegistrationController.EMAIL_RECONFIRM_URL);
         postRequest.accept(MediaType.APPLICATION_FORM_URLENCODED);
@@ -185,10 +190,5 @@ public class RegistrationControllerTest extends BaseControllerTest {
         getRequest.accept(MediaType.ALL);
 
         return mockMvc.perform(getRequest);
-    }
-
-    private MockHttpServletRequestBuilder buildRegistrationFormParams(MockHttpServletRequestBuilder postRequest) {
-        return postRequest.param(USERNAME_PARAMETER_NAME, SAMPLE_USERNAME).param(PASSWORD_PARAMETER_NAME, SAMPLE_PASSWORD)
-                .param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL).param(ROLE_PARAMETER_NAME, SAMPLE_ROLE.toString());
     }
 }

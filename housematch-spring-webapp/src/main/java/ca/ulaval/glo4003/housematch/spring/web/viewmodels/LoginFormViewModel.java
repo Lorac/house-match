@@ -11,6 +11,7 @@ public final class LoginFormViewModel extends ViewModel {
     @NotNull
     private String password;
 
+    @Override
     public String getName() {
         return NAME;
     }

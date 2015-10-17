@@ -1,12 +1,14 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -56,5 +58,13 @@ public class PropertyService {
         } catch (PropertyDetailsValidationException e) {
             throw new PropertyServiceException(e);
         }
+    }
+
+    public List<Property> getProperties() {
+        return propertyRepository.getAll();
+    }
+
+    public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
+        return propertyRepository.getByHashCode(propertyHashCode);
     }
 }

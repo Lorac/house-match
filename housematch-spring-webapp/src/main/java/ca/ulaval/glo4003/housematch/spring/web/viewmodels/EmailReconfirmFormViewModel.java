@@ -9,6 +9,7 @@ public final class EmailReconfirmFormViewModel extends ViewModel {
     @NotNull
     private String email;
 
+    @Override
     public String getName() {
         return NAME;
     }

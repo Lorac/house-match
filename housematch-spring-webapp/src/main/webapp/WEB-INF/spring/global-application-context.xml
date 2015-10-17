@@ -79,7 +79,11 @@
 
     <!-- Assemblers -->
 
+    <bean id="propertyViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyViewModelAssembler" />
+
     <bean id="propertyDetailsFormViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyDetailsFormViewModelAssembler" />
+    
+    <bean id="propertySearchResultsViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertySearchResultsViewModelAssembler" />
 
     <!-- Controllers -->
 
@@ -96,7 +100,9 @@
     <bean id="propertyController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController">
         <constructor-arg ref="propertyService" />
         <constructor-arg ref="userService" />
+        <constructor-arg ref="propertyViewModelAssembler" />
         <constructor-arg ref="propertyDetailsFormViewModelAssembler" />
+        <constructor-arg ref="propertySearchResultsViewModelAssembler" />
     </bean>
 
     <bean id="contactInformationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController">

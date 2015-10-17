@@ -36,17 +36,13 @@ public class XmlPropertyRepository implements PropertyRepository {
         marshal();
     }
 
+    @Override
     public Property getByHashCode(Integer hashCode) throws PropertyNotFoundException {
         try {
             return properties.stream().filter(p -> hashCode.equals(p.hashCode())).findFirst().get();
         } catch (NoSuchElementException e) {
             throw new PropertyNotFoundException(String.format("Cannot find property with hash code '%s'.", hashCode));
         }
-    }
-
-    protected void marshal() {
-        xmlPropertyRootElement.setProperties(properties);
-        xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
 
     @Override
@@ -56,5 +52,15 @@ public class XmlPropertyRepository implements PropertyRepository {
         }
 
         marshal();
+    }
+
+    @Override
+    public List<Property> getAll() {
+        return properties;
+    }
+
+    protected void marshal() {
+        xmlPropertyRootElement.setProperties(properties);
+        xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
 }

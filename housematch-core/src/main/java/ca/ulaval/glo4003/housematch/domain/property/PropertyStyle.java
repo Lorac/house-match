@@ -12,4 +12,9 @@ public enum PropertyStyle {
     public String getDisplayName() {
         return this.displayName;
     }
+
+    @Override
+    public String toString() {
+        return displayName;
+    }
 }

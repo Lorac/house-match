@@ -20,7 +20,7 @@
         <intercept-url pattern="/seller/**" access="hasRole('Seller')" />
 
         <!-- Use default provided form. See docs to customize. -->
-        <form-login login-page="/login" authentication-failure-url="/login?error" login-processing-url="/login"
+        <form-login login-page="/login" authentication-failure-url="/login" login-processing-url="/login"
             authentication-success-handler-ref="customSuccessHandler" />
         <logout logout-success-url="/login" />
         <!-- Enable csrf protection -->
