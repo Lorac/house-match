@@ -108,7 +108,7 @@
             <div class="form-group">
                 <div class="row center">
                     <input type="submit" name="property-creation-submit" id="property-creation-submit" tabindex="8"
-                        class="btn btn-primary btn-lg" value="Sell property">
+                        class="btn btn-primary btn-lg" value="Sell Property">
                 </div>
             </div>
         </form:form>

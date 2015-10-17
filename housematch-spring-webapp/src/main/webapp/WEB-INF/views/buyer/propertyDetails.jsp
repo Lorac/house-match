@@ -234,7 +234,7 @@
         </div>
         <div class="form-group">
             <div class="row center">
-                <input tabindex="8" class="btn btn-primary btn-lg" onclick="window.history.back()" value="Back to search results">
+                <input tabindex="8" class="btn btn-primary btn-lg" onclick="window.history.back()" value="Back to Search Results">
             </div>
         </div>
     </div>

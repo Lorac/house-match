@@ -23,19 +23,26 @@
             Hello <b><sec:authentication property="principal.username" /></b>!
         </p>
 
-        <div class="profileMenu">
-            <div class="row">
-                <div class="col-sm-4 menuItem">
-                    <a href="<%=PropertyController.PROPERTY_CREATION_URL%>"><span class="icon glyphicon glyphicon-tag"></span>
-                        <p class="itemLabel">Sell a property</p></a>
-                </div>
-                <div class="col-sm-4 menuItem">
-                    <a href="<%=PropertyController.PROPERTY_LIST_SELLER_URL%>"> <span class="icon glyphicon glyphicon-list-alt"></span>
-                        <p class="itemLabel">Edit my properties</p></a>
-                </div>
-                <div class="col-sm-4 menuItem">
-                    <span class="icon glyphicon glyphicon-question-sign"></span>
-                    <p class="itemLabel">Sample menu item</p>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Menu</h3>
+            </div>
+            <div class="panel-body">
+                <div class="profileMenu">
+                    <div class="row">
+                        <div class="col-sm-4 menuItem">
+                            <a href="<%=PropertyController.PROPERTY_CREATION_URL%>"><span class="icon glyphicon glyphicon-tag"></span>
+                                <p class="itemLabel">Sell a property</p></a>
+                        </div>
+                        <div class="col-sm-4 menuItem">
+                            <a href="<%=PropertyController.PROPERTY_LIST_SELLER_URL%>"> <span class="icon glyphicon glyphicon-list-alt"></span>
+                                <p class="itemLabel">Edit my properties</p></a>
+                        </div>
+                        <div class="col-sm-4 menuItem">
+                            <span class="icon glyphicon glyphicon-question-sign"></span>
+                            <p class="itemLabel">Sample menu item</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
