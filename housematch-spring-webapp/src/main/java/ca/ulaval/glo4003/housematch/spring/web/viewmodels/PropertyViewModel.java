@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -19,7 +18,6 @@ public class PropertyViewModel extends ViewModel {
     private Address address;
     @NotNull
     private BigDecimal sellingPrice;
-    private List<String> imagePaths;
     private PropertyDetails propertyDetails;
 
     @Override
@@ -49,14 +47,6 @@ public class PropertyViewModel extends ViewModel {
 
     public void setSellingPrice(BigDecimal sellingPrice) {
         this.sellingPrice = sellingPrice;
-    }
-
-    public List<String> getImagePaths() {
-        return imagePaths;
-    }
-
-    public void setImagePaths(List<String> imagePaths) {
-        this.imagePaths = imagePaths;
     }
 
     public PropertyDetails getPropertyDetails() {
