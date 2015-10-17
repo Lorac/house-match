@@ -16,11 +16,10 @@ public class XmlUserRepository implements UserRepository {
 
     private final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller;
     private XmlUserRootElement xmlUserRootElement;
-    private Map<String, User> users;
+    private Map<String, User> users = new ConcurrentHashMap<>();
 
     public XmlUserRepository(final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller,
             final XmlUserAdapter xmlUserAdapter) {
-        this.users = new ConcurrentHashMap<>();
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository(xmlUserAdapter);
     }

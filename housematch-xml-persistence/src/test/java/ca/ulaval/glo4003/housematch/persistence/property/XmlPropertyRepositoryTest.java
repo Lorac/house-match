@@ -1,19 +1,19 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.*;
 
 public class XmlPropertyRepositoryTest {
     private static final Integer SAMPLE_UNEXISTING_HASHCODE = 345435;
@@ -23,11 +23,9 @@ public class XmlPropertyRepositoryTest {
     private Property propertyMock;
 
     private XmlPropertyRepository xmlPropertyRepository;
-    private List<Property> properties;
 
     @Before
     public void init() {
-        properties = new ArrayList<Property>();
         initMocks();
         stubMethods();
         xmlPropertyRepository = new XmlPropertyRepository(xmlRepositoryMarshallerMock);
@@ -42,20 +40,19 @@ public class XmlPropertyRepositoryTest {
 
     private void stubMethods() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlPropertyRootElementMock);
-        when(xmlPropertyRootElementMock.getProperties()).thenReturn(properties);
     }
 
     @Test
     public void persistingPropertyPersistsPropertyToRepository() throws Exception {
         xmlPropertyRepository.persist(propertyMock);
-        assertThat(properties, contains(propertyMock));
+        assertSame(propertyMock, xmlPropertyRepository.getByHashCode(propertyMock.hashCode()));
     }
 
     @Test
     public void persistingPropertyMarshallsThePropertiesInTheRepositoryMarshaller() throws Exception {
         xmlPropertyRepository.persist(propertyMock);
 
-        verify(xmlPropertyRootElementMock).setProperties(properties);
+        verify(xmlPropertyRootElementMock).setProperties(anyCollectionOf(Property.class));
         verify(xmlRepositoryMarshallerMock).marshal(xmlPropertyRootElementMock);
     }
 
