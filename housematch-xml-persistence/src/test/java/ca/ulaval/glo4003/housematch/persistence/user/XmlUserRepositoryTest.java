@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,11 +28,11 @@ public class XmlUserRepositoryTest {
     private User userMock;
 
     private XmlUserRepository xmlUserRepository;
-    private List<User> users;
+    private Collection<User> users;
 
     @Before
     public void init() {
-        users = new ArrayList<User>();
+        users = new ArrayList<>();
         initMocks();
         stubMethods();
         xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock, xmlUserAdapterMock);
@@ -49,6 +49,9 @@ public class XmlUserRepositoryTest {
     private void stubMethods() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlUserRootElementMock);
         when(xmlUserRootElementMock.getUsers()).thenReturn(users);
+        when(userMock.getUsername()).thenReturn(SAMPLE_USERNAME);
+        when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
+
     }
 
     @Test
