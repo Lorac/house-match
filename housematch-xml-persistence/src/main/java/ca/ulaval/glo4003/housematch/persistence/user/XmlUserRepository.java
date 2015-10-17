@@ -35,7 +35,7 @@ public class XmlUserRepository implements UserRepository {
 
     @Override
     public void persist(User user) throws UserAlreadyExistsException {
-        if (users.containsKey(user.getUsername())) {
+        if (users.containsValue(user)) {
             throw new UserAlreadyExistsException(String.format("A user with username '%s' already exists.", user.getUsername()));
         }
 
