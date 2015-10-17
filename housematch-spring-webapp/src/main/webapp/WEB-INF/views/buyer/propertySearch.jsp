@@ -36,18 +36,20 @@
             <h3 class="center">Search results</h3>
             <c:choose>
                 <c:when test="${not empty propertySearchResults.properties}">
-                    <table class="table table-hover">
+                    <table class="table table-hover align-middle clickable-rows">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th>Address</th>
                             </tr>
                         </thead>
                         <c:forEach var="property" items="${propertySearchResults.properties}">
-                            <tr>
+                            <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
+                                <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                                 <td>${property.hashCode()}</td>
-                                <td><a
-                                    href="<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>">${property.address}</a>
+                                <td>
+                                    ${property.address}
                                 </td>
                             </tr>
                         </c:forEach>

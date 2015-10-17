@@ -80,6 +80,14 @@ body {
     text-align:left;
 }
 
+.table.align-middle td {
+     vertical-align: middle !important;
+}
+
+.table.clickable-rows tr {
+    cursor: pointer;
+}
+
 .btn-lg {
     padding-left:35px;
     padding-right:35px;

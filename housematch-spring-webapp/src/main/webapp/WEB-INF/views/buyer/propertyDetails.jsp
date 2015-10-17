@@ -21,7 +21,7 @@
         <h1 class="center">Property Details</h1>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Images</h3>
+                <h3 class="panel-title">Photos</h3>
             </div>
             <div class="panel-body">
 
@@ -35,7 +35,7 @@
                             <img src="http://place-hold.it/1200x256">
                             <div class="container">
                                 <div class="carousel-caption">
-                                    <p>Image 1</p>
+                                    <p>Photo 1</p>
                                     <p>Feature coming soon.</p>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                             <img src="http://place-hold.it/1200x256">
                             <div class="container">
                                 <div class="carousel-caption">
-                                    <p>Image 2</p>
+                                    <p>Photo 2</p>
                                     <p>Feature coming soon.</p>
                                 </div>
                             </div>
