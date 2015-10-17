@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.UUID;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
@@ -57,14 +55,14 @@ public class XmlUserRepositoryTest {
     @Test
     public void persistingUserPersistsUserToRepository() throws Exception {
         xmlUserRepository.persist(userMock);
-        assertThat(users, contains(userMock));
+        assertSame(userMock, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
     }
 
     @Test
     public void persistingUserMarshallsTheUsersInTheRepositoryMarshaller() throws Exception {
         xmlUserRepository.persist(userMock);
 
-        verify(xmlUserRootElementMock).setUsers(users);
+        verify(xmlUserRootElementMock).setUsers(anyCollectionOf(User.class));
         verify(xmlRepositoryMarshallerMock).marshal(xmlUserRootElementMock);
     }
 
