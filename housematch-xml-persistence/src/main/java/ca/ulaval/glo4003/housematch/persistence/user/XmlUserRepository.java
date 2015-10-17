@@ -68,7 +68,7 @@ public class XmlUserRepository implements UserRepository {
         }
     }
 
-    protected void marshal() {
+    private void marshal() {
         xmlUserRootElement.setUsers(users.values());
         xmlRepositoryMarshaller.marshal(xmlUserRootElement);
     }

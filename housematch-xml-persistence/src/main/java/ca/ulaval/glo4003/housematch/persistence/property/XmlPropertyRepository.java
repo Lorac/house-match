@@ -44,7 +44,7 @@ public class XmlPropertyRepository implements PropertyRepository {
         }
     }
 
-    protected void marshal() {
+    private void marshal() {
         xmlPropertyRootElement.setProperties(properties);
         xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
