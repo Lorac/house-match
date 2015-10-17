@@ -1,16 +1,16 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-
 import java.util.Collection;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
 
@@ -19,13 +19,13 @@ public class XmlUserRepository implements UserRepository {
     private Map<String, User> users;
 
     public XmlUserRepository(final XmlRepositoryMarshaller<XmlUserRootElement> xmlRepositoryMarshaller,
-                             final XmlUserAdapter xmlUserAdapter) {
+            final XmlUserAdapter xmlUserAdapter) {
         this.users = new ConcurrentHashMap<>();
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository(xmlUserAdapter);
     }
 
-    protected void initRepository(final XmlUserAdapter xmlUserAdapter) {
+    private void initRepository(final XmlUserAdapter xmlUserAdapter) {
         xmlRepositoryMarshaller.setMarshallingAdapters(xmlUserAdapter);
         xmlUserRootElement = xmlRepositoryMarshaller.unmarshal();
 
@@ -35,8 +35,7 @@ public class XmlUserRepository implements UserRepository {
 
     @Override
     public void persist(User user) throws UserAlreadyExistsException {
-        User aUser = users.get(user.getUsername());
-        if (aUser != null) {
+        if (users.containsKey(user.getUsername())) {
             throw new UserAlreadyExistsException(String.format("A user with username '%s' already exists.", user.getUsername()));
         }
 

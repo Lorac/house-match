@@ -21,7 +21,7 @@ public class XmlPropertyRepository implements PropertyRepository {
         initRepository();
     }
 
-    protected void initRepository() {
+    private void initRepository() {
         xmlPropertyRootElement = xmlRepositoryMarshaller.unmarshal();
         properties = xmlPropertyRootElement.getProperties();
     }
