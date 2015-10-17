@@ -40,9 +40,9 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
-    public static final String PROPERTY_DETAILS_URL = "/buyer/propertyDetails/{propertyHashCode}";
-    public static final String PROPERTY_DETAILS_BASE_URL = "/buyer/propertyDetails/";
-    static final String PROPERTY_DETAILS_VIEW_NAME = "buyer/propertyDetails";
+    public static final String PROPERTY_VIEW_URL = "/buyer/propertyDetails/{propertyHashCode}";
+    public static final String PROPERTY_VIEW_BASE_URL = "/buyer/propertyDetails/";
+    static final String PROPERTY_VIEW_NAME = "buyer/propertyDetails";
 
     @Inject
     private PropertyService propertyService;
@@ -103,7 +103,7 @@ public class PropertyController extends BaseController {
             PropertyDetailsFormViewModel propertyDetailsForm) {
         try {
             Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            propertyService.updateProperty(property, propertyDetailsForm.getDetails());
+            propertyService.updatePropertyDetails(property, propertyDetailsForm.getDetails());
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
             return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, propertyDetailsForm, e.getMessage());
@@ -128,12 +128,12 @@ public class PropertyController extends BaseController {
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
-    @RequestMapping(value = PROPERTY_DETAILS_URL, method = RequestMethod.GET)
+    @RequestMapping(value = PROPERTY_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyPage(@PathVariable int propertyHashCode, ModelMap modelMap) {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
             modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
-            return new ModelAndView(PROPERTY_DETAILS_VIEW_NAME);
+            return new ModelAndView(PROPERTY_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }

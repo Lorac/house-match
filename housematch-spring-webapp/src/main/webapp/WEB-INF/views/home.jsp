@@ -19,7 +19,7 @@
     <div class="container">
         <c:choose>
             <c:when test="${not empty sessionScope.user}">
-                <p>Hello ${sessionScope.user.username}! You are connected as a ${sessionScope.user.role.displayName}.</p>
+                <p>Hello <b>${sessionScope.user.username}</b>! You are connected as a ${sessionScope.user.role.displayName}.</p>
             </c:when>
             <c:otherwise>
                 <p>You are viewing this page as anonymous.</p>

@@ -22,6 +22,7 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
 
 public class PropertyServiceTest {
@@ -61,7 +62,8 @@ public class PropertyServiceTest {
     }
 
     private void stubMethods() {
-        when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class))).thenReturn(propertyMock);
+        when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class)))
+                .thenReturn(propertyMock);
     }
 
     @Test
@@ -96,21 +98,39 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void propertyDetailsUpdateCallsThePropertyDetailsValidator() throws Exception {
-        propertyService.updateProperty(propertyMock, propertyDetailsMock);
+    public void updatingPropertyDetailsCallsThePropertyDetailsValidator() throws Exception {
+        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
         verify(propertyDetailsValidatorMock).validatePropertyDetails(propertyDetailsMock);
     }
 
     @Test
-    public void propertyDetailsUpdateSetsThePropertyDetailsOnThePropertyObject() throws Exception {
-        propertyService.updateProperty(propertyMock, propertyDetailsMock);
+    public void updatingPropertyDetailsSetsThePropertyDetailsOnThePropertyObject() throws Exception {
+        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
         verify(propertyMock).setPropertyDetails(propertyDetailsMock);
     }
 
     @Test
-    public void propertyDetailsUpdatePushesThePropertyInTheRepository() throws Exception {
-        propertyService.updateProperty(propertyMock, propertyDetailsMock);
+    public void updatingPropertyDetailsPushesThePropertyInTheRepository() throws Exception {
+        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
         verify(propertyRepositoryMock).update(propertyMock);
+    }
+
+    @Test(expected = PropertyServiceException.class)
+    public void updatingPropertyDetailsThrowsPropertyServiceExceptionOnPropertyDetailsValidationException() throws Exception {
+        doThrow(new PropertyDetailsValidationException()).when(propertyDetailsValidatorMock).validatePropertyDetails(propertyDetailsMock);
+        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
+    }
+
+    @Test
+    public void gettingPropertiesGetsAllPropertiesFromThePropertyRepository() {
+        propertyService.getProperties();
+        verify(propertyRepositoryMock).getAll();
+    }
+
+    @Test
+    public void gettingPropertyByHashCodeGetsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        propertyService.getPropertyByHashCode(propertyMock.hashCode());
+        verify(propertyRepositoryMock).getByHashCode(propertyMock.hashCode());
     }
 
     private void createProperty() throws PropertyServiceException {

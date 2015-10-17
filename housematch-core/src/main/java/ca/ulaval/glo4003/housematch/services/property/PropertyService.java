@@ -50,7 +50,7 @@ public class PropertyService {
         }
     }
 
-    public void updateProperty(Property property, PropertyDetails propertyDetails) throws PropertyServiceException {
+    public void updatePropertyDetails(Property property, PropertyDetails propertyDetails) throws PropertyServiceException {
         try {
             propertyDetailsValidator.validatePropertyDetails(propertyDetails);
             property.setPropertyDetails(propertyDetails);

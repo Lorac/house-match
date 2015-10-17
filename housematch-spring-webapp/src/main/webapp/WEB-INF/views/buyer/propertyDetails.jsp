@@ -76,7 +76,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Selling Price:</label>
                                 <div class="col-sm-9">
-                                    <p class="control-label">${property.sellingPrice}$</p>
+                                    <p class="control-label">${property.sellingPrice}&nbsp;$</p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -131,7 +131,7 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Municipal Assessment:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.municipalAssessment}</p>
+                                    <p class="control-label">${property.propertyDetails.municipalAssessment}&nbsp;$</p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -189,25 +189,26 @@
                         </form>
                     </div>
                 </div>
+                <br>
                 <div class="row">
                     <div class="col-md-6">
                         <form class="form-horizontal">
                             <div class="form-group">
-                                <label class="col-sm-6 control-label">Building Dimensions (ft²):</label>
+                                <label class="col-sm-6 control-label">Building Dimensions:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.buildingDimensionsInSquareFeet}</p>
+                                    <p class="control-label">${property.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft²</p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-6 control-label">Lot Dimensions (ft²):</label>
+                                <label class="col-sm-6 control-label">Lot Dimensions:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.lotDimensionsInSquareFeet}</p>
+                                    <p class="control-label">${property.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft²</p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-6 control-label">Living Space Area (ft²):</label>
+                                <label class="col-sm-6 control-label">Living Space Area:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.livingSpaceAreaInSquareFeet}</p>
+                                    <p class="control-label">${property.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft²</p>
                                 </div>
                             </div>
                         </form>

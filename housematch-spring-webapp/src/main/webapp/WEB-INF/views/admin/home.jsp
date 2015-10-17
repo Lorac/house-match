@@ -17,9 +17,7 @@
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <p>
-            Hello
-            <sec:authentication property="principal.username" />
-            !
+            Hello <b><sec:authentication property="principal.username" /></b>!
         </p>
     </div>
 

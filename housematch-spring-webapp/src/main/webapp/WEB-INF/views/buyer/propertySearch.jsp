@@ -47,7 +47,7 @@
                             <tr>
                                 <td>${property.hashCode()}</td>
                                 <td><a
-                                    href="<%=PropertyController.PROPERTY_DETAILS_BASE_URL + pageContext.getAttribute("property").hashCode()%>">${property.address}</a>
+                                    href="<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>">${property.address}</a>
                                 </td>
                             </tr>
                         </c:forEach>

@@ -15,6 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +40,8 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 
 public class PropertyControllerTest extends BaseControllerTest {
+
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
 
     private Property propertyMock;
     private PropertyService propertyServiceMock;
@@ -112,20 +116,20 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyControllerGetsPropertyUsingTheSpecifiedHashCodeDuringDetailsViewAccess() throws Exception {
+    public void propertyControllerGetsPropertyUsingTheSpecifiedHashCodeDuringPropertyDetailsUpdateViewAccess() throws Exception {
         performGetRequest(samplePropertyDetailsUpdateUrl);
         verify(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
     }
 
     @Test
-    public void propertyControllerAssemblesTheViewModelFromThePropertyDuringDetailsViewAccess() throws Exception {
+    public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyDetailsUpdateViewAccess() throws Exception {
         when(userServiceMock.getPropertyByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
         performGetRequest(samplePropertyDetailsUpdateUrl);
         verify(propertyDetailsFormViewModelAssemblerMock).assembleFromProperty(propertyMock);
     }
 
     @Test
-    public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringDetailsViewAccess() throws Exception {
+    public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringPropertyDetailsUpdateViewAccess() throws Exception {
         doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
         ResultActions results = performGetRequest(samplePropertyDetailsUpdateUrl);
         results.andExpect(status().isNotFound());
@@ -143,12 +147,13 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerUpdatesThePropertyDuringPropertyDetailsUpdate() throws Exception {
         when(userServiceMock.getPropertyByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
         postPropertyDetailsForm();
-        verify(propertyServiceMock).updateProperty(eq(propertyMock), any(PropertyDetails.class));
+        verify(propertyServiceMock).updatePropertyDetails(eq(propertyMock), any(PropertyDetails.class));
     }
 
     @Test
     public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringDetailsUpdate() throws Exception {
-        doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(any(Property.class), any(PropertyDetails.class));
+        doThrow(new PropertyServiceException()).when(propertyServiceMock).updatePropertyDetails(any(Property.class),
+                any(PropertyDetails.class));
 
         ResultActions results = postPropertyDetailsForm();
 
@@ -164,8 +169,64 @@ public class PropertyControllerTest extends BaseControllerTest {
         results.andExpect(view().name(PropertyController.PROPERTY_LIST_SELLER_VIEW_NAME));
     }
 
-    private ResultActions postPropertyCreationForm() throws Exception {
+    @Test
+    public void propertyControllerRendersPropertySearchView() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_URL);
 
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+    }
+
+    @Test
+    public void propertyControllerGetsAllPropertiesFromThePropertyServiceDuringPropertySearchRequest() throws Exception {
+        performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
+        verify(propertyServiceMock).getProperties();
+    }
+
+    @Test
+    public void propertyControllerAssemblesTheViewModelFromThePropertiesDuringPropertySearchRequest() throws Exception {
+        when(propertyServiceMock.getProperties()).thenReturn(SAMPLE_PROPERTY_LIST);
+        performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
+        verify(propertySearchResultsViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+    }
+
+    @Test
+    public void propertyControllerRendersPropertySearchResultsViewUponCompletionOfPropertySearchRequest() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+    }
+
+    @Test
+    public void propertyControllerRendersPropertyView() throws Exception {
+        ResultActions results = performPropertyGetRequest();
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyController.PROPERTY_VIEW_NAME));
+    }
+
+    @Test
+    public void propertyControllerGetsPropertyUsingTheSpecifiedHashCodeDuringPropertyViewAccess() throws Exception {
+        performPropertyGetRequest();
+        verify(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
+    }
+
+    @Test
+    public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyViewAccess() throws Exception {
+        when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
+        performPropertyGetRequest();
+        verify(propertyViewModelAssemblerMock).assembleFromProperty(propertyMock);
+    }
+
+    @Test
+    public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringPropertyViewAccess() throws Exception {
+        doThrow(new PropertyNotFoundException()).when(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
+        ResultActions results = performPropertyGetRequest();
+        results.andExpect(status().isNotFound());
+    }
+
+    private ResultActions postPropertyCreationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_CREATION_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
         postRequest = buildPropertyCreationFormParams(postRequest);
@@ -183,5 +244,9 @@ public class PropertyControllerTest extends BaseControllerTest {
         postRequest.session(mockHttpSession);
 
         return mockMvc.perform(postRequest);
+    }
+
+    private ResultActions performPropertyGetRequest() throws Exception {
+        return performGetRequest(PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode());
     }
 }

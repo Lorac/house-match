@@ -21,19 +21,18 @@
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <p>
-            Hello
-            <sec:authentication property="principal.username" />
-            !
+            Hello <b><sec:authentication property="principal.username" /></b>!
         </p>
         <div class="profileMenu">
             <div class="row">
                 <div class="col-sm-4 menuItem">
-                    <a href="<%= ContactInformationController.CONTACT_INFO_UPDATE_URL %>"> <span class="icon glyphicon glyphicon-envelope"></span>
+                    <a href="<%=ContactInformationController.CONTACT_INFO_UPDATE_URL%>"> <span
+                        class="icon glyphicon glyphicon-envelope"></span>
                         <p class="itemLabel">Update contact information</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">
-                    <a href="<%= PropertyController.PROPERTY_SEARCH_URL %>"><span class="icon glyphicon glyphicon-search"></span>
-                    <p class="itemLabel">Search properties for sale</p></a>
+                    <a href="<%=PropertyController.PROPERTY_SEARCH_URL%>"><span class="icon glyphicon glyphicon-search"></span>
+                        <p class="itemLabel">Search properties for sale</p></a>
                 </div>
                 <div class="col-sm-4 menuItem">
                     <span class="icon glyphicon glyphicon-question-sign"></span>
