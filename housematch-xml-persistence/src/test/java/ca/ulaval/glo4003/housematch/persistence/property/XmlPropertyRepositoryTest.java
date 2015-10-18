@@ -1,8 +1,20 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
@@ -13,6 +25,7 @@ public class XmlPropertyRepositoryTest {
     private XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshallerMock;
     private XmlPropertyRootElement xmlPropertyRootElementMock;
     private Property propertyMock;
+    private Property anotherPropertyMock;
 
     private XmlPropertyRepository xmlPropertyRepository;
 
@@ -26,6 +39,7 @@ public class XmlPropertyRepositoryTest {
     @SuppressWarnings("unchecked")
     private void initMocks() {
         propertyMock = mock(Property.class);
+        anotherPropertyMock = mock(Property.class);
         xmlPropertyRootElementMock = mock(XmlPropertyRootElement.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
@@ -80,8 +94,13 @@ public class XmlPropertyRepositoryTest {
     }
 
     @Test
-    public void gettingAllPropertiesGetsAllTheProperties() {
-        assertSame(properties, xmlPropertyRepository.getAll());
+    public void gettingAllPropertiesGetsAllTheProperties() throws Exception {
+        xmlPropertyRepository.persist(propertyMock);
+        xmlPropertyRepository.persist(anotherPropertyMock);
+
+        List<Property> properties = xmlPropertyRepository.getAll();
+
+        assertThat(properties, containsInAnyOrder(propertyMock, anotherPropertyMock));
     }
 
 }

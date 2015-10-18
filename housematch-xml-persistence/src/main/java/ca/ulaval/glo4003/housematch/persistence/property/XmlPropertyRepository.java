@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -59,11 +61,11 @@ public class XmlPropertyRepository implements PropertyRepository {
 
     @Override
     public List<Property> getAll() {
-        return properties;
+        return new ArrayList<Property>(properties.values());
     }
 
     private void marshal() {
-        xmlPropertyRootElement.setProperties(properties);
+        xmlPropertyRootElement.setProperties(properties.values());
         xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
 }

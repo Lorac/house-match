@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -7,6 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +31,7 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
@@ -125,6 +129,13 @@ public class PropertyServiceTest {
     public void gettingPropertiesGetsAllPropertiesFromThePropertyRepository() {
         propertyService.getProperties();
         verify(propertyRepositoryMock).getAll();
+    }
+
+    @Test
+    public void gettingPropertiesReturnsAListOfProperties() {
+        when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
+        List<Property> returnedPropertyList = propertyService.getProperties();
+        assertSame(SAMPLE_PROPERTY_LIST, returnedPropertyList);
     }
 
     @Test
