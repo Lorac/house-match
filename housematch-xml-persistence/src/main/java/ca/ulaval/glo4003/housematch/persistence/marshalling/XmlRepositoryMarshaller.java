@@ -38,7 +38,7 @@ public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
         unmarshaller.setAdapter(xmlAdapter);
     }
 
-    synchronized public T unmarshal() {
+    public synchronized T unmarshal() {
         T unmarshalledObject;
         try {
             InputStream inputStream = resourceLoader.loadResourceAsInputStream(this, resourceName);
@@ -50,7 +50,7 @@ public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
         return unmarshalledObject;
     }
 
-    synchronized public void marshal(T object) {
+    public synchronized void marshal(T object) {
         try {
             OutputStream outputStream = resourceLoader.loadResourceAsOutputStream(this, resourceName);
             super.marshal(object, outputStream);
