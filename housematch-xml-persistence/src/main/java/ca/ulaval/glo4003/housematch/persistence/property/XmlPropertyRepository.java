@@ -1,7 +1,8 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -14,40 +15,42 @@ public class XmlPropertyRepository implements PropertyRepository {
     private final XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshaller;
     private XmlPropertyRootElement xmlPropertyRootElement;
 
-    private List<Property> properties;
+    private Map<Integer, Property> properties = new ConcurrentHashMap<>();
 
     public XmlPropertyRepository(final XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshaller) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository();
     }
 
-    protected void initRepository() {
+    private void initRepository() {
         xmlPropertyRootElement = xmlRepositoryMarshaller.unmarshal();
-        properties = xmlPropertyRootElement.getProperties();
+
+        Collection<Property> propertyElements = xmlPropertyRootElement.getProperties();
+        propertyElements.forEach(p -> properties.put(p.hashCode(), p));
     }
 
     @Override
     public void persist(Property property) throws PropertyAlreadyExistsException {
-        if (properties.stream().anyMatch(p -> p.equals(property))) {
+        if (properties.containsValue(property)) {
             throw new PropertyAlreadyExistsException(String.format("A property with address '%s' already exists.", property.getAddress()));
         }
 
-        properties.add(property);
+        properties.put(property.hashCode(), property);
         marshal();
     }
 
     @Override
     public Property getByHashCode(Integer hashCode) throws PropertyNotFoundException {
-        try {
-            return properties.stream().filter(p -> hashCode.equals(p.hashCode())).findFirst().get();
-        } catch (NoSuchElementException e) {
+        Property property = properties.get(hashCode);
+        if (property == null) {
             throw new PropertyNotFoundException(String.format("Cannot find property with hash code '%s'.", hashCode));
         }
+        return property;
     }
 
     @Override
     public void update(Property property) {
-        if (!properties.contains(property)) {
+        if (!properties.containsValue(property)) {
             throw new IllegalStateException("Update requested for an object that is not persisted.");
         }
 
@@ -59,7 +62,7 @@ public class XmlPropertyRepository implements PropertyRepository {
         return properties;
     }
 
-    protected void marshal() {
+    private void marshal() {
         xmlPropertyRootElement.setProperties(properties);
         xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }

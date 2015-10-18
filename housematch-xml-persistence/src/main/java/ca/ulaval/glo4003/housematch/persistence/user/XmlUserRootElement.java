@@ -6,21 +6,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.util.List;
+import java.util.Collection;
 
 @XmlRootElement(name = "housematch")
 public class XmlUserRootElement {
 
-    private List<User> users;
+    private Collection<User> users;
 
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")
     @XmlJavaTypeAdapter(XmlUserAdapter.class)
-    public List<User> getUsers() {
+    public Collection<User> getUsers() {
         return this.users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Collection<User> users) {
         this.users = users;
     }
 }
