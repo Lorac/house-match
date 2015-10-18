@@ -13,8 +13,6 @@ import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
 
 public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
 
-    private static final Object XML_MARSHALL_LOCK = new Object();
-
     private ResourceLoader resourceLoader;
     private String resourceName;
 
@@ -40,27 +38,23 @@ public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
         unmarshaller.setAdapter(xmlAdapter);
     }
 
-    public T unmarshal() {
+    synchronized public T unmarshal() {
         T unmarshalledObject;
         try {
-            synchronized (XML_MARSHALL_LOCK) {
-                InputStream inputStream = resourceLoader.loadResourceAsInputStream(this, resourceName);
-                unmarshalledObject = super.unmarshal(inputStream);
-                inputStream.close();
-            }
+            InputStream inputStream = resourceLoader.loadResourceAsInputStream(this, resourceName);
+            unmarshalledObject = super.unmarshal(inputStream);
+            inputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(String.format("An I/O exception occured while trying to read file '%s'.", resourceName), e);
         }
         return unmarshalledObject;
     }
 
-    public void marshal(T object) {
+    synchronized public void marshal(T object) {
         try {
-            synchronized (XML_MARSHALL_LOCK) {
-                OutputStream outputStream = resourceLoader.loadResourceAsOutputStream(this, resourceName);
-                super.marshal(object, outputStream);
-                outputStream.close();
-            }
+            OutputStream outputStream = resourceLoader.loadResourceAsOutputStream(this, resourceName);
+            super.marshal(object, outputStream);
+            outputStream.close();
         } catch (IOException e) {
             throw new UncheckedIOException(String.format("An I/O exception occured while trying to write file '%s'.", resourceName), e);
         }
