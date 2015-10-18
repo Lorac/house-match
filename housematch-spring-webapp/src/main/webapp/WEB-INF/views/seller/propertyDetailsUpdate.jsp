@@ -5,15 +5,9 @@
 <%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
 <%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormViewModel"%>
 
-<%
-    pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values());
-%>
-<%
-    pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values());
-%>
-<%
-    pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values());
-%>
+<%pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values());%>
+<%pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values());%>
+<%pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values());%>
 
 <html>
 <head>
@@ -215,7 +209,7 @@
 
             <div class="form-group">
                 <div class="row center">
-                    <input type="submit" name="property-details-uupdate-submit" id="property-details-update-submit" tabindex="19"
+                    <input type="submit" name="property-details-update-submit" id="property-details-update-submit" tabindex="19"
                         class="btn btn-primary btn-lg" value="Save Property Details">
                 </div>
             </div>
