@@ -51,7 +51,9 @@ public class XmlPropertyRepositoryTest {
     @Test
     public void persistingPropertyPersistsPropertyToRepository() throws Exception {
         xmlPropertyRepository.persist(propertyMock);
-        assertSame(propertyMock, xmlPropertyRepository.getByHashCode(propertyMock.hashCode()));
+
+        Property property = xmlPropertyRepository.getByHashCode(propertyMock.hashCode());
+        assertSame(propertyMock, property);
     }
 
     @Test
@@ -71,7 +73,9 @@ public class XmlPropertyRepositoryTest {
     @Test
     public void gettingPropertyByHashCodeRetrievesThePropertyByHashCode() throws Exception {
         xmlPropertyRepository.persist(propertyMock);
-        assertSame(propertyMock, xmlPropertyRepository.getByHashCode(propertyMock.hashCode()));
+
+        Property property = xmlPropertyRepository.getByHashCode(propertyMock.hashCode());
+        assertSame(propertyMock, property);
     }
 
     @Test(expected = PropertyNotFoundException.class)
