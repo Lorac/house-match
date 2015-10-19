@@ -118,19 +118,19 @@ public class PropertyControllerTest extends BaseControllerTest {
     @Test
     public void propertyControllerGetsPropertyUsingTheSpecifiedHashCodeDuringPropertyDetailsUpdateViewAccess() throws Exception {
         performGetRequest(samplePropertyDetailsUpdateUrl);
-        verify(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
+        verify(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
     }
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyDetailsUpdateViewAccess() throws Exception {
-        when(userServiceMock.getPropertyByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
+        when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
         performGetRequest(samplePropertyDetailsUpdateUrl);
         verify(propertyDetailsFormViewModelAssemblerMock).assembleFromProperty(propertyMock);
     }
 
     @Test
     public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringPropertyDetailsUpdateViewAccess() throws Exception {
-        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
+        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
         ResultActions results = performGetRequest(samplePropertyDetailsUpdateUrl);
         results.andExpect(status().isNotFound());
     }
@@ -145,7 +145,7 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerUpdatesThePropertyDuringPropertyDetailsUpdate() throws Exception {
-        when(userServiceMock.getPropertyByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
+        when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
         postPropertyDetailsForm();
         verify(propertyServiceMock).updatePropertyDetails(eq(propertyMock), any(PropertyDetails.class));
     }

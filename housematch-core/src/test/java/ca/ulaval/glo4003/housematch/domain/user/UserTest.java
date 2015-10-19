@@ -209,26 +209,26 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePropertiesSetsTheSpecifiedProperty() {
-        user.setProperties(properties);
-        assertEquals(properties, user.getProperties());
+    public void settingPropertiesForSaleSetsTheSpecifiedProperties() {
+        user.setPropertiesForSale(properties);
+        assertEquals(properties, user.getPropertiesForSale());
     }
 
     @Test
-    public void addingAPropertyAddsTheSpecifiedProperty() {
-        user.addProperty(propertyMock);
-        assertThat(user.getProperties(), contains(propertyMock));
+    public void addingPropertyForSaleAddsTheSpecifiedProperty() {
+        user.addPropertyForSale(propertyMock);
+        assertThat(user.getPropertiesForSale(), contains(propertyMock));
     }
 
     @Test
-    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
-        user.addProperty(propertyMock);
-        assertSame(propertyMock, user.getPropertyByHashCode(propertyMock.hashCode()));
+    public void gettingPropertyForSaleByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        user.addPropertyForSale(propertyMock);
+        assertSame(propertyMock, user.getPropertyForSaleByHashCode(propertyMock.hashCode()));
     }
 
     @Test(expected = PropertyNotFoundException.class)
-    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist() throws Exception {
-        user.getPropertyByHashCode(propertyMock.hashCode());
+    public void gettingPropertyForSaleByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyDoesNotExist() throws Exception {
+        user.getPropertyForSaleByHashCode(propertyMock.hashCode());
     }
 
     @Test

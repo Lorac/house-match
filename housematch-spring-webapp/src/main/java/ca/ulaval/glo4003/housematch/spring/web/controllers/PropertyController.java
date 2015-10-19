@@ -90,7 +90,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView displayPropertyDetailsUpdatePage(@PathVariable int propertyHashCode, ModelMap modelMap,
             HttpSession httpSession) {
         try {
-            Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+            Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             modelMap.put(PropertyDetailsFormViewModel.NAME, propertyDetailsFormViewModelAssembler.assembleFromProperty(property));
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
@@ -102,7 +102,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
             PropertyDetailsFormViewModel propertyDetailsForm) {
         try {
-            Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+            Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             propertyService.updatePropertyDetails(property, propertyDetailsForm.getDetails());
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
