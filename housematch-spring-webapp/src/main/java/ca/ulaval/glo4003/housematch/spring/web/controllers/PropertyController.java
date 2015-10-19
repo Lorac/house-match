@@ -35,8 +35,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_DETAILS_UPDATE_BASE_URL = "/seller/updatePropertyDetails/";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
     static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
-    public static final String PROPERTY_LIST_SELLER_URL = "/seller/propertyList";
-    static final String PROPERTY_LIST_SELLER_VIEW_NAME = "seller/propertyList";
+    public static final String PROPERTIES_FOR_SALE_LIST_URL = "/seller/propertyList";
+    static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
@@ -110,9 +110,9 @@ public class PropertyController extends BaseController {
         }
     }
 
-    @RequestMapping(value = PROPERTY_LIST_SELLER_URL, method = RequestMethod.GET)
+    @RequestMapping(value = PROPERTIES_FOR_SALE_LIST_URL, method = RequestMethod.GET)
     public final ModelAndView listSellerProperties() {
-        return new ModelAndView(PROPERTY_LIST_SELLER_VIEW_NAME);
+        return new ModelAndView(PROPERTIES_FOR_SALE_LIST_VIEW_NAME);
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_URL, method = RequestMethod.GET)

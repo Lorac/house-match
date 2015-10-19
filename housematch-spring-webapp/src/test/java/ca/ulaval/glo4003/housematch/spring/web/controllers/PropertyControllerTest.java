@@ -163,10 +163,10 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerRendersSellerPropertyListView() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_LIST_SELLER_URL);
+        ResultActions results = performGetRequest(PropertyController.PROPERTIES_FOR_SALE_LIST_URL);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name(PropertyController.PROPERTY_LIST_SELLER_VIEW_NAME));
+        results.andExpect(view().name(PropertyController.PROPERTIES_FOR_SALE_LIST_VIEW_NAME));
     }
 
     @Test
