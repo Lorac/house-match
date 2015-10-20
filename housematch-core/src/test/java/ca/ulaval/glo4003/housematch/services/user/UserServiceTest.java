@@ -189,10 +189,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
-        when(userMock.getPropertyByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
-        Property returnedProperty = userService.getPropertyByHashCode(userMock, SAMPLE_HASHCODE);
-        assertSame(propertyMock, returnedProperty);
+    public void gettingPropertyForSaleByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        when(userMock.getPropertyForSaleByHashCode(SAMPLE_HASHCODE)).thenReturn(propertyMock);
+        Property property = userService.getPropertyForSaleByHashCode(userMock, SAMPLE_HASHCODE);
+        assertSame(propertyMock, property);
     }
 
     @Test

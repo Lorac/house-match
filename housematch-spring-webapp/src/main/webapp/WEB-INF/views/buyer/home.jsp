@@ -3,7 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController"%>
 <%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
 
 <html>
@@ -32,7 +32,7 @@
                 <div class="profileMenu">
                     <div class="row">
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=ContactInformationController.CONTACT_INFO_UPDATE_URL%>"> <span
+                            <a href="<%=UserProfileController.CONTACT_INFO_UPDATE_URL%>"> <span
                                 class="icon glyphicon glyphicon-envelope"></span>
                                 <p class="itemLabel">Update contact information</p></a>
                         </div>

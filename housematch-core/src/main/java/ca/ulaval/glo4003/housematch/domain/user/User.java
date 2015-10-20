@@ -21,7 +21,7 @@ public class User {
     private UserRole role;
     private UUID activationCode;
     private Boolean activated = false;
-    private List<Property> properties = new ArrayList<>();
+    private List<Property> propertiesForSale = new ArrayList<>();
     private Address address;
 
     public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
@@ -88,12 +88,12 @@ public class User {
         this.role = role;
     }
 
-    public List<Property> getProperties() {
-        return properties;
+    public List<Property> getPropertiesForSale() {
+        return propertiesForSale;
     }
 
-    public void setProperties(List<Property> properties) {
-        this.properties = properties;
+    public void setPropertiesForSale(List<Property> properties) {
+        this.propertiesForSale = properties;
     }
 
     public void validatePassword(String password) throws InvalidPasswordException {
@@ -116,13 +116,13 @@ public class User {
         activationCode = null;
     }
 
-    public void addProperty(Property property) {
-        properties.add(property);
+    public void addPropertyForSale(Property property) {
+        propertiesForSale.add(property);
     }
 
-    public Property getPropertyByHashCode(int hashCode) throws PropertyNotFoundException {
+    public Property getPropertyForSaleByHashCode(int hashCode) throws PropertyNotFoundException {
         try {
-            return properties.stream().filter(p -> p.hashCode() == hashCode).findFirst().get();
+            return propertiesForSale.stream().filter(p -> p.hashCode() == hashCode).findFirst().get();
         } catch (NoSuchElementException e) {
             throw new PropertyNotFoundException(String.format("Cannot find property with hashcode '%s' belonging to this user.", hashCode));
         }

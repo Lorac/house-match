@@ -60,8 +60,8 @@ public class UserService {
         }
     }
 
-    public Property getPropertyByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
-        return user.getPropertyByHashCode(propertyHashCode);
+    public Property getPropertyForSaleByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
+        return user.getPropertyForSaleByHashCode(propertyHashCode);
     }
 
     public void updateUserEmail(User user, String email) throws UserActivationServiceException, UserServiceException {

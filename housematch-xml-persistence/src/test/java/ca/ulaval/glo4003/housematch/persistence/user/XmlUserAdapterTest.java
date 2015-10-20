@@ -66,7 +66,7 @@ public class XmlUserAdapterTest {
         when(userMock.getRole()).thenReturn(SAMPLE_ROLE);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
         when(userMock.isActivated()).thenReturn(SAMPLE_BOOLEAN);
-        when(userMock.getProperties()).thenReturn(properties);
+        when(userMock.getPropertiesForSale()).thenReturn(properties);
     }
 
     private void initXmlUserMock() {
@@ -77,7 +77,7 @@ public class XmlUserAdapterTest {
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
         xmlUserMock.activated = SAMPLE_BOOLEAN;
-        xmlUserMock.propertyRef = propertyRefs;
+        xmlUserMock.propertiesForSale = propertyRefs;
     }
 
     private void stubMethods() {
@@ -85,7 +85,7 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void simpleUserPropertiesAreConvertedDuringMarshalling() throws Exception {
+    public void simpleUserAttributesAreConvertedDuringMarshalling() throws Exception {
         xmlUserAdapter.marshal(userMock);
 
         assertEquals(userMock.getUsername(), xmlUserMock.username);
@@ -96,14 +96,14 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void propertiesAreMarshalledAsReferencesDuringMarshalling() throws Exception {
+    public void propertiesForSaleAreMarshalledAsReferencesDuringMarshalling() throws Exception {
         properties.add(propertyMock);
         XmlUser xmlUser = xmlUserAdapter.marshal(userMock);
-        assertThat(xmlUser.propertyRef, contains(propertyMock.hashCode()));
+        assertThat(xmlUser.propertiesForSale, contains(propertyMock.hashCode()));
     }
 
     @Test
-    public void simpleXmlUserPropertiesAreConvertedDuringUnmarshalling() throws Exception {
+    public void simpleXmlUserAttributesAreConvertedDuringUnmarshalling() throws Exception {
         xmlUserAdapter.unmarshal(xmlUserMock);
 
         assertEquals(xmlUserMock.username, userMock.getUsername());
@@ -114,13 +114,13 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void propertiesAreDereferencedDuringUnmarshalling() throws Exception {
+    public void propertiesForSaleAreDereferencedDuringUnmarshalling() throws Exception {
         when(propertyRepositoryMock.getByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
         properties.add(propertyMock);
         propertyRefs.add(propertyMock.hashCode());
 
         xmlUserAdapter.unmarshal(xmlUserMock);
 
-        verify(userMock).setProperties(eq(properties));
+        verify(userMock).setPropertiesForSale(eq(properties));
     }
 }

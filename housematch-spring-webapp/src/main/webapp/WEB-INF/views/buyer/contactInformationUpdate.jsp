@@ -2,7 +2,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController"%>
 <%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel"%>
 
 <% pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values()); %>
@@ -22,7 +22,7 @@
     <div class="container">
         <h1 class="center">Update Contact Information</h1>
         <form:form id="profile-form" class="form-horizontal" role="form" modelAttribute="<%= ContactInformationFormViewModel.NAME %>"
-            action="<%= ContactInformationController.CONTACT_INFO_UPDATE_URL %>" method="POST">
+            action="<%= UserProfileController.CONTACT_INFO_UPDATE_URL %>" method="POST">
             
             <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
             

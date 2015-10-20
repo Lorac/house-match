@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel;
 
 @Controller
-public class ContactInformationController extends BaseController {
+public class UserProfileController extends BaseController {
 
     public static final String CONTACT_INFO_UPDATE_URL = "/buyer/updateContactInformation";
     static final String CONTACT_INFO_UPDATE_VIEW_NAME = "buyer/contactInformationUpdate";
@@ -22,11 +22,11 @@ public class ContactInformationController extends BaseController {
     @Inject
     private UserService userService;
 
-    protected ContactInformationController() {
+    protected UserProfileController() {
         // Required for Mockito
     }
 
-    public ContactInformationController(final UserService userService) {
+    public UserProfileController(final UserService userService) {
         this.userService = userService;
     }
 

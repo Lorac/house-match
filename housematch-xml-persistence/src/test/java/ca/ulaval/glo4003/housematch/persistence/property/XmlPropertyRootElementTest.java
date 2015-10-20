@@ -1,13 +1,15 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import ca.ulaval.glo4003.housematch.domain.property.Property;
+import static org.junit.Assert.assertSame;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertSame;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
 
 public class XmlPropertyRootElementTest {
 
@@ -22,6 +24,8 @@ public class XmlPropertyRootElementTest {
     @Test
     public void setingTheUsersSetsTheUsers() {
         xmlPropertyRootElement.setProperties(properties);
-        assertSame(properties, xmlPropertyRootElement.getProperties());
+
+        Collection<Property> properties = xmlPropertyRootElement.getProperties();
+        assertSame(properties, properties);
     }
 }

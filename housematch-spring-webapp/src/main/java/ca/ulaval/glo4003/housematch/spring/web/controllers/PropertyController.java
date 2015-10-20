@@ -35,8 +35,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_DETAILS_UPDATE_BASE_URL = "/seller/updatePropertyDetails/";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
     static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
-    public static final String PROPERTY_LIST_SELLER_URL = "/seller/propertyList";
-    static final String PROPERTY_LIST_SELLER_VIEW_NAME = "seller/propertyList";
+    public static final String PROPERTIES_FOR_SALE_LIST_URL = "/seller/propertyList";
+    static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
@@ -90,7 +90,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView displayPropertyDetailsUpdatePage(@PathVariable int propertyHashCode, ModelMap modelMap,
             HttpSession httpSession) {
         try {
-            Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+            Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             modelMap.put(PropertyDetailsFormViewModel.NAME, propertyDetailsFormViewModelAssembler.assembleFromProperty(property));
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
@@ -102,7 +102,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
             PropertyDetailsFormViewModel propertyDetailsForm) {
         try {
-            Property property = userService.getPropertyByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+            Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             propertyService.updatePropertyDetails(property, propertyDetailsForm.getDetails());
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
@@ -110,9 +110,9 @@ public class PropertyController extends BaseController {
         }
     }
 
-    @RequestMapping(value = PROPERTY_LIST_SELLER_URL, method = RequestMethod.GET)
+    @RequestMapping(value = PROPERTIES_FOR_SALE_LIST_URL, method = RequestMethod.GET)
     public final ModelAndView listSellerProperties() {
-        return new ModelAndView(PROPERTY_LIST_SELLER_VIEW_NAME);
+        return new ModelAndView(PROPERTIES_FOR_SALE_LIST_VIEW_NAME);
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_URL, method = RequestMethod.GET)

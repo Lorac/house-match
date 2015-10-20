@@ -28,13 +28,13 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
         user.setAddress(xmlUser.address);
-        user.setProperties(dereferenceProperties(xmlUser));
+        user.setPropertiesForSale(dereferenceProperties(xmlUser));
         return user;
     }
 
     private List<Property> dereferenceProperties(XmlUser xmlUser) throws PropertyNotFoundException {
         List<Property> properties = new ArrayList<Property>();
-        for (Integer propertyHashCode : xmlUser.propertyRef) {
+        for (Integer propertyHashCode : xmlUser.propertiesForSale) {
             properties.add(propertyRepository.getByHashCode(propertyHashCode));
         }
         return properties;
@@ -51,8 +51,8 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.activated = user.isActivated();
         xmlUser.address = user.getAddress();
 
-        for (Property property : user.getProperties()) {
-            xmlUser.propertyRef.add(property.hashCode());
+        for (Property property : user.getPropertiesForSale()) {
+            xmlUser.propertiesForSale.add(property.hashCode());
         }
 
         return xmlUser;

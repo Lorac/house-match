@@ -7,9 +7,9 @@
             <passwordHash>03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4</passwordHash>
             <role>SELLER</role>
             <activated>true</activated>
-            <properties>
+            <propertiesForSale>
                 <propertyRef>1681920877</propertyRef>
-            </properties>
+            </propertiesForSale>
         </user>
         <user>
             <username>buyer1</username>
@@ -17,7 +17,7 @@
             <passwordHash>03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4</passwordHash>
             <role>BUYER</role>
             <activated>true</activated>
-            <properties/>
+            <propertiesForSale/>
         </user>
     </users>
 </housematch>
