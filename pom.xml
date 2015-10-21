@@ -1,15 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ca.ulaval.glo4003</groupId>
     <artifactId>HouseMatch</artifactId>
-    <packaging>war</packaging>
-    <version>0.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <version>2.1-SNAPSHOT</version>
+    <modules>
+        <module>housematch-core</module>
+        <module>housematch-spring-webapp</module>
+        <module>housematch-xml-persistence</module>
+        <module>housematch-emailer</module>
+    </modules>
     <name>HouseMatch</name>
 
     <properties>
         <spring.version>4.2.1.RELEASE</spring.version>
-        <tomcat7Version>7.0.64</tomcat7Version>
-        <slf4jVersion>1.7.12</slf4jVersion>
+        <spring.security.version>4.0.2.RELEASE</spring.security.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
     </properties>
@@ -56,7 +62,7 @@
             <url>https://gitlab.com/u/dkatanari</url>
             <id>dkatanari</id>
         </developer>
-		<developer>
+        <developer>
             <email>antoine.giasson.2@gmail.com</email>
             <name>Antoine Giasson</name>
             <url>https://gitlab.com/u/antoine-giasson-2</url>
@@ -64,90 +70,10 @@
         </developer>
     </developers>
 
-    <dependencies>
-
-        <!-- Common Components -->
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
-        </dependency>
-
-        <!-- Logging Components -->
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>${slf4jVersion}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Spring Framework Components -->
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Servlet Components -->
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Test Components -->
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>2.0.2-beta</version>
-            <scope>test</scope>
-        </dependency>
-
-
-    </dependencies>
-
     <build>
         <finalName>HouseMatch</finalName>
+
         <plugins>
-            <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
-                <configuration>
-                    <url>http://localhost:8080/</url>
-                </configuration>
-            </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
@@ -162,7 +88,7 @@
                 <version>2.18.1</version>
                 <configuration>
                     <includes>
-                        <include>**/*Tests.java</include>
+                        <include>**/*Test.java</include>
                     </includes>
                 </configuration>
             </plugin>
@@ -192,11 +118,61 @@
                         <configuration>
                             <failOnViolation>true</failOnViolation>
                             <failsOnError>true</failsOnError>
+                            <consoleOutput>true</consoleOutput>
                             <encoding>UTF-8</encoding>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>http://localhost:8080/HouseMatch</url>
+                    <path>/HouseMatch</path>
+                    <webapps>
+                        <webapp>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>housematch-spring-webapp</artifactId>
+                            <version>${project.version}</version>
+                            <type>war</type>
+                            <asWebapp>true</asWebapp>
+                            <contextPath>/</contextPath>
+                        </webapp>
+                    </webapps>
+                </configuration>
+            </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven 
+                    build itself. -->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-checkstyle-plugin</artifactId>
+                                        <versionRange>[2.16,)</versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore />
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- User -->
+
+    <bean id="xmlUserRepository" class="ca.ulaval.glo4003.housematch.persistence.user.XmlUserRepository">
+        <constructor-arg ref="xmlUserRepositoryMarshaller" />
+        <constructor-arg ref="xmlUserAdapter" />
+    </bean>
+
+    <bean id="xmlUserRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller">
+        <constructor-arg type="java.lang.Class" value="#{ T(ca.ulaval.glo4003.housematch.persistence.user.XmlUserRootElement) }" />
+        <constructor-arg ref="resourceLoader" />
+        <constructor-arg type="java.lang.String" value="/data/housematch-users.xml" />
+    </bean>
+
+    <bean id="xmlUserAdapter" class="ca.ulaval.glo4003.housematch.persistence.user.XmlUserAdapter">
+		<constructor-arg ref="userFactory" />
+        <constructor-arg ref="xmlPropertyRepository" />
+    </bean>
+
+    <!-- Property -->
+
+    <bean id="xmlPropertyRepository" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyRepository">
+        <constructor-arg ref="xmlPropertyRepositoryMarshaller" />
+    </bean>
+
+    <bean id="xmlPropertyRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller">
+        <constructor-arg type="java.lang.Class" value="#{ T(ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyRootElement) }" />
+        <constructor-arg ref="resourceLoader" />
+        <constructor-arg type="java.lang.String" value="/data/housematch-properties.xml" />
+    </bean>
+
+    <!-- Utils -->
+
+    <bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.utils.ResourceLoader" />
+
+</beans>
