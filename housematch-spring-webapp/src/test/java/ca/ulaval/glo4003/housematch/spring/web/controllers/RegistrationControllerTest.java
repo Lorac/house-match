@@ -44,15 +44,15 @@ public class RegistrationControllerTest extends BaseControllerTest {
 
     private UserService userServiceMock;
     private UserActivationService userActivationServiceMock;
-    private RegistrationController registerController;
+    private RegistrationController registrationController;
 
     @Before
     public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
         userActivationServiceMock = mock(UserActivationService.class);
-        registerController = new RegistrationController(userServiceMock, userActivationServiceMock);
-        mockMvc = MockMvcBuilders.standaloneSetup(registerController).setViewResolvers(viewResolver).build();
+        registrationController = new RegistrationController(userServiceMock, userActivationServiceMock);
+        mockMvc = MockMvcBuilders.standaloneSetup(registrationController).setViewResolvers(viewResolver).build();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void registrationControllerRegistersUserFromTheSpecifiedRegistrationFormViewModelDuringRegistration() throws Exception {
+    public void registrationControllerRegistersUserUsingTheSpecifiedRegistrationFormViewModelDuringRegistration() throws Exception {
         postRegistrationForm();
 
         verify(userServiceMock).registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
@@ -114,15 +114,15 @@ public class RegistrationControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void registrationControllerUpdatesTheEmailOfTheUserObjectDuringEmailReconfirmation() throws Exception {
+    public void registrationControllerResendsTheActivationMailDuringEmailReconfirmation() throws Exception {
         postEmailReconfirmationForm();
 
-        verify(userServiceMock).updateUserEmail(userMock, SAMPLE_EMAIL);
+        verify(userActivationServiceMock).resendActivationMail(userMock, SAMPLE_EMAIL);
     }
 
     @Test
     public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringEmailReconfirmation() throws Exception {
-        doThrow(new UserActivationServiceException()).when(userServiceMock).updateUserEmail(userMock, SAMPLE_EMAIL);
+        doThrow(new UserActivationServiceException()).when(userActivationServiceMock).resendActivationMail(userMock, SAMPLE_EMAIL);
 
         ResultActions results = postEmailReconfirmationForm();
 

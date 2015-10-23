@@ -36,16 +36,8 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getEmail() {
         return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPasswordHash() {
@@ -80,14 +72,6 @@ public class User {
         this.activated = activated;
     }
 
-    public UserRole getRole() {
-        return role;
-    }
-
-    public void setRole(UserRole role) {
-        this.role = role;
-    }
-
     public List<Property> getPropertiesForSale() {
         return propertiesForSale;
     }
@@ -100,6 +84,10 @@ public class User {
         if (!this.passwordHash.equals(stringHasher.hash(password))) {
             throw new InvalidPasswordException("Password does not match.");
         }
+    }
+
+    public UserRole getRole() {
+        return role;
     }
 
     public Boolean hasRole(UserRole role) {

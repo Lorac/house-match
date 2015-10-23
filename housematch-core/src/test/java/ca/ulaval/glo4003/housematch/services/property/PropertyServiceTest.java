@@ -77,7 +77,7 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void propertyCreationPushesUserUpdateToRepository() throws Exception {
+    public void propertyCreationUpdatesTheUserInTheRepository() throws Exception {
         createProperty();
         verify(userRepositoryMock).update(userMock);
     }
@@ -114,7 +114,7 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void updatingPropertyDetailsPushesThePropertyInTheRepository() throws Exception {
+    public void updatingPropertyDetailsUpdatesThePropertyInTheRepository() throws Exception {
         propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
@@ -132,7 +132,7 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void gettingPropertiesReturnsAListOfProperties() {
+    public void gettingPropertiesReturnsListContainingAllTheProperties() {
         when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
         List<Property> returnedPropertyList = propertyService.getProperties();
         assertSame(SAMPLE_PROPERTY_LIST, returnedPropertyList);

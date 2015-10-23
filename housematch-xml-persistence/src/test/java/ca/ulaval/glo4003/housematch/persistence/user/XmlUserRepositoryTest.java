@@ -54,6 +54,7 @@ public class XmlUserRepositoryTest {
 
     @Test
     public void persistingUserPersistsUserToRepository() throws Exception {
+        when(userMock.usernameEquals(SAMPLE_USERNAME)).thenReturn(true);
         xmlUserRepository.persist(userMock);
         assertSame(userMock, xmlUserRepository.getByUsername(SAMPLE_USERNAME));
     }

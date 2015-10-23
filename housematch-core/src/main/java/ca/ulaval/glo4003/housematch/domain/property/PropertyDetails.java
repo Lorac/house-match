@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 public class PropertyDetails {
 
     PropertyStyle propertyStyle;
-    String priceDetail;
+    String priceDetails;
     Integer numberOfBedrooms;
     String bedroomDetails;
     Integer numberOfBathrooms;
@@ -32,12 +32,12 @@ public class PropertyDetails {
         this.propertyStyle = propertyStyle;
     }
 
-    public String getPriceDetail() {
-        return priceDetail;
+    public String getPriceDetails() {
+        return priceDetails;
     }
 
-    public void setPriceDetail(String priceDetail) {
-        this.priceDetail = priceDetail;
+    public void setPriceDetails(String priceDetail) {
+        this.priceDetails = priceDetail;
     }
 
     public Integer getNumberOfBedrooms() {
@@ -132,7 +132,7 @@ public class PropertyDetails {
         return numberOfExteriorParkingSpaces;
     }
 
-    public void setNumberOfExteriorParking(Integer numberOfExteriorParking) {
+    public void setNumberOfExteriorParkingSpaces(Integer numberOfExteriorParking) {
         this.numberOfExteriorParkingSpaces = numberOfExteriorParking;
     }
 
@@ -140,7 +140,7 @@ public class PropertyDetails {
         return numberOfInteriorParkingSpaces;
     }
 
-    public void setNumberOfInteriorParking(Integer numberOfInteriorParking) {
+    public void setNumberOfInteriorParkingSpaces(Integer numberOfInteriorParking) {
         this.numberOfInteriorParkingSpaces = numberOfInteriorParking;
     }
 

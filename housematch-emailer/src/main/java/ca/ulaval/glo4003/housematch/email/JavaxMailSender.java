@@ -1,5 +1,7 @@
 package ca.ulaval.glo4003.housematch.email;
 
+import java.util.Properties;
+
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -8,9 +10,9 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.util.Properties;
 
 public class JavaxMailSender {
+    private static final String HTML_UTF8_CONTENT_TYPE = "text/html; charset=utf-8";
 
     private final Properties emailProperties;
     private MimeMessage mimeMessage;
@@ -26,7 +28,7 @@ public class JavaxMailSender {
     }
 
     public void addRecipient(Message.RecipientType recipientType, String email) throws MessagingException {
-        mimeMessage.addRecipients(recipientType, email);
+        mimeMessage.setRecipients(recipientType, email);
     }
 
     public void setFrom(InternetAddress from) throws MessagingException {
@@ -38,7 +40,7 @@ public class JavaxMailSender {
     }
 
     public void setContent(String content) throws MessagingException {
-        mimeMessage.setContent(content, "text/html; charset=utf-8");
+        mimeMessage.setContent(content, HTML_UTF8_CONTENT_TYPE);
     }
 
     private class MailAuthenticator extends Authenticator {

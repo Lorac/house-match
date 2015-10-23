@@ -12,6 +12,10 @@ public class UserActivationServiceException extends Exception {
         super(e.getMessage(), e);
     }
 
+    public UserActivationServiceException(final String message) {
+        super(message);
+    }
+
     public UserActivationServiceException(final String message, final Exception e) {
         super(message, e);
     }

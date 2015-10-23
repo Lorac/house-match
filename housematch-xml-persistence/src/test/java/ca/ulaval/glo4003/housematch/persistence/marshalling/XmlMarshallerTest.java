@@ -1,17 +1,21 @@
 package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class XmlMarshallerTest {
 
@@ -43,7 +47,7 @@ public class XmlMarshallerTest {
     }
 
     @Test
-    public void unmarshallingReturnsAnObjectFromTheSpecifiedInputStream() throws JAXBException {
+    public void unmarshallingUnmarshallsTheSpecifiedInputStreamToAnObject() throws JAXBException {
         when(unmarshallerMock.unmarshal(inputStreamMock)).thenReturn(SAMPLE_OBJECT);
         Object unmarshalledObject = xmlMarshaller.unmarshal(inputStreamMock);
         assertSame(SAMPLE_OBJECT, unmarshalledObject);

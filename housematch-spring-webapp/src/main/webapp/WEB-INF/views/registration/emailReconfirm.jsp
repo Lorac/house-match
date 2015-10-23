@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <c:set var="homeLinkHidden" value="true" scope="request" />
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <div class="row">
@@ -24,7 +25,7 @@
                     <div class="panel-body">
                         <div class="alert alert-warning">Your account has not been activated yet. Please click the activation link
                             that was sent to '${sessionScope.user.email}'. If you did not receive the activation link or the activation
-                            needs to be sent to another email address, please enter it below:</div>
+                            needs to be sent to a different email address, please enter it below:</div>
                         <form:form id="email-reconfirm-form" role="form" modelAttribute="<%= EmailReconfirmFormViewModel.NAME %>" action="/emailReconfirm"
                             method="POST" modes="">
                             <div class="form-group">

@@ -24,12 +24,17 @@
 
     <bean id="xmlPropertyRepository" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyRepository">
         <constructor-arg ref="xmlPropertyRepositoryMarshaller" />
+		<constructor-arg ref="xmlPropertyAdapter" />
     </bean>
 
     <bean id="xmlPropertyRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller">
         <constructor-arg type="java.lang.Class" value="#{ T(ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyRootElement) }" />
         <constructor-arg ref="resourceLoader" />
         <constructor-arg type="java.lang.String" value="/data/housematch-properties.xml" />
+    </bean>
+	
+	<bean id="xmlPropertyAdapter" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyAdapter">
+		<constructor-arg ref="propertyFactory" />
     </bean>
 
     <!-- Utils -->

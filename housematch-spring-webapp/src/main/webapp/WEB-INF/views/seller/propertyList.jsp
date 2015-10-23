@@ -27,6 +27,7 @@
                             <th></th>
                             <th>ID</th>
                             <th>Address</th>
+                            <th>Selling Price</th>
                         </tr>
                     </thead>
                     <c:forEach var="property" items="${user.propertiesForSale}">
@@ -34,6 +35,7 @@
                             <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                             <td>${property.hashCode()}</td>
                             <td>${property.address}</td>
+                            <td>${property.sellingPrice}&nbsp;$</td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -41,7 +43,7 @@
             <c:otherwise>
                 <p>
                     You have no properties for sale. You can put a property up for sale <a
-                        href="<%=PropertyController.PROPERTY_CREATION_URL%>">here</a>
+                        href="<%=PropertyController.PROPERTY_CREATION_URL%>">here</a>.
                 </p>
             </c:otherwise>
         </c:choose>

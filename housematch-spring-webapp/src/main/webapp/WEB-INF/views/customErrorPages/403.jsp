@@ -2,6 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -16,8 +18,8 @@
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
 
     <div class="container">
-        <h1>Watch where you're going!</h1>
-        <p>Seems like you're not allowed to view this page.</p>
+        <h1>Access Denied</h1>
+        <p>You are not allowed to view this page. <a href="<%= HomeController.HOME_URL %>">Return to home page</a>.</p>
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>

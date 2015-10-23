@@ -41,9 +41,9 @@ public class PropertyService {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
             Property property = propertyFactory.createProperty(propertyType, address, sellingPrice);
+            propertyRepository.persist(property);
             user.addPropertyForSale(property);
             userRepository.update(user);
-            propertyRepository.persist(property);
             return property;
         } catch (PropertyCreationValidationException | PropertyAlreadyExistsException e) {
             throw new PropertyServiceException(e);

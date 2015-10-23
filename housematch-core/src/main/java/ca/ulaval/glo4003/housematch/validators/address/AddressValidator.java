@@ -1,13 +1,15 @@
 package ca.ulaval.glo4003.housematch.validators.address;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.regex.Pattern;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class AddressValidator {
 
     private static final String POST_CODE_VALIDATION_REGEX = "^(?!.*[DFIOQU])[A-VXY][0-9][A-Z] ?[0-9][A-Z][0-9]$";
+
     protected Boolean allowPartialAddress = false;
     private Pattern postCodeValidationRegExPattern;
 

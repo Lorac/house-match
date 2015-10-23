@@ -23,6 +23,7 @@ public class XmlPropertyRepositoryTest {
     private static final Integer SAMPLE_UNEXISTING_HASHCODE = 345435;
 
     private XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshallerMock;
+    private XmlPropertyAdapter xmlPropertyAdapterMock;
     private XmlPropertyRootElement xmlPropertyRootElementMock;
     private Property propertyMock;
     private Property anotherPropertyMock;
@@ -33,13 +34,14 @@ public class XmlPropertyRepositoryTest {
     public void init() {
         initMocks();
         stubMethods();
-        xmlPropertyRepository = new XmlPropertyRepository(xmlRepositoryMarshallerMock);
+        xmlPropertyRepository = new XmlPropertyRepository(xmlRepositoryMarshallerMock, xmlPropertyAdapterMock);
     }
 
     @SuppressWarnings("unchecked")
     private void initMocks() {
         propertyMock = mock(Property.class);
         anotherPropertyMock = mock(Property.class);
+        xmlPropertyAdapterMock = mock(XmlPropertyAdapter.class);
         xmlPropertyRootElementMock = mock(XmlPropertyRootElement.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
@@ -71,7 +73,7 @@ public class XmlPropertyRepositoryTest {
     }
 
     @Test
-    public void gettingPropertyByHashCodeRetrievesThePropertyByHashCode() throws Exception {
+    public void gettingPropertyByHashCodeRetrievesThePropertyFromTheSpecifiedHashCode() throws Exception {
         xmlPropertyRepository.persist(propertyMock);
 
         Property property = xmlPropertyRepository.getByHashCode(propertyMock.hashCode());

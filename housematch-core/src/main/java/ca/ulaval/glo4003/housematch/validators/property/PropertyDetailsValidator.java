@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 
 public class PropertyDetailsValidator {
 
-    private static final Integer MININMUM_CONSTRUCTION_YEAR = 1900;
+    private static final Integer MININMUM_CONSTRUCTION_YEAR = 1800;
 
     public void validatePropertyDetails(PropertyDetails propertyDetails) throws PropertyDetailsValidationException {
 

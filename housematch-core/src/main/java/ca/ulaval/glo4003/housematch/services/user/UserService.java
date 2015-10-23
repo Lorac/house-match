@@ -51,10 +51,10 @@ public class UserService {
 
     public void registerUser(String username, String email, String password, UserRole role) throws UserServiceException {
         try {
-            userRegistrationValidator.validateUserCreation(username, email, password, role);
+            userRegistrationValidator.validateUserRegistration(username, email, password, role);
             User user = userFactory.createUser(username, email, password, role);
-            userActivationService.beginActivation(user);
             userRepository.persist(user);
+            userActivationService.beginActivation(user);
         } catch (UserRegistrationValidationException | UserAlreadyExistsException | UserActivationServiceException e) {
             throw new UserServiceException(e);
         }
@@ -86,7 +86,7 @@ public class UserService {
             updateUserEmail(user, email);
             userRepository.update(user);
         } catch (UserActivationServiceException | AddressValidationException e) {
-            throw new UserServiceException(e.getMessage(), e);
+            throw new UserServiceException(e);
         }
     }
 }

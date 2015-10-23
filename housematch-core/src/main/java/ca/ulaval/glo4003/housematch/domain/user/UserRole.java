@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
 public enum UserRole {
-    ADMINISTRATOR("Administrator", false), SELLER("Seller", true), BUYER("Buyer", true);
+    ADMINISTRATOR("Administrator", false),
+    SELLER("Seller", true),
+    BUYER("Buyer", true);
 
     private final String displayName;
     private final Boolean isPubliclyRegistrable;

@@ -71,7 +71,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyCreationPage(HttpSession httpSession) {
+    public final ModelAndView displayPropertyCreationView(HttpSession httpSession) {
         return new ModelAndView(PROPERTY_CREATION_VIEW_NAME, PropertyViewModel.NAME, new PropertyViewModel());
     }
 
@@ -87,7 +87,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyDetailsUpdatePage(@PathVariable int propertyHashCode, ModelMap modelMap,
+    public final ModelAndView displayPropertyDetailsUpdateVIew(@PathVariable int propertyHashCode, ModelMap modelMap,
             HttpSession httpSession) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
@@ -100,36 +100,36 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
-            PropertyDetailsFormViewModel propertyDetailsForm) {
+            PropertyDetailsFormViewModel propertyDetailsFormViewModel) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            propertyService.updatePropertyDetails(property, propertyDetailsForm.getDetails());
+            propertyService.updatePropertyDetails(property, propertyDetailsFormViewModel.getDetails());
             return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
-            return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, propertyDetailsForm, e.getMessage());
+            return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, propertyDetailsFormViewModel, e.getMessage());
         }
     }
 
     @RequestMapping(value = PROPERTIES_FOR_SALE_LIST_URL, method = RequestMethod.GET)
-    public final ModelAndView listSellerProperties() {
+    public final ModelAndView listPropertiesForSale() {
         return new ModelAndView(PROPERTIES_FOR_SALE_LIST_VIEW_NAME);
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertySearchPage() {
+    public final ModelAndView displayPropertySearchView() {
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, PropertySearchFormViewModel.NAME, new PropertySearchFormViewModel());
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_EXECUTE_URL, method = RequestMethod.GET)
-    public final ModelAndView displaySearchResultPage(ModelMap modelMap, PropertySearchFormViewModel searchForm) {
+    public final ModelAndView executePropertySearch(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getProperties();
-        modelMap.put(PropertySearchFormViewModel.NAME, searchForm);
+        modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
         modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = PROPERTY_VIEW_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyPage(@PathVariable int propertyHashCode, ModelMap modelMap) {
+    public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode, ModelMap modelMap) {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
             modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));

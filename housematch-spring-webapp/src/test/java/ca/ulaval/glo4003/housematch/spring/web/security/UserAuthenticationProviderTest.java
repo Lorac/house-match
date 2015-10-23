@@ -83,13 +83,6 @@ public class UserAuthenticationProviderTest {
         assertTrue(grantedAuthorityStream.anyMatch(a -> a.getAuthority().equals(SAMPLE_ROLE.getDisplayName())));
     }
 
-    @Test
-    public void authenticationProviderCreatesTheAuthenticationTokenWithoutRolesWhenUserIsNotActivated() throws Exception {
-        when(userMock.isActivated()).thenReturn(false);
-        UsernamePasswordAuthenticationToken authenticationToken = performAuthentication();
-        assertTrue(authenticationToken.getAuthorities().isEmpty());
-    }
-
     private UsernamePasswordAuthenticationToken performAuthentication() {
         return (UsernamePasswordAuthenticationToken) userAuthenticationProvider.authenticate(authenticationMock);
     }

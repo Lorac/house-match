@@ -96,7 +96,7 @@ public class XmlUserAdapterTest {
     }
 
     @Test
-    public void propertiesForSaleAreMarshalledAsReferencesDuringMarshalling() throws Exception {
+    public void propertiesForSaleAreMarshalledAsReferenceDuringMarshalling() throws Exception {
         properties.add(propertyMock);
         XmlUser xmlUser = xmlUserAdapter.marshal(userMock);
         assertThat(xmlUser.propertiesForSale, contains(propertyMock.hashCode()));

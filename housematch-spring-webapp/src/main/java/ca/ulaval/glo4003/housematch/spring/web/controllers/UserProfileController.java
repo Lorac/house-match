@@ -31,18 +31,17 @@ public class UserProfileController extends BaseController {
     }
 
     @RequestMapping(value = CONTACT_INFO_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayContactInformation(HttpSession httpSession) {
+    public final ModelAndView displayContactInformationView(HttpSession httpSession) {
         return new ModelAndView(CONTACT_INFO_UPDATE_VIEW_NAME, ContactInformationFormViewModel.NAME, new ContactInformationFormViewModel());
     }
 
     @RequestMapping(value = CONTACT_INFO_UPDATE_URL, method = RequestMethod.POST)
-    public final ModelAndView submitContactInformation(ContactInformationFormViewModel contactInformationForm, HttpSession httpSession) {
+    public final ModelAndView submitContactInformation(ContactInformationFormViewModel viewModel, HttpSession httpSession) {
         try {
-            userService.updateUserContactInformation(getUserFromHttpSession(httpSession), contactInformationForm.getAddress(),
-                    contactInformationForm.getEmail());
+            userService.updateUserContactInformation(getUserFromHttpSession(httpSession), viewModel.getAddress(), viewModel.getEmail());
             return new ModelAndView(CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (UserServiceException e) {
-            return showAlertMessage(CONTACT_INFO_UPDATE_VIEW_NAME, contactInformationForm, e.getMessage());
+            return showAlertMessage(CONTACT_INFO_UPDATE_VIEW_NAME, viewModel, e.getMessage());
         }
     }
 }

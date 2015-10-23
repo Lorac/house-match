@@ -22,7 +22,7 @@ public class XmlPropertyRootElementTest {
     }
 
     @Test
-    public void setingTheUsersSetsTheUsers() {
+    public void setingThePropertiesSetsTheProperties() {
         xmlPropertyRootElement.setProperties(properties);
 
         Collection<Property> properties = xmlPropertyRootElement.getProperties();

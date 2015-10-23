@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 
@@ -15,6 +16,7 @@ public class XmlPropertyRootElement {
 
     @XmlElementWrapper(name = "properties")
     @XmlElement(name = "property")
+    @XmlJavaTypeAdapter(XmlPropertyAdapter.class)
     public Collection<Property> getProperties() {
         return this.properties;
     }

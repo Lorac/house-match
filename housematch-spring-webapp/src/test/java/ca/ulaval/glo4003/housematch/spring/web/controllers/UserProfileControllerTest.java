@@ -60,7 +60,7 @@ public class UserProfileControllerTest extends BaseControllerTest {
 
     @Test
     public void userProfileControllerRendersUpdateConfirmationUponSuccessfulContactInformationUpdate() throws Exception {
-        ResultActions results = postContactInformationForm();
+        ResultActions results = postContactInformationUpdateForm();
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(UserProfileController.CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME));
@@ -71,21 +71,21 @@ public class UserProfileControllerTest extends BaseControllerTest {
         doThrow(new UserServiceException()).when(userServiceMock).updateUserContactInformation(eq(userMock), any(Address.class),
                 eq(SAMPLE_EMAIL));
 
-        ResultActions results = postContactInformationForm();
+        ResultActions results = postContactInformationUpdateForm();
 
         results.andExpect(view().name(UserProfileController.CONTACT_INFO_UPDATE_VIEW_NAME));
         results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
     }
 
-    private ResultActions postContactInformationForm() throws Exception {
+    private ResultActions postContactInformationUpdateForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(UserProfileController.CONTACT_INFO_UPDATE_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
-        postRequest = buildContactInformationFormParams(postRequest);
+        postRequest = buildContactInformationUpdateFormParams(postRequest);
 
         return mockMvc.perform(postRequest);
     }
 
-    private MockHttpServletRequestBuilder buildContactInformationFormParams(MockHttpServletRequestBuilder postRequest) {
+    private MockHttpServletRequestBuilder buildContactInformationUpdateFormParams(MockHttpServletRequestBuilder postRequest) {
         return postRequest.param(EMAIL_PARAMETER_NAME, SAMPLE_EMAIL).session(mockHttpSession);
     }
 }

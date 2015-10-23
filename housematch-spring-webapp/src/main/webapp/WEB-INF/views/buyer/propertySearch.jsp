@@ -42,15 +42,16 @@
                                 <th></th>
                                 <th>ID</th>
                                 <th>Address</th>
+                                <th>Price</th>
                             </tr>
                         </thead>
                         <c:forEach var="property" items="${propertySearchResults.properties}">
-                            <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
+                            <tr
+                                onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                                 <td>${property.hashCode()}</td>
-                                <td>
-                                    ${property.address}
-                                </td>
+                                <td>${property.address}</td>
+                                <td>${property.sellingPrice}&nbsp;$</td>
                             </tr>
                         </c:forEach>
                     </table>

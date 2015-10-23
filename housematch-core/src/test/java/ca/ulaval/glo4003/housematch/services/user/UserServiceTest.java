@@ -106,7 +106,7 @@ public class UserServiceTest {
     @Test
     public void userRegistrationCallsTheUserCreationValidator() throws Exception {
         registerUser();
-        verify(userRegistrationValidatorMock).validateUserCreation(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        verify(userRegistrationValidatorMock).validateUserRegistration(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }
 
     @Test
@@ -117,7 +117,7 @@ public class UserServiceTest {
 
     @Test(expected = UserServiceException.class)
     public void userRegistrationThrowsUserServiceExceptionOnUserRegistrationValidationException() throws Exception {
-        doThrow(new UserRegistrationValidationException()).when(userRegistrationValidatorMock).validateUserCreation(SAMPLE_USERNAME,
+        doThrow(new UserRegistrationValidationException()).when(userRegistrationValidatorMock).validateUserRegistration(SAMPLE_USERNAME,
                 SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         registerUser();
     }
@@ -147,7 +147,7 @@ public class UserServiceTest {
     }
 
     @Test(expected = UserServiceException.class)
-    public void updatingUserEmailUsingInvalidEmaiThrowsUserServiceExceptionl() throws Exception {
+    public void updatingUserEmailUsingInvalidEmailThrowsUserServiceException() throws Exception {
         userService.updateUserEmail(userMock, SAMPLE_INVALID_EMAIL);
     }
 

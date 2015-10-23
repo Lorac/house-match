@@ -14,17 +14,19 @@ import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshal
 
 public class XmlPropertyRepository implements PropertyRepository {
 
-    private final XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshaller;
+    private XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshaller;
     private XmlPropertyRootElement xmlPropertyRootElement;
 
     private Map<Integer, Property> properties = new ConcurrentHashMap<>();
 
-    public XmlPropertyRepository(final XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshaller) {
+    public XmlPropertyRepository(final XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshaller,
+            final XmlPropertyAdapter xmlPropertyAdapter) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
-        initRepository();
+        initRepository(xmlPropertyAdapter);
     }
 
-    private void initRepository() {
+    private void initRepository(final XmlPropertyAdapter xmlPropertyAdapter) {
+        xmlRepositoryMarshaller.setMarshallingAdapters(xmlPropertyAdapter);
         xmlPropertyRootElement = xmlRepositoryMarshaller.unmarshal();
 
         Collection<Property> propertyElements = xmlPropertyRootElement.getProperties();

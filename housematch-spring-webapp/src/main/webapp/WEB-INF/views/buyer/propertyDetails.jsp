@@ -111,9 +111,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-6 control-label">Price Detail:</label>
+                                <label class="col-sm-6 control-label">Price Details:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.priceDetail}</p>
+                                    <p class="control-label">${property.propertyDetails.priceDetails}</p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -131,7 +131,9 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Municipal Assessment:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.municipalAssessment}&nbsp;$</p>
+                                    <c:if test="${not empty property.propertyDetails.municipalAssessment}">
+                                        <p class="control-label">${property.propertyDetails.municipalAssessment}&nbsp;$</p>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -196,19 +198,25 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Building Dimensions:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft²</p>
+                                    <c:if test="${not empty property.propertyDetails.buildingDimensionsInSquareFeet}">
+                                        <p class="control-label">${property.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft²</p>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Lot Dimensions:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft²</p>
+                                    <c:if test="${not empty property.propertyDetails.lotDimensionsInSquareFeet}">
+                                        <p class="control-label">${property.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft²</p>
+                                    </c:if>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Living Space Area:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${property.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft²</p>
+                                    <c:if test="${not empty property.propertyDetails.livingSpaceAreaInSquareFeet}">
+                                        <p class="control-label">${property.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft²</p>
+                                    </c:if>
                                 </div>
                             </div>
                         </form>

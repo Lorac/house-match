@@ -5,12 +5,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Address {
 
-    Integer streetNumber;
-    String streetName;
-    String additionalAddressInfo;
-    String town;
-    String postCode;
-    Region region;
+    // S42 International Addressing Standards
+    private Integer streetNumber;
+    private String streetName;
+    private String additionalAddressInfo;
+    private String town;
+    private String postCode;
+    private Region region;
 
     public Integer getStreetNumber() {
         return streetNumber;
