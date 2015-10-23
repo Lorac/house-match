@@ -74,7 +74,7 @@ public class UserPermissionEvaluatorTest {
     }
 
     @Test
-    public void permissionIsGrantedWhenUserHasTheRequiredCriterias() {
+    public void permissionIsGrantedWhenUserMeetsTheAuthorizationRequirements() {
         boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, SAMPLE_OBJECT, SAMPLE_ROLE.name());
         assertTrue(permissionGanted);
     }
