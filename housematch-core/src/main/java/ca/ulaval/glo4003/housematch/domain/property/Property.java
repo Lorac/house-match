@@ -13,10 +13,6 @@ public class Property {
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
 
-    Property() {
-        // Required for instanciation by reflection
-    }
-
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
         this.propertyType = propertyType;
