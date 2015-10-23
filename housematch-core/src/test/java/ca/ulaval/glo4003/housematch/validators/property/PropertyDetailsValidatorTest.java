@@ -1,18 +1,22 @@
 package ca.ulaval.glo4003.housematch.validators.property;
 
-import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.time.LocalDate;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 
 public class PropertyDetailsValidatorTest {
 
     private static final Integer SAMPLE_POSITIVE_NUMBER = 1;
     private static final Integer SAMPLE_NEGATIVE_NUMBER = -1;
     private static final Integer SAMPLE_YEAR = 1950;
+    private static final Integer SAMPLE_FUTURE_YEAR = LocalDate.now().getYear() + 1;
 
     private PropertyDetails propertyDetailsMock;
 
@@ -107,6 +111,12 @@ public class PropertyDetailsValidatorTest {
     @Test(expected = PropertyDetailsValidationException.class)
     public void validationWithNegativeYearOfConstructionThrowsPropertyDetailsValidationException() throws Exception {
         when(propertyDetailsMock.getYearOfConstruction()).thenReturn(SAMPLE_NEGATIVE_NUMBER);
+        propertyDetailsValidator.validatePropertyDetails(propertyDetailsMock);
+    }
+
+    @Test(expected = PropertyDetailsValidationException.class)
+    public void validationWithYearOfConstructionInTheFutureThrowsPropertyDetailsValidationException() throws Exception {
+        when(propertyDetailsMock.getYearOfConstruction()).thenReturn(SAMPLE_FUTURE_YEAR);
         propertyDetailsValidator.validatePropertyDetails(propertyDetailsMock);
     }
 }
