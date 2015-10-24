@@ -12,7 +12,10 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="${homeLinkActive}"><a href="/">Home</a></li>
+                
+                <c:if test="${empty homeLinkHidden or homeLinkHidden eq false}">
+                    <li class="${homeLinkActive}"><a href="/">Home</a></li>
+                </c:if>
                 <c:if test="${empty sessionScope.user}">
                     <li class="${loginLinkActive}"><a href="/login">Login</a></li>
                     <li class="${registerLinkActive}"><a href="/register">Register</a></li>

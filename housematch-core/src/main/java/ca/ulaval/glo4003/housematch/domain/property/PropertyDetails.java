@@ -4,25 +4,25 @@ import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 
 public class PropertyDetails {
 
-    PropertyStyle propertyStyle;
-    String priceDetail;
-    Integer numberOfBedrooms;
-    String bedroomDetails;
-    Integer numberOfBathrooms;
-    String bathroomDetails;
-    Integer totalNumberOfRooms;
-    Integer numberOfLevels;
-    Integer numberOfHalfbaths;
-    Integer livingSpaceAreaInSquareFeet;
-    Integer buildingDimensionsInSquareFeet;
-    Integer lotDimensionsInSquareFeet;
-    Integer yearOfConstruction;
-    Integer municipalAssessment;
-    Integer floorNumber;
-    Integer numberOfExteriorParkingSpaces;
-    Integer numberOfInteriorParkingSpaces;
-    PropertyOwnershipType ownershipType;
-    CardinalDirection backyardDirection;
+    private PropertyStyle propertyStyle;
+    private String priceDetails;
+    private Integer numberOfBedrooms;
+    private String bedroomDetails;
+    private Integer numberOfBathrooms;
+    private String bathroomDetails;
+    private Integer totalNumberOfRooms;
+    private Integer numberOfLevels;
+    private Integer numberOfHalfbaths;
+    private Integer livingSpaceAreaInSquareFeet;
+    private Integer buildingDimensionsInSquareFeet;
+    private Integer lotDimensionsInSquareFeet;
+    private Integer yearOfConstruction;
+    private Integer municipalAssessment;
+    private Integer floorNumber;
+    private Integer numberOfExteriorParkingSpaces;
+    private Integer numberOfInteriorParkingSpaces;
+    private PropertyOwnershipType ownershipType;
+    private CardinalDirection backyardDirection;
 
     public PropertyStyle getPropertyStyle() {
         return propertyStyle;
@@ -32,12 +32,12 @@ public class PropertyDetails {
         this.propertyStyle = propertyStyle;
     }
 
-    public String getPriceDetail() {
-        return priceDetail;
+    public String getPriceDetails() {
+        return priceDetails;
     }
 
-    public void setPriceDetail(String priceDetail) {
-        this.priceDetail = priceDetail;
+    public void setPriceDetails(String priceDetail) {
+        this.priceDetails = priceDetail;
     }
 
     public Integer getNumberOfBedrooms() {
@@ -132,7 +132,7 @@ public class PropertyDetails {
         return numberOfExteriorParkingSpaces;
     }
 
-    public void setNumberOfExteriorParking(Integer numberOfExteriorParking) {
+    public void setNumberOfExteriorParkingSpaces(Integer numberOfExteriorParking) {
         this.numberOfExteriorParkingSpaces = numberOfExteriorParking;
     }
 
@@ -140,7 +140,7 @@ public class PropertyDetails {
         return numberOfInteriorParkingSpaces;
     }
 
-    public void setNumberOfInteriorParking(Integer numberOfInteriorParking) {
+    public void setNumberOfInteriorParkingSpaces(Integer numberOfInteriorParking) {
         this.numberOfInteriorParkingSpaces = numberOfInteriorParking;
     }
 

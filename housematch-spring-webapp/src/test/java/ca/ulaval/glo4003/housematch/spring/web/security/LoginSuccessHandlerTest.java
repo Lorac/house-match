@@ -69,7 +69,7 @@ public class LoginSuccessHandlerTest {
     }
 
     @Test
-    public void handlerRedirectsToEmailReconfirmationUrlWhenuserIsNotActivated() throws Exception {
+    public void handlerRedirectsToEmailReconfirmationUrlWhenUserIsNotActivated() throws Exception {
         when(userMock.isActivated()).thenReturn(false);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
         verify(redirectStrategyMock).sendRedirect(httpServletRequestMock, httpServletResponseMock,

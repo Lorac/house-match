@@ -50,7 +50,7 @@
                                             tabindex="2" placeholder="Email address" />
                                     </div>
                                     <div class="form-group">
-                                        <form:input type="password" path="password" class="form-control" minlength="3" maxlength="32"
+                                        <form:input type="password" path="password" class="form-control" minlength="8" maxlength="32"
                                             tabindex="3" placeholder="Password" />
                                     </div>
                                     <div class="form-group">

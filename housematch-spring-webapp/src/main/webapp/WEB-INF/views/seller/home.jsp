@@ -35,7 +35,7 @@
                                 <p class="itemLabel">Sell a property</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=PropertyController.PROPERTY_LIST_SELLER_URL%>"> <span class="icon glyphicon glyphicon-list-alt"></span>
+                            <a href="<%=PropertyController.PROPERTIES_FOR_SALE_LIST_URL%>"> <span class="icon glyphicon glyphicon-list-alt"></span>
                                 <p class="itemLabel">Edit my properties</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">

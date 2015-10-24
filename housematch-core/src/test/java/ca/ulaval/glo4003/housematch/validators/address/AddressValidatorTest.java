@@ -1,13 +1,14 @@
 package ca.ulaval.glo4003.housematch.validators.address;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.address.Region;
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.address.Region;
 
 public class AddressValidatorTest {
 

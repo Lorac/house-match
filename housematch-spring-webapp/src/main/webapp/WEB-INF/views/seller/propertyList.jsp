@@ -20,20 +20,22 @@
     <div class="container">
         <h1 class="center">Properties for sale</h1>
         <c:choose>
-            <c:when test="${not empty user.properties}">
+            <c:when test="${not empty user.propertiesForSale}">
                 <table class="table table-hover align-middle clickable-rows">
                     <thead>
                         <tr>
                             <th></th>
                             <th>ID</th>
                             <th>Address</th>
+                            <th>Selling Price</th>
                         </tr>
                     </thead>
-                    <c:forEach var="property" items="${user.properties}">
+                    <c:forEach var="property" items="${user.propertiesForSale}">
                         <tr onclick='window.location = "<%=PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
                             <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                             <td>${property.hashCode()}</td>
                             <td>${property.address}</td>
+                            <td>${property.sellingPrice}&nbsp;$</td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -41,7 +43,7 @@
             <c:otherwise>
                 <p>
                     You have no properties for sale. You can put a property up for sale <a
-                        href="<%=PropertyController.PROPERTY_CREATION_URL%>">here</a>
+                        href="<%=PropertyController.PROPERTY_CREATION_URL%>">here</a>.
                 </p>
             </c:otherwise>
         </c:choose>

@@ -53,11 +53,11 @@ public class XmlUserRepository implements UserRepository {
 
     @Override
     public User getByUsername(String username) throws UserNotFoundException {
-        User user = users.get(username);
-        if (user == null) {
+        try {
+            return users.values().stream().filter(u -> u.usernameEquals(username)).findFirst().get();
+        } catch (NoSuchElementException e) {
             throw new UserNotFoundException(String.format("Cannot find user with username '%s'.", username));
         }
-        return user;
     }
 
     @Override

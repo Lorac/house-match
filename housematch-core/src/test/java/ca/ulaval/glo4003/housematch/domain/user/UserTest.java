@@ -30,7 +30,7 @@ public class UserTest {
     private static final UserRole ANOTHER_SAMPLE_ROLE = UserRole.BUYER;
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
     private static final String SAMPLE_PASSWORD_HASH = "asd098fsdfgw4";
-    private static final String ANOTHER_SAMPLE_PASSWORD = "PASSWORD5678";
+    private static final String ANOTHER_SAMPLE_PASSWORD_HASH = "53w5sdfd";
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String ANOTHER_SAMPLE_EMAIL = "email2@hotmail.com";
     private static final String SAMPLE_USERNAME = "Alice";
@@ -66,7 +66,8 @@ public class UserTest {
 
     @Test
     public void usersWithTheSameUsernameShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD_HASH,
+                ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
@@ -78,7 +79,8 @@ public class UserTest {
 
     @Test
     public void usersWithTheSameUsernameShouldHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD_HASH,
+                ANOTHER_SAMPLE_ROLE);
         assertEquals(user.hashCode(), anotherUser.hashCode());
     }
 
@@ -106,7 +108,8 @@ public class UserTest {
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD, ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD_HASH,
+                ANOTHER_SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
@@ -123,21 +126,19 @@ public class UserTest {
     }
 
     @Test
-    public void settingTheUsernameSetsTheSpecifiedUsername() throws Exception {
-        user.setUsername(ANOTHER_SAMPLE_USERNAME);
-        assertEquals(ANOTHER_SAMPLE_USERNAME, user.getUsername());
+    public void gettingTheUsernameGetsTheUsername() throws Exception {
+        assertEquals(SAMPLE_USERNAME, user.getUsername());
     }
 
     @Test
-    public void settingTheEmailSetsTheSpecifiedEmail() throws Exception {
-        user.setEmail(ANOTHER_SAMPLE_EMAIL);
-        assertEquals(ANOTHER_SAMPLE_EMAIL, user.getEmail());
+    public void gettingTheEmailGetsTheEmail() throws Exception {
+        assertEquals(SAMPLE_EMAIL, user.getEmail());
     }
 
     @Test
-    public void settingThePasswordSetsTheSpecifiedPassword() throws Exception {
-        user.setPasswordHash(ANOTHER_SAMPLE_PASSWORD);
-        assertEquals(ANOTHER_SAMPLE_PASSWORD, user.getPasswordHash());
+    public void settingThePasswordHashSetsTheSpecifiedPasswordHash() throws Exception {
+        user.setPasswordHash(ANOTHER_SAMPLE_PASSWORD_HASH);
+        assertEquals(ANOTHER_SAMPLE_PASSWORD_HASH, user.getPasswordHash());
     }
 
     @Test
@@ -151,25 +152,22 @@ public class UserTest {
 
     @Test(expected = InvalidPasswordException.class)
     public void validationOfTheWrongPasswordThrowsInvalidPasswordException() throws Exception {
-        user.validatePassword(ANOTHER_SAMPLE_PASSWORD);
+        user.validatePassword(ANOTHER_SAMPLE_PASSWORD_HASH);
     }
 
     @Test
-    public void settingTheRoleSetsTheSpecifiedRole() {
-        user.setRole(ANOTHER_SAMPLE_ROLE);
-        assertEquals(ANOTHER_SAMPLE_ROLE, user.getRole());
+    public void gettingTheRoleGetsTheRole() {
+        assertEquals(SAMPLE_ROLE, user.getRole());
     }
 
     @Test
-    public void userShouldNotHaveTheSpecifiedRoleWhenThatRoleHasNotBeenAdded() {
-        user.setRole(SAMPLE_ROLE);
+    public void userShouldNotHaveTheSpecifiedRoleWhenUserDoesNotHaveThatRole() {
         assertFalse(user.hasRole(ANOTHER_SAMPLE_ROLE));
     }
 
     @Test
-    public void userShouldHaveTheSpecifiedRoleWhenThatRoleHasBeenSet() {
-        user.setRole(ANOTHER_SAMPLE_ROLE);
-        assertTrue(user.hasRole(ANOTHER_SAMPLE_ROLE));
+    public void userShouldHaveTheSpecifiedRoleWhenUserHasThatRole() {
+        assertTrue(user.hasRole(SAMPLE_ROLE));
     }
 
     @Test
@@ -196,7 +194,7 @@ public class UserTest {
     }
 
     @Test
-    public void settingActivationFlagSetsTheAcvtivationFlag() {
+    public void settingTheActivationFlagSetsTheActivationFlag() {
         user.setActivated(Boolean.TRUE);
         assertEquals(Boolean.TRUE, user.isActivated());
     }
@@ -209,26 +207,26 @@ public class UserTest {
     }
 
     @Test
-    public void settingThePropertiesSetsTheSpecifiedProperty() {
-        user.setProperties(properties);
-        assertEquals(properties, user.getProperties());
+    public void settingPropertiesForSaleSetsTheSpecifiedPropertiesForSale() {
+        user.setPropertiesForSale(properties);
+        assertEquals(properties, user.getPropertiesForSale());
     }
 
     @Test
-    public void addingAPropertyAddsTheSpecifiedProperty() {
-        user.addProperty(propertyMock);
-        assertThat(user.getProperties(), contains(propertyMock));
+    public void addingPropertyForSaleAddsTheSpecifiedPropertyForSale() {
+        user.addPropertyForSale(propertyMock);
+        assertThat(user.getPropertiesForSale(), contains(propertyMock));
     }
 
     @Test
-    public void gettingPropertyByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
-        user.addProperty(propertyMock);
-        assertSame(propertyMock, user.getPropertyByHashCode(propertyMock.hashCode()));
+    public void gettingPropertyForSaleByHashCodeReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
+        user.addPropertyForSale(propertyMock);
+        assertSame(propertyMock, user.getPropertyForSaleByHashCode(propertyMock.hashCode()));
     }
 
     @Test(expected = PropertyNotFoundException.class)
-    public void gettingPropertyByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyHashCodeDoesNotExist() throws Exception {
-        user.getPropertyByHashCode(propertyMock.hashCode());
+    public void gettingPropertyForSaleByHashCodeThrowsPropertyNotFoundExceptionWhenTheSpecifiedPropertyDoesNotExist() throws Exception {
+        user.getPropertyForSaleByHashCode(propertyMock.hashCode());
     }
 
     @Test

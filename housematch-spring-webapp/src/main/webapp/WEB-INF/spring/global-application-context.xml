@@ -105,7 +105,7 @@
         <constructor-arg ref="propertySearchResultsViewModelAssembler" />
     </bean>
 
-    <bean id="contactInformationController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController">
+    <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController">
         <constructor-arg ref="userService" />
     </bean>
 

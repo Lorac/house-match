@@ -118,26 +118,26 @@ public class PropertyControllerTest extends BaseControllerTest {
     @Test
     public void propertyControllerGetsPropertyUsingTheSpecifiedHashCodeDuringPropertyDetailsUpdateViewAccess() throws Exception {
         performGetRequest(samplePropertyDetailsUpdateUrl);
-        verify(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
+        verify(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
     }
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyDetailsUpdateViewAccess() throws Exception {
-        when(userServiceMock.getPropertyByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
+        when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
         performGetRequest(samplePropertyDetailsUpdateUrl);
         verify(propertyDetailsFormViewModelAssemblerMock).assembleFromProperty(propertyMock);
     }
 
     @Test
     public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringPropertyDetailsUpdateViewAccess() throws Exception {
-        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyByHashCode(userMock, propertyMock.hashCode());
+        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
         ResultActions results = performGetRequest(samplePropertyDetailsUpdateUrl);
         results.andExpect(status().isNotFound());
     }
 
     @Test
-    public void propertyControllerRendersPropertyDetailsUpdateConfirmationViewUponSuccessfulUpdate() throws Exception {
-        ResultActions results = postPropertyDetailsForm();
+    public void propertyControllerRendersPropertyDetailsUpdateConfirmationViewUponSuccessfulPropertyDetailsUpdate() throws Exception {
+        ResultActions results = postPropertyDetailsUpdateForm();
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(PropertyController.PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME));
@@ -145,17 +145,17 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerUpdatesThePropertyDuringPropertyDetailsUpdate() throws Exception {
-        when(userServiceMock.getPropertyByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
-        postPropertyDetailsForm();
+        when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
+        postPropertyDetailsUpdateForm();
         verify(propertyServiceMock).updatePropertyDetails(eq(propertyMock), any(PropertyDetails.class));
     }
 
     @Test
-    public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringDetailsUpdate() throws Exception {
+    public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyDetailsUpdate() throws Exception {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).updatePropertyDetails(any(Property.class),
                 any(PropertyDetails.class));
 
-        ResultActions results = postPropertyDetailsForm();
+        ResultActions results = postPropertyDetailsUpdateForm();
 
         results.andExpect(view().name(PropertyController.PROPERTY_DETAILS_UPDATE_VIEW_NAME));
         results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
@@ -163,10 +163,10 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerRendersSellerPropertyListView() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_LIST_SELLER_URL);
+        ResultActions results = performGetRequest(PropertyController.PROPERTIES_FOR_SALE_LIST_URL);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name(PropertyController.PROPERTY_LIST_SELLER_VIEW_NAME));
+        results.andExpect(view().name(PropertyController.PROPERTIES_FOR_SALE_LIST_VIEW_NAME));
     }
 
     @Test
@@ -238,7 +238,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         return postRequest.session(mockHttpSession);
     }
 
-    private ResultActions postPropertyDetailsForm() throws Exception {
+    private ResultActions postPropertyDetailsUpdateForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(samplePropertyDetailsUpdateUrl);
         postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
         postRequest.session(mockHttpSession);

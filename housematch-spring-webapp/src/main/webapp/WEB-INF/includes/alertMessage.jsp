@@ -1,8 +1,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<c:if test="${param.error != null}">
+<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
     <div class="alert alert-danger">
         <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}" />
+        <c:remove scope="session" var="SPRING_SECURITY_LAST_EXCEPTION"/>
     </div>
 </c:if>
 

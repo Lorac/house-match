@@ -5,19 +5,21 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <global-method-security pre-post-annotations="enabled" />
-    <beans:bean class="ca.ulaval.glo4003.housematch.spring.web.security.SecurityBeanPostProcessor" />
+    <beans:bean class="ca.ulaval.glo4003.housematch.spring.web.security.SecurityBeanPostProcessor">
+        <beans:constructor-arg ref="userPermissionEvaluator" />
+    </beans:bean>
 
     <http pattern="/resources/**" security="none" />
-    
+
     <http use-expressions="true" disable-url-rewriting="true">
         <!-- Be careful, the order matters -->
         <intercept-url pattern="/" access="permitAll" />
-		<intercept-url pattern="/customErrorPages" access="permitAll" />
+        <intercept-url pattern="/customErrorPages" access="permitAll" />
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
-        <intercept-url pattern="/admin/**" access="hasRole('Administrator')" />
-        <intercept-url pattern="/buyer/**" access="hasRole('Buyer')" />
-        <intercept-url pattern="/seller/**" access="hasRole('Seller')" />
+        <intercept-url pattern="/admin/**" access="hasPermission(null, 'ADMINISTRATOR')" />
+        <intercept-url pattern="/buyer/**" access="hasPermission(null, 'BUYER')" />
+        <intercept-url pattern="/seller/**" access="hasPermission(null, 'SELLER')" />
 
         <!-- Use default provided form. See docs to customize. -->
         <form-login login-page="/login" authentication-failure-url="/login" login-processing-url="/login"
@@ -26,6 +28,8 @@
         <!-- Enable csrf protection -->
         <csrf disabled="true" />
     </http>
+
+    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.spring.web.security.UserPermissionEvaluator" />
 
     <beans:bean id="userAuthenticationProvider" class="ca.ulaval.glo4003.housematch.spring.web.security.UserAuthenticationProvider">
         <beans:constructor-arg ref="userService" />

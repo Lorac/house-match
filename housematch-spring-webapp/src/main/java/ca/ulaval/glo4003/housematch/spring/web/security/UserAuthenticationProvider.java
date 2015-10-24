@@ -47,9 +47,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
     private Authentication createAuthenticationToken(User user, String password) {
         List<GrantedAuthority> roles = new ArrayList<>();
-        if (user.isActivated()) {
-            roles.add(new SimpleGrantedAuthority(user.getRole().getDisplayName()));
-        }
+        roles.add(new SimpleGrantedAuthority(user.getRole().getDisplayName()));
         return new UsernamePasswordAuthenticationToken(user, password, roles);
     }
 

@@ -33,19 +33,16 @@ public class ResourceLoader {
 
     private File getResourceAsFile(Object classObject, String resourceName) throws FileNotFoundException {
         String resourceFilePath = getResourceFilePathFromClassPath(classObject, resourceName);
-        File file = new File(resourceFilePath);
-        return file;
+        return new File(resourceFilePath);
     }
 
     private String getResourceFilePathFromClassPath(Object classObject, String resourceName) throws FileNotFoundException {
-        String filePath;
         try {
             URL url = getResourceFromClassPath(classObject, resourceName);
-            filePath = url.toURI().getPath();
+            return url.toURI().getPath();
         } catch (URISyntaxException e) {
             throw new RuntimeException(String.format("Failed to get resource URI of '%s'.", resourceName), e);
         }
-        return filePath;
     }
 
     private URL getResourceFromClassPath(Object classObject, String resourceName) throws FileNotFoundException {

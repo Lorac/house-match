@@ -1,12 +1,14 @@
 package ca.ulaval.glo4003.housematch.validators.property;
 
+import java.time.LocalDate;
+
 import org.apache.commons.lang3.ObjectUtils;
 
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 
 public class PropertyDetailsValidator {
 
-    private static final Integer MININMUM_CONSTRUCTION_YEAR = 1900;
+    private static final Integer MININMUM_CONSTRUCTION_YEAR = 1800;
 
     public void validatePropertyDetails(PropertyDetails propertyDetails) throws PropertyDetailsValidationException {
 
@@ -50,6 +52,8 @@ public class PropertyDetailsValidator {
         } else if (ObjectUtils.compare(propertyDetails.getYearOfConstruction(), MININMUM_CONSTRUCTION_YEAR, true) < 0) {
             throw new PropertyDetailsValidationException(
                     String.format("Year of construction must be greater than year %s.", MININMUM_CONSTRUCTION_YEAR));
+        } else if (ObjectUtils.compare(propertyDetails.getYearOfConstruction(), LocalDate.now().getYear(), false) > 0) {
+            throw new PropertyDetailsValidationException(String.format("Year of construction must be less than current year."));
         } else if (ObjectUtils.compare(propertyDetails.getNumberOfLevels(), 0, true) <= 0) {
             throw new PropertyDetailsValidationException("Number of levels must be greater than 0.");
         }

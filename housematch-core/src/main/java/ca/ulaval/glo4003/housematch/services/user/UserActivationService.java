@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.housematch.services.user;
 
 import java.util.UUID;
 
+import org.apache.commons.validator.routines.EmailValidator;
+
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -34,22 +36,26 @@ public class UserActivationService {
                     String.format(ACTIVATION_EMAIL_BODY, ACTIVATION_BASE_URL, user.getActivationCode()), user.getEmail());
         } catch (MailSendException e) {
             throw new UserActivationServiceException(
-                    String.format("Could not send the activation mail. Please check that '%s' is a valid email address.", user.getEmail()),
-                    e);
+                    String.format("Could not send the activation mail. Make sure '%s' is a valid email address.", user.getEmail()), e);
         }
     }
 
-    public void completeActivation(UUID activationCode) throws UserActivationServiceException {
-        User user;
+    public void resendActivationMail(User user, String email) throws UserActivationServiceException {
+        if (!EmailValidator.getInstance().isValid(email)) {
+            throw new UserActivationServiceException("The email format is not valid.");
+        }
+        user.updateEmail(email);
+        beginActivation(user);
+    }
 
+    public void completeActivation(UUID activationCode) throws UserActivationServiceException {
         try {
-            user = userRepository.getByActivationCode(activationCode);
+            User user = userRepository.getByActivationCode(activationCode);
+            user.activate();
+            userRepository.update(user);
         } catch (UserNotFoundException e) {
             throw new UserActivationServiceException(String.format("Activation code '%s' is not valid.", activationCode), e);
         }
-
-        user.activate();
-        userRepository.update(user);
     }
 
 }

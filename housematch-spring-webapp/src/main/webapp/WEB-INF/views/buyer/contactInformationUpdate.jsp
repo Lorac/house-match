@@ -2,7 +2,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.ContactInformationController"%>
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController"%>
 <%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel"%>
 
 <% pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values()); %>
@@ -22,28 +22,28 @@
     <div class="container">
         <h1 class="center">Update Contact Information</h1>
         <form:form id="profile-form" class="form-horizontal" role="form" modelAttribute="<%= ContactInformationFormViewModel.NAME %>"
-            action="<%= ContactInformationController.CONTACT_INFO_UPDATE_URL %>" method="POST">
+            action="<%= UserProfileController.CONTACT_INFO_UPDATE_URL %>" method="POST">
             
             <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
             
             <div class="form-group">
                 <label class="control-label col-sm-2">Street Number:</label>
                 <div class="col-sm-10">
-                    <form:input type="number" path="address.streetNumber" class="form-control" min="0" tabindex="1"
+                    <form:input type="number" path="address.streetNumber" class="form-control" min="0" max="9999999" tabindex="1"
                         value="${user.address.streetNumber}" placeholder="Street Number" autofocus="true"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Street Name:</label>
                 <div class="col-sm-10">
-                    <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="32" tabindex="2"
+                    <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="256" tabindex="2"
                         value="${user.address.streetName}" placeholder="Street Name" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">City / Town:</label>
                 <div class="col-sm-10">
-                    <form:input type="text" path="address.town" class="form-control" minlength="3" maxlength="32" tabindex="3"
+                    <form:input type="text" path="address.town" class="form-control" minlength="3" maxlength="256" tabindex="3"
                         value="${user.address.town}" placeholder="City / Town" />
                 </div>
             </div>

@@ -41,7 +41,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">Selling Price:</label>
                         <div class="col-sm-10">
-                            <form:input type="number" path="sellingPrice" class="form-control" step="any" min="0" tabindex="2"
+                            <form:input type="number" path="sellingPrice" class="form-control" step="any" min="0" max="9999999" tabindex="2"
                                 placeholder="Selling Price" />
                         </div>
                     </div>
@@ -55,14 +55,14 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">Street Number:</label>
                         <div class="col-sm-10">
-                            <form:input type="number" path="address.streetNumber" class="form-control" min="0" tabindex="3"
+                            <form:input type="number" path="address.streetNumber" class="form-control" min="0" max="9999999" tabindex="3"
                                 placeholder="Street Number" />
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="control-label col-sm-2">Street Name:</label>
                         <div class="col-sm-10">
-                            <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="32" tabindex="4"
+                            <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="256" tabindex="4"
                                 placeholder="Street Name" />
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">City / Town:</label>
                         <div class="col-sm-10">
-                            <form:input type="text" path="address.town" class="form-control" minlength="3" maxlength="32" tabindex="6"
+                            <form:input type="text" path="address.town" class="form-control" minlength="3" maxlength="256" tabindex="6"
                                 placeholder="City / Town" />
                         </div>
                     </div>

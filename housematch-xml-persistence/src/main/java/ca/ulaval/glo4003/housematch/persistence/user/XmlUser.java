@@ -1,14 +1,15 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 @XmlRootElement(name = "user")
 public class XmlUser {
@@ -19,7 +20,7 @@ public class XmlUser {
     public UUID activationCode;
     public boolean activated;
     public Address address;
-    @XmlElementWrapper(name = "properties")
+    @XmlElementWrapper(name = "propertiesForSale")
     @XmlElement(name = "propertyRef")
-    public List<Integer> propertyRef = new ArrayList<Integer>();
+    public List<Integer> propertiesForSale = new ArrayList<Integer>();
 }

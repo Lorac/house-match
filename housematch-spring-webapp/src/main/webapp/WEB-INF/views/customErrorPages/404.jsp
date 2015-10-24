@@ -2,6 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -17,7 +19,7 @@
 
     <div class="container">
         <h1>Oops!</h1>
-        <p>Seems we couldn't find what you were asking for. Please continue browsing the site using the navigation bar.</p>
+        <p>The resource you are looking for cannot be found. <a href="<%= HomeController.HOME_URL %>">Return to home page</a>.</p>
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>

@@ -23,7 +23,7 @@
                 <numberOfBedrooms>3</numberOfBedrooms>
                 <numberOfLevels>2</numberOfLevels>
                 <ownershipType>SOLE_OWNERSHIP</ownershipType>
-                <priceDetail>With garage</priceDetail>
+                <priceDetails>With garage</priceDetails>
                 <propertyStyle>CHALET</propertyStyle>
                 <totalNumberOfRooms>56</totalNumberOfRooms>
                 <yearOfConstruction>1956</yearOfConstruction>

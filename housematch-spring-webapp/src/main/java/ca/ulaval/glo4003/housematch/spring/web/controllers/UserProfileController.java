@@ -13,7 +13,7 @@ import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel;
 
 @Controller
-public class ContactInformationController extends BaseController {
+public class UserProfileController extends BaseController {
 
     public static final String CONTACT_INFO_UPDATE_URL = "/buyer/updateContactInformation";
     static final String CONTACT_INFO_UPDATE_VIEW_NAME = "buyer/contactInformationUpdate";
@@ -22,27 +22,26 @@ public class ContactInformationController extends BaseController {
     @Inject
     private UserService userService;
 
-    protected ContactInformationController() {
+    protected UserProfileController() {
         // Required for Mockito
     }
 
-    public ContactInformationController(final UserService userService) {
+    public UserProfileController(final UserService userService) {
         this.userService = userService;
     }
 
     @RequestMapping(value = CONTACT_INFO_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayContactInformation(HttpSession httpSession) {
+    public final ModelAndView displayContactInformationView(HttpSession httpSession) {
         return new ModelAndView(CONTACT_INFO_UPDATE_VIEW_NAME, ContactInformationFormViewModel.NAME, new ContactInformationFormViewModel());
     }
 
     @RequestMapping(value = CONTACT_INFO_UPDATE_URL, method = RequestMethod.POST)
-    public final ModelAndView submitContactInformation(ContactInformationFormViewModel contactInformationForm, HttpSession httpSession) {
+    public final ModelAndView submitContactInformation(ContactInformationFormViewModel viewModel, HttpSession httpSession) {
         try {
-            userService.updateUserContactInformation(getUserFromHttpSession(httpSession), contactInformationForm.getAddress(),
-                    contactInformationForm.getEmail());
+            userService.updateUserContactInformation(getUserFromHttpSession(httpSession), viewModel.getAddress(), viewModel.getEmail());
             return new ModelAndView(CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (UserServiceException e) {
-            return showAlertMessage(CONTACT_INFO_UPDATE_VIEW_NAME, contactInformationForm, e.getMessage());
+            return showAlertMessage(CONTACT_INFO_UPDATE_VIEW_NAME, viewModel, e.getMessage());
         }
     }
 }
