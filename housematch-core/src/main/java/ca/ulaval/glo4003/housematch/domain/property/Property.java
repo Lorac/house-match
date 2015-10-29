@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -12,6 +13,7 @@ public class Property {
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
+    private Date date;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -19,6 +21,7 @@ public class Property {
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
+        this.date = new Date();
     }
 
     public PropertyType getPropertyType() {
@@ -40,6 +43,10 @@ public class Property {
     public void setPropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
     }
+
+    public Date getDate() { return date; }
+
+    public void setDate(Date date) { this.date = date; }
 
     @Override
     public int hashCode() {
