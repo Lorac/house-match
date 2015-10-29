@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -35,14 +36,19 @@ public class PropertiesFilterTest {
         aThirdPropertyMock = mock(Property.class);
     }
 
+    @Before
+    public void setUp() throws Exception {
+        SAMPLE_PROPERTY_LIST.clear();
+    }
+
     @Test
     public void filterPropertiesInChronologicalOrderSortPropertiesFromOlderToNewer() throws Exception {
         createMixedListOfProperties();
 
         propertiesFilter.orderByAscendingDates(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_LIST.get(0), aThirdPropertyMock);
-        assertEquals(SAMPLE_PROPERTY_LIST.get(1), propertyMock);
-        assertEquals(SAMPLE_PROPERTY_LIST.get(2), aSecondPropertyMock);
+        assertSame(SAMPLE_PROPERTY_LIST.get(0), aThirdPropertyMock);
+        assertSame(SAMPLE_PROPERTY_LIST.get(1), propertyMock);
+        assertSame(SAMPLE_PROPERTY_LIST.get(2), aSecondPropertyMock);
     }
 
     @Test
@@ -50,9 +56,9 @@ public class PropertiesFilterTest {
         createMixedListOfProperties();
 
         propertiesFilter.orderByDescendingDates(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_LIST.get(0), aSecondPropertyMock);
-        assertEquals(SAMPLE_PROPERTY_LIST.get(1), propertyMock);
-        assertEquals(SAMPLE_PROPERTY_LIST.get(2), aThirdPropertyMock);
+        assertSame(SAMPLE_PROPERTY_LIST.get(0), aSecondPropertyMock);
+        assertSame(SAMPLE_PROPERTY_LIST.get(1), propertyMock);
+        assertSame(SAMPLE_PROPERTY_LIST.get(2), aThirdPropertyMock);
     }
 
     private void createMixedListOfProperties() throws ParseException {

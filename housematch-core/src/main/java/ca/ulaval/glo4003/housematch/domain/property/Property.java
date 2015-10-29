@@ -16,7 +16,7 @@ public class Property {
     private Date date;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
-            final PropertyDetails propertyDetails) {
+                    final PropertyDetails propertyDetails) {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
@@ -44,9 +44,13 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
-    public Date getDate() { return date; }
+    public Date getDate() {
+        return date;
+    }
 
-    public void setDate(Date date) { this.date = date; }
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     @Override
     public int hashCode() {

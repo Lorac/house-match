@@ -1,16 +1,23 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.*;
+import ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 public class PropertyService {
 
@@ -22,8 +29,8 @@ public class PropertyService {
     private PropertiesFilter propertiesFilter;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-            final PropertyDetailsValidator propertyDetailsValidator, final PropertiesFilter propertiesFilter) {
+                           final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
+                           final PropertyDetailsValidator propertyDetailsValidator, final PropertiesFilter propertiesFilter) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
