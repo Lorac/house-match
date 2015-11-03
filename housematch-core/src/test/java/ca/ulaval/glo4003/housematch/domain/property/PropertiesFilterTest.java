@@ -6,9 +6,11 @@ import org.junit.Test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
@@ -66,10 +68,10 @@ public class PropertiesFilterTest {
         SAMPLE_PROPERTY_LIST.add(aSecondPropertyMock);
         SAMPLE_PROPERTY_LIST.add(aThirdPropertyMock);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date1 = sdf.parse("2009-12-31");
-        Date date2 = sdf.parse("2010-01-31");
-        Date date3 = sdf.parse("2013-01-31");
+
+        ZonedDateTime date1 = ZonedDateTime.now();
+        ZonedDateTime date2 = ZonedDateTime.now().plusDays(1);
+        ZonedDateTime date3 = ZonedDateTime.now().plusDays(2);
 
         when(propertyMock.getDate()).thenReturn(date2);
         when(aSecondPropertyMock.getDate()).thenReturn(date3);
