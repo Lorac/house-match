@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.housematch.context;
 
+import java.math.BigDecimal;
+import java.util.Random;
+
 import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.address.Region;
@@ -15,34 +18,31 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-import java.math.BigDecimal;
-import java.util.Random;
-
-
 public class SpringDemoContext extends ContextBase {
     private UserFactory userFactory;
     private UserRepository userRepository;
     private PropertyFactory propertyFactory;
     private PropertyRepository propertyRepository;
 
-    public SpringDemoContext(final UserFactory userFactory, final UserRepository userRepository,
-                             final PropertyFactory propertyFactory, final PropertyRepository propertyRepository) {
+    public SpringDemoContext(final UserFactory userFactory, final UserRepository userRepository, final PropertyFactory propertyFactory,
+            final PropertyRepository propertyRepository) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
     }
 
-    //CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
     @Override
     protected void applyFillers() throws Exception {
         User buyer = userFactory.createUser("buyer", "buyer@gmail.com", "123", UserRole.BUYER);
         User seller = userFactory.createUser("seller", "seller@gmail.com", "123", UserRole.SELLER);
         User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "123", UserRole.SELLER);
         User admin = userFactory.createUser("admin", "admin@gmail.com", "123", UserRole.ADMINISTRATOR);
+
+        buyer.setActivated(true);
         seller.setActivated(true);
         seller2.setActivated(true);
-        buyer.setActivated(true);
         admin.setActivated(true);
 
         Address quebecAddress = createAddress("G1H6Y7", Region.QC, "Charlesbourg", "1er Avenue", 4500);
@@ -74,24 +74,24 @@ public class SpringDemoContext extends ContextBase {
         userRepository.persist(seller2);
         userRepository.persist(admin);
     }
-    //CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
 
     private PropertyDetails createRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();
         Random random = new Random();
         int i = random.nextInt(4) + 1;
-        propertyDetails.setPropertyStyle(i <= 2 ? (i == 1 ? PropertyStyle.BI_LEVEL : PropertyStyle.CHALET) : i == 3 ? PropertyStyle.IGLOO :
-                PropertyStyle.RANCH);
-        propertyDetails.setOwnershipType(i <= 2 ? (i == 1 ? PropertyOwnershipType.COMMUNITY_PROPERTY : PropertyOwnershipType.COMMUNITY_PROPERTY) : i == 3 ?
-                PropertyOwnershipType.DIVIDED :
-                PropertyOwnershipType.JOINT_TENANCY);
+        propertyDetails.setPropertyStyle(
+                i <= 2 ? (i == 1 ? PropertyStyle.BI_LEVEL : PropertyStyle.CHALET) : i == 3 ? PropertyStyle.IGLOO : PropertyStyle.RANCH);
+        propertyDetails
+                .setOwnershipType(i <= 2 ? (i == 1 ? PropertyOwnershipType.COMMUNITY_PROPERTY : PropertyOwnershipType.COMMUNITY_PROPERTY)
+                        : i == 3 ? PropertyOwnershipType.DIVIDED : PropertyOwnershipType.JOINT_TENANCY);
         propertyDetails.setNumberOfExteriorParkingSpaces(random.nextInt(3) + 1);
         propertyDetails.setNumberOfInteriorParkingSpaces(random.nextInt(3));
         propertyDetails.setNumberOfLevels(random.nextInt(3) + 1);
         propertyDetails.setYearOfConstruction(random.ints(50, 1900, 2015).findAny().getAsInt());
 
-        propertyDetails.setBackyardDirection(i <= 2 ? (i == 1 ? CardinalDirection.EAST : CardinalDirection.NORTH) : i == 3 ? CardinalDirection.SOUTH :
-                CardinalDirection.WEST);
+        propertyDetails.setBackyardDirection(i <= 2 ? (i == 1 ? CardinalDirection.EAST : CardinalDirection.NORTH)
+                : i == 3 ? CardinalDirection.SOUTH : CardinalDirection.WEST);
         propertyDetails.setTotalNumberOfRooms(random.nextInt(4) + 3);
         propertyDetails.setNumberOfBedrooms(random.nextInt(4) + 1);
         propertyDetails.setNumberOfBathrooms(random.nextInt(3) + 1);
