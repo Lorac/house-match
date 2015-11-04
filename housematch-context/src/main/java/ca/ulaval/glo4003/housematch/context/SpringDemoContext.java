@@ -112,6 +112,4 @@ public class SpringDemoContext extends ContextBase {
         address.setStreetNumber(streetNumber);
         return address;
     }
-
-
 }
