@@ -95,6 +95,4 @@ public class SpringDemoContext extends ContextBase {
     protected void registerServices() {
 
     }
-
-
 }
