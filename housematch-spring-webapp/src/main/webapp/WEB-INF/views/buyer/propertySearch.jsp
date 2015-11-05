@@ -43,7 +43,12 @@
                                 <th>ID</th>
                                 <th>Address</th>
                                 <th>Price</th>
-                                <th><img src="http://findicons.com/files/icons/977/rrze/720/sort_neutral.png" style="width:20px;height:20px;">Date</th>
+                                <th>
+                                    <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" style="width:15px;height:15px;"
+                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC%>';">
+                                    <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:15px;height:15px;"
+                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC%>';">
+                                    Date</th>
                             </tr>
                         </thead>
                         <c:forEach var="propertyViewModel" items="${propertySearchResults.getPropertyViewModels()}" varStatus="status">
