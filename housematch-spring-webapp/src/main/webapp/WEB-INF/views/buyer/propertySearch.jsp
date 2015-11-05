@@ -35,7 +35,7 @@
         <c:if test="${not empty propertySearchResults}">
             <h3 class="center">Search results</h3>
             <c:choose>
-                <c:when test="${not empty propertySearchResults.properties}">
+                <c:when test="${not empty propertySearchResults.getPropertyViewModels()}">
                     <table class="table table-hover align-middle clickable-rows">
                         <thead>
                             <tr>
@@ -43,15 +43,17 @@
                                 <th>ID</th>
                                 <th>Address</th>
                                 <th>Price</th>
+                                <th><img src="http://findicons.com/files/icons/977/rrze/720/sort_neutral.png" style="width:20px;height:20px;">Date</th>
                             </tr>
                         </thead>
-                        <c:forEach var="property" items="${propertySearchResults.properties}">
-                            <tr
-                                onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
+                        <c:forEach var="propertyViewModel" items="${propertySearchResults.getPropertyViewModels()}" varStatus="status">
+                            <tr>
+                                onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%> ${propertySearchResults.propertiesViewModel[status.index].getHashCode()}>
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
-                                <td>${property.hashCode()}</td>
-                                <td>${property.address}</td>
-                                <td>${property.sellingPrice}&nbsp;$</td>
+                                <td>${propertyViewModel.getHashCode()}</td>
+                                <td>${propertyViewModel.getAddress()}</td>
+                                <td>${propertyViewModel.getSellingPrice()}&nbsp;$</td>
+                                <td>${propertyViewModel.getDate()}</td>
                             </tr>
                         </c:forEach>
                     </table>

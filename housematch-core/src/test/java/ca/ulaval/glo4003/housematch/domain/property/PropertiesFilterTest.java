@@ -68,7 +68,6 @@ public class PropertiesFilterTest {
         SAMPLE_PROPERTY_LIST.add(aSecondPropertyMock);
         SAMPLE_PROPERTY_LIST.add(aThirdPropertyMock);
 
-
         ZonedDateTime date1 = ZonedDateTime.now();
         ZonedDateTime date2 = ZonedDateTime.now().plusDays(1);
         ZonedDateTime date3 = ZonedDateTime.now().plusDays(2);

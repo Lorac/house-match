@@ -75,6 +75,7 @@
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="propertyCreationValidator" />
         <constructor-arg ref="propertyDetailsValidator" />
+        <constructor-arg ref="propertiesFilter" />
     </bean>
 
     <!-- Assemblers -->
@@ -108,6 +109,7 @@
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController">
         <constructor-arg ref="userService" />
     </bean>
+    <bean id="propertiesFilter" class="ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter"/>
 
 
 </beans>
