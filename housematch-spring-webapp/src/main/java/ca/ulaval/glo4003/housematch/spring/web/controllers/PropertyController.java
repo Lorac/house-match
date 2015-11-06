@@ -87,8 +87,8 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyDetailsUpdateVIew(@PathVariable int propertyHashCode, ModelMap modelMap,
-            HttpSession httpSession) {
+    public final ModelAndView displayPropertyDetailsUpdateView(@PathVariable int propertyHashCode, ModelMap modelMap,
+                                                               HttpSession httpSession) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             modelMap.put(PropertyDetailsFormViewModel.NAME, propertyDetailsFormViewModelAssembler.assembleFromProperty(property));

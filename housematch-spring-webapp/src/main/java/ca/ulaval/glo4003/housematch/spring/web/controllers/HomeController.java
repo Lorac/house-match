@@ -1,14 +1,17 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import javax.servlet.http.HttpSession;
-
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 public class HomeController extends BaseController {
@@ -22,6 +25,13 @@ public class HomeController extends BaseController {
     static final String BUYER_HOME_URL = "/buyer";
     static final String BUYER_HOME_VIEW_NAME = "buyer/home";
 
+    @Inject
+    private PropertyRepository propertyRepository;
+
+    public HomeController(final PropertyRepository propertyRepository) {
+        this.propertyRepository = propertyRepository;
+    }
+
     protected HomeController() {
         // Required for Mockito
     }
@@ -32,18 +42,20 @@ public class HomeController extends BaseController {
 
         if (user != null) {
             switch (user.getRole()) {
-            case ADMINISTRATOR:
-                return new ModelAndView(new RedirectView(ADMIN_HOME_URL));
-            case SELLER:
-                return new ModelAndView(new RedirectView(SELLER_HOME_URL));
-            case BUYER:
-                return new ModelAndView(new RedirectView(BUYER_HOME_URL));
-            default:
-                break;
+                case ADMINISTRATOR:
+                    return new ModelAndView(new RedirectView(ADMIN_HOME_URL));
+                case SELLER:
+                    return new ModelAndView(new RedirectView(SELLER_HOME_URL));
+                case BUYER:
+                    return new ModelAndView(new RedirectView(BUYER_HOME_URL));
+                default:
+                    break;
             }
         }
 
-        return new ModelAndView(HOME_VIEW_NAME);
+        List<Property> properties = propertyRepository.getAll();
+
+        return new ModelAndView(HOME_VIEW_NAME, "properties", properties);
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)
