@@ -2,11 +2,11 @@ package ca.ulaval.glo4003.housematch.domain.property;
 
 import ca.ulaval.glo4003.housematch.HitCount;
 
-public class PropertyHitCount extends HitCount {
+public final class PropertyHitCount extends HitCount {
 
     private Property property;
 
-    public PropertyHitCount(Property property) {
+    public PropertyHitCount(final Property property) {
         this.property = property;
     }
 
