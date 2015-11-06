@@ -79,19 +79,14 @@ public class SpringDemoContext extends ContextBase {
     private PropertyDetails createRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();
         Random random = new Random();
-        int i = random.nextInt(4) + 1;
-        propertyDetails.setPropertyStyle(i <= 2 ? (i == 1 ? PropertyStyle.BI_LEVEL : PropertyStyle.CHALET) : i == 3 ? PropertyStyle.IGLOO :
-                PropertyStyle.RANCH);
-        propertyDetails.setOwnershipType(i <= 2 ? (i == 1 ? PropertyOwnershipType.COMMUNITY_PROPERTY : PropertyOwnershipType.COMMUNITY_PROPERTY) : i == 3 ?
-                PropertyOwnershipType.DIVIDED :
-                PropertyOwnershipType.JOINT_TENANCY);
+        propertyDetails.setPropertyStyle(PropertyStyle.values()[random.nextInt() % PropertyStyle.values().length]);
+        propertyDetails.setOwnershipType(PropertyOwnershipType.values()[random.nextInt() % PropertyOwnershipType.values().length]);
         propertyDetails.setNumberOfExteriorParkingSpaces(random.nextInt(3) + 1);
         propertyDetails.setNumberOfInteriorParkingSpaces(random.nextInt(3));
         propertyDetails.setNumberOfLevels(random.nextInt(3) + 1);
         propertyDetails.setYearOfConstruction(random.ints(50, 1900, 2015).findAny().getAsInt());
 
-        propertyDetails.setBackyardDirection(i <= 2 ? (i == 1 ? CardinalDirection.EAST : CardinalDirection.NORTH) : i == 3 ? CardinalDirection.SOUTH :
-                CardinalDirection.WEST);
+        propertyDetails.setBackyardDirection(CardinalDirection.values()[random.nextInt() % PropertyOwnershipType.values().length]);
         propertyDetails.setTotalNumberOfRooms(random.nextInt(4) + 3);
         propertyDetails.setNumberOfBedrooms(random.nextInt(4) + 1);
         propertyDetails.setNumberOfBathrooms(random.nextInt(3) + 1);
