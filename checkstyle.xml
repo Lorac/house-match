@@ -29,6 +29,7 @@
 
     <property name="fileExtensions" value="java, properties, xml"/>
 
+    <module name="SuppressionCommentFilter"/>
 
     <!-- Checks whether files end with a new line.                        -->
     <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
@@ -160,6 +161,9 @@
         </module>
         <module name="TodoComment"/>
         <module name="UpperEll"/>
+        <module name="FileContentsHolder"/>
+        <module name="SuppressWarningsHolder" />
+
 
     </module>
 

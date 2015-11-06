@@ -10,6 +10,7 @@
         <module>housematch-spring-webapp</module>
         <module>housematch-xml-persistence</module>
         <module>housematch-emailer</module>
+        <module>housematch-context</module>
     </modules>
     <name>HouseMatch</name>
 
