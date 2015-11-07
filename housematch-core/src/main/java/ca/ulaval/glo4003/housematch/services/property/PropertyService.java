@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -18,6 +15,9 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidato
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 public class PropertyService {
 
     private PropertyFactory propertyFactory;
@@ -27,8 +27,8 @@ public class PropertyService {
     private PropertyDetailsValidator propertyDetailsValidator;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-            final PropertyDetailsValidator propertyDetailsValidator) {
+                           final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
+                           final PropertyDetailsValidator propertyDetailsValidator) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
@@ -58,6 +58,11 @@ public class PropertyService {
         } catch (PropertyDetailsValidationException e) {
             throw new PropertyServiceException(e);
         }
+    }
+
+    public void incrementViewCountOnProperty(Property property) {
+        property.increaseViewCount();
+        propertyRepository.update(property);
     }
 
     public List<Property> getProperties() {

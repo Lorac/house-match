@@ -1,10 +1,9 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import java.math.BigDecimal;
-
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.math.BigDecimal;
 
 public class Property {
 
@@ -12,13 +11,19 @@ public class Property {
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
+    private ViewCount viewCount;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
-            final PropertyDetails propertyDetails) {
+                    final PropertyDetails propertyDetails, final ViewCount viewCount) {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
+        this.viewCount = viewCount;
+    }
+
+    public int getViewCount() {
+        return viewCount.getCount();
     }
 
     public PropertyType getPropertyType() {
@@ -39,6 +44,11 @@ public class Property {
 
     public void setPropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
+    }
+
+    public int increaseViewCount() {
+        viewCount.increase();
+        return viewCount.getCount();
     }
 
     @Override

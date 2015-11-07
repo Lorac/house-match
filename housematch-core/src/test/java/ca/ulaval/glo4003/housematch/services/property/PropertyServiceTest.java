@@ -1,19 +1,5 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
-import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -27,6 +13,16 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidati
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
@@ -142,6 +138,18 @@ public class PropertyServiceTest {
     public void gettingPropertyByHashCodeGetsThePropertyFromTheSpecifiedHashCode() throws Exception {
         propertyService.getPropertyByHashCode(propertyMock.hashCode());
         verify(propertyRepositoryMock).getByHashCode(propertyMock.hashCode());
+    }
+
+    @Test
+    public void incrementingTheViewCountShouldCallTheIncrementOnTheProperty() {
+        propertyService.incrementViewCountOnProperty(propertyMock);
+        verify(propertyMock).increaseViewCount();
+    }
+
+    @Test
+    public void afterIncrementingTheViewCountItShouldSaveTheProperty() {
+        propertyService.incrementViewCountOnProperty(propertyMock);
+        verify(propertyRepositoryMock).update(propertyMock);
     }
 
     private void createProperty() throws PropertyServiceException {
