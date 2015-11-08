@@ -111,12 +111,5 @@
     </bean>
     <bean id="propertiesFilter" class="ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter"/>
 
-    <bean id="contextLoading" class="ca.ulaval.glo4003.housematch.context.SpringDemoContext" init-method="apply">
-        <constructor-arg index="0" ref="userFactory"/>
-        <constructor-arg index="1" ref="xmlUserRepository"/>
-        <constructor-arg index="2" ref="propertyFactory"/>
-        <constructor-arg index="3" ref="xmlPropertyRepository"/>
-    </bean>
-
 
 </beans>
