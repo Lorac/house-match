@@ -35,7 +35,7 @@
         <c:if test="${not empty propertySearchResults}">
             <h3 class="center">Search results</h3>
             <c:choose>
-                <c:when test="${not empty propertySearchResults.properties}">
+                <c:when test="${not empty propertySearchResults.getPropertyViewModels()}">
                     <table class="table table-hover align-middle clickable-rows">
                         <thead>
                             <tr>
@@ -43,15 +43,21 @@
                                 <th>ID</th>
                                 <th>Address</th>
                                 <th>Price</th>
+                                <th>
+                                    <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" style="width:15px;height:15px;"
+                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC%>';">
+                                    <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:15px;height:15px;"
+                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC%>';">
+                                    Date</th>
                             </tr>
                         </thead>
-                        <c:forEach var="property" items="${propertySearchResults.properties}">
-                            <tr
-                                onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
+                        <c:forEach var="propertyViewModel" items="${propertySearchResults.getPropertyViewModels()}" varStatus="status">
+                            <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.getHashCode()}';">
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
-                                <td>${property.hashCode()}</td>
-                                <td>${property.address}</td>
-                                <td>${property.sellingPrice}&nbsp;$</td>
+                                <td>${propertyViewModel.getHashCode()}</td>
+                                <td>${propertyViewModel.getAddress()}</td>
+                                <td>${propertyViewModel.getSellingPrice()}&nbsp;$</td>
+                                <td>${propertyViewModel.getDate()}</td>
                             </tr>
                         </c:forEach>
                     </table>

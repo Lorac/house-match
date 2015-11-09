@@ -75,6 +75,7 @@
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="propertyCreationValidator" />
         <constructor-arg ref="propertyDetailsValidator" />
+        <constructor-arg ref="propertiesFilter" />
     </bean>
 
     <!-- Assemblers -->

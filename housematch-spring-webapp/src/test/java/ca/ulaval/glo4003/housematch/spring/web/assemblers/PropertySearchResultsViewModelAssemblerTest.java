@@ -16,10 +16,13 @@ public class PropertySearchResultsViewModelAssemblerTest {
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
 
     private PropertySearchResultsViewModelAssembler assembler;
+    private Property propertyMock;
+    private PropertyViewModelAssembler propertyViewModelAssemblerMock;
 
     @Before
     public void init() {
         assembler = new PropertySearchResultsViewModelAssembler();
+        propertyMock = mock(Property.class);
     }
 
     @Test

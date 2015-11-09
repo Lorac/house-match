@@ -28,6 +28,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         xmlProperty.address = property.getAddress();
         xmlProperty.sellingPrice = property.getSellingPrice();
         xmlProperty.propertyDetails = property.getPropertyDetails();
+        xmlProperty.date = property.getDate();
 
         return xmlProperty;
     }

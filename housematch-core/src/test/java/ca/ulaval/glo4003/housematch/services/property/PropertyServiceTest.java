@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
@@ -42,6 +43,7 @@ public class PropertyServiceTest {
     private Address addressMock;
     private Property propertyMock;
     private PropertyDetails propertyDetailsMock;
+    private PropertiesFilter propertiesFilter;
 
     private PropertyService propertyService;
 
@@ -50,7 +52,7 @@ public class PropertyServiceTest {
         initMocks();
         stubMethods();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
-                propertyCreationValidatorMock, propertyDetailsValidatorMock);
+                propertyCreationValidatorMock, propertyDetailsValidatorMock, propertiesFilter);
     }
 
     private void initMocks() {
@@ -63,6 +65,7 @@ public class PropertyServiceTest {
         propertyDetailsValidatorMock = mock(PropertyDetailsValidator.class);
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
+        propertiesFilter = mock(PropertiesFilter.class);
     }
 
     private void stubMethods() {
@@ -136,6 +139,20 @@ public class PropertyServiceTest {
         when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
         List<Property> returnedPropertyList = propertyService.getProperties();
         assertSame(SAMPLE_PROPERTY_LIST, returnedPropertyList);
+    }
+
+    @Test
+    public void gettingPropertiesInChronologicalOrderFilterAllPropertiesInRepositories() {
+        propertyService.getPropertiesInChronologicalOrder();
+        verify(propertyRepositoryMock).getAll();
+        verify(propertiesFilter).orderByAscendingDates(SAMPLE_PROPERTY_LIST);
+    }
+
+    @Test
+    public void gettingPropertiesInReverseChronologicalOrderFilterAllPropertiesInRepositories() {
+        propertyService.getPropertiesInReverseChronologicalOrder();
+        verify(propertyRepositoryMock).getAll();
+        verify(propertiesFilter).orderByDescendingDates(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
