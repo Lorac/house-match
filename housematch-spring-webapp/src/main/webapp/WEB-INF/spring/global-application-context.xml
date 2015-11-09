@@ -54,6 +54,10 @@
 
     <bean id="propertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory" />
 
+	<!-- Filters -->
+
+	<bean id="propertiesFilter" class="ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter" />
+
     <!-- Services -->
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.user.UserService">

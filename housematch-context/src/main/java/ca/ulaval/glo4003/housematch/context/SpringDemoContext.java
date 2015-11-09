@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.context;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Random;
 
 import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
@@ -60,7 +61,11 @@ public class SpringDemoContext extends ContextBase {
         quebecProperty.setPropertyDetails(quebecPropertyDetails);
         abitibiProperty.setPropertyDetails(abitibiPropertyDetails);
         outaouaisProperty.setPropertyDetails(outaouaisPropertyDetails);
-
+        
+        quebecProperty.setDate(ZonedDateTime.now());
+        abitibiProperty.setDate(ZonedDateTime.now());
+        outaouaisProperty.setDate(ZonedDateTime.now());
+        
         propertyRepository.persist(quebecProperty);
         propertyRepository.persist(abitibiProperty);
         propertyRepository.persist(outaouaisProperty);

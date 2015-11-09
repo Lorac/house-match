@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.assemblers;
 
 import static org.junit.Assert.assertSame;
+import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,6 @@ public class PropertySearchResultsViewModelAssemblerTest {
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
         PropertySearchResultsViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
-        assertSame(SAMPLE_PROPERTY_LIST, viewModel.getProperties());
+        assertSame(SAMPLE_PROPERTY_LIST, viewModel.getPropertyViewModels());
     }
 }
