@@ -25,7 +25,7 @@ public class SpringDemoContext extends ContextBase {
     private PropertyRepository propertyRepository;
 
     public SpringDemoContext(final UserFactory userFactory, final UserRepository userRepository, final PropertyFactory propertyFactory,
-                             final PropertyRepository propertyRepository) {
+            final PropertyRepository propertyRepository) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.propertyFactory = propertyFactory;
@@ -45,8 +45,8 @@ public class SpringDemoContext extends ContextBase {
         seller2.setActivated(true);
         admin.setActivated(true);
 
-        Address quebecAddress = createAddress("G1H6Y7", Region.QC, "Charlesbourg", "1er Avenue", 4500);
-        Address abitibiAddress = createAddress("J9X5E5", Region.QC, "Rouyn-Noranda", "boulevard du Collège", 425);
+        Address quebecAddress = createAddress("G1H 6Y7", Region.QC, "Charlesbourg", "1er Avenue", 4500);
+        Address abitibiAddress = createAddress("J9X 5E5", Region.QC, "Rouyn-Noranda", "boulevard du Collège", 425);
         Address outaouaisAddress = createAddress("J0V 1R0", Region.QC, "Papineau", "rue Jeanne-d'Arc", 188);
 
         PropertyDetails quebecPropertyDetails = createRandomPropertyDetails();
@@ -79,13 +79,13 @@ public class SpringDemoContext extends ContextBase {
     private PropertyDetails createRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();
         Random random = new Random();
+
         propertyDetails.setPropertyStyle(PropertyStyle.values()[random.nextInt(PropertyStyle.values().length)]);
         propertyDetails.setOwnershipType(PropertyOwnershipType.values()[random.nextInt(PropertyOwnershipType.values().length)]);
         propertyDetails.setNumberOfExteriorParkingSpaces(random.nextInt(3) + 1);
         propertyDetails.setNumberOfInteriorParkingSpaces(random.nextInt(3));
         propertyDetails.setNumberOfLevels(random.nextInt(3) + 1);
         propertyDetails.setYearOfConstruction(random.ints(50, 1900, 2015).findAny().getAsInt());
-
 
         propertyDetails.setBackyardDirection(CardinalDirection.values()[random.nextInt(CardinalDirection.values().length)]);
         propertyDetails.setTotalNumberOfRooms(random.nextInt(4) + 3);
