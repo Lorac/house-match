@@ -1,13 +1,11 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import java.math.BigDecimal;
 
 @XmlRootElement(name = "property")
 public class XmlProperty {
@@ -15,5 +13,5 @@ public class XmlProperty {
     public Address address;
     public BigDecimal sellingPrice;
     public PropertyDetails propertyDetails;
-    public ZonedDateTime date;
+    public String date;
 }

@@ -1,9 +1,10 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.time.ZonedDateTime;
 
 public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
 
@@ -17,6 +18,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
     public Property unmarshal(XmlProperty xmlProperty) throws Exception {
         Property property = propertyFactory.createProperty(xmlProperty.propertyType, xmlProperty.address, xmlProperty.sellingPrice);
         property.setPropertyDetails(xmlProperty.propertyDetails);
+        property.setDate(ZonedDateTime.parse(xmlProperty.date));
         return property;
     }
 
@@ -28,7 +30,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         xmlProperty.address = property.getAddress();
         xmlProperty.sellingPrice = property.getSellingPrice();
         xmlProperty.propertyDetails = property.getPropertyDetails();
-        xmlProperty.date = property.getDate();
+        xmlProperty.date = property.getDate().toString();
 
         return xmlProperty;
     }
