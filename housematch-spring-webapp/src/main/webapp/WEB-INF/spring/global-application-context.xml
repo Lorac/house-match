@@ -4,6 +4,8 @@
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml"/>
 
+    <bean id="propertySorter" class="ca.ulaval.glo4003.housematch.domain.property.PropertySorter"/>
+
     <!-- Email -->
 
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -75,6 +77,7 @@
         <constructor-arg ref="xmlUserRepository"/>
         <constructor-arg ref="propertyCreationValidator"/>
         <constructor-arg ref="propertyDetailsValidator"/>
+        <constructor-arg ref="propertySorter"/>
     </bean>
 
     <!-- Assemblers -->
@@ -95,7 +98,7 @@
     </bean>
 
     <bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
-        <constructor-arg index="0" ref="xmlPropertyRepository"/>
+        <constructor-arg index="0" ref="propertyService"/>
     </bean>
 
     <bean id="propertyController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController">

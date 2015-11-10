@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
@@ -16,16 +16,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class HomeControllerTest extends BaseControllerTest {
 
+    private static final int TOP_FIVE = 5;
     private HomeController homeController;
-    private PropertyRepository propertyRepository;
+    private PropertyService propertyService;
 
     @Before
     public void init() throws Exception {
         super.init();
-        propertyRepository = mock(PropertyRepository.class);
-        homeController = new HomeController(propertyRepository);
+        propertyService = mock(PropertyService.class);
+        homeController = new HomeController(propertyService);
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
-        when(propertyRepository.getAll()).thenReturn(new LinkedList<>());
+        when(propertyService.getTopViewedProperties(TOP_FIVE)).thenReturn(new LinkedList<>());
     }
 
     @Test

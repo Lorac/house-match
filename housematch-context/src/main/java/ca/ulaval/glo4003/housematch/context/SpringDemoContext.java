@@ -25,7 +25,7 @@ public class SpringDemoContext extends ContextBase {
     private PropertyRepository propertyRepository;
 
     public SpringDemoContext(final UserFactory userFactory, final UserRepository userRepository, final PropertyFactory propertyFactory,
-            final PropertyRepository propertyRepository) {
+                             final PropertyRepository propertyRepository) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.propertyFactory = propertyFactory;
@@ -72,6 +72,12 @@ public class SpringDemoContext extends ContextBase {
         Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress, BigDecimal.valueOf(1000000000));
         Property cnTowerProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, cnTowerAddress, BigDecimal.valueOf(100000000));
 
+        increaseViewCount(quebecProperty, 5);
+        increaseViewCount(abitibiProperty, 4);
+        increaseViewCount(outaouaisProperty, 3);
+        increaseViewCount(montrealProperty, 2);
+        increaseViewCount(primeMinisterProperty, 1);
+
         quebecProperty.setPropertyDetails(quebecPropertyDetails);
         abitibiProperty.setPropertyDetails(abitibiPropertyDetails);
         outaouaisProperty.setPropertyDetails(outaouaisPropertyDetails);
@@ -105,6 +111,13 @@ public class SpringDemoContext extends ContextBase {
         userRepository.persist(admin);
     }
     // CHECKSTYLE:OFF
+
+    private void increaseViewCount(Property property, int i) {
+        for (int j = 0; j < i; j++) {
+            property.increaseViewCount();
+        }
+    }
+
 
     private PropertyDetails createRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();

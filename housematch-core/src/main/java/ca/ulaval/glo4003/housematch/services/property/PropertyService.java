@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -17,6 +18,7 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PropertyService {
 
@@ -25,15 +27,17 @@ public class PropertyService {
     private UserRepository userRepository;
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
+    private PropertySorter propertySorter;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
                            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-                           final PropertyDetailsValidator propertyDetailsValidator) {
+                           final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
+        this.propertySorter = propertySorter;
     }
 
     public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
@@ -71,5 +75,11 @@ public class PropertyService {
 
     public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
         return propertyRepository.getByHashCode(propertyHashCode);
+    }
+
+    public List<Property> getTopViewedProperties(int limit) {
+        List<Property> all = propertyRepository.getAll();
+        propertySorter.sortByHighestViewCount(all);
+        return all.stream().limit(limit).collect(Collectors.toList());
     }
 }

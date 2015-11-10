@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,12 +24,13 @@ public class HomeController extends BaseController {
     static final String SELLER_HOME_VIEW_NAME = "seller/home";
     static final String BUYER_HOME_URL = "/buyer";
     static final String BUYER_HOME_VIEW_NAME = "buyer/home";
+    private static final int TOP_FIVE = 5;
 
     @Inject
-    private PropertyRepository propertyRepository;
+    private PropertyService propertyService;
 
-    public HomeController(final PropertyRepository propertyRepository) {
-        this.propertyRepository = propertyRepository;
+    public HomeController(final PropertyService propertyService) {
+        this.propertyService = propertyService;
     }
 
     protected HomeController() {
@@ -53,7 +54,7 @@ public class HomeController extends BaseController {
             }
         }
 
-        List<Property> properties = propertyRepository.getAll();
+        List<Property> properties = propertyService.getTopViewedProperties(TOP_FIVE);
 
         return new ModelAndView(HOME_VIEW_NAME, "properties", properties);
     }

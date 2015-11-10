@@ -63,7 +63,7 @@ public class XmlPropertyRepository implements PropertyRepository {
 
     @Override
     public List<Property> getAll() {
-        return new ArrayList<Property>(properties.values());
+        return new ArrayList<>(properties.values());
     }
 
     private void marshal() {

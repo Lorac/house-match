@@ -6,6 +6,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsExcepti
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -27,7 +28,8 @@ import static org.mockito.Mockito.*;
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
-    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
+    private static final int TOP_FIVE = 5;
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
@@ -38,7 +40,7 @@ public class PropertyServiceTest {
     private Address addressMock;
     private Property propertyMock;
     private PropertyDetails propertyDetailsMock;
-
+    private PropertySorter propertySorterMock;
     private PropertyService propertyService;
 
     @Before
@@ -46,7 +48,7 @@ public class PropertyServiceTest {
         initMocks();
         stubMethods();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
-                propertyCreationValidatorMock, propertyDetailsValidatorMock);
+                propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorterMock);
     }
 
     private void initMocks() {
@@ -59,11 +61,13 @@ public class PropertyServiceTest {
         propertyDetailsValidatorMock = mock(PropertyDetailsValidator.class);
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
+        propertySorterMock = mock(PropertySorter.class);
     }
 
     private void stubMethods() {
         when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class)))
                 .thenReturn(propertyMock);
+        when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -150,6 +154,13 @@ public class PropertyServiceTest {
     public void afterIncrementingTheViewCountItShouldSaveTheProperty() {
         propertyService.incrementViewCountOnProperty(propertyMock);
         verify(propertyRepositoryMock).update(propertyMock);
+    }
+
+    @Test
+    public void gettingTheTopViewedPropertiesShouldAskTheRepositoryToGetAllAndSendTheResultIntoTheSorter() {
+        propertyService.getTopViewedProperties(TOP_FIVE);
+        verify(propertyRepositoryMock).getAll();
+        verify(propertySorterMock).sortByHighestViewCount(SAMPLE_PROPERTY_LIST);
     }
 
     private void createProperty() throws PropertyServiceException {
