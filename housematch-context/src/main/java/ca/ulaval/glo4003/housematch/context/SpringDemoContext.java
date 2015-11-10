@@ -25,7 +25,7 @@ public class SpringDemoContext extends ContextBase {
     private PropertyRepository propertyRepository;
 
     public SpringDemoContext(final UserFactory userFactory, final UserRepository userRepository, final PropertyFactory propertyFactory,
-            final PropertyRepository propertyRepository) {
+                             final PropertyRepository propertyRepository) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.propertyFactory = propertyFactory;
