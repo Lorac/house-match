@@ -2,7 +2,6 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -228,16 +227,19 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
     
     @Test
-    public void propertyControllerReturnsPropertySearchViewWhenPropertySearchByAscendingDateIsRequested() throws Exception {
+    public void propertyControllerReturnsPropertySearchViewWithAscendingListWhenPropertySearchByAscendingDateIsRequested() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC);
+        verify(propertyServiceMock).getPropertiesInChronologicalOrder();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
         results.andExpect(status().isOk());
     }
     
     @Test
-    public void propertyControllerReturnsPropertySearchViewWhenPropertySearchByDescendingDateIsRequested() throws Exception {
+    public void propertyControllerReturnsPropertySearchWithDescendingListViewWhenPropertySearchByDescendingDateIsRequested() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC);
+        verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+        results.andExpect(status().isOk());
     }
 
     private ResultActions postPropertyCreationForm() throws Exception {
