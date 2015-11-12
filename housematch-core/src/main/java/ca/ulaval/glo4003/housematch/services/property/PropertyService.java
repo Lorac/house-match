@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidatio
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class PropertyService {
@@ -44,6 +45,7 @@ public class PropertyService {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
             Property property = propertyFactory.createProperty(propertyType, address, sellingPrice);
+            property.setDate(ZonedDateTime.now());
             propertyRepository.persist(property);
             user.addPropertyForSale(property);
             userRepository.update(user);
@@ -57,6 +59,7 @@ public class PropertyService {
         try {
             propertyDetailsValidator.validatePropertyDetails(propertyDetails);
             property.setPropertyDetails(propertyDetails);
+            property.setDate(ZonedDateTime.now());
             propertyRepository.update(property);
         } catch (PropertyDetailsValidationException e) {
             throw new PropertyServiceException(e);

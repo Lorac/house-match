@@ -39,7 +39,6 @@ public class XmlPropertyRepository implements PropertyRepository {
         if (properties.containsValue(property)) {
             throw new PropertyAlreadyExistsException(String.format("A property with address '%s' already exists.", property.getAddress()));
         }
-        property.setDate(ZonedDateTime.now());
         properties.put(property.hashCode(), property);
         marshal();
     }

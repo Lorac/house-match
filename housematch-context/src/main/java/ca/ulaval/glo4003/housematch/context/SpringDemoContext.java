@@ -79,8 +79,13 @@ public class SpringDemoContext extends ContextBase {
         outaouaisProperty.setPropertyDetails(outaouaisPropertyDetails);
 
         quebecProperty.setDate(ZonedDateTime.now());
-        abitibiProperty.setDate(ZonedDateTime.now());
-        outaouaisProperty.setDate(ZonedDateTime.now());
+        abitibiProperty.setDate(ZonedDateTime.now().minusMonths((long) 7));
+        outaouaisProperty.setDate(ZonedDateTime.now().minusMonths((long) 1));
+        montrealProperty.setDate(ZonedDateTime.now().minusMonths((long) 2));
+        primeMinisterProperty.setDate(ZonedDateTime.now().minusMonths((long) 3));
+        greatDivideLodgeProperty.setDate(ZonedDateTime.now().minusMonths((long) 4));
+        westEdmontonMallProperty.setDate(ZonedDateTime.now().minusMonths((long) 5));
+        cnTowerProperty.setDate(ZonedDateTime.now().minusMonths((long) 6));
 
         montrealProperty.setPropertyDetails(montrealPropertyDetails);
         primeMinisterProperty.setPropertyDetails(primeMinisterPropertyDetails);
