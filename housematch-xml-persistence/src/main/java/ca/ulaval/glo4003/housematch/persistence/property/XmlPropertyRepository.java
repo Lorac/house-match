@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
