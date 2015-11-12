@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -224,6 +225,19 @@ public class PropertyControllerTest extends BaseControllerTest {
         doThrow(new PropertyNotFoundException()).when(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
         ResultActions results = performPropertyGetRequest();
         results.andExpect(status().isNotFound());
+    }
+    
+    @Test
+    public void propertyControllerReturnsPropertySearchViewWhenPropertySearchByAscendingDateIsRequested() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC);
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+        results.andExpect(status().isOk());
+    }
+    
+    @Test
+    public void propertyControllerReturnsPropertySearchViewWhenPropertySearchByDescendingDateIsRequested() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC);
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
     }
 
     private ResultActions postPropertyCreationForm() throws Exception {

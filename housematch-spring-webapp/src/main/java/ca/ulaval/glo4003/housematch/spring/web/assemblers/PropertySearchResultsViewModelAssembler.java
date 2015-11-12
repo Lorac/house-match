@@ -8,10 +8,9 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsV
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 
 public class PropertySearchResultsViewModelAssembler {
+    PropertyViewModelAssembler propertyViewModelAssembler = new PropertyViewModelAssembler();
 
     public PropertySearchResultsViewModel assembleFromPropertyList(List<Property> properties) {
-
-        PropertyViewModelAssembler propertyViewModelAssembler = new PropertyViewModelAssembler();
         List<PropertyViewModel> propertiesViewModel = new ArrayList<>();
 
         for (Property property : properties) {
@@ -22,5 +21,9 @@ public class PropertySearchResultsViewModelAssembler {
         viewModel.setPropertyViewModels(propertiesViewModel);
 
         return viewModel;
+    }
+
+    public void injectPropertyViewModelAssembler(PropertyViewModelAssembler assembler) {
+        this.propertyViewModelAssembler = assembler;
     }
 }
