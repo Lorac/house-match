@@ -199,7 +199,7 @@
                                 <label class="col-sm-6 control-label">Building Dimensions:</label>
                                 <div class="col-sm-6">
                                     <c:if test="${not empty propertyViewModel.propertyDetails.buildingDimensionsInSquareFeet}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft</p>
+                                        <p class="control-label">${propertyViewModel.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft&#178;</p>
                                     </c:if>
                                 </div>
                             </div>
@@ -207,7 +207,7 @@
                                 <label class="col-sm-6 control-label">Lot Dimensions:</label>
                                 <div class="col-sm-6">
                                     <c:if test="${not empty propertyViewModel.propertyDetails.lotDimensionsInSquareFeet}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft</p>
+                                        <p class="control-label">${propertyViewModel.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft&#178;</p>
                                     </c:if>
                                 </div>
                             </div>
@@ -215,7 +215,7 @@
                                 <label class="col-sm-6 control-label">Living Space Area:</label>
                                 <div class="col-sm-6">
                                     <c:if test="${not empty propertyViewModel.propertyDetails.livingSpaceAreaInSquareFeet}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft</p>
+                                        <p class="control-label">${propertyViewModel.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft&#178;</p>
                                     </c:if>
                                 </div>
                             </div>
