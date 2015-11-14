@@ -13,9 +13,9 @@ import static org.mockito.Mockito.when;
 
 public class PropertySorterTest {
 
-    private static final int HIGHEST_VIEWCOUNT = Integer.MAX_VALUE;
-    private static final int MID = 0;
-    private static final int LOWEST_VIEWCOUNT = Integer.MIN_VALUE;
+    private static final int TWO_VIEW = 2;
+    private static final int ONE_VIEW = 1;
+    private static final int NO_VIEWS = 0;
 
     private PropertySorter propertySorter;
     private List<Property> properties;
@@ -32,9 +32,9 @@ public class PropertySorterTest {
     }
 
     private void initStubs() {
-        when(mostViewedProperty.getViewCount()).thenReturn(HIGHEST_VIEWCOUNT);
-        when(secondMostViewedProperty.getViewCount()).thenReturn(MID);
-        when(thirdMostViewedProperty.getViewCount()).thenReturn(LOWEST_VIEWCOUNT);
+        when(mostViewedProperty.getViewCount()).thenReturn(TWO_VIEW);
+        when(secondMostViewedProperty.getViewCount()).thenReturn(ONE_VIEW);
+        when(thirdMostViewedProperty.getViewCount()).thenReturn(NO_VIEWS);
     }
 
     private void initMocks() {
@@ -58,6 +58,4 @@ public class PropertySorterTest {
 
         assertEquals(expected, properties);
     }
-
-
 }
