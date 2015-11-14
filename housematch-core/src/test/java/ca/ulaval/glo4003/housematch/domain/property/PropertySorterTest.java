@@ -25,20 +25,21 @@ public class PropertySorterTest {
     @Before
     public void init() {
         initMocks();
+        initStubs();
         propertySorter = new PropertySorter();
         properties = new ArrayList<>();
+    }
 
+    private void initStubs() {
+        when(mostViewProperty.getViewCount()).thenReturn(HIGHEST);
+        when(secondMostViewProperty.getViewCount()).thenReturn(MID);
+        when(thirdMostViewProperty.getViewCount()).thenReturn(LOWEST);
     }
 
     private void initMocks() {
         mostViewProperty = mock(Property.class);
-        when(mostViewProperty.getViewCount()).thenReturn(HIGHEST);
-
         secondMostViewProperty = mock(Property.class);
-        when(secondMostViewProperty.getViewCount()).thenReturn(MID);
-
         thirdMostViewProperty = mock(Property.class);
-        when(thirdMostViewProperty.getViewCount()).thenReturn(LOWEST);
     }
 
     @Test

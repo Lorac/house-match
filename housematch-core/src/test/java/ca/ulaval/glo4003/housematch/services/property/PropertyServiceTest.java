@@ -157,11 +157,12 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void gettingTheTopViewedPropertiesShouldAskTheRepositoryToGetAllAndSendTheResultIntoTheSorter() {
+    public void gettingTheTopViewedPropertiesShouldSendTheResultIntoTheSorter() {
         propertyService.getTopViewedProperties(TOP_FIVE);
         verify(propertyRepositoryMock).getAll();
         verify(propertySorterMock).sortByHighestViewCount(SAMPLE_PROPERTY_LIST);
     }
+
 
     private void createProperty() throws PropertyServiceException {
         propertyService.createProperty(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, userMock);

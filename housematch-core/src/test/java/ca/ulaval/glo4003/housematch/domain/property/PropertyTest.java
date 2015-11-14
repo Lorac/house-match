@@ -19,7 +19,6 @@ public class PropertyTest {
     private static final int ONE_VIEW = 1;
     private static final int NO_VIEW = 0;
 
-    private ViewCount VIEW_COUNT = new ViewCount();
     private Property property;
     private PropertyDetails propertyDetailsMock;
     private Address addressMock;
@@ -28,20 +27,20 @@ public class PropertyTest {
     public void init() throws Exception {
         addressMock = mock(Address.class);
         propertyDetailsMock = mock(PropertyDetails.class);
-        property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock, VIEW_COUNT);
+        property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
     }
 
     @Test
     public void propertiesWithTheSameAddressShouldBeConsideredAsEqual() {
         Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock, ANOTHER_SAMPLE_SELLING_PRICE,
-                propertyDetailsMock, VIEW_COUNT);
+                propertyDetailsMock);
         assertTrue(property.equals(anotherProperty));
     }
 
     @Test
     public void propertiesWithDifferentAddressesShouldBeConsideredAsDifferent() {
         Address anotherAddressMock = mock(Address.class);
-        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock, VIEW_COUNT);
+        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
 
         assertFalse(property.equals(anotherProperty));
     }
@@ -49,14 +48,14 @@ public class PropertyTest {
     @Test
     public void propertiesWithTheSameAddressShouldHaveTheSameHashCode() {
         Property anotherProperty = new Property(ANOTHER_SAMPLE_PROPERTY_TYPE, addressMock, ANOTHER_SAMPLE_SELLING_PRICE,
-                propertyDetailsMock, VIEW_COUNT);
+                propertyDetailsMock);
         assertEquals(property.hashCode(), anotherProperty.hashCode());
     }
 
     @Test
     public void propertiesWithDifferentAddressesShouldNotHaveTheSameHashCode() {
         Address anotherAddressMock = mock(Address.class);
-        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock, VIEW_COUNT);
+        Property anotherProperty = new Property(SAMPLE_PROPERTY_TYPE, anotherAddressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
         assertNotEquals(property.hashCode(), anotherProperty.hashCode());
     }
 
@@ -67,7 +66,8 @@ public class PropertyTest {
 
     @Test
     public void visitingThePropertyForTheFirstTimeShouldHaveOneView() {
-        assertEquals(ONE_VIEW, property.increaseViewCount());
+        int actualViewCount = property.increaseViewCount();
+        assertEquals(ONE_VIEW, actualViewCount);
     }
 
     @Test

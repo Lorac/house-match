@@ -11,19 +11,19 @@ public class Property {
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
-    private ViewCount viewCount;
+    private int viewCount;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
-                    final PropertyDetails propertyDetails, final ViewCount viewCount) {
+                    final PropertyDetails propertyDetails) {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
-        this.viewCount = viewCount;
+        this.viewCount = 0;
     }
 
     public int getViewCount() {
-        return viewCount.getCount();
+        return viewCount;
     }
 
     public PropertyType getPropertyType() {
@@ -47,8 +47,7 @@ public class Property {
     }
 
     public int increaseViewCount() {
-        viewCount.increase();
-        return viewCount.getCount();
+        return ++viewCount;
     }
 
     @Override

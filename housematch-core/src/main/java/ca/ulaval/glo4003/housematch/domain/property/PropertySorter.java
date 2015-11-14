@@ -7,7 +7,6 @@ import java.util.List;
 public class PropertySorter {
 
     public void sortByHighestViewCount(List<Property> all) {
-        Collections.sort(all, Comparator.comparing(Property::getViewCount));
-        Collections.reverse(all);
+        Collections.sort(all, Comparator.comparing(Property::getViewCount).reversed());
     }
 }
