@@ -26,7 +26,7 @@ public class HomeControllerTest extends BaseControllerTest {
         propertyService = mock(PropertyService.class);
         homeController = new HomeController(propertyService);
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
-        when(propertyService.getTopViewedProperties(TOP_FIVE)).thenReturn(new LinkedList<>());
+        when(propertyService.getMostViewedProperties(TOP_FIVE)).thenReturn(new LinkedList<>());
     }
 
     @Test

@@ -54,7 +54,7 @@ public class HomeController extends BaseController {
             }
         }
 
-        List<Property> properties = propertyService.getTopViewedProperties(TOP_FIVE);
+        List<Property> properties = propertyService.getMostViewedProperties(TOP_FIVE);
 
         return new ModelAndView(HOME_VIEW_NAME, "properties", properties);
     }

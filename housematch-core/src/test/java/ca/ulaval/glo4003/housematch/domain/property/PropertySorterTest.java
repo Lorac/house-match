@@ -13,14 +13,15 @@ import static org.mockito.Mockito.when;
 
 public class PropertySorterTest {
 
-    private static final int HIGHEST = Integer.MAX_VALUE;
+    private static final int HIGHEST_VIEWCOUNT = Integer.MAX_VALUE;
     private static final int MID = 0;
-    private static final int LOWEST = Integer.MIN_VALUE;
+    private static final int LOWEST_VIEWCOUNT = Integer.MIN_VALUE;
+
     private PropertySorter propertySorter;
     private List<Property> properties;
-    private Property mostViewProperty;
-    private Property secondMostViewProperty;
-    private Property thirdMostViewProperty;
+    private Property mostViewedProperty;
+    private Property secondMostViewedProperty;
+    private Property thirdMostViewedProperty;
 
     @Before
     public void init() {
@@ -31,27 +32,27 @@ public class PropertySorterTest {
     }
 
     private void initStubs() {
-        when(mostViewProperty.getViewCount()).thenReturn(HIGHEST);
-        when(secondMostViewProperty.getViewCount()).thenReturn(MID);
-        when(thirdMostViewProperty.getViewCount()).thenReturn(LOWEST);
+        when(mostViewedProperty.getViewCount()).thenReturn(HIGHEST_VIEWCOUNT);
+        when(secondMostViewedProperty.getViewCount()).thenReturn(MID);
+        when(thirdMostViewedProperty.getViewCount()).thenReturn(LOWEST_VIEWCOUNT);
     }
 
     private void initMocks() {
-        mostViewProperty = mock(Property.class);
-        secondMostViewProperty = mock(Property.class);
-        thirdMostViewProperty = mock(Property.class);
+        mostViewedProperty = mock(Property.class);
+        secondMostViewedProperty = mock(Property.class);
+        thirdMostViewedProperty = mock(Property.class);
     }
 
     @Test
-    public void test() {
+    public void whenSortingByMostViewedItShouldSortByMostViewed() {
         List<Property> expected = new ArrayList<>(3);
-        expected.add(mostViewProperty);
-        expected.add(secondMostViewProperty);
-        expected.add(thirdMostViewProperty);
+        expected.add(mostViewedProperty);
+        expected.add(secondMostViewedProperty);
+        expected.add(thirdMostViewedProperty);
 
-        properties.add(secondMostViewProperty);
-        properties.add(thirdMostViewProperty);
-        properties.add(mostViewProperty);
+        properties.add(secondMostViewedProperty);
+        properties.add(thirdMostViewedProperty);
+        properties.add(mostViewedProperty);
 
         propertySorter.sortByHighestViewCount(properties);
 

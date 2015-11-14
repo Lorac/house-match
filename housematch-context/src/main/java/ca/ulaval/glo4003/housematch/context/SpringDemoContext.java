@@ -17,6 +17,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 import java.math.BigDecimal;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class SpringDemoContext extends ContextBase {
     private UserFactory userFactory;
@@ -112,10 +113,10 @@ public class SpringDemoContext extends ContextBase {
     }
     // CHECKSTYLE:OFF
 
-    private void increaseViewCount(Property property, int i) {
-        for (int j = 0; j < i; j++) {
-            property.increaseViewCount();
-        }
+    private void increaseViewCount(Property property, int viewCount) {
+        IntStream.range(0, viewCount).forEach(
+                value -> property.increaseViewCount()
+        );
     }
 
 

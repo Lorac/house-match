@@ -158,7 +158,7 @@ public class PropertyServiceTest {
 
     @Test
     public void gettingTheTopViewedPropertiesShouldSendTheResultIntoTheSorter() {
-        propertyService.getTopViewedProperties(TOP_FIVE);
+        propertyService.getMostViewedProperties(TOP_FIVE);
         verify(propertyRepositoryMock).getAll();
         verify(propertySorterMock).sortByHighestViewCount(SAMPLE_PROPERTY_LIST);
     }
