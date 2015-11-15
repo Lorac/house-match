@@ -11,11 +11,11 @@ public class Property {
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
-    private int viewCount;
+    private Integer viewCount;
     private boolean isMostPopular;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
-                    final PropertyDetails propertyDetails) {
+            final PropertyDetails propertyDetails) {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
@@ -25,6 +25,10 @@ public class Property {
 
     public int getViewCount() {
         return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
     }
 
     public PropertyType getPropertyType() {

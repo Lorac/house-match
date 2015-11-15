@@ -15,11 +15,20 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.servlet.Filter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +43,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class PropertyControllerTest extends BaseControllerTest {
 
-    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
 
     private Property propertyMock;
     private PropertyService propertyServiceMock;
@@ -44,6 +53,9 @@ public class PropertyControllerTest extends BaseControllerTest {
     private PropertySearchResultsViewModelAssembler propertySearchResultsViewModelAssemblerMock;
     private PropertyController propertyController;
     private String samplePropertyDetailsUpdateUrl;
+    private PermissionEvaluator permissionEvaluatorMock;
+    private SecurityContextImpl securityContext = new SecurityContextImpl();
+    private TestingAuthenticationToken authentication;
 
     @Before
     public void init() throws Exception {
@@ -52,8 +64,11 @@ public class PropertyControllerTest extends BaseControllerTest {
         stubMethods();
         samplePropertyDetailsUpdateUrl = PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + propertyMock.hashCode();
         propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyViewModelAssemblerMock,
-                propertyDetailsFormViewModelAssemblerMock, propertySearchResultsViewModelAssemblerMock);
+                propertyDetailsFormViewModelAssemblerMock, propertySearchResultsViewModelAssemblerMock, permissionEvaluatorMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
+        securityContext = new SecurityContextImpl();
+        authentication = new TestingAuthenticationToken(null, null);
+        securityContext.setAuthentication(authentication);
     }
 
     private void initMocks() {
@@ -63,6 +78,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
         propertyDetailsFormViewModelAssemblerMock = mock(PropertyDetailsFormViewModelAssembler.class);
         propertySearchResultsViewModelAssemblerMock = mock(PropertySearchResultsViewModelAssembler.class);
+        permissionEvaluatorMock = mock(PermissionEvaluator.class);
     }
 
     private void stubMethods() throws Exception {
@@ -247,6 +263,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     private ResultActions performPropertyGetRequest() throws Exception {
+        when(permissionEvaluatorMock.hasPermission(eq(authentication), anyObject(), anyObject())).thenReturn(true);
         return performGetRequest(PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode());
     }
 }

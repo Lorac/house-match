@@ -107,6 +107,7 @@
         <constructor-arg ref="propertyViewModelAssembler"/>
         <constructor-arg ref="propertyDetailsFormViewModelAssembler"/>
         <constructor-arg ref="propertySearchResultsViewModelAssembler"/>
+        <constructor-arg ref="userPermissionEvaluator"/>
     </bean>
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController">

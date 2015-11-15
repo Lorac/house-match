@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
@@ -12,6 +13,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormVie
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
+import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,15 +60,18 @@ public class PropertyController extends BaseController {
     }
 
     public PropertyController(final PropertyService propertyService, final UserService userService,
-                              final PropertyViewModelAssembler propertyViewModelAssembler,
-                              final PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler,
-                              final PropertySearchResultsViewModelAssembler propertySearchResultsViewModelAssembler) {
+            final PropertyViewModelAssembler propertyViewModelAssembler,
+            final PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler,
+            final PropertySearchResultsViewModelAssembler propertySearchResultsViewModelAssembler,
+            final PermissionEvaluator permissionEvaluator) {
+        super(permissionEvaluator);
         this.propertyService = propertyService;
         this.userService = userService;
         this.propertyViewModelAssembler = propertyViewModelAssembler;
         this.propertyDetailsFormViewModelAssembler = propertyDetailsFormViewModelAssembler;
         this.propertySearchResultsViewModelAssembler = propertySearchResultsViewModelAssembler;
     }
+
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyCreationView(HttpSession httpSession) {
@@ -86,7 +91,7 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyDetailsUpdateView(@PathVariable int propertyHashCode, ModelMap modelMap,
-                                                               HttpSession httpSession) {
+            HttpSession httpSession) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             modelMap.put(PropertyDetailsFormViewModel.NAME, propertyDetailsFormViewModelAssembler.assembleFromProperty(property));
@@ -98,7 +103,7 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.POST)
     public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
-                                                    PropertyDetailsFormViewModel propertyDetailsFormViewModel) {
+            PropertyDetailsFormViewModel propertyDetailsFormViewModel) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             propertyService.updatePropertyDetails(property, propertyDetailsFormViewModel.getDetails());
@@ -130,9 +135,13 @@ public class PropertyController extends BaseController {
     public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode, ModelMap modelMap) {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
+
+            validateDomainObjectAccess(property, UserRole.BUYER);
+
             propertyService.incrementViewCountOnProperty(property);
             modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
             return new ModelAndView(PROPERTY_VIEW_NAME);
+
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }
