@@ -33,7 +33,7 @@
         </form:form>
 
         <c:if test="${not empty propertySearchResults}">
-            <h3 class="center">Search results</h3>g
+            <h3 class="center">Search results</h3>
             <c:choose>
                 <c:when test="${not empty propertySearchResults.propertyViewModels}">
                     <table class="table table-hover align-middle clickable-rows">
@@ -44,10 +44,8 @@
                                 <th>Address</th>
                                 <th>Price</th>
                                 <th>
-                                    <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" style="width:15px;height:15px;"
-                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL%>';">
-                                    <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:15px;height:15px;"
-                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL%>';">
+                                	<span class="glyphicon glyphicon-chevron-up" aria-hidden="true" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL%>';"></span>
                                     Date</th>
                             </tr>
                         </thead>
