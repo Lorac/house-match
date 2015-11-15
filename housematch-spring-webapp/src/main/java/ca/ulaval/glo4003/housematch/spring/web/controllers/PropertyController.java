@@ -38,8 +38,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTIES_FOR_SALE_LIST_URL = "/seller/propertyList";
     static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
-    public static final String PROPERTY_SEARCH_SORT_BY_DATE_ASC = "/buyer/executePropertySearch/sortByAscendingDate";
-    public static final String PROPERTY_SEARCH_SORT_BY_DATE_DESC = "/buyer/executePropertySearch/sortByDescendingDate";
+    public static final String PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL = "/buyer/executePropertySearch/sortByAscendingDate";
+    public static final String PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL = "/buyer/executePropertySearch/sortByDescendingDate";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
     public static final String PROPERTY_VIEW_URL = "/buyer/propertyDetails/{propertyHashCode}";
@@ -130,7 +130,7 @@ public class PropertyController extends BaseController {
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
-    @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_DATE_ASC, method = RequestMethod.GET)
+    @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL, method = RequestMethod.GET)
     public final ModelAndView sortByAscendingDate(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInChronologicalOrder();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
@@ -138,7 +138,7 @@ public class PropertyController extends BaseController {
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
-    @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_DATE_DESC, method = RequestMethod.GET)
+    @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL, method = RequestMethod.GET)
     public final ModelAndView sortByDescendingDate(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInReverseChronologicalOrder();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);

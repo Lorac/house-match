@@ -12,7 +12,7 @@ import ca.ulaval.glo4003.housematch.spring.web.util.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
 
-    public static final String NAME = "propertyViewModel";
+    public static final String NAME = "property";
 
     @NotNull
     private PropertyType propertyType;

@@ -45,9 +45,9 @@
                                 <th>Price</th>
                                 <th>
                                     <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-up-01-128.png" style="width:15px;height:15px;"
-                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC%>';">
+                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL%>';">
                                     <img src="https://cdn3.iconfinder.com/data/icons/faticons/32/arrow-down-01-128.png" style="width:15px;height:15px;"
-                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC%>';">
+                                         onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL%>';">
                                     Date</th>
                             </tr>
                         </thead>
