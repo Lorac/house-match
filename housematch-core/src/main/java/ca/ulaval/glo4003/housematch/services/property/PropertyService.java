@@ -29,8 +29,8 @@ public class PropertyService {
     private PropertySorter propertySorter;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-                           final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-                           final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
+            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
+            final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
