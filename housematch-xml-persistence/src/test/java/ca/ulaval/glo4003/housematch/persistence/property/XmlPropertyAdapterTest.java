@@ -27,7 +27,7 @@ public class XmlPropertyAdapterTest {
     private Address addressMock;
     private PropertyDetails propertyDetailsMock;
     private XmlProperty xmlPropertyMock;
-    private ZonedDateTime sampleDate;
+    private ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
 
     private XmlPropertyAdapter xmlPropertyAdapter;
 
@@ -42,7 +42,6 @@ public class XmlPropertyAdapterTest {
         propertyFactoryMock = mock(PropertyFactory.class);
         propertyDetailsMock = mock(PropertyDetails.class);
         addressMock = mock(Address.class);
-        sampleDate = ZonedDateTime.now();
         initPropertyMock();
         initXmlPropertyMock();
     }
@@ -53,7 +52,7 @@ public class XmlPropertyAdapterTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
-        when(propertyMock.getCreationDate()).thenReturn(sampleDate);
+        when(propertyMock.getCreationDate()).thenReturn(SAMPLE_DATE);
     }
 
     private void initXmlPropertyMock() {
@@ -62,7 +61,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyMock.sellingPrice = SAMPLE_SELLING_PRICE;
         xmlPropertyMock.address = addressMock;
         xmlPropertyMock.propertyDetails = propertyDetailsMock;
-        xmlPropertyMock.date = sampleDate.toString();
+        xmlPropertyMock.date = SAMPLE_DATE.toString();
     }
 
     private void stubMethods() {
@@ -78,7 +77,7 @@ public class XmlPropertyAdapterTest {
         assertEquals(propertyMock.getAddress(), xmlPropertyMock.address);
         assertEquals(propertyMock.getSellingPrice(), xmlPropertyMock.sellingPrice);
         assertEquals(propertyMock.getPropertyDetails(), xmlPropertyMock.propertyDetails);
-        assertEquals(propertyMock.getCreationDate(), sampleDate);
+        assertEquals(propertyMock.getCreationDate(), SAMPLE_DATE);
     }
 
     @Test

@@ -227,7 +227,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
     
     @Test
-    public void propertyControllerReturnsPropertySearchViewWithAscendingListWhenPropertySearchByAscendingDateIsRequested() throws Exception {
+    public void propertyControllerReturnsPropertySearchViewWithPropertiesInChronologicalOrderWhenRequested() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC);
         verify(propertyServiceMock).getPropertiesInChronologicalOrder();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
@@ -235,7 +235,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
     
     @Test
-    public void propertyControllerReturnsPropertySearchWithDescendingListViewWhenPropertySearchByDescendingDateIsRequested() throws Exception {
+    public void propertyControllerReturnsPropertySearchViewWithPropertiesInReverseChronologicalOrderWhenRequested() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC);
         verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));

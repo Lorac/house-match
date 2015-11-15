@@ -1,18 +1,21 @@
 package ca.ulaval.glo4003.housematch.spring.web.util;
 
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
+import java.util.Date;
 
-public class DateFormatter {
+public final class DateFormatter {
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
 
-    public String parse(ZonedDateTime zonedDateTime) {
-        return zonedDateTime.getYear()
-                + "/"
-                + zonedDateTime.getMonth().ordinal()
-                + "/"
-                + zonedDateTime.getDayOfMonth();
+    private DateFormatter() {
+
     }
 
-    public ZonedDateTime toZonedDatetime(String stringDate) {
+    public static String parse(ZonedDateTime zonedDateTime) {
+        return DATE_FORMAT.format(Date.from(zonedDateTime.toInstant()));
+    }
+
+    public static ZonedDateTime toZonedDatetime(String stringDate) {
         return ZonedDateTime.parse(stringDate);
     }
 }

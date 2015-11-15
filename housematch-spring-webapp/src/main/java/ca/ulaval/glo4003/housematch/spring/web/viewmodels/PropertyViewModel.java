@@ -23,10 +23,9 @@ public class PropertyViewModel extends ViewModel {
     private PropertyDetails propertyDetails;
     private int hashCode;
     private ZonedDateTime creationDate;
-    private DateFormatter dateFormatter;
 
     public PropertyViewModel() {
-        dateFormatter = new DateFormatter();
+
     }
 
     @Override
@@ -75,12 +74,11 @@ public class PropertyViewModel extends ViewModel {
     }
 
     public String getCreationDate() {
-        return dateFormatter.parse(creationDate);
+        return DateFormatter.parse(creationDate);
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
     }
-
 
 }
