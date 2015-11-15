@@ -3,7 +3,6 @@ package ca.ulaval.glo4003.housematch.domain.property;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
@@ -17,7 +16,7 @@ public class Property {
     private ZonedDateTime creationDate;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
-                    final PropertyDetails propertyDetails) {
+            final PropertyDetails propertyDetails) {
         this.propertyType = propertyType;
         this.address = address;
         this.sellingPrice = sellingPrice;
