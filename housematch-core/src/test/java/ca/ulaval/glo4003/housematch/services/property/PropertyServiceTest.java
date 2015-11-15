@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -143,16 +144,20 @@ public class PropertyServiceTest {
 
     @Test
     public void gettingPropertiesInChronologicalOrderReturnsAListOfSortedProperties() {
-        propertyService.getPropertiesInChronologicalOrder();
+        List<Property> propertyList = propertyService.getPropertiesInChronologicalOrder();
+        
         verify(propertyRepositoryMock).getAll();
         verify(propertySorter).sortByDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
+        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
     @Test
     public void gettingPropertiesInReverseChronologicalOrderFilterAllPropertiesInRepositories() {
-        propertyService.getPropertiesInReverseChronologicalOrder();
+        List<Property> propertyList = propertyService.getPropertiesInReverseChronologicalOrder();
+        
         verify(propertyRepositoryMock).getAll();
         verify(propertySorter).sortByDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
     @Test
