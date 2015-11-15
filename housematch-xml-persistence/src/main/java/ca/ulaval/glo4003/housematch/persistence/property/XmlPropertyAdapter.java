@@ -31,6 +31,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         xmlProperty.sellingPrice = property.getSellingPrice();
         xmlProperty.isMostPopular = property.isMostPopular();
         xmlProperty.propertyDetails = property.getPropertyDetails();
+        xmlProperty.viewCount = property.getViewCount();
 
         return xmlProperty;
     }
