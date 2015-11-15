@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class HomeControllerTest extends BaseControllerTest {
 
     private static final int TOP_FIVE = 5;
+    private static final String PROPERTIES_ATTRIBUTE_NAME = "properties";
     private HomeController homeController;
     private PropertyService propertyService;
 
@@ -76,6 +77,6 @@ public class HomeControllerTest extends BaseControllerTest {
         ResultActions results = performGetRequest(HomeController.HOME_URL);
 
         results.andExpect(status().isOk());
-        results.andExpect(model().attribute("properties", hasSize(0)));
+        results.andExpect(model().attribute(PROPERTIES_ATTRIBUTE_NAME, hasSize(0)));
     }
 }

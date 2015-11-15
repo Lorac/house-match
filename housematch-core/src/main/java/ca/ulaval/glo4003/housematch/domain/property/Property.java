@@ -12,6 +12,7 @@ public class Property {
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
     private int viewCount;
+    private boolean isMostPopular;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
                     final PropertyDetails propertyDetails) {
@@ -48,6 +49,14 @@ public class Property {
 
     public int increaseViewCount() {
         return ++viewCount;
+    }
+
+    public boolean isMostPopular() {
+        return isMostPopular;
+    }
+
+    public void setMostPopular(boolean mostPopular) {
+        isMostPopular = mostPopular;
     }
 
     @Override

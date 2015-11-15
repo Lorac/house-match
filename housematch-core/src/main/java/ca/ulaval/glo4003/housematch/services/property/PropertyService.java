@@ -30,8 +30,8 @@ public class PropertyService {
     private PropertySorter propertySorter;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-                           final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-                           final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
+            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
+            final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
@@ -80,6 +80,16 @@ public class PropertyService {
     public List<Property> getMostViewedProperties(int limit) {
         List<Property> all = propertyRepository.getAll();
         propertySorter.sortByHighestViewCount(all);
-        return all.stream().limit(limit).collect(Collectors.toList());
+        List<Property> properties = all.stream().limit(limit).collect(Collectors.toList());
+
+        updateMostPopularProperties(all, properties);
+
+        return properties;
+    }
+
+    private void updateMostPopularProperties(List<Property> allProperties, List<Property> mostViewedProperties) {
+        allProperties.stream().filter(p -> !mostViewedProperties.contains(p)).forEach(p -> p.setMostPopular(false));
+        allProperties.stream().filter(mostViewedProperties::contains).forEach(p -> p.setMostPopular(true));
+        allProperties.stream().forEach(property -> propertyRepository.update(property));
     }
 }
