@@ -33,9 +33,9 @@
         </form:form>
 
         <c:if test="${not empty propertySearchResults}">
-            <h3 class="center">Search results</h3>
+            <h3 class="center">Search results</h3>g
             <c:choose>
-                <c:when test="${not empty propertySearchResults.getPropertyViewModels()}">
+                <c:when test="${not empty propertySearchResults.propertyViewModels}">
                     <table class="table table-hover align-middle clickable-rows">
                         <thead>
                             <tr>

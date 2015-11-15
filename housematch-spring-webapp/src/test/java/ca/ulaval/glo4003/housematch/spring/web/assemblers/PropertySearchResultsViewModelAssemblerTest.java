@@ -13,33 +13,46 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
+
 public class PropertySearchResultsViewModelAssemblerTest {
 
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
-    private static final List<PropertyViewModel> SAMPLE_PROPERTY_VIEW_MODEL_LIST = new ArrayList<PropertyViewModel>();
+    private static final List<PropertyViewModel> samplePropertyViewModelList = new ArrayList<PropertyViewModel>();
 
     private PropertySearchResultsViewModelAssembler assembler;
-    
+
     private Property propertyMock;
     private PropertyViewModel propertyViewModelMock;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
 
     @Before
     public void init() {
+        initMocks();
+        stubMethods();
+        assembler = new PropertySearchResultsViewModelAssembler(propertyViewModelAssemblerMock);
+        initPropertyList();
+
+    }
+
+    private void initMocks() {
         propertyMock = mock(Property.class);
         propertyViewModelMock = mock(PropertyViewModel.class);
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
-        
+
+    }
+    
+    private void stubMethods() {
         when(propertyViewModelAssemblerMock.assembleFromProperty(propertyMock)).thenReturn(propertyViewModelMock);
-        assembler = new PropertySearchResultsViewModelAssembler(propertyViewModelAssemblerMock);
-        
+    }
+    
+    private void initPropertyList() {
         SAMPLE_PROPERTY_LIST.add(propertyMock);
-        SAMPLE_PROPERTY_VIEW_MODEL_LIST.add(propertyViewModelMock);
+        samplePropertyViewModelList.add(propertyViewModelMock);
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
-    	PropertySearchResultsViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
-    	assertEquals(SAMPLE_PROPERTY_VIEW_MODEL_LIST, viewModel.getPropertyViewModels());
+        PropertySearchResultsViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        assertEquals(samplePropertyViewModelList, viewModel.getPropertyViewModels());
     }
 }
