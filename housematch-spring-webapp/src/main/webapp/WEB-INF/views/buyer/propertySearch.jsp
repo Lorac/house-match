@@ -51,13 +51,13 @@
                                     Date</th>
                             </tr>
                         </thead>
-                        <c:forEach var="propertyViewModel" items="${propertySearchResults.getPropertyViewModels()}" varStatus="status">
+                        <c:forEach var="propertyViewModel" items="${propertySearchResults.propertyViewModels}" varStatus="status">
                             <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.getHashCode()}';">
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                                 <td>${propertyViewModel.getHashCode()}</td>
                                 <td>${propertyViewModel.getAddress()}</td>
                                 <td>${propertyViewModel.getSellingPrice()}&nbsp;$</td>
-                                <td>${propertyViewModel.getDate()}</td>
+                                <td>${propertyViewModel.getCreationDate()}</td>
                             </tr>
                         </c:forEach>
                     </table>

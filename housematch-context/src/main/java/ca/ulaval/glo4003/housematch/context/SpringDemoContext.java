@@ -78,14 +78,14 @@ public class SpringDemoContext extends ContextBase {
         abitibiProperty.setPropertyDetails(abitibiPropertyDetails);
         outaouaisProperty.setPropertyDetails(outaouaisPropertyDetails);
 
-        quebecProperty.setDate(ZonedDateTime.now());
-        abitibiProperty.setDate(ZonedDateTime.now().minusMonths((long) 7));
-        outaouaisProperty.setDate(ZonedDateTime.now().minusMonths((long) 1));
-        montrealProperty.setDate(ZonedDateTime.now().minusMonths((long) 2));
-        primeMinisterProperty.setDate(ZonedDateTime.now().minusMonths((long) 3));
-        greatDivideLodgeProperty.setDate(ZonedDateTime.now().minusMonths((long) 4));
-        westEdmontonMallProperty.setDate(ZonedDateTime.now().minusMonths((long) 5));
-        cnTowerProperty.setDate(ZonedDateTime.now().minusMonths((long) 6));
+        quebecProperty.setCreationDate(ZonedDateTime.now());
+        abitibiProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 7));
+        outaouaisProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 1));
+        montrealProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 2));
+        primeMinisterProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 3));
+        greatDivideLodgeProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 4));
+        westEdmontonMallProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 5));
+        cnTowerProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 6));
 
         montrealProperty.setPropertyDetails(montrealPropertyDetails);
         primeMinisterProperty.setPropertyDetails(primeMinisterPropertyDetails);

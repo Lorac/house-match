@@ -14,7 +14,7 @@ public class Property {
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
-    private ZonedDateTime date;
+    private ZonedDateTime creationDate;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
                     final PropertyDetails propertyDetails) {
@@ -44,12 +44,12 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
-    public ZonedDateTime getDate() {
-        return date;
+    public ZonedDateTime getCreationDate() {
+        return creationDate;
     }
 
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     @Override

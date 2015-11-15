@@ -18,7 +18,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
     public Property unmarshal(XmlProperty xmlProperty) throws Exception {
         Property property = propertyFactory.createProperty(xmlProperty.propertyType, xmlProperty.address, xmlProperty.sellingPrice);
         property.setPropertyDetails(xmlProperty.propertyDetails);
-        property.setDate(ZonedDateTime.parse(xmlProperty.date));
+        property.setCreationDate(ZonedDateTime.parse(xmlProperty.date));
         return property;
     }
 
@@ -30,7 +30,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         xmlProperty.address = property.getAddress();
         xmlProperty.sellingPrice = property.getSellingPrice();
         xmlProperty.propertyDetails = property.getPropertyDetails();
-        xmlProperty.date = property.getDate().toString();
+        xmlProperty.date = property.getCreationDate().toString();
 
         return xmlProperty;
     }

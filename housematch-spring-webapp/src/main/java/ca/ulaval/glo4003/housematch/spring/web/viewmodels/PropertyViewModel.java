@@ -22,7 +22,12 @@ public class PropertyViewModel extends ViewModel {
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
     private int hashCode;
-    private ZonedDateTime date;
+    private ZonedDateTime creationDate;
+    private DateFormatter dateFormatter;
+
+    public PropertyViewModel() {
+        dateFormatter = new DateFormatter();
+    }
 
     @Override
     public String getName() {
@@ -69,13 +74,12 @@ public class PropertyViewModel extends ViewModel {
         this.hashCode = hashCode;
     }
 
-    public String getDate() {
-        DateFormatter dateFormatter = new DateFormatter();
-        return dateFormatter.toString(date);
+    public String getCreationDate() {
+        return dateFormatter.parse(creationDate);
     }
 
-    public void setDate(ZonedDateTime date) {
-        this.date = date;
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
 

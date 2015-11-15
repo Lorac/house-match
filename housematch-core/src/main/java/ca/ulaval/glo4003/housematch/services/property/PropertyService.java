@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
@@ -17,7 +17,6 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidatio
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 public class PropertyService {
@@ -27,17 +26,17 @@ public class PropertyService {
     private UserRepository userRepository;
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
-    private PropertiesFilter propertiesFilter;
+    private PropertySorter propertySorter;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
                            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-                           final PropertyDetailsValidator propertyDetailsValidator, final PropertiesFilter propertiesFilter) {
+                           final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
-        this.propertiesFilter = propertiesFilter;
+        this.propertySorter = propertySorter;
     }
 
     public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
@@ -45,7 +44,6 @@ public class PropertyService {
         try {
             propertyCreationValidator.validatePropertyCreation(propertyType, address, sellingPrice);
             Property property = propertyFactory.createProperty(propertyType, address, sellingPrice);
-            property.setDate(ZonedDateTime.now());
             propertyRepository.persist(property);
             user.addPropertyForSale(property);
             userRepository.update(user);
@@ -59,7 +57,6 @@ public class PropertyService {
         try {
             propertyDetailsValidator.validatePropertyDetails(propertyDetails);
             property.setPropertyDetails(propertyDetails);
-            property.setDate(ZonedDateTime.now());
             propertyRepository.update(property);
         } catch (PropertyDetailsValidationException e) {
             throw new PropertyServiceException(e);
@@ -76,14 +73,14 @@ public class PropertyService {
 
     public List<Property> getPropertiesInChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
-        propertiesFilter.orderByAscendingDates(properties);
+        propertySorter.sortByDateInAscendingOrder(properties);
 
         return properties;
     }
 
     public List<Property> getPropertiesInReverseChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
-        propertiesFilter.orderByDescendingDates(properties);
+        propertySorter.sortByDateInDescendingOrder(properties);
 
         return properties;
     }

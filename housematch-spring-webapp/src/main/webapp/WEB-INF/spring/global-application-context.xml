@@ -56,7 +56,7 @@
 
 	<!-- Filters -->
 
-	<bean id="propertiesFilter" class="ca.ulaval.glo4003.housematch.domain.property.PropertiesFilter" />
+	<bean id="propertiesFilter" class="ca.ulaval.glo4003.housematch.domain.property.PropertySorter" />
 
     <!-- Services -->
 

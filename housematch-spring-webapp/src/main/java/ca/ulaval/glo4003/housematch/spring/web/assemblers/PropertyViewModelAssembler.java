@@ -12,7 +12,7 @@ public class PropertyViewModelAssembler {
         viewModel.setSellingPrice(property.getSellingPrice());
         viewModel.setPropertyDetails(property.getPropertyDetails());
         viewModel.setHashCode(property.hashCode());
-        viewModel.setDate(property.getDate());
+        viewModel.setCreationDate(property.getCreationDate());
         return viewModel;
     }
 }

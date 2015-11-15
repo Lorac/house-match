@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 public class DateFormatter {
 
-    public String toString(ZonedDateTime zonedDateTime) {
+    public String parse(ZonedDateTime zonedDateTime) {
         return zonedDateTime.getYear()
                 + "/"
                 + zonedDateTime.getMonth().ordinal()

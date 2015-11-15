@@ -31,13 +31,12 @@ public class PropertySearchResultsViewModelAssemblerTest {
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
         
         when(propertyViewModelAssemblerMock.assembleFromProperty(propertyMock)).thenReturn(propertyViewModelMock);
-        assembler = new PropertySearchResultsViewModelAssembler();
-        assembler.injectPropertyViewModelAssembler(propertyViewModelAssemblerMock);
+        assembler = new PropertySearchResultsViewModelAssembler(propertyViewModelAssemblerMock);
         
         SAMPLE_PROPERTY_LIST.add(propertyMock);
         SAMPLE_PROPERTY_VIEW_MODEL_LIST.add(propertyViewModelMock);
     }
-    
+
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
     	PropertySearchResultsViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);

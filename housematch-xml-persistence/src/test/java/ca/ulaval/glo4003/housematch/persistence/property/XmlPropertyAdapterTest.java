@@ -53,7 +53,7 @@ public class XmlPropertyAdapterTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
-        when(propertyMock.getDate()).thenReturn(sampleDate);
+        when(propertyMock.getCreationDate()).thenReturn(sampleDate);
     }
 
     private void initXmlPropertyMock() {
@@ -78,7 +78,7 @@ public class XmlPropertyAdapterTest {
         assertEquals(propertyMock.getAddress(), xmlPropertyMock.address);
         assertEquals(propertyMock.getSellingPrice(), xmlPropertyMock.sellingPrice);
         assertEquals(propertyMock.getPropertyDetails(), xmlPropertyMock.propertyDetails);
-        assertEquals(propertyMock.getDate(), sampleDate);
+        assertEquals(propertyMock.getCreationDate(), sampleDate);
     }
 
     @Test
@@ -89,6 +89,6 @@ public class XmlPropertyAdapterTest {
         assertEquals(xmlPropertyMock.address, propertyMock.getAddress());
         assertEquals(xmlPropertyMock.sellingPrice, propertyMock.getSellingPrice());
         assertEquals(xmlPropertyMock.propertyDetails, propertyMock.getPropertyDetails());
-        assertEquals(xmlPropertyMock.date, propertyMock.getDate().toString());
+        assertEquals(xmlPropertyMock.date, propertyMock.getCreationDate().toString());
     }
 }
