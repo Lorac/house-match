@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.housematch.context;
 
-
 import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.address.Region;
@@ -27,7 +26,7 @@ public class SpringDemoContext extends ContextBase {
     private PropertyRepository propertyRepository;
 
     public SpringDemoContext(final UserFactory userFactory, final UserRepository userRepository, final PropertyFactory propertyFactory,
-                             final PropertyRepository propertyRepository) {
+            final PropertyRepository propertyRepository) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.propertyFactory = propertyFactory;
@@ -68,10 +67,14 @@ public class SpringDemoContext extends ContextBase {
         Property quebecProperty = propertyFactory.createProperty(PropertyType.LOT, quebecAddress, BigDecimal.valueOf(100000));
         Property abitibiProperty = propertyFactory.createProperty(PropertyType.COTTAGE, abitibiAddress, BigDecimal.valueOf(500));
         Property outaouaisProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, outaouaisAddress, BigDecimal.valueOf(5000));
-        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress, BigDecimal.valueOf(350000));
-        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress, BigDecimal.valueOf(3500000));
-        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress, BigDecimal.valueOf(5500000));
-        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress, BigDecimal.valueOf(1000000000));
+        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress,
+                BigDecimal.valueOf(350000));
+        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress,
+                BigDecimal.valueOf(3500000));
+        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress,
+                BigDecimal.valueOf(5500000));
+        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress,
+                BigDecimal.valueOf(1000000000));
         Property cnTowerProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, cnTowerAddress, BigDecimal.valueOf(100000000));
 
         quebecProperty.setPropertyDetails(quebecPropertyDetails);
