@@ -74,14 +74,12 @@ public class PropertyService {
     public List<Property> getPropertiesInChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
         propertySorter.sortByDateInAscendingOrder(properties);
-
         return properties;
     }
 
     public List<Property> getPropertiesInReverseChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
         propertySorter.sortByDateInDescendingOrder(properties);
-
         return properties;
     }
 }

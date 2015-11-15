@@ -152,7 +152,7 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void gettingPropertiesInReverseChronologicalOrderFilterAllPropertiesInRepositories() {
+    public void gettingPropertiesInReverseChronologicalOrderSortsAllPropertiesFromTheRepository() {
         List<Property> propertyList = propertyService.getPropertiesInReverseChronologicalOrder();
         
         verify(propertyRepositoryMock).getAll();

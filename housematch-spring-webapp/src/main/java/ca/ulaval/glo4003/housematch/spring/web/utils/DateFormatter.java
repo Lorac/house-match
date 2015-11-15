@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.spring.web.util;
+package ca.ulaval.glo4003.housematch.spring.web.utils;
 
 import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;

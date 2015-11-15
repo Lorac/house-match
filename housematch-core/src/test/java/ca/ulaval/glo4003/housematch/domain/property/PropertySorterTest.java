@@ -7,50 +7,35 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class PropertySorterTest {
 
-    private List<Property> samplePropertyList;
+    private List<Property> propertyList;
     private PropertySorter propertySorter;
     private Property propertyMock;
-    private Property  aSecondPropertyMock;
-    private Property  aThirdPropertyMock;
+    private Property aSecondPropertyMock;
+    private Property aThirdPropertyMock;
 
     @Before
-    public void init() {
+    public void init() throws Exception {
+        initMocks();
         propertySorter = new PropertySorter();
+        propertyList = new ArrayList<Property>();
+        initPropertiesList();
+    }
+
+    private void initMocks() {
         propertyMock = mock(Property.class);
         aSecondPropertyMock = mock(Property.class);
         aThirdPropertyMock = mock(Property.class);
-        samplePropertyList = new ArrayList<Property>();
-    }
-
-    @Test
-    public void sortingPropertiesByDateInAscendingOrderSortsThePropertiesFromOldestToNewest() throws Exception {
-        initPropertiesList();
-
-        propertySorter.sortByDateInAscendingOrder(samplePropertyList);
-        assertTrue(samplePropertyList.get(0).getCreationDate().isBefore(samplePropertyList.get(1).getCreationDate()));
-        assertTrue(samplePropertyList.get(1).getCreationDate().isBefore(samplePropertyList.get(2).getCreationDate()));
-    }
-
-    @Test
-    public void sortingPropertiesByDateInDescendingOrderSortsThePropertiesFromNewestToOldest() throws Exception {
-        initPropertiesList();
-
-        propertySorter.sortByDateInDescendingOrder(samplePropertyList);
-
-        assertTrue(samplePropertyList.get(0).getCreationDate().isAfter(samplePropertyList.get(1).getCreationDate()));
-        assertTrue(samplePropertyList.get(1).getCreationDate().isAfter(samplePropertyList.get(2).getCreationDate()));
     }
 
     private void initPropertiesList() throws ParseException {
-        samplePropertyList.add(propertyMock);
-        samplePropertyList.add(aSecondPropertyMock);
-        samplePropertyList.add(aThirdPropertyMock);
+        propertyList.add(propertyMock);
+        propertyList.add(aSecondPropertyMock);
+        propertyList.add(aThirdPropertyMock);
 
         ZonedDateTime date1 = ZonedDateTime.now();
         ZonedDateTime date2 = ZonedDateTime.now().plusDays(1);
@@ -59,6 +44,20 @@ public class PropertySorterTest {
         when(propertyMock.getCreationDate()).thenReturn(date2);
         when(aSecondPropertyMock.getCreationDate()).thenReturn(date3);
         when(aThirdPropertyMock.getCreationDate()).thenReturn(date1);
+    }
+
+    @Test
+    public void sortingPropertiesByDateInAscendingOrderSortsThePropertiesFromOldestToNewest() {
+        propertySorter.sortByDateInAscendingOrder(propertyList);
+        assertTrue(propertyList.get(0).getCreationDate().isBefore(propertyList.get(1).getCreationDate()));
+        assertTrue(propertyList.get(1).getCreationDate().isBefore(propertyList.get(2).getCreationDate()));
+    }
+
+    @Test
+    public void sortingPropertiesByDateInDescendingOrderSortsThePropertiesFromNewestToOldest() {
+        propertySorter.sortByDateInDescendingOrder(propertyList);
+        assertTrue(propertyList.get(0).getCreationDate().isAfter(propertyList.get(1).getCreationDate()));
+        assertTrue(propertyList.get(1).getCreationDate().isAfter(propertyList.get(2).getCreationDate()));
     }
 
 }

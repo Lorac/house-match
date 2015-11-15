@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.spring.web.util.DateFormatter;
+import ca.ulaval.glo4003.housematch.spring.web.utils.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
 

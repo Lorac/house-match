@@ -20,11 +20,11 @@ public class PropertySearchResultsViewModelAssembler {
 
     public PropertySearchResultsViewModel assembleFromPropertyList(List<Property> properties) {
         PropertySearchResultsViewModel viewModel = new PropertySearchResultsViewModel();
-        viewModel.setPropertyViewModels(convertPropertiesToPropertiesViewModel(properties));
+        viewModel.setPropertyViewModels(convertPropertyListToPropertyViewModelList(properties));
         return viewModel;
     }
 
-    private List<PropertyViewModel> convertPropertiesToPropertiesViewModel(List<Property> properties) {
+    private List<PropertyViewModel> convertPropertyListToPropertyViewModelList(List<Property> properties) {
         List<PropertyViewModel> propertiesViewModel = new ArrayList<>();
 
         for (Property property : properties) {
