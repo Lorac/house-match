@@ -22,6 +22,7 @@ public class Property {
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
+        this.creationDate = ZonedDateTime.now();
     }
 
     public PropertyType getPropertyType() {
