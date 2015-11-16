@@ -14,8 +14,4 @@ public final class DateFormatter {
     public static String parse(ZonedDateTime zonedDateTime) {
         return DATE_FORMAT.format(Date.from(zonedDateTime.toInstant()));
     }
-
-    public static ZonedDateTime toZonedDatetime(String stringDate) {
-        return ZonedDateTime.parse(stringDate);
-    }
 }
