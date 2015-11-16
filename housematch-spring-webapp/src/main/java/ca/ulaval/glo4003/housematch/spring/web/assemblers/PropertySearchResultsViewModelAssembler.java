@@ -25,12 +25,12 @@ public class PropertySearchResultsViewModelAssembler {
     }
 
     private List<PropertyViewModel> convertPropertyListToPropertyViewModelList(List<Property> properties) {
-        List<PropertyViewModel> propertiesViewModel = new ArrayList<>();
+        List<PropertyViewModel> propertyViewModelList = new ArrayList<>();
 
         for (Property property : properties) {
-            propertiesViewModel.add(propertyViewModelAssembler.assembleFromProperty(property));
+            propertyViewModelList.add(propertyViewModelAssembler.assembleFromProperty(property));
         }
 
-        return propertiesViewModel;
+        return propertyViewModelList;
     }
 }
