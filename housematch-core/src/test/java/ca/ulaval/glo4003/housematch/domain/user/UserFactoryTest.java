@@ -18,13 +18,16 @@ public class UserFactoryTest {
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
     private StringHasher stringHasherMock;
+    private UserObserver userObserverMock;
+
     private UserFactory userFactory;
 
     @Before
     public void init() {
         stringHasherMock = mock(StringHasher.class);
+        userObserverMock = mock(UserObserver.class);
         when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
-        userFactory = new UserFactory(stringHasherMock);
+        userFactory = new UserFactory(stringHasherMock, userObserverMock);
     }
 
     @Test

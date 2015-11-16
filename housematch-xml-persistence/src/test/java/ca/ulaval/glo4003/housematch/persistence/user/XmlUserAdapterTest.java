@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,15 +23,18 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
 
 public class XmlUserAdapterTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
+    private static final UserStatus SAMPLE_STATUS = UserStatus.ACTIVE;
     private static final String SAMPLE_ENCRYPTED_PASSWORD = "ENCRYPTEDPASSWORD";
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String SAMPLE_USERNAME = "Alice";
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
+    private static final ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
     private static final Boolean SAMPLE_BOOLEAN = true;
 
     private UserFactory userFactoryMock;
@@ -66,6 +70,8 @@ public class XmlUserAdapterTest {
         when(userMock.getRole()).thenReturn(SAMPLE_ROLE);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
         when(userMock.isActivated()).thenReturn(SAMPLE_BOOLEAN);
+        when(userMock.getStatus()).thenReturn(SAMPLE_STATUS);
+        when(userMock.getLastLoginDate()).thenReturn(SAMPLE_DATE);
         when(userMock.getPropertiesForSale()).thenReturn(properties);
     }
 
@@ -76,7 +82,9 @@ public class XmlUserAdapterTest {
         xmlUserMock.email = SAMPLE_EMAIL;
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
+        xmlUserMock.lastLoginDate = SAMPLE_DATE;
         xmlUserMock.activated = SAMPLE_BOOLEAN;
+        xmlUserMock.status = SAMPLE_STATUS;
         xmlUserMock.propertiesForSale = propertyRefs;
     }
 
@@ -93,6 +101,8 @@ public class XmlUserAdapterTest {
         assertEquals(userMock.getRole(), xmlUserMock.role);
         assertEquals(userMock.getActivationCode(), xmlUserMock.activationCode);
         assertEquals(userMock.isActivated(), xmlUserMock.activated);
+        assertEquals(userMock.getLastLoginDate(), xmlUserMock.lastLoginDate);
+        assertEquals(userMock.getStatus(), xmlUserMock.status);
     }
 
     @Test
@@ -111,6 +121,8 @@ public class XmlUserAdapterTest {
         assertEquals(xmlUserMock.role, userMock.getRole());
         assertEquals(xmlUserMock.activationCode, userMock.getActivationCode());
         assertEquals(xmlUserMock.activated, userMock.isActivated());
+        assertEquals(xmlUserMock.lastLoginDate, userMock.getLastLoginDate());
+        assertEquals(xmlUserMock.status, userMock.getStatus());
     }
 
     @Test

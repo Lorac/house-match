@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -12,16 +13,19 @@ import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
-public class User {
+public class User extends UserObservable {
     private StringHasher stringHasher;
 
     private String username;
     private String email;
     private String passwordHash;
     private UserRole role;
+    private UserStatus status;
     private UUID activationCode;
     private Boolean activated = false;
+    private ZonedDateTime lastLoginDate = ZonedDateTime.now();
     private List<Property> propertiesForSale = new ArrayList<>();
+    private List<Property> purchasedProperties = new ArrayList<>();
     private Address address;
 
     public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
@@ -77,13 +81,18 @@ public class User {
     }
 
     public void setPropertiesForSale(List<Property> properties) {
-        this.propertiesForSale = properties;
+        propertiesForSale = properties;
+    }
+
+    public Boolean hasPropertiesForSale() {
+        return propertiesForSale.size() > 0;
     }
 
     public void validatePassword(String password) throws InvalidPasswordException {
         if (!this.passwordHash.equals(stringHasher.hash(password))) {
             throw new InvalidPasswordException("Password does not match.");
         }
+        lastLoginDate = ZonedDateTime.now();
     }
 
     public UserRole getRole() {
@@ -106,6 +115,8 @@ public class User {
 
     public void addPropertyForSale(Property property) {
         propertiesForSale.add(property);
+        property.markForSale();
+        changeStatus(UserStatus.ACTIVE);
     }
 
     public Property getPropertyForSaleByHashCode(int hashCode) throws PropertyNotFoundException {
@@ -114,6 +125,41 @@ public class User {
         } catch (NoSuchElementException e) {
             throw new PropertyNotFoundException(String.format("Cannot find property with hashcode '%s' belonging to this user.", hashCode));
         }
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    private void changeStatus(UserStatus newStatus) {
+        if (status != newStatus) {
+            status = newStatus;
+            userStatusChanged(this, newStatus);
+        }
+    }
+
+    public ZonedDateTime getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(ZonedDateTime lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
+    public void applyLoginInactivityPolicy() {
+        if (lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(6))) {
+            changeStatus(UserStatus.INACTIVE);
+        }
+    }
+
+    public void purchaseProperty(Property property) {
+        purchasedProperties.add(property);
+        property.markAsSold();
+        changeStatus(UserStatus.INACTIVE);
     }
 
     @Override

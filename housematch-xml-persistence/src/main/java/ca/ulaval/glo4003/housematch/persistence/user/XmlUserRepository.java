@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -67,6 +69,11 @@ public class XmlUserRepository implements UserRepository {
         } catch (NoSuchElementException e) {
             throw new UserNotFoundException(String.format("Cannot find user with activation code '%s'.", activationCode));
         }
+    }
+
+    @Override
+    public List<User> getAll() {
+        return new ArrayList<User>(users.values());
     }
 
     private void marshal() {

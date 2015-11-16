@@ -16,6 +16,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
@@ -26,6 +28,7 @@ public class UserService {
     private UserFactory userFactory;
     private UserRepository userRepository;
     private UserActivationService userActivationService;
+    private UserStatisticsCollector userStatisticCollector;
     private UserRegistrationValidator userRegistrationValidator;
     private AddressValidator addressValidator;
 
@@ -88,5 +91,14 @@ public class UserService {
         } catch (UserActivationServiceException | AddressValidationException e) {
             throw new UserServiceException(e);
         }
+    }
+
+    public UserStatistics getStatistics() {
+        return userStatisticCollector.getStatistics();
+    }
+
+    public void applyLoginInactivityPolicy() {
+        List<User> users = userRepository.getAll();
+        users.stream().forEach(u -> u.applyLoginInactivityPolicy());
     }
 }

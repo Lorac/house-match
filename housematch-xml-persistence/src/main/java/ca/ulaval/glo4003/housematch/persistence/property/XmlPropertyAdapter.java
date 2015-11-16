@@ -17,6 +17,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
     public Property unmarshal(XmlProperty xmlProperty) throws Exception {
         Property property = propertyFactory.createProperty(xmlProperty.propertyType, xmlProperty.address, xmlProperty.sellingPrice);
         property.setPropertyDetails(xmlProperty.propertyDetails);
+        property.setStatus(xmlProperty.status);
         return property;
     }
 
@@ -28,6 +29,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         xmlProperty.address = property.getAddress();
         xmlProperty.sellingPrice = property.getSellingPrice();
         xmlProperty.propertyDetails = property.getPropertyDetails();
+        xmlProperty.status = property.getStatus();
 
         return xmlProperty;
     }

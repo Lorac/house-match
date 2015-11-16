@@ -15,13 +15,15 @@ public class PropertyFactoryTest {
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
 
     private Address addressMock;
+    private PropertyObserver propertyObserverMock;
 
     private PropertyFactory propertyFactory;
 
     @Before
     public void init() {
         addressMock = mock(Address.class);
-        propertyFactory = new PropertyFactory();
+        propertyObserverMock = mock(PropertyObserver.class);
+        propertyFactory = new PropertyFactory(propertyObserverMock);
     }
 
     @Test

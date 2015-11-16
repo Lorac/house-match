@@ -28,6 +28,8 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
         user.setAddress(xmlUser.address);
+        user.setStatus(xmlUser.status);
+        user.setLastLoginDate(xmlUser.lastLoginDate);
         user.setPropertiesForSale(dereferenceProperties(xmlUser));
         return user;
     }
@@ -50,6 +52,8 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.activationCode = user.getActivationCode();
         xmlUser.activated = user.isActivated();
         xmlUser.address = user.getAddress();
+        xmlUser.status = user.getStatus();
+        xmlUser.lastLoginDate = user.getLastLoginDate();
 
         for (Property property : user.getPropertiesForSale()) {
             xmlUser.propertiesForSale.add(property.hashCode());

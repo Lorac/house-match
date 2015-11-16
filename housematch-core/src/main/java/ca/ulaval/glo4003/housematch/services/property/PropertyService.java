@@ -13,6 +13,8 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
+import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
@@ -25,6 +27,7 @@ public class PropertyService {
     private UserRepository userRepository;
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
+    private PropertyStatisticsCollector propertyStatisticCollector;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
             final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
@@ -60,11 +63,21 @@ public class PropertyService {
         }
     }
 
+    public void purchaseProperty(User user, Property property) {
+        user.purchaseProperty(property);
+        userRepository.update(user);
+        propertyRepository.update(property);
+    }
+
     public List<Property> getProperties() {
         return propertyRepository.getAll();
     }
 
     public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
         return propertyRepository.getByHashCode(propertyHashCode);
+    }
+
+    public PropertyStatistics getStatistics() {
+        return propertyStatisticCollector.getStatistics();
     }
 }

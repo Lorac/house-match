@@ -11,6 +11,7 @@
         <module>housematch-xml-persistence</module>
         <module>housematch-emailer</module>
         <module>housematch-context</module>
+        <module>housematch-statistics</module>
     </modules>
     <name>HouseMatch</name>
 
