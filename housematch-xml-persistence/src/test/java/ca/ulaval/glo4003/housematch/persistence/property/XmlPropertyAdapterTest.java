@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,6 +27,7 @@ public class XmlPropertyAdapterTest {
     private Address addressMock;
     private PropertyDetails propertyDetailsMock;
     private XmlProperty xmlPropertyMock;
+    private ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
 
     private XmlPropertyAdapter xmlPropertyAdapter;
 
@@ -50,6 +52,7 @@ public class XmlPropertyAdapterTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
+        when(propertyMock.getCreationDate()).thenReturn(SAMPLE_DATE);
     }
 
     private void initXmlPropertyMock() {
@@ -58,6 +61,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyMock.sellingPrice = SAMPLE_SELLING_PRICE;
         xmlPropertyMock.address = addressMock;
         xmlPropertyMock.propertyDetails = propertyDetailsMock;
+        xmlPropertyMock.creationDate = SAMPLE_DATE;
     }
 
     private void stubMethods() {
@@ -73,6 +77,7 @@ public class XmlPropertyAdapterTest {
         assertEquals(propertyMock.getAddress(), xmlPropertyMock.address);
         assertEquals(propertyMock.getSellingPrice(), xmlPropertyMock.sellingPrice);
         assertEquals(propertyMock.getPropertyDetails(), xmlPropertyMock.propertyDetails);
+        assertEquals(propertyMock.getCreationDate(), SAMPLE_DATE);
     }
 
     @Test
@@ -83,5 +88,6 @@ public class XmlPropertyAdapterTest {
         assertEquals(xmlPropertyMock.address, propertyMock.getAddress());
         assertEquals(xmlPropertyMock.sellingPrice, propertyMock.getSellingPrice());
         assertEquals(xmlPropertyMock.propertyDetails, propertyMock.getPropertyDetails());
+        assertEquals(xmlPropertyMock.creationDate, propertyMock.getCreationDate());
     }
 }

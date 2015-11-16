@@ -1,12 +1,14 @@
 package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import javax.validation.constraints.NotNull;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+import ca.ulaval.glo4003.housematch.spring.web.utils.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
 
@@ -19,6 +21,12 @@ public class PropertyViewModel extends ViewModel {
     @NotNull
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
+    private int hashCode;
+    private ZonedDateTime creationDate;
+
+    public PropertyViewModel() {
+
+    }
 
     @Override
     public String getName() {
@@ -55,6 +63,22 @@ public class PropertyViewModel extends ViewModel {
 
     public void setPropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
+    }
+
+    public int getHashCode() {
+        return hashCode;
+    }
+
+    public void setHashCode(int hashCode) {
+        this.hashCode = hashCode;
+    }
+
+    public String getCreationDate() {
+        return DateFormatter.parse(creationDate);
+    }
+
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
 }

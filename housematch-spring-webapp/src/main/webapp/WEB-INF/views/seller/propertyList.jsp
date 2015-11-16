@@ -31,7 +31,7 @@
                         </tr>
                     </thead>
                     <c:forEach var="property" items="${user.propertiesForSale}">
-                        <tr onclick='window.location = "<%=PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
+                        <tr onclick="document.location = '<%=PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + pageContext.getAttribute("property").hashCode()%>';">
                             <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                             <td>${property.hashCode()}</td>
                             <td>${property.address}</td>

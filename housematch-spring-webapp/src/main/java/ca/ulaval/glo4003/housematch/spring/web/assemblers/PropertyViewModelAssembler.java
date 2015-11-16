@@ -11,6 +11,8 @@ public class PropertyViewModelAssembler {
         viewModel.setAddress(property.getAddress());
         viewModel.setSellingPrice(property.getSellingPrice());
         viewModel.setPropertyDetails(property.getPropertyDetails());
+        viewModel.setHashCode(property.hashCode());
+        viewModel.setCreationDate(property.getCreationDate());
         return viewModel;
     }
 }

@@ -225,6 +225,26 @@ public class PropertyControllerTest extends BaseControllerTest {
         ResultActions results = performPropertyGetRequest();
         results.andExpect(status().isNotFound());
     }
+    
+    @Test
+    public void propertyControllerReturnsPropertySearchViewWithPropertiesInChronologicalOrderWhenRequested() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL);
+        
+        verify(propertyServiceMock).getPropertiesInChronologicalOrder();
+        
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+        results.andExpect(status().isOk());
+    }
+    
+    @Test
+    public void propertyControllerReturnsPropertySearchViewWithPropertiesInReverseChronologicalOrderWhenRequested() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL);
+        
+        verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
+        
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+        results.andExpect(status().isOk());
+    }
 
     private ResultActions postPropertyCreationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_CREATION_URL)

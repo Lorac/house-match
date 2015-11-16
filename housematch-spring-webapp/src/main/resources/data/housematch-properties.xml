@@ -1,35 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <housematch>
     <properties>
-        <property>
-            <address>
-                <additionalAddressInfo>Apt #6</additionalAddressInfo>
-                <postCode>G1V 3X4</postCode>
-                <region>QC</region>
-                <streetName>Isidore-Garon</streetName>
-                <streetNumber>890</streetNumber>
-                <town>Québec</town>
-            </address>
-            <propertyDetails>
-                <backyardDirection>NORTH</backyardDirection>
-                <bathroomDetails>Many bathrooms</bathroomDetails>
-                <bedroomDetails></bedroomDetails>
-                <buildingDimensionsInSquareFeet>253</buildingDimensionsInSquareFeet>
-                <floorNumber>2</floorNumber>
-                <livingSpaceAreaInSquareFeet>33</livingSpaceAreaInSquareFeet>
-                <lotDimensionsInSquareFeet>1</lotDimensionsInSquareFeet>
-                <municipalAssessment>234234</municipalAssessment>
-                <numberOfBathrooms>18</numberOfBathrooms>
-                <numberOfBedrooms>3</numberOfBedrooms>
-                <numberOfLevels>2</numberOfLevels>
-                <ownershipType>SOLE_OWNERSHIP</ownershipType>
-                <priceDetails>With garage</priceDetails>
-                <propertyStyle>CHALET</propertyStyle>
-                <totalNumberOfRooms>56</totalNumberOfRooms>
-                <yearOfConstruction>1956</yearOfConstruction>
-            </propertyDetails>
-            <propertyType>SINGLE_FAMILY_HOME</propertyType>
-            <sellingPrice>928347</sellingPrice>
-        </property>
-    </properties>
+        </properties>
 </housematch>

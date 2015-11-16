@@ -16,6 +16,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Random;
 
 public class SpringDemoContext extends ContextBase {
@@ -66,15 +67,29 @@ public class SpringDemoContext extends ContextBase {
         Property quebecProperty = propertyFactory.createProperty(PropertyType.LOT, quebecAddress, BigDecimal.valueOf(100000));
         Property abitibiProperty = propertyFactory.createProperty(PropertyType.COTTAGE, abitibiAddress, BigDecimal.valueOf(500));
         Property outaouaisProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, outaouaisAddress, BigDecimal.valueOf(5000));
-        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress, BigDecimal.valueOf(350000));
-        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress, BigDecimal.valueOf(3500000));
-        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress, BigDecimal.valueOf(5500000));
-        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress, BigDecimal.valueOf(1000000000));
+        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress,
+                BigDecimal.valueOf(350000));
+        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress,
+                BigDecimal.valueOf(3500000));
+        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress,
+                BigDecimal.valueOf(5500000));
+        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress,
+                BigDecimal.valueOf(1000000000));
         Property cnTowerProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, cnTowerAddress, BigDecimal.valueOf(100000000));
 
         quebecProperty.setPropertyDetails(quebecPropertyDetails);
         abitibiProperty.setPropertyDetails(abitibiPropertyDetails);
         outaouaisProperty.setPropertyDetails(outaouaisPropertyDetails);
+
+        quebecProperty.setCreationDate(ZonedDateTime.now());
+        abitibiProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 7));
+        outaouaisProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 1));
+        montrealProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 2));
+        primeMinisterProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 3));
+        greatDivideLodgeProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 4));
+        westEdmontonMallProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 5));
+        cnTowerProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 6));
+
         montrealProperty.setPropertyDetails(montrealPropertyDetails);
         primeMinisterProperty.setPropertyDetails(primeMinisterPropertyDetails);
         greatDivideLodgeProperty.setPropertyDetails(greatDivideLodgeDetails);
