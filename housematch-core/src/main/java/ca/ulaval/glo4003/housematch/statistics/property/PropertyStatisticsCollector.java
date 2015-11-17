@@ -9,7 +9,7 @@ import ca.ulaval.glo4003.housematch.statistics.StatisticsRepository;
 
 public class PropertyStatisticsCollector {
 
-    static final String NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME = "NumberOfSoldPropertiesThisYearToDate";
+    static final String NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME = "NumberOfSoldPropertiesThisYear";
     static final String NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME = "NumberOfPropertiesForSale";
     private static final Integer DEFAULT_VALUE = 0;
 
@@ -49,7 +49,7 @@ public class PropertyStatisticsCollector {
         statisticsRepository.persist(NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, numberOfSoldPropertiesThisYear);
     }
 
-    private void adjustNumberOfPropertiesForSale(PropertyType propertyType, Integer value) {
+    private synchronized void adjustNumberOfPropertiesForSale(PropertyType propertyType, Integer value) {
         numberOfPropertiesForSale.compute(propertyType, (k, v) -> v + value);
         statisticsRepository.persist(getNumberOfPropertiesForSaleStatName(propertyType), numberOfPropertiesForSale.get(propertyType));
     }
