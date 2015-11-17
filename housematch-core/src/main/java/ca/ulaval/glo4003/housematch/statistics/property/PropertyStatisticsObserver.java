@@ -12,6 +12,7 @@ public class PropertyStatisticsObserver implements PropertyObserver {
         this.propertyStatisticsCollector = propertyStatisticsCollector;
     }
 
+    @Override
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
         switch (newStatus) {
         case FOR_SALE:

@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml" />
-	<import resource="housematch-servlet/housematch-xml-tasks.xml" />
+	<import resource="housematch-servlet/housematch-tasks.xml" />
 
     <!-- Email -->
 
@@ -39,7 +39,7 @@
 	        <constructor-arg ref="xmlStatisticsRepository" />
     </bean>
 	
-	<bean id="propertyStatisticsCollector" class="ca.ulaval.glo4003.housematch.statistics.user.PropertyStatisticsCollector">
+	<bean id="propertyStatisticsCollector" class="ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector">
 	        <constructor-arg ref="xmlStatisticsRepository" />
     </bean>
 
@@ -110,6 +110,8 @@
     <bean id="propertyDetailsFormViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyDetailsFormViewModelAssembler" />
     
     <bean id="propertySearchResultsViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertySearchResultsViewModelAssembler" />
+	
+	<bean id="statisticsViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.StatisticsViewModelAssembler" />
 
     <!-- Controllers -->
 
@@ -121,6 +123,9 @@
     </bean>
 
     <bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
+		<constructor-arg ref="propertyService" />
+		<constructor-arg ref="userService" />
+		<constructor-arg ref="statisticsViewModelAssembler" />
     </bean>
 
     <bean id="propertyController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController">

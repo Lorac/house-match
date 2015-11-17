@@ -27,15 +27,15 @@ public class PropertyService {
     private UserRepository userRepository;
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
-    private PropertyStatisticsCollector propertyStatisticCollector;
+    private PropertyStatisticsCollector propertyStatisticsCollector;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-            final UserRepository userRepository, final PropertyStatisticsCollector propertyStatisticCollector,
+            final UserRepository userRepository, final PropertyStatisticsCollector propertyStatisticsCollector,
             final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
-        this.propertyStatisticCollector = propertyStatisticCollector;
+        this.propertyStatisticsCollector = propertyStatisticsCollector;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
     }
@@ -79,6 +79,6 @@ public class PropertyService {
     }
 
     public PropertyStatistics getStatistics() {
-        return propertyStatisticCollector.getStatistics();
+        return propertyStatisticsCollector.getStatistics();
     }
 }

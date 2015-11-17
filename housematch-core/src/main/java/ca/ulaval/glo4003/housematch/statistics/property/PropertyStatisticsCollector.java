@@ -12,15 +12,12 @@ public class PropertyStatisticsCollector {
     private static final String NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME = "NumberOfSoldPropertiesThisYearToDate";
     private static final String NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME = "NumberOfPropertiesForSale";
 
-    private StatisticsRepository statisticsRepository;
-
-    private Statistic<Integer> numberOfSoldPropertiesThisYear = new Statistic<>(0, NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME,
-            statisticsRepository);
-    private Statistic<Map<PropertyType, Integer>> numberOfPropertiesForSale = new Statistic<>(new HashMap<>(),
-            NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, statisticsRepository);
+    private Statistic<Integer> numberOfSoldPropertiesThisYear;
+    private Statistic<Map<PropertyType, Integer>> numberOfPropertiesForSale;
 
     public PropertyStatisticsCollector(StatisticsRepository statisticsRepository) {
-        this.statisticsRepository = statisticsRepository;
+        numberOfSoldPropertiesThisYear = new Statistic<>(0, NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, statisticsRepository);
+        numberOfPropertiesForSale = new Statistic<>(new HashMap<>(), NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, statisticsRepository);
     }
 
     public void applyPropertySale(Property property) {

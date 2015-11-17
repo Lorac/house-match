@@ -14,16 +14,18 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable {
+    private static final Integer LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
+
     private StringHasher stringHasher;
 
     private String username;
     private String email;
     private String passwordHash;
     private UserRole role;
-    private UserStatus status;
+    private UserStatus status = UserStatus.INACTIVE;
     private UUID activationCode;
     private Boolean activated = false;
-    private ZonedDateTime lastLoginDate = ZonedDateTime.now();
+    private ZonedDateTime lastLoginDate;
     private List<Property> propertiesForSale = new ArrayList<>();
     private List<Property> purchasedProperties = new ArrayList<>();
     private Address address;
@@ -152,12 +154,22 @@ public class User extends UserObservable {
     }
 
     public void applyUserStatusPolicy() {
-        if (role == UserRole.BUYER && lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(6)) && purchasedProperties.size() == 0) {
+        if (role == UserRole.BUYER && isActiveAsBuyer()) {
             changeStatus(UserStatus.ACTIVE);
-        } else if (role == UserRole.SELLER && propertiesForSale.size() > 0) {
+        } else if (role == UserRole.SELLER && isActiveAsSeller()) {
             changeStatus(UserStatus.ACTIVE);
+        } else {
+            changeStatus(UserStatus.INACTIVE);
         }
-        changeStatus(UserStatus.INACTIVE);
+    }
+
+    private Boolean isActiveAsBuyer() {
+        return lastLoginDate != null && lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS))
+                && purchasedProperties.size() == 0;
+    }
+
+    private Boolean isActiveAsSeller() {
+        return propertiesForSale.size() > 0;
     }
 
     public void purchaseProperty(Property property) {

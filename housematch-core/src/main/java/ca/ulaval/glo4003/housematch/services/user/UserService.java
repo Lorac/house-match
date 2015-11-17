@@ -28,7 +28,7 @@ public class UserService {
     private UserFactory userFactory;
     private UserRepository userRepository;
     private UserActivationService userActivationService;
-    private UserStatisticsCollector userStatisticCollector;
+    private UserStatisticsCollector userStatisticsCollector;
     private UserRegistrationValidator userRegistrationValidator;
     private AddressValidator addressValidator;
 
@@ -38,7 +38,7 @@ public class UserService {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
         this.userActivationService = userActivationService;
-        this.userStatisticCollector = userStatisticCollector;
+        this.userStatisticsCollector = userStatisticCollector;
         this.userRegistrationValidator = userRegistrationValidator;
         this.addressValidator = addressValidator;
     }
@@ -95,7 +95,7 @@ public class UserService {
     }
 
     public UserStatistics getStatistics() {
-        return userStatisticCollector.getStatistics();
+        return userStatisticsCollector.getStatistics();
     }
 
     public void applyUserStatusPolicy() {

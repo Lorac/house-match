@@ -6,16 +6,15 @@ import ca.ulaval.glo4003.housematch.statistics.Statistic;
 import ca.ulaval.glo4003.housematch.statistics.StatisticsRepository;
 
 public class UserStatisticsCollector {
-    private static final String NUMBER_OF_ACTIVE_BUYERS = "NumberOfActiveBuyers";
-    private static final String NUMBER_OF_ACTIVE_SELLERS = "NumberOfActiveSellers";
+    private static final String NUMBER_OF_ACTIVE_BUYERS_STAT_NAME = "NumberOfActiveBuyers";
+    private static final String NUMBER_OF_ACTIVE_SELLERS_STAT_NAME = "NumberOfActiveSellers";
 
-    private StatisticsRepository statisticsRepository;
-
-    private Statistic<Integer> numberOfActiveBuyers = new Statistic<>(0, NUMBER_OF_ACTIVE_BUYERS, statisticsRepository);
-    private Statistic<Integer> numberOfActiveSellers = new Statistic<>(0, NUMBER_OF_ACTIVE_SELLERS, statisticsRepository);
+    private Statistic<Integer> numberOfActiveBuyers;
+    private Statistic<Integer> numberOfActiveSellers;
 
     public UserStatisticsCollector(StatisticsRepository statisticsRepository) {
-        this.statisticsRepository = statisticsRepository;
+        numberOfActiveBuyers = new Statistic<>(0, NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, statisticsRepository);
+        numberOfActiveSellers = new Statistic<>(0, NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, statisticsRepository);
     }
 
     public void applyUserStatusChangedToActive(User user) {

@@ -6,12 +6,14 @@
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <import resource="housematch-xml-core.xml" />
-
-    <task:annotation-driven scheduler="taskScheduler" />
     <task:scheduler id="taskScheduler" pool-size="10" />
-    <task:scheduled ref="userStatusPolicyVerificationTask" method="work" fixed-rate="86400000" initial-delay="0" />
+	
+	<task:scheduled-tasks scheduler="taskScheduler">
+		<task:scheduled ref="userStatusPolicyVerificationTask" method="run" fixed-rate="86400000" initial-delay="2000" />
+	</task:scheduled-tasks>
     
-    <bean id="userStatusPolicyVerificationTask" class="ca.ulaval.glo4003.housematch.services.user.UserService.UserStatusPolicyVerificationTask" />
+    <bean id="userStatusPolicyVerificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserStatusPolicyVerificationTask">
+		<constructor-arg ref="userService" />
+    </bean>
     
 </beans>
