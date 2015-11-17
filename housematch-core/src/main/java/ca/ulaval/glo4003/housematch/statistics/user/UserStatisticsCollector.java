@@ -17,8 +17,8 @@ public class UserStatisticsCollector {
 
     public UserStatisticsCollector(final StatisticsRepository statisticsRepository) {
         this.statisticsRepository = statisticsRepository;
-        numberOfActiveBuyers = (Integer) statisticsRepository.get(NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, DEFAULT_VALUE);
-        numberOfActiveSellers = (Integer) statisticsRepository.get(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_VALUE);
+        numberOfActiveBuyers = statisticsRepository.get(NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, DEFAULT_VALUE);
+        numberOfActiveSellers = statisticsRepository.get(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_VALUE);
     }
 
     public void applyUserStatusChangeToActive(User user) {

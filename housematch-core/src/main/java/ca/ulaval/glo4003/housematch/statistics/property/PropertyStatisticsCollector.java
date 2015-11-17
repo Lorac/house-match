@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.housematch.statistics.property;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
@@ -16,14 +16,27 @@ public class PropertyStatisticsCollector {
     private StatisticsRepository statisticsRepository;
 
     private Integer numberOfSoldPropertiesThisYear;
-    private Map<PropertyType, Integer> numberOfPropertiesForSale = new HashMap<>();
+    private Map<PropertyType, Integer> numberOfPropertiesForSale = new ConcurrentHashMap<>();
 
-    @SuppressWarnings("unchecked")
     public PropertyStatisticsCollector(final StatisticsRepository statisticsRepository) {
         this.statisticsRepository = statisticsRepository;
-        numberOfSoldPropertiesThisYear = (Integer) statisticsRepository.get(NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, DEFAULT_VALUE);
-        numberOfPropertiesForSale = (Map<PropertyType, Integer>) statisticsRepository.get(NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME,
-                new HashMap<>());
+        initStatistics();
+    }
+
+    private void initStatistics() {
+        numberOfSoldPropertiesThisYear = statisticsRepository.get(NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, DEFAULT_VALUE);
+        initNumberOfPropertiesForSaleStatistics();
+    }
+
+    private void initNumberOfPropertiesForSaleStatistics() {
+        for (PropertyType propertyType : PropertyType.values()) {
+            Integer value = statisticsRepository.get(getNumberOfPropertiesForSaleStatName(propertyType), DEFAULT_VALUE);
+            numberOfPropertiesForSale.put(propertyType, value);
+        }
+    }
+
+    public void applyNewPropertyForSale(Property property) {
+        adjustNumberOfPropertiesForSale(property.getPropertyType(), 1);
     }
 
     public void applyPropertySale(Property property) {
@@ -31,20 +44,18 @@ public class PropertyStatisticsCollector {
         adjustNumberOfPropertiesForSale(property.getPropertyType(), -1);
     }
 
-    public void applyPropertyForSale(Property property) {
-        adjustNumberOfPropertiesForSale(property.getPropertyType(), 1);
-    }
-
     private synchronized void adjustNumberOfSoldPropertiesThisYear(Integer value) {
         numberOfSoldPropertiesThisYear += value;
         statisticsRepository.persist(NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, numberOfSoldPropertiesThisYear);
     }
 
-    private synchronized void adjustNumberOfPropertiesForSale(PropertyType propertyType, Integer value) {
-        numberOfPropertiesForSale.computeIfPresent(propertyType, (k, v) -> v + value);
-        numberOfPropertiesForSale.putIfAbsent(propertyType, value);
+    private void adjustNumberOfPropertiesForSale(PropertyType propertyType, Integer value) {
+        numberOfPropertiesForSale.compute(propertyType, (k, v) -> v + value);
+        statisticsRepository.persist(getNumberOfPropertiesForSaleStatName(propertyType), numberOfPropertiesForSale.get(propertyType));
+    }
 
-        statisticsRepository.persist(NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, numberOfPropertiesForSale);
+    private String getNumberOfPropertiesForSaleStatName(PropertyType propertyType) {
+        return String.format("%s_%s", NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, propertyType.name());
     }
 
     public PropertyStatistics getStatistics() {

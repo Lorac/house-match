@@ -25,7 +25,7 @@ public class PropertyStatisticsObserverTest {
     @Test
     public void newPropertyForSaleStatusChangeFiresTheProperEventOfTheStatisticsCollector() {
         propertyStatisticsObserver.propertyStatusChanged(propertyMock, PropertyStatus.FOR_SALE);
-        verify(propertyStatisticsCollectorMock).applyPropertyForSale(propertyMock);
+        verify(propertyStatisticsCollectorMock).applyNewPropertyForSale(propertyMock);
     }
 
     @Test

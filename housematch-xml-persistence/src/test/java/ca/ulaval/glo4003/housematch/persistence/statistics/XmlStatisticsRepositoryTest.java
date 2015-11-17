@@ -17,8 +17,8 @@ public class XmlStatisticsRepositoryTest {
 
     private static final String SAMPLE_STATISTIC_NAME = "sampleName";
     private static final String SAMPLE_UNEXISTING_STATISTIC_NAME = "sampleUnexistingName";
-    private static final Object SAMPLE_STATISTIC_VALUE = new Object();
-    private static final Object SAMPLE_DEFAULT_VALUE = new Object();
+    private static final Integer SAMPLE_STATISTIC_VALUE = 2;
+    private static final Integer SAMPLE_DEFAULT_VALUE = 5;
 
     private XmlRepositoryMarshaller<XmlStatisticsRootElement> xmlRepositoryMarshallerMock;
     private XmlStatisticsRootElement xmlStatisticsRootElementMock;
@@ -40,7 +40,7 @@ public class XmlStatisticsRepositoryTest {
 
     private void stubMethods() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlStatisticsRootElementMock);
-        when(xmlStatisticsRootElementMock.getStatistics()).thenReturn(new ConcurrentHashMap<String, Object>());
+        when(xmlStatisticsRootElementMock.getStatistics()).thenReturn(new ConcurrentHashMap<String, Integer>());
     }
 
     @Test

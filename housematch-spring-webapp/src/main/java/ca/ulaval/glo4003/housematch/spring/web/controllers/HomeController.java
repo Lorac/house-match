@@ -35,6 +35,10 @@ public class HomeController extends BaseController {
     @Inject
     private StatisticsViewModelAssembler statisticsViewModelAssembler;
 
+    protected HomeController() {
+        // Required for Mockito
+    }
+
     public HomeController(final PropertyService propertyService, final UserService userService,
             final StatisticsViewModelAssembler statisticsViewModelAssembler) {
         this.propertyService = propertyService;

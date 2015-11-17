@@ -1,16 +1,11 @@
 package ca.ulaval.glo4003.housematch.statistics.property;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +16,10 @@ import ca.ulaval.glo4003.housematch.statistics.StatisticsRepository;
 
 public class PropertyStatisticsCollectorTest {
 
-    private static final Integer SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR = 5;
+    private static final String NUMBER_OF_CONDOS_FOR_SALE_STAT_NAME = "NumberOfPropertiesForSale_CONDO_LOFT";
     private static final Integer SAMPLE_NUMBER_OF_CONDOS_FOR_SALE = 2;
+    private static final Integer SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR = 5;
 
-    private Map<PropertyType, Integer> numberOfPropertiesForSale = new HashMap<>();
     private StatisticsRepository statisticsRepositoryMock;
     private Property propertyMock;
 
@@ -35,7 +30,6 @@ public class PropertyStatisticsCollectorTest {
         initMocks();
         stubMethods();
         propertyStatisticsCollector = new PropertyStatisticsCollector(statisticsRepositoryMock);
-        numberOfPropertiesForSale.put(PropertyType.CONDO_LOFT, SAMPLE_NUMBER_OF_CONDOS_FOR_SALE);
     }
 
     private void initMocks() {
@@ -46,8 +40,7 @@ public class PropertyStatisticsCollectorTest {
     private void stubMethods() {
         when(statisticsRepositoryMock.get(eq(PropertyStatisticsCollector.NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME), anyInt()))
                 .thenReturn(SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR);
-        when(statisticsRepositoryMock.get(eq(PropertyStatisticsCollector.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME), any(HashMap.class)))
-                .thenReturn(numberOfPropertiesForSale);
+        when(statisticsRepositoryMock.get(eq(NUMBER_OF_CONDOS_FOR_SALE_STAT_NAME), anyInt())).thenReturn(SAMPLE_NUMBER_OF_CONDOS_FOR_SALE);
         when(propertyMock.getPropertyType()).thenReturn(PropertyType.CONDO_LOFT);
     }
 
@@ -62,18 +55,14 @@ public class PropertyStatisticsCollectorTest {
     public void applyingPropertySaleDecrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
         propertyStatisticsCollector.applyPropertySale(propertyMock);
 
-        assertEquals(SAMPLE_NUMBER_OF_CONDOS_FOR_SALE - 1, (int) numberOfPropertiesForSale.get(PropertyType.CONDO_LOFT));
-        verify(statisticsRepositoryMock).persist(PropertyStatisticsCollector.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME,
-                numberOfPropertiesForSale);
+        verify(statisticsRepositoryMock).persist(NUMBER_OF_CONDOS_FOR_SALE_STAT_NAME, SAMPLE_NUMBER_OF_CONDOS_FOR_SALE - 1);
     }
 
     @Test
-    public void applyingPropertyForSaleIncrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
-        propertyStatisticsCollector.applyPropertyForSale(propertyMock);
+    public void applyingNewPropertyForSaleIncrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
+        propertyStatisticsCollector.applyNewPropertyForSale(propertyMock);
 
-        assertEquals(SAMPLE_NUMBER_OF_CONDOS_FOR_SALE + 1, (int) numberOfPropertiesForSale.get(PropertyType.CONDO_LOFT));
-        verify(statisticsRepositoryMock).persist(PropertyStatisticsCollector.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME,
-                numberOfPropertiesForSale);
+        verify(statisticsRepositoryMock).persist(NUMBER_OF_CONDOS_FOR_SALE_STAT_NAME, SAMPLE_NUMBER_OF_CONDOS_FOR_SALE + 1);
     }
 
     @Test
@@ -81,6 +70,6 @@ public class PropertyStatisticsCollectorTest {
         PropertyStatistics propertyStatistics = propertyStatisticsCollector.getStatistics();
 
         assertEquals(SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR, propertyStatistics.getNumberOfSoldPropertiesThisYear());
-        assertSame(numberOfPropertiesForSale, propertyStatistics.getNumberOfPropertiesForSale());
+        assertEquals(SAMPLE_NUMBER_OF_CONDOS_FOR_SALE, propertyStatistics.getNumberOfPropertiesForSale().get(PropertyType.CONDO_LOFT));
     }
 }
