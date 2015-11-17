@@ -70,19 +70,19 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Property Type:</label>
                                 <div class="col-sm-9">
-                                    <p class="control-label">${propertyViewModel.propertyType.displayName}</p>
+                                    <p class="control-label">${property.propertyType.displayName}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Selling Price:</label>
                                 <div class="col-sm-9">
-                                    <p class="control-label">${propertyViewModel.sellingPrice}&nbsp;$</p>
+                                    <p class="control-label">${property.sellingPrice}&nbsp;$</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Address:</label>
                                 <div class="col-sm-9">
-                                    <p class="control-label">${propertyViewModel.address}</p>
+                                    <p class="control-label">${property.address}</p>
                                 </div>
                             </div>
                         </form>
@@ -101,51 +101,51 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Property Style:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.propertyStyle.displayName}</p>
+                                    <p class="control-label">${property.propertyDetails.propertyStyle.displayName}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Ownership Type:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.ownershipType.displayName}</p>
+                                    <p class="control-label">${property.propertyDetails.ownershipType.displayName}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Price Details:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.priceDetails}</p>
+                                    <p class="control-label">${property.propertyDetails.priceDetails}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Number of Levels:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.numberOfLevels}</p>
+                                    <p class="control-label">${property.propertyDetails.numberOfLevels}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Located on Which Floor?:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.floorNumber}</p>
+                                    <p class="control-label">${property.propertyDetails.floorNumber}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Municipal Assessment:</label>
                                 <div class="col-sm-6">
-                                    <c:if test="${not empty propertyViewModel.propertyDetails.municipalAssessment}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.municipalAssessment}&nbsp;$</p>
+                                    <c:if test="${not empty property.propertyDetails.municipalAssessment}">
+                                        <p class="control-label">${property.propertyDetails.municipalAssessment}&nbsp;$</p>
                                     </c:if>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Year of Construction:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.yearOfConstruction}</p>
+                                    <p class="control-label">${property.propertyDetails.yearOfConstruction}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Backyard Faces:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.backyardDirection.displayName}</p>
+                                    <p class="control-label">${property.propertyDetails.backyardDirection.displayName}</p>
                                 </div>
                             </div>
                         </form>
@@ -155,37 +155,37 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Total Number of Rooms:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.totalNumberOfRooms}</p>
+                                    <p class="control-label">${property.propertyDetails.totalNumberOfRooms}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Number of Bedrooms:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.numberOfBedrooms}</p>
+                                    <p class="control-label">${property.propertyDetails.numberOfBedrooms}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Bedroom Details:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.bedroomDetails}</p>
+                                    <p class="control-label">${property.propertyDetails.bedroomDetails}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Number of Bathrooms:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.numberOfBathrooms}</p>
+                                    <p class="control-label">${property.propertyDetails.numberOfBathrooms}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Bathroom Details:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.bathroomDetails}</p>
+                                    <p class="control-label">${property.propertyDetails.bathroomDetails}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Number of Half Baths:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.numberOfHalfbaths}</p>
+                                    <p class="control-label">${property.propertyDetails.numberOfHalfbaths}</p>
                                 </div>
                             </div>
                         </form>
@@ -198,24 +198,24 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Building Dimensions:</label>
                                 <div class="col-sm-6">
-                                    <c:if test="${not empty propertyViewModel.propertyDetails.buildingDimensionsInSquareFeet}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft&#178;</p>
+                                    <c:if test="${not empty property.propertyDetails.buildingDimensionsInSquareFeet}">
+                                        <p class="control-label">${property.propertyDetails.buildingDimensionsInSquareFeet}&nbsp;ft&#178;</p>
                                     </c:if>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Lot Dimensions:</label>
                                 <div class="col-sm-6">
-                                    <c:if test="${not empty propertyViewModel.propertyDetails.lotDimensionsInSquareFeet}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft&#178;</p>
+                                    <c:if test="${not empty property.propertyDetails.lotDimensionsInSquareFeet}">
+                                        <p class="control-label">${property.propertyDetails.lotDimensionsInSquareFeet}&nbsp;ft&#178;</p>
                                     </c:if>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Living Space Area:</label>
                                 <div class="col-sm-6">
-                                    <c:if test="${not empty propertyViewModel.propertyDetails.livingSpaceAreaInSquareFeet}">
-                                        <p class="control-label">${propertyViewModel.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft&#178;</p>
+                                    <c:if test="${not empty property.propertyDetails.livingSpaceAreaInSquareFeet}">
+                                        <p class="control-label">${property.propertyDetails.livingSpaceAreaInSquareFeet}&nbsp;ft&#178;</p>
                                     </c:if>
                                 </div>
                             </div>
@@ -226,13 +226,13 @@
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Number of Exterior Parking Spaces:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.numberOfExteriorParkingSpaces}</p>
+                                    <p class="control-label">${property.propertyDetails.numberOfExteriorParkingSpaces}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-6 control-label">Number of Interior Parking Spaces:</label>
                                 <div class="col-sm-6">
-                                    <p class="control-label">${propertyViewModel.propertyDetails.numberOfInteriorParkingSpaces}</p>
+                                    <p class="control-label">${property.propertyDetails.numberOfInteriorParkingSpaces}</p>
                                 </div>
                             </div>
                         </form>
