@@ -40,6 +40,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL = "/buyer/executePropertySearch/sortByAscendingDate";
     public static final String PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL = "/buyer/executePropertySearch/sortByDescendingDate";
+    public static final String PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL = "/buyer/executePropertySearch/sortByAscendingPrice";
+    public static final String PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL = "/buyer/executePropertySearch/sortByDescendingPrice";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
     public static final String PROPERTY_VIEW_URL = "/buyer/propertyDetails/{propertyHashCode}";
@@ -141,6 +143,22 @@ public class PropertyController extends BaseController {
     @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL, method = RequestMethod.GET)
     public final ModelAndView sortByDescendingDate(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInReverseChronologicalOrder();
+        modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
+        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
+    }
+
+    @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL, method = RequestMethod.GET)
+    public final ModelAndView sortByAscendingPrice(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
+        List<Property> properties = propertyService.getPropertiesInAscendingOrderByPrice();
+        modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
+        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
+    }
+
+    @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL, method = RequestMethod.GET)
+    public final ModelAndView sortByDescendingPrice(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
+        List<Property> properties = propertyService.getPropertiesInDescendingOrderByPrice();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
         modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);

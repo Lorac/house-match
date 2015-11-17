@@ -225,7 +225,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         ResultActions results = performPropertyGetRequest();
         results.andExpect(status().isNotFound());
     }
-    
+
     @Test
     public void propertyControllerReturnsPropertySearchViewWithPropertiesInChronologicalOrderWhenRequested() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL);
@@ -235,12 +235,32 @@ public class PropertyControllerTest extends BaseControllerTest {
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
         results.andExpect(status().isOk());
     }
-    
+
     @Test
     public void propertyControllerReturnsPropertySearchViewWithPropertiesInReverseChronologicalOrderWhenRequested() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL);
         
         verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
+        
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+        results.andExpect(status().isOk());
+    }
+
+    @Test
+    public void propertyControllerReturnsPropertySearchViewWithPropertiesInAscendingOrderByPriceWhenRequested() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL);
+        
+        verify(propertyServiceMock).getPropertiesInAscendingOrderByPrice();
+        
+        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
+        results.andExpect(status().isOk());
+    }
+
+    @Test
+    public void propertyControllerReturnsPropertySearchViewWithPropertiesInDescendingOrderByPriceWhenRequested() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL);
+        
+        verify(propertyServiceMock).getPropertiesInDescendingOrderByPrice();
         
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
         results.andExpect(status().isOk());

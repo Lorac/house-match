@@ -42,7 +42,10 @@
                                 <th></th>
                                 <th>ID</th>
                                 <th>Address</th>
-                                <th>Price</th>
+                                <th>
+                                    <span class="glyphicon glyphicon-chevron-up" aria-hidden="true" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL%>';"></span>
+                                    Price</th>
                                 <th>
                                 	<span class="glyphicon glyphicon-chevron-up" aria-hidden="true" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL%>';"></span>
                                     <span class="glyphicon glyphicon-chevron-down" aria-hidden="true" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL%>';"></span>

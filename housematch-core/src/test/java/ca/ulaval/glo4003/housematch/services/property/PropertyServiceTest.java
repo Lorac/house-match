@@ -161,6 +161,24 @@ public class PropertyServiceTest {
     }
 
     @Test
+    public void gettingPropertiesInAscendingOrderByPriceReturnsAListOfSortedProperties() {
+        List<Property> propertyList = propertyService.getPropertiesInAscendingOrderByPrice();
+        
+        verify(propertyRepositoryMock).getAll();
+        verify(propertySorter).sortByPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
+        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
+    }
+
+    @Test
+    public void gettingPropertiesInDescendingOrderByPriceReturnsAListOfSortedProperties() {
+        List<Property> propertyList = propertyService.getPropertiesInDescendingOrderByPrice();
+        
+        verify(propertyRepositoryMock).getAll();
+        verify(propertySorter).sortByPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
+    }
+
+    @Test
     public void gettingPropertyByHashCodeGetsThePropertyFromTheSpecifiedHashCode() throws Exception {
         propertyService.getPropertyByHashCode(propertyMock.hashCode());
         verify(propertyRepositoryMock).getByHashCode(propertyMock.hashCode());
