@@ -3,16 +3,20 @@ package ca.ulaval.glo4003.housematch.statistics.user;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.statistics.Statistic;
-import ca.ulaval.glo4003.housematch.statistics.StatisticRepository;
+import ca.ulaval.glo4003.housematch.statistics.StatisticsRepository;
 
 public class UserStatisticsCollector {
     private static final String NUMBER_OF_ACTIVE_BUYERS = "NumberOfActiveBuyers";
     private static final String NUMBER_OF_ACTIVE_SELLERS = "NumberOfActiveSellers";
 
-    private StatisticRepository statisticRepository;
+    private StatisticsRepository statisticsRepository;
 
-    private Statistic<Integer> numberOfActiveBuyers = new Statistic<>(0, NUMBER_OF_ACTIVE_BUYERS, statisticRepository);
-    private Statistic<Integer> numberOfActiveSellers = new Statistic<>(0, NUMBER_OF_ACTIVE_SELLERS, statisticRepository);
+    private Statistic<Integer> numberOfActiveBuyers = new Statistic<>(0, NUMBER_OF_ACTIVE_BUYERS, statisticsRepository);
+    private Statistic<Integer> numberOfActiveSellers = new Statistic<>(0, NUMBER_OF_ACTIVE_SELLERS, statisticsRepository);
+
+    public UserStatisticsCollector(StatisticsRepository statisticsRepository) {
+        this.statisticsRepository = statisticsRepository;
+    }
 
     public void applyUserStatusChangedToActive(User user) {
         if (user.hasRole(UserRole.BUYER)) {

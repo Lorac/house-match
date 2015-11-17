@@ -93,6 +93,7 @@ public class User extends UserObservable {
             throw new InvalidPasswordException("Password does not match.");
         }
         lastLoginDate = ZonedDateTime.now();
+        applyUserStatusPolicy();
     }
 
     public UserRole getRole() {
@@ -116,7 +117,7 @@ public class User extends UserObservable {
     public void addPropertyForSale(Property property) {
         propertiesForSale.add(property);
         property.markForSale();
-        changeStatus(UserStatus.ACTIVE);
+        applyUserStatusPolicy();
     }
 
     public Property getPropertyForSaleByHashCode(int hashCode) throws PropertyNotFoundException {
@@ -150,16 +151,19 @@ public class User extends UserObservable {
         this.lastLoginDate = lastLoginDate;
     }
 
-    public void applyLoginInactivityPolicy() {
-        if (lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(6))) {
-            changeStatus(UserStatus.INACTIVE);
+    public void applyUserStatusPolicy() {
+        if (role == UserRole.BUYER && lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(6)) && purchasedProperties.size() == 0) {
+            changeStatus(UserStatus.ACTIVE);
+        } else if (role == UserRole.SELLER && propertiesForSale.size() > 0) {
+            changeStatus(UserStatus.ACTIVE);
         }
+        changeStatus(UserStatus.INACTIVE);
     }
 
     public void purchaseProperty(Property property) {
         purchasedProperties.add(property);
         property.markAsSold();
-        changeStatus(UserStatus.INACTIVE);
+        applyUserStatusPolicy();
     }
 
     @Override

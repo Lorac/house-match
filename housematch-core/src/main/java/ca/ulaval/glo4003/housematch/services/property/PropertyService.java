@@ -30,11 +30,12 @@ public class PropertyService {
     private PropertyStatisticsCollector propertyStatisticCollector;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
-            final PropertyDetailsValidator propertyDetailsValidator) {
+            final UserRepository userRepository, final PropertyStatisticsCollector propertyStatisticCollector,
+            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
+        this.propertyStatisticCollector = propertyStatisticCollector;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
     }

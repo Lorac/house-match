@@ -3,15 +3,15 @@ package ca.ulaval.glo4003.housematch.persistence.statistics;
 import java.util.concurrent.ConcurrentHashMap;
 
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import ca.ulaval.glo4003.housematch.statistics.StatisticRepository;
+import ca.ulaval.glo4003.housematch.statistics.StatisticsRepository;
 
-public class XmlStatisticRepository implements StatisticRepository {
+public class XmlStatisticsRepository implements StatisticsRepository {
 
-    private final XmlRepositoryMarshaller<XmlStatisticRootElement> xmlRepositoryMarshaller;
-    private XmlStatisticRootElement xmlStatisticRootElement;
+    private final XmlRepositoryMarshaller<XmlStatisticsRootElement> xmlRepositoryMarshaller;
+    private XmlStatisticsRootElement xmlStatisticRootElement;
     private ConcurrentHashMap<String, Object> statistics;
 
-    public XmlStatisticRepository(final XmlRepositoryMarshaller<XmlStatisticRootElement> xmlRepositoryMarshaller) {
+    public XmlStatisticsRepository(final XmlRepositoryMarshaller<XmlStatisticsRootElement> xmlRepositoryMarshaller) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
         initRepository();
     }

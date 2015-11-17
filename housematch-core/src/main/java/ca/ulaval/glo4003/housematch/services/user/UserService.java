@@ -33,13 +33,14 @@ public class UserService {
     private AddressValidator addressValidator;
 
     public UserService(final UserFactory userFactory, final UserRepository userRepository,
-            final UserRegistrationValidator userRegistrationValidator, final UserActivationService userActivationService,
-            final AddressValidator addressValidator) {
+            final UserActivationService userActivationService, final UserStatisticsCollector userStatisticCollector,
+            final UserRegistrationValidator userRegistrationValidator, final AddressValidator addressValidator) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
+        this.userActivationService = userActivationService;
+        this.userStatisticCollector = userStatisticCollector;
         this.userRegistrationValidator = userRegistrationValidator;
         this.addressValidator = addressValidator;
-        this.userActivationService = userActivationService;
     }
 
     public User getUserByLoginCredentials(String username, String password) throws UserServiceException {
@@ -97,8 +98,8 @@ public class UserService {
         return userStatisticCollector.getStatistics();
     }
 
-    public void applyLoginInactivityPolicy() {
+    public void applyUserStatusPolicy() {
         List<User> users = userRepository.getAll();
-        users.stream().forEach(u -> u.applyLoginInactivityPolicy());
+        users.stream().forEach(u -> u.applyUserStatusPolicy());
     }
 }

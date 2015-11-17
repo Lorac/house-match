@@ -8,6 +8,10 @@ public class PropertyStatisticsObserver implements PropertyObserver {
 
     private PropertyStatisticsCollector propertyStatisticsCollector;
 
+    public PropertyStatisticsObserver(PropertyStatisticsCollector propertyStatisticsCollector) {
+        this.propertyStatisticsCollector = propertyStatisticsCollector;
+    }
+
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
         switch (newStatus) {
         case FOR_SALE:

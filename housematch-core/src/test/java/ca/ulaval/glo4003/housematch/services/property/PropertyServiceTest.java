@@ -23,6 +23,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
@@ -36,6 +37,7 @@ public class PropertyServiceTest {
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
     private UserRepository userRepositoryMock;
+    private PropertyStatisticsCollector propertyStatisticsCollectorMock;
     private PropertyCreationValidator propertyCreationValidatorMock;
     private PropertyDetailsValidator propertyDetailsValidatorMock;
     private User userMock;
@@ -50,13 +52,14 @@ public class PropertyServiceTest {
         initMocks();
         stubMethods();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
-                propertyCreationValidatorMock, propertyDetailsValidatorMock);
+                propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock);
     }
 
     private void initMocks() {
         propertyFactoryMock = mock(PropertyFactory.class);
         userRepositoryMock = mock(UserRepository.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
+        propertyStatisticsCollectorMock = mock(PropertyStatisticsCollector.class);
         userMock = mock(User.class);
         addressMock = mock(Address.class);
         propertyCreationValidatorMock = mock(PropertyCreationValidator.class);

@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "housematch")
-public class XmlStatisticRootElement {
+public class XmlStatisticsRootElement {
 
     private ConcurrentHashMap<String, Object> statistics;
 

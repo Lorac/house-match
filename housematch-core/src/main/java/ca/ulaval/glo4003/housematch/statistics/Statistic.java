@@ -4,10 +4,10 @@ public class Statistic<T> {
 
     protected String statisticName;
     protected T value;
-    protected StatisticRepository statisticRepository;
+    protected StatisticsRepository statisticRepository;
 
     @SuppressWarnings("unchecked")
-    public Statistic(T initialValue, String statisticName, StatisticRepository statisticRepository) {
+    public Statistic(T initialValue, String statisticName, StatisticsRepository statisticRepository) {
         this.statisticName = statisticName;
         this.statisticRepository = statisticRepository;
         value = (T) statisticRepository.get(statisticName, initialValue);
