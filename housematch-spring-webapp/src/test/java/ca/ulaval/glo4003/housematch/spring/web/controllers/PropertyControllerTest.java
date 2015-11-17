@@ -55,8 +55,6 @@ public class PropertyControllerTest extends BaseControllerTest {
     private PropertyController propertyController;
     private String samplePropertyDetailsUpdateUrl;
     private PermissionEvaluator permissionEvaluatorMock;
-    private SecurityContextImpl securityContext = new SecurityContextImpl();
-    private TestingAuthenticationToken authentication;
 
     @Before
     public void init() throws Exception {
@@ -67,9 +65,6 @@ public class PropertyControllerTest extends BaseControllerTest {
         propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyViewModelAssemblerMock,
                 propertyDetailsFormViewModelAssemblerMock, propertySearchResultsViewModelAssemblerMock, permissionEvaluatorMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
-        securityContext = new SecurityContextImpl();
-        authentication = new TestingAuthenticationToken(null, null);
-        securityContext.setAuthentication(authentication);
     }
 
     private void initMocks() {
