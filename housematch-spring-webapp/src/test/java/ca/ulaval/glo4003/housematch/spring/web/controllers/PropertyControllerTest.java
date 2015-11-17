@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -263,7 +264,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     private ResultActions performPropertyGetRequest() throws Exception {
-        when(permissionEvaluatorMock.hasPermission(eq(authentication), anyObject(), anyObject())).thenReturn(true);
+        when(permissionEvaluatorMock.hasPermission(any(Authentication.class), anyObject(), anyObject())).thenReturn(true);
         return performGetRequest(PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode());
     }
 }
