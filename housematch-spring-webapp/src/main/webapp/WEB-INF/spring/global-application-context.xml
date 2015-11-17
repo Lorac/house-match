@@ -36,11 +36,11 @@
     <!-- Statistics Collectors -->
 
     <bean id="userStatisticsCollector" class="ca.ulaval.glo4003.housematch.statistics.user.UserStatisticsCollector">
-        <constructor-arg ref="xmlStatisticsRepository" />
+        <constructor-arg ref="statisticFactory" />
     </bean>
 
     <bean id="propertyStatisticsCollector" class="ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector">
-        <constructor-arg ref="xmlStatisticsRepository" />
+        <constructor-arg ref="statisticFactory" />
     </bean>
 
     <!-- Validators -->
@@ -76,6 +76,10 @@
 
     <bean id="propertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory">
         <constructor-arg ref="propertyStatisticsObserver" />
+    </bean>
+	
+	<bean id="statisticFactory" class="ca.ulaval.glo4003.housematch.statistics.StatisticFactory">
+        <constructor-arg ref="xmlStatisticsRepository" />
     </bean>
 
     <!-- Services -->

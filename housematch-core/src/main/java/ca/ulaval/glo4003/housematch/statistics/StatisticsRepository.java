@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.housematch.statistics;
 
 public interface StatisticsRepository {
 
-    Integer get(String statisticName, Integer defaultValue);
+    Object get(String statisticName, Object defaultValue);
 
-    void persist(String statisticName, Integer value);
+    void persist(String statisticName, Object value);
 
 }

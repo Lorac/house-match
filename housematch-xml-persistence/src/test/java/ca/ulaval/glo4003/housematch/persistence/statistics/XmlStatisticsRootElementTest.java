@@ -10,7 +10,7 @@ import org.junit.Test;
 public class XmlStatisticsRootElementTest {
 
     private XmlStatisticsRootElement xmlStatisticsRootElement;
-    private ConcurrentHashMap<String, Integer> statistics = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, Object> statistics = new ConcurrentHashMap<String, Object>();
 
     @Before
     public void init() {

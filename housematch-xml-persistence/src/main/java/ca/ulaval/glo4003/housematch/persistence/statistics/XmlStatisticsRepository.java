@@ -9,7 +9,7 @@ public class XmlStatisticsRepository implements StatisticsRepository {
 
     private final XmlRepositoryMarshaller<XmlStatisticsRootElement> xmlRepositoryMarshaller;
     private XmlStatisticsRootElement xmlStatisticRootElement;
-    private ConcurrentHashMap<String, Integer> statistics;
+    private ConcurrentHashMap<String, Object> statistics;
 
     public XmlStatisticsRepository(final XmlRepositoryMarshaller<XmlStatisticsRootElement> xmlRepositoryMarshaller) {
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
@@ -22,7 +22,7 @@ public class XmlStatisticsRepository implements StatisticsRepository {
     }
 
     @Override
-    public Integer get(String statisticName, Integer defaultValue) {
+    public Object get(String statisticName, Object defaultValue) {
         if (statistics.containsKey(statisticName)) {
             return statistics.get(statisticName);
         } else {
@@ -31,7 +31,7 @@ public class XmlStatisticsRepository implements StatisticsRepository {
     }
 
     @Override
-    public void persist(String statisticName, Integer value) {
+    public void persist(String statisticName, Object value) {
         statistics.put(statisticName, value);
         marshal();
     }
