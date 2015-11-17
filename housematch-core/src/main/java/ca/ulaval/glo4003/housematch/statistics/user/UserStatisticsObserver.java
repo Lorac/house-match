@@ -17,8 +17,10 @@ public class UserStatisticsObserver implements UserObserver {
         switch (newStatus) {
         case ACTIVE:
             userStatisticsCollector.applyUserStatusChangedToActive(user);
+            break;
         case INACTIVE:
             userStatisticsCollector.applyUserStatusChangedToInactive(user);
+            break;
         default:
         }
     }

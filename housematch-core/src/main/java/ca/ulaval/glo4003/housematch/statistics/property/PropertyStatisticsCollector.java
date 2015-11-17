@@ -21,12 +21,12 @@ public class PropertyStatisticsCollector {
     }
 
     public void applyPropertySale(Property property) {
-        adjustNumberOfSoldProperties(+1);
+        adjustNumberOfSoldProperties(1);
         adjustNumberOfPropertiesForSale(property.getPropertyType(), -1);
     }
 
     public void applyPropertyForSale(Property property) {
-        adjustNumberOfPropertiesForSale(property.getPropertyType(), +1);
+        adjustNumberOfPropertiesForSale(property.getPropertyType(), 1);
     }
 
     private synchronized void adjustNumberOfSoldProperties(Integer value) {
@@ -34,8 +34,8 @@ public class PropertyStatisticsCollector {
     }
 
     private synchronized void adjustNumberOfPropertiesForSale(PropertyType propertyType, Integer value) {
-        numberOfPropertiesForSale.getValue().putIfAbsent(propertyType, value);
         numberOfPropertiesForSale.getValue().computeIfPresent(propertyType, (k, v) -> v + value);
+        numberOfPropertiesForSale.getValue().putIfAbsent(propertyType, value);
     }
 
     public PropertyStatistics getStatistics() {

@@ -9,7 +9,7 @@
     <task:scheduler id="taskScheduler" pool-size="10" />
 	
 	<task:scheduled-tasks scheduler="taskScheduler">
-		<task:scheduled ref="userStatusPolicyVerificationTask" method="run" fixed-rate="86400000" initial-delay="2000" />
+		<task:scheduled ref="userStatusPolicyVerificationTask" method="run" fixed-rate="86400000" initial-delay="5000" />
 	</task:scheduled-tasks>
     
     <bean id="userStatusPolicyVerificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserStatusPolicyVerificationTask">

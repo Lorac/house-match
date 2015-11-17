@@ -19,9 +19,9 @@ public class UserStatisticsCollector {
 
     public void applyUserStatusChangedToActive(User user) {
         if (user.hasRole(UserRole.BUYER)) {
-            adjustNumberOfActiveBuyers(+1);
+            adjustNumberOfActiveBuyers(1);
         } else if (user.hasRole(UserRole.SELLER)) {
-            adjustNumberOfActiveSellers(+1);
+            adjustNumberOfActiveSellers(1);
         }
     }
 
@@ -38,7 +38,7 @@ public class UserStatisticsCollector {
     }
 
     private synchronized void adjustNumberOfActiveSellers(Integer value) {
-        numberOfActiveBuyers.setValue(numberOfActiveBuyers.getValue() + value);
+        numberOfActiveSellers.setValue(numberOfActiveSellers.getValue() + value);
     }
 
     public UserStatistics getStatistics() {

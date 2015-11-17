@@ -17,7 +17,6 @@ public class User extends UserObservable {
     private static final Integer LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
     private StringHasher stringHasher;
-
     private String username;
     private String email;
     private String passwordHash;
@@ -82,20 +81,28 @@ public class User extends UserObservable {
         return propertiesForSale;
     }
 
-    public void setPropertiesForSale(List<Property> properties) {
-        propertiesForSale = properties;
-    }
-
     public Boolean hasPropertiesForSale() {
         return propertiesForSale.size() > 0;
     }
 
-    public void validatePassword(String password) throws InvalidPasswordException {
-        if (!this.passwordHash.equals(stringHasher.hash(password))) {
-            throw new InvalidPasswordException("Password does not match.");
-        }
-        lastLoginDate = ZonedDateTime.now();
-        applyUserStatusPolicy();
+    public void setPropertiesForSale(List<Property> properties) {
+        propertiesForSale = properties;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public ZonedDateTime getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(ZonedDateTime lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
     }
 
     public UserRole getRole() {
@@ -104,6 +111,14 @@ public class User extends UserObservable {
 
     public Boolean hasRole(UserRole role) {
         return this.role.equals(role);
+    }
+
+    public void validatePassword(String password) throws InvalidPasswordException {
+        if (!this.passwordHash.equals(stringHasher.hash(password))) {
+            throw new InvalidPasswordException("Password does not match.");
+        }
+        lastLoginDate = ZonedDateTime.now();
+        applyUserStatusPolicy();
     }
 
     public void updateEmail(String email) {
@@ -130,29 +145,6 @@ public class User extends UserObservable {
         }
     }
 
-    public UserStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatus status) {
-        this.status = status;
-    }
-
-    private void changeStatus(UserStatus newStatus) {
-        if (status != newStatus) {
-            status = newStatus;
-            userStatusChanged(this, newStatus);
-        }
-    }
-
-    public ZonedDateTime getLastLoginDate() {
-        return lastLoginDate;
-    }
-
-    public void setLastLoginDate(ZonedDateTime lastLoginDate) {
-        this.lastLoginDate = lastLoginDate;
-    }
-
     public void applyUserStatusPolicy() {
         if (role == UserRole.BUYER && isActiveAsBuyer()) {
             changeStatus(UserStatus.ACTIVE);
@@ -170,6 +162,13 @@ public class User extends UserObservable {
 
     private Boolean isActiveAsSeller() {
         return propertiesForSale.size() > 0;
+    }
+
+    private void changeStatus(UserStatus newStatus) {
+        if (status != newStatus) {
+            status = newStatus;
+            userStatusChanged(this, newStatus);
+        }
     }
 
     public void purchaseProperty(Property property) {
