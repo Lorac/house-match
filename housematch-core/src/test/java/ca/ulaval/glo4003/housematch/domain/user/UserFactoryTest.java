@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -38,5 +39,11 @@ public class UserFactoryTest {
         assertEquals(SAMPLE_PASSWORD_HASH, user.getPasswordHash());
         assertEquals(SAMPLE_EMAIL, user.getEmail());
         assertEquals(SAMPLE_ROLE, user.getRole());
+    }
+
+    @Test
+    public void userFactoryRegistersTheSharedObserverToTheUser() {
+        User user = userFactory.createUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        assertTrue(user.isObserverRegistered(userObserverMock));
     }
 }

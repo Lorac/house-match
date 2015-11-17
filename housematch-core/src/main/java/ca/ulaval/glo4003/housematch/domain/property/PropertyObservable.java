@@ -1,19 +1,8 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import java.util.ArrayList;
-import java.util.List;
+import ca.ulaval.glo4003.housematch.utils.Observable;
 
-public class PropertyObservable {
-
-    private List<PropertyObserver> observers = new ArrayList<>();
-
-    public void registerObserver(PropertyObserver observer) {
-        observers.add(observer);
-    }
-
-    public void unregisterObserver(PropertyObserver observer) {
-        observers.remove(observer);
-    }
+public class PropertyObservable extends Observable<PropertyObserver> {
 
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
         for (PropertyObserver observer : observers) {

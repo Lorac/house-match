@@ -35,12 +35,8 @@ public class HomeController extends BaseController {
     @Inject
     private StatisticsViewModelAssembler statisticsViewModelAssembler;
 
-    protected HomeController() {
-        // Required for Mockito
-    }
-
     public HomeController(final PropertyService propertyService, final UserService userService,
-            StatisticsViewModelAssembler statisticsViewModelAssembler) {
+            final StatisticsViewModelAssembler statisticsViewModelAssembler) {
         this.propertyService = propertyService;
         this.userService = userService;
         this.statisticsViewModelAssembler = statisticsViewModelAssembler;
@@ -65,7 +61,7 @@ public class HomeController extends BaseController {
 
         modelMap.put(StatisticsViewModel.NAME,
                 statisticsViewModelAssembler.assembleFromStatistics(propertyService.getStatistics(), userService.getStatistics()));
-        return new ModelAndView(HOME_VIEW_NAME);
+        return new ModelAndView(HOME_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)

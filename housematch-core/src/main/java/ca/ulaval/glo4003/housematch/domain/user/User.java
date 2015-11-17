@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable {
-    private static final Integer LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
+    static final Integer LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
     private StringHasher stringHasher;
     private String username;
@@ -79,10 +79,6 @@ public class User extends UserObservable {
 
     public List<Property> getPropertiesForSale() {
         return propertiesForSale;
-    }
-
-    public Boolean hasPropertiesForSale() {
-        return propertiesForSale.size() > 0;
     }
 
     public void setPropertiesForSale(List<Property> properties) {

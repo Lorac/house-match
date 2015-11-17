@@ -6,7 +6,7 @@ public class UserStatusPolicyVerificationTask implements Runnable {
 
     UserService userService;
 
-    public UserStatusPolicyVerificationTask(UserService userService) {
+    public UserStatusPolicyVerificationTask(final UserService userService) {
         this.userService = userService;
     }
 

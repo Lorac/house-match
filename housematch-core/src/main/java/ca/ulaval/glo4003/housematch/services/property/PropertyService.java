@@ -64,12 +64,6 @@ public class PropertyService {
         }
     }
 
-    public void purchaseProperty(User user, Property property) {
-        user.purchaseProperty(property);
-        userRepository.update(user);
-        propertyRepository.update(property);
-    }
-
     public List<Property> getProperties() {
         return propertyRepository.getAll();
     }

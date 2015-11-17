@@ -8,7 +8,7 @@ public class UserStatisticsObserver implements UserObserver {
 
     private UserStatisticsCollector userStatisticsCollector;
 
-    public UserStatisticsObserver(UserStatisticsCollector userStatisticsCollector) {
+    public UserStatisticsObserver(final UserStatisticsCollector userStatisticsCollector) {
         this.userStatisticsCollector = userStatisticsCollector;
     }
 
@@ -16,10 +16,10 @@ public class UserStatisticsObserver implements UserObserver {
     public void userStatusChanged(User user, UserStatus newStatus) {
         switch (newStatus) {
         case ACTIVE:
-            userStatisticsCollector.applyUserStatusChangedToActive(user);
+            userStatisticsCollector.applyUserStatusChangeToActive(user);
             break;
         case INACTIVE:
-            userStatisticsCollector.applyUserStatusChangedToInactive(user);
+            userStatisticsCollector.applyUserStatusChangeToInactive(user);
             break;
         default:
         }

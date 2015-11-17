@@ -8,7 +8,7 @@ public class PropertyStatisticsObserver implements PropertyObserver {
 
     private PropertyStatisticsCollector propertyStatisticsCollector;
 
-    public PropertyStatisticsObserver(PropertyStatisticsCollector propertyStatisticsCollector) {
+    public PropertyStatisticsObserver(final PropertyStatisticsCollector propertyStatisticsCollector) {
         this.propertyStatisticsCollector = propertyStatisticsCollector;
     }
 

@@ -36,8 +36,8 @@
     <bean id="xmlPropertyAdapter" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyAdapter">
         <constructor-arg ref="propertyFactory" />
     </bean>
-	
-	<!-- Statistics -->
+
+    <!-- Statistics -->
 
     <bean id="xmlStatisticsRepository" class="ca.ulaval.glo4003.housematch.persistence.statistics.XmlStatisticsRepository">
         <constructor-arg ref="xmlStatisticsRepositoryMarshaller" />

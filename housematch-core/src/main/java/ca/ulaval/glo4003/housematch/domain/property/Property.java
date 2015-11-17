@@ -1,7 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -14,7 +13,6 @@ public class Property extends PropertyObservable {
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
     private PropertyStatus status = PropertyStatus.CREATED;
-    private ZonedDateTime saleDate;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -44,10 +42,6 @@ public class Property extends PropertyObservable {
         this.propertyDetails = propertyDetails;
     }
 
-    public ZonedDateTime getSaleDate() {
-        return saleDate;
-    }
-
     public PropertyStatus getStatus() {
         return status;
     }
@@ -63,7 +57,6 @@ public class Property extends PropertyObservable {
 
     public void markAsSold() {
         status = PropertyStatus.SOLD;
-        saleDate = ZonedDateTime.now();
         propertyStatusChanged(this, status);
     }
 
