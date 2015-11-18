@@ -1,5 +1,8 @@
 package ca.ulaval.glo4003.housematch.context;
 
+import java.math.BigDecimal;
+import java.util.Random;
+
 import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.address.Region;
@@ -15,10 +18,7 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.Random;
-
 public class SpringDemoContext extends ContextBase {
     private UserFactory userFactory;
     private UserRepository userRepository;
@@ -96,15 +96,6 @@ public class SpringDemoContext extends ContextBase {
         westEdmontonMallProperty.setPropertyDetails(westEdmontonMallDetails);
         cnTowerProperty.setPropertyDetails(cnTowerDetails);
 
-        propertyRepository.persist(quebecProperty);
-        propertyRepository.persist(abitibiProperty);
-        propertyRepository.persist(outaouaisProperty);
-        propertyRepository.persist(montrealProperty);
-        propertyRepository.persist(primeMinisterProperty);
-        propertyRepository.persist(greatDivideLodgeProperty);
-        propertyRepository.persist(westEdmontonMallProperty);
-        propertyRepository.persist(cnTowerProperty);
-
         seller.addPropertyForSale(quebecProperty);
         seller.addPropertyForSale(montrealProperty);
         seller2.addPropertyForSale(abitibiProperty);
@@ -113,6 +104,17 @@ public class SpringDemoContext extends ContextBase {
         seller2.addPropertyForSale(greatDivideLodgeProperty);
         seller2.addPropertyForSale(westEdmontonMallProperty);
         seller2.addPropertyForSale(cnTowerProperty);
+
+        buyer.purchaseProperty(westEdmontonMallProperty);
+
+        propertyRepository.persist(quebecProperty);
+        propertyRepository.persist(abitibiProperty);
+        propertyRepository.persist(outaouaisProperty);
+        propertyRepository.persist(montrealProperty);
+        propertyRepository.persist(primeMinisterProperty);
+        propertyRepository.persist(greatDivideLodgeProperty);
+        propertyRepository.persist(westEdmontonMallProperty);
+        propertyRepository.persist(cnTowerProperty);
 
         userRepository.persist(buyer);
         userRepository.persist(seller);

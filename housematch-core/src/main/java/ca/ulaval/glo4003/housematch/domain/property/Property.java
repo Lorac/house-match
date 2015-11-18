@@ -7,12 +7,13 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 
-public class Property {
+public class Property extends PropertyObservable {
 
     private PropertyType propertyType;
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
+    private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
@@ -44,12 +45,26 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
+    public PropertyStatus getStatus() {
+        return status;
     public ZonedDateTime getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
+    public void setStatus(PropertyStatus propertyStatus) {
+        this.status = propertyStatus;
+    }
+
+    public void markForSale() {
+        status = PropertyStatus.FOR_SALE;
+        propertyStatusChanged(this, status);
+    }
+
+    public void markAsSold() {
+        status = PropertyStatus.SOLD;
+        propertyStatusChanged(this, status);
     }
 
     @Override

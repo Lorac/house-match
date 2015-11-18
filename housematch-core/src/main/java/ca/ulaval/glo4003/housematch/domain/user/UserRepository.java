@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface UserRepository {
@@ -11,5 +12,7 @@ public interface UserRepository {
     User getByUsername(String username) throws UserNotFoundException;
 
     User getByActivationCode(UUID activationCode) throws UserNotFoundException;
+
+    List<User> getAll();
 
 }

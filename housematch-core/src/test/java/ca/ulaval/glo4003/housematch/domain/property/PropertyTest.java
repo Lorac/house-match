@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 
@@ -19,17 +20,25 @@ public class PropertyTest {
     private static final PropertyType ANOTHER_SAMPLE_PROPERTY_TYPE = PropertyType.LOT;
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
     private static final BigDecimal ANOTHER_SAMPLE_SELLING_PRICE = BigDecimal.valueOf(4535);
+    private static final PropertyStatus SAMPLE_STATUS = PropertyStatus.FOR_SALE;
     private static final Object SAMPLE_OBJECT = new Object();
 
     private Property property;
     private PropertyDetails propertyDetailsMock;
+    private PropertyObserver propertyObserverMock;
     private Address addressMock;
 
     @Before
     public void init() throws Exception {
+        initMocks();
+        property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
+        property.registerObserver(propertyObserverMock);
+    }
+
+    private void initMocks() {
         addressMock = mock(Address.class);
         propertyDetailsMock = mock(PropertyDetails.class);
-        property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
+        propertyObserverMock = mock(PropertyObserver.class);
     }
 
     @Test
@@ -90,5 +99,35 @@ public class PropertyTest {
     public void settingThePropertyDetailsSetsTheSpecifiedPropertyDetails() {
         property.setPropertyDetails(propertyDetailsMock);
         assertEquals(propertyDetailsMock, property.getPropertyDetails());
+    }
+
+    @Test
+    public void settingTheStatusSetsTheSpecifiedStatus() {
+        property.setStatus(SAMPLE_STATUS);
+        assertEquals(SAMPLE_STATUS, property.getStatus());
+    }
+
+    @Test
+    public void markingThePropertyForSaleMarksThePropertyAsForSale() {
+        property.markForSale();
+        assertEquals(PropertyStatus.FOR_SALE, property.getStatus());
+    }
+
+    @Test
+    public void markingThePropertyForSaleNotifiesTheObservers() {
+        property.markForSale();
+        verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.FOR_SALE);
+    }
+
+    @Test
+    public void markingThePropertyAsSoldMarksThePropertyAsSold() {
+        property.markAsSold();
+        assertEquals(PropertyStatus.SOLD, property.getStatus());
+    }
+
+    @Test
+    public void markingThePropertyAsSoldNotifiesTheObservers() {
+        property.markAsSold();
+        verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.SOLD);
     }
 }

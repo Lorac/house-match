@@ -11,6 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -24,6 +25,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
@@ -39,6 +42,8 @@ public class UserServiceTest {
 
     private UserFactory userFactoryMock;
     private UserRepository userRepositoryMock;
+    private UserStatisticsCollector userStatisticsCollectorMock;
+    private UserStatistics userStatisticsMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
     private AddressValidator addressValidatorMock;
@@ -53,8 +58,8 @@ public class UserServiceTest {
     public void init() throws Exception {
         initMocks();
         stubMethods();
-        userService = new UserService(userFactoryMock, userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
-                addressValidatorMock);
+        userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userStatisticsCollectorMock,
+                userRegistrationValidatorMock, addressValidatorMock);
     }
 
     private void initMocks() throws UserNotFoundException {
@@ -63,6 +68,8 @@ public class UserServiceTest {
         userMock = mock(User.class);
         propertyMock = mock(Property.class);
         userActivationServiceMock = mock(UserActivationService.class);
+        userStatisticsCollectorMock = mock(UserStatisticsCollector.class);
+        userStatisticsMock = mock(UserStatistics.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
         addressValidatorMock = mock(AddressValidator.class);
         addressMock = mock(Address.class);
@@ -200,6 +207,20 @@ public class UserServiceTest {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
+    }
+
+    @Test
+    public void gettingTheStatisticsGetsTheStatistics() {
+        when(userStatisticsCollectorMock.getStatistics()).thenReturn(userStatisticsMock);
+        UserStatistics returnedUserStatistics = userService.getStatistics();
+        assertSame(userStatisticsMock, returnedUserStatistics);
+    }
+
+    @Test
+    public void applyingTheUserStatusPolicyAppliesTheUserStatusPolicyToUsers() {
+        when(userRepositoryMock.getAll()).thenReturn(Arrays.asList(userMock));
+        userService.applyUserStatusPolicy();
+        verify(userMock).applyUserStatusPolicy();
     }
 
     private void registerUser() throws UserServiceException {

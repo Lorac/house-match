@@ -1,14 +1,20 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.services.property.PropertyService;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.spring.web.assemblers.StatisticsViewModelAssembler;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.StatisticsViewModel;
 
 @Controller
 public class HomeController extends BaseController {
@@ -22,12 +28,26 @@ public class HomeController extends BaseController {
     static final String BUYER_HOME_URL = "/buyer";
     static final String BUYER_HOME_VIEW_NAME = "buyer/home";
 
+    @Inject
+    private PropertyService propertyService;
+    @Inject
+    private UserService userService;
+    @Inject
+    private StatisticsViewModelAssembler statisticsViewModelAssembler;
+
     protected HomeController() {
         // Required for Mockito
     }
 
+    public HomeController(final PropertyService propertyService, final UserService userService,
+            final StatisticsViewModelAssembler statisticsViewModelAssembler) {
+        this.propertyService = propertyService;
+        this.userService = userService;
+        this.statisticsViewModelAssembler = statisticsViewModelAssembler;
+    }
+
     @RequestMapping(value = HOME_URL, method = RequestMethod.GET)
-    public final ModelAndView displayHomeView(HttpSession httpSession) {
+    public final ModelAndView displayHomeView(HttpSession httpSession, ModelMap modelMap) {
         User user = getUserFromHttpSession(httpSession);
 
         if (user != null) {
@@ -43,7 +63,9 @@ public class HomeController extends BaseController {
             }
         }
 
-        return new ModelAndView(HOME_VIEW_NAME);
+        modelMap.put(StatisticsViewModel.NAME,
+                statisticsViewModelAssembler.assembleFromStatistics(propertyService.getStatistics(), userService.getStatistics()));
+        return new ModelAndView(HOME_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)

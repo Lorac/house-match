@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.persistence.property;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.persistence.zoneddatetime.XmlZonedDateTimeAdapter;
 
@@ -19,4 +20,5 @@ public class XmlProperty {
     public PropertyDetails propertyDetails;
     @XmlJavaTypeAdapter(XmlZonedDateTimeAdapter.class)
     public ZonedDateTime creationDate;
+    public PropertyStatus status;    
 }

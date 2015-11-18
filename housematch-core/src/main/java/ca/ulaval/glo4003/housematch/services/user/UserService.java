@@ -16,6 +16,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
@@ -26,17 +28,19 @@ public class UserService {
     private UserFactory userFactory;
     private UserRepository userRepository;
     private UserActivationService userActivationService;
+    private UserStatisticsCollector userStatisticsCollector;
     private UserRegistrationValidator userRegistrationValidator;
     private AddressValidator addressValidator;
 
     public UserService(final UserFactory userFactory, final UserRepository userRepository,
-            final UserRegistrationValidator userRegistrationValidator, final UserActivationService userActivationService,
-            final AddressValidator addressValidator) {
+            final UserActivationService userActivationService, final UserStatisticsCollector userStatisticCollector,
+            final UserRegistrationValidator userRegistrationValidator, final AddressValidator addressValidator) {
         this.userFactory = userFactory;
         this.userRepository = userRepository;
+        this.userActivationService = userActivationService;
+        this.userStatisticsCollector = userStatisticCollector;
         this.userRegistrationValidator = userRegistrationValidator;
         this.addressValidator = addressValidator;
-        this.userActivationService = userActivationService;
     }
 
     public User getUserByLoginCredentials(String username, String password) throws UserServiceException {
@@ -88,5 +92,14 @@ public class UserService {
         } catch (UserActivationServiceException | AddressValidationException e) {
             throw new UserServiceException(e);
         }
+    }
+
+    public UserStatistics getStatistics() {
+        return userStatisticsCollector.getStatistics();
+    }
+
+    public void applyUserStatusPolicy() {
+        List<User> users = userRepository.getAll();
+        users.stream().forEach(u -> u.applyUserStatusPolicy());
     }
 }

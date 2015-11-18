@@ -15,11 +15,13 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 
 public class XmlPropertyAdapterTest {
 
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.SINGLE_FAMILY_HOME;
+    private static final PropertyStatus SAMPLE_PROPERTY_STATUS = PropertyStatus.FOR_SALE;
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
 
     private PropertyFactory propertyFactoryMock;
@@ -49,6 +51,7 @@ public class XmlPropertyAdapterTest {
     private void initPropertyMock() {
         propertyMock = mock(Property.class);
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
+        when(propertyMock.getStatus()).thenReturn(SAMPLE_PROPERTY_STATUS);
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
@@ -58,6 +61,7 @@ public class XmlPropertyAdapterTest {
     private void initXmlPropertyMock() {
         xmlPropertyMock = mock(XmlProperty.class);
         xmlPropertyMock.propertyType = SAMPLE_PROPERTY_TYPE;
+        xmlPropertyMock.status = SAMPLE_PROPERTY_STATUS;
         xmlPropertyMock.sellingPrice = SAMPLE_SELLING_PRICE;
         xmlPropertyMock.address = addressMock;
         xmlPropertyMock.propertyDetails = propertyDetailsMock;
@@ -74,6 +78,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyAdapter.marshal(propertyMock);
 
         assertEquals(propertyMock.getPropertyType(), xmlPropertyMock.propertyType);
+        assertEquals(propertyMock.getStatus(), xmlPropertyMock.status);
         assertEquals(propertyMock.getAddress(), xmlPropertyMock.address);
         assertEquals(propertyMock.getSellingPrice(), xmlPropertyMock.sellingPrice);
         assertEquals(propertyMock.getPropertyDetails(), xmlPropertyMock.propertyDetails);
@@ -85,6 +90,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyAdapter.unmarshal(xmlPropertyMock);
 
         assertEquals(xmlPropertyMock.propertyType, propertyMock.getPropertyType());
+        assertEquals(xmlPropertyMock.status, propertyMock.getStatus());
         assertEquals(xmlPropertyMock.address, propertyMock.getAddress());
         assertEquals(xmlPropertyMock.sellingPrice, propertyMock.getSellingPrice());
         assertEquals(xmlPropertyMock.propertyDetails, propertyMock.getPropertyDetails());

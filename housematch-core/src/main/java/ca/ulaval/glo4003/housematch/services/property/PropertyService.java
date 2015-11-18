@@ -11,6 +11,8 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
+import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
@@ -27,13 +29,16 @@ public class PropertyService {
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
     private PropertySorter propertySorter;
+    private PropertyStatisticsCollector propertyStatisticsCollector;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-            final UserRepository userRepository, final PropertyCreationValidator propertyCreationValidator,
+            final UserRepository userRepository, final PropertyStatisticsCollector propertyStatisticsCollector,
             final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
+            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
+        this.propertyStatisticsCollector = propertyStatisticsCollector;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
         this.propertySorter = propertySorter;
@@ -73,6 +78,8 @@ public class PropertyService {
 
     public List<Property> getPropertiesInChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
+    public PropertyStatistics getStatistics() {
+        return propertyStatisticsCollector.getStatistics();
         propertySorter.sortByDateInAscendingOrder(properties);
         return properties;
     }
