@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
+import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyViewModelAssembler;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,9 +30,12 @@ public class HomeController extends BaseController {
 
     @Inject
     private PropertyService propertyService;
+    @Inject
+    private PropertyViewModelAssembler propertyViewModelAssembler;
 
-    public HomeController(final PropertyService propertyService) {
+    public HomeController(final PropertyService propertyService, final PropertyViewModelAssembler propertyViewModelAssembler) {
         this.propertyService = propertyService;
+        this.propertyViewModelAssembler = propertyViewModelAssembler;
     }
 
     protected HomeController() {
@@ -55,8 +60,9 @@ public class HomeController extends BaseController {
         }
 
         List<Property> properties = propertyService.getMostViewedProperties(TOP_FIVE);
+        List<PropertyViewModel> propertyViewModels = propertyViewModelAssembler.assembleFromPropertyList(properties);
 
-        return new ModelAndView(HOME_VIEW_NAME, "properties", properties);
+        return new ModelAndView(HOME_VIEW_NAME, "properties", propertyViewModels);
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)

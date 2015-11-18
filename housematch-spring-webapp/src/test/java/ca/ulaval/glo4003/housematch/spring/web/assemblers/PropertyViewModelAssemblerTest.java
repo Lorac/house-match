@@ -5,6 +5,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,5 +56,20 @@ public class PropertyViewModelAssemblerTest {
         assertSame(SAMPLE_SELLING_PRICE, viewModel.getSellingPrice());
         assertSame(addressMock, viewModel.getAddress());
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
+    }
+
+    @Test
+    public void assemblesTheViewModelFromTheSpecifiedListOfProperties() {
+        List<Property> properties = new LinkedList<>();
+        properties.add(propertyMock);
+        List<PropertyViewModel> propertyViewModels = assembler.assembleFromPropertyList(properties);
+
+        for (PropertyViewModel propertyViewModel : propertyViewModels) {
+            assertSame(SAMPLE_PROPERTY_TYPE, propertyViewModel.getPropertyType());
+            assertSame(SAMPLE_SELLING_PRICE, propertyViewModel.getSellingPrice());
+            assertSame(addressMock, propertyViewModel.getAddress());
+            assertSame(propertyDetailsMock, propertyViewModel.getPropertyDetails());
+        }
+
     }
 }

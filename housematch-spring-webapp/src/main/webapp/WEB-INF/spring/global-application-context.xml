@@ -99,6 +99,7 @@
 
     <bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
         <constructor-arg ref="propertyService"/>
+        <constructor-arg ref="propertyViewModelAssembler"/>
     </bean>
 
     <bean id="propertyController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController">

@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
+import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyViewModelAssembler;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.test.web.servlet.ResultActions;
@@ -20,12 +21,14 @@ public class HomeControllerTest extends BaseControllerTest {
     private static final String PROPERTIES_ATTRIBUTE_NAME = "properties";
     private HomeController homeController;
     private PropertyService propertyService;
+    private PropertyViewModelAssembler propertyViewModelAssemblerMock;
 
     @Before
     public void init() throws Exception {
         super.init();
         propertyService = mock(PropertyService.class);
-        homeController = new HomeController(propertyService);
+        propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
+        homeController = new HomeController(propertyService, propertyViewModelAssemblerMock);
         mockMvc = MockMvcBuilders.standaloneSetup(homeController).setViewResolvers(viewResolver).build();
         when(propertyService.getMostViewedProperties(TOP_FIVE)).thenReturn(new LinkedList<>());
     }
