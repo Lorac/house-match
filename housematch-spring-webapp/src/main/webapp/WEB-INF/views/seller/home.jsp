@@ -3,6 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController"%>
 <%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
 
 <html>
@@ -31,16 +32,17 @@
                 <div class="profileMenu">
                     <div class="row">
                         <div class="col-sm-4 menuItem">
+                            <a href="<%=UserProfileController.CONTACT_INFO_UPDATE_URL%>"> <span
+                                class="icon glyphicon glyphicon-envelope"></span>
+                                <p class="itemLabel">Update contact information</p></a>
+                        </div>
+                        <div class="col-sm-4 menuItem">
                             <a href="<%=PropertyController.PROPERTY_CREATION_URL%>"><span class="icon glyphicon glyphicon-tag"></span>
                                 <p class="itemLabel">Sell a property</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
                             <a href="<%=PropertyController.PROPERTIES_FOR_SALE_LIST_URL%>"> <span class="icon glyphicon glyphicon-list-alt"></span>
                                 <p class="itemLabel">Edit my properties</p></a>
-                        </div>
-                        <div class="col-sm-4 menuItem">
-                            <span class="icon glyphicon glyphicon-question-sign"></span>
-                            <p class="itemLabel">Sample menu item</p>
                         </div>
                     </div>
                 </div>

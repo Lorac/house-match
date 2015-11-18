@@ -20,6 +20,7 @@
         <intercept-url pattern="/admin/**" access="hasPermission(null, 'ADMINISTRATOR')" />
         <intercept-url pattern="/buyer/**" access="hasPermission(null, 'BUYER')" />
         <intercept-url pattern="/seller/**" access="hasPermission(null, 'SELLER')" />
+		<intercept-url pattern="/user/**" access="hasPermission(null, 'BUYER') or hasPermission(null, 'SELLER') or hasPermission(null, 'ADMINISTRATOR')" />
 
         <!-- Use default provided form. See docs to customize. -->
         <form-login login-page="/login" authentication-failure-url="/login" login-processing-url="/login"

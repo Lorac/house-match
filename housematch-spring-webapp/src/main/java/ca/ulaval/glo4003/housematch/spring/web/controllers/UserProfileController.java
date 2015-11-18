@@ -15,9 +15,9 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationForm
 @Controller
 public class UserProfileController extends BaseController {
 
-    public static final String CONTACT_INFO_UPDATE_URL = "/buyer/updateContactInformation";
-    static final String CONTACT_INFO_UPDATE_VIEW_NAME = "buyer/contactInformationUpdate";
-    static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "buyer/contactInformationUpdateConfirmation";
+    public static final String CONTACT_INFO_UPDATE_URL = "/user/updateContactInformation";
+    static final String CONTACT_INFO_UPDATE_VIEW_NAME = "user/contactInformationUpdate";
+    static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "user/contactInformationUpdateConfirmation";
 
     @Inject
     private UserService userService;
