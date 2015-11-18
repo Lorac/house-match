@@ -74,7 +74,7 @@ public class UserTest {
 
     private void createUsers() {
         buyer = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.BUYER);
-        buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS - 1));
+        buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS - 1));
         seller = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.SELLER);
         user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         user.registerObserver(userObserverMock);
@@ -279,7 +279,7 @@ public class UserTest {
 
     @Test
     public void applyingUserStatusPolicyWhenBuyerHasLoggedMoreThanSixMonthsAgoSetsTheUserStatusToInactive() {
-        buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.LOGIN_INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS + 1));
+        buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS + 1));
         buyer.applyUserStatusPolicy();
         assertEquals(UserStatus.INACTIVE, buyer.getStatus());
     }
