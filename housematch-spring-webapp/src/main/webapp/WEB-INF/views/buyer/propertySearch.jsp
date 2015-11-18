@@ -53,7 +53,7 @@
                             </tr>
                         </thead>
                         <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}" varStatus="status">
-                            <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.getHashCode()}';">
+                            <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}';">
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                                 <td>${propertyViewModel.getHashCode()}</td>
                                 <td>${propertyViewModel.getAddress()}</td>
