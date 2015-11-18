@@ -199,7 +199,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyControllerRendersPropertySearchResultsViewUponCompletionOfPropertySearchRequest() throws Exception {
+    public void propertyControllerRendersPropertyListViewUponCompletionOfPropertyListRequest() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
 
         results.andExpect(status().isOk());
@@ -260,14 +260,14 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyControllerRendersMostPopularPropertiesView() throws Exception {
-        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
+    public void propertyControllerRendersMostViewedPropertiesView() throws Exception {
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_VIEWED_PROPERTIES_VIEW_URL)
                 .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());
 
         ResultActions results = mockMvc.perform(getRequest);
 
         results.andExpect(status().isOk());
-        results.andExpect(view().name(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_NAME));
+        results.andExpect(view().name(PropertyController.MOST_VIEWED_PROPERTIES_VIEW_NAME));
     }
 
     @Test
@@ -289,17 +289,17 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyControllerRetrievesMostPopularPropertyListDuringMostPopularPropertiesViewAccess() throws Exception {
-        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
+    public void propertyControllerRetrievesMostViewedPropertyListDuringMostViewedPropertiesViewAccess() throws Exception {
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_VIEWED_PROPERTIES_VIEW_URL)
                 .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());
         mockMvc.perform(getRequest);
         verify(propertyServiceMock).getMostViewedProperties(eq(SAMPLE_PROPERTY_TYPE), anyInt());
     }
 
     @Test
-    public void propertyControllerAssemblesTheViewModelFromThePropertyListDuringMostPopularPropertiesViewAccess() throws Exception {
+    public void propertyControllerAssemblesTheViewModelFromThePropertyListDuringMostViewedPropertiesViewAccess() throws Exception {
         when(propertyServiceMock.getMostViewedProperties(eq(SAMPLE_PROPERTY_TYPE), anyInt())).thenReturn(SAMPLE_PROPERTY_LIST);
-        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_VIEWED_PROPERTIES_VIEW_URL)
                 .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());
 
         mockMvc.perform(getRequest);

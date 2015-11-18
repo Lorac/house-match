@@ -32,10 +32,10 @@
             </div>
         </form:form>
 
-        <c:if test="${not empty propertySearchResults}">
+        <c:if test="${not empty propertyList}">
             <h3 class="center">Search results</h3>
             <c:choose>
-                <c:when test="${not empty propertySearchResults.propertyViewModels}">
+                <c:when test="${not empty propertyList.propertyViewModels}">
                     <table class="table table-hover align-middle clickable-rows">
                         <thead>
                             <tr>
@@ -52,7 +52,7 @@
                                     Date</th>
                             </tr>
                         </thead>
-                        <c:forEach var="propertyViewModel" items="${propertySearchResults.propertyViewModels}" varStatus="status">
+                        <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}" varStatus="status">
                             <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.getHashCode()}';">
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                                 <td>${propertyViewModel.getHashCode()}</td>

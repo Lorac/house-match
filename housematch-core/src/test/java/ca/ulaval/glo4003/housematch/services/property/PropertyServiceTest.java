@@ -38,7 +38,7 @@ public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
-    private static final int MOST_POPULAR_PROPERTIES_VIEW_LIMIT = 3;
+    private static final int MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT = 3;
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
@@ -215,7 +215,7 @@ public class PropertyServiceTest {
 
     @Test
     public void gettingTheMostViewedPropertiesSortsThePropertiesOfTheSpecifiedTypeUsingThePropertySorter() {
-        propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_POPULAR_PROPERTIES_VIEW_LIMIT);
+        propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT);
 
         verify(propertyRepositoryMock).getByType(SAMPLE_PROPERTY_TYPE);
         verify(propertySorterMock).sortByViewCount(SAMPLE_PROPERTY_LIST, SortOrder.DESCENDING);

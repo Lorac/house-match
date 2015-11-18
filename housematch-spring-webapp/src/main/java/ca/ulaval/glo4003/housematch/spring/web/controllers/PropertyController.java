@@ -39,7 +39,7 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     public static final String PROPERTY_VIEW_URL = "/property/{propertyHashCode}";
     public static final String PROPERTY_VIEW_BASE_URL = "/property/";
-    public static final String MOST_POPULAR_PROPERTIES_VIEW_URL = "/mostPopularProperties";
+    public static final String MOST_VIEWED_PROPERTIES_VIEW_URL = "/mostViewedProperties";
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
     static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
@@ -51,9 +51,9 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL = "/buyer/executePropertySearch/sortByDescendingPrice";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
     static final String PROPERTY_VIEW_NAME = "buyer/propertyDetails";
-    static final String MOST_POPULAR_PROPERTIES_VIEW_NAME = "home/mostPopularProperties";
+    static final String MOST_VIEWED_PROPERTIES_VIEW_NAME = "home/mostViewedProperties";
 
-    private static final Integer MOST_POPULAR_PROPERTIES_VIEW_LIMIT = 10;
+    private static final Integer MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT = 10;
 
     @Inject
     private PropertyService propertyService;
@@ -73,13 +73,13 @@ public class PropertyController extends BaseController {
     public PropertyController(final PropertyService propertyService, final UserService userService,
             final PropertyViewModelAssembler propertyViewModelAssembler,
             final PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler,
-            final PropertyListViewModelAssembler propertySearchResultsViewModelAssembler, final PermissionEvaluator permissionEvaluator) {
+            final PropertyListViewModelAssembler propertyListViewModelAssembler, final PermissionEvaluator permissionEvaluator) {
         super(permissionEvaluator);
         this.propertyService = propertyService;
         this.userService = userService;
         this.propertyViewModelAssembler = propertyViewModelAssembler;
         this.propertyDetailsFormViewModelAssembler = propertyDetailsFormViewModelAssembler;
-        this.propertyListViewModelAssembler = propertySearchResultsViewModelAssembler;
+        this.propertyListViewModelAssembler = propertyListViewModelAssembler;
     }
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
@@ -184,10 +184,10 @@ public class PropertyController extends BaseController {
         }
     }
 
-    @RequestMapping(value = MOST_POPULAR_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
-    public final ModelAndView displayMostPopularProperties(@RequestParam("propertyType") PropertyType propertyType) {
-        List<Property> properties = propertyService.getMostViewedProperties(propertyType, MOST_POPULAR_PROPERTIES_VIEW_LIMIT);
+    @RequestMapping(value = MOST_VIEWED_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
+    public final ModelAndView displayMostViewedProperties(@RequestParam("propertyType") PropertyType propertyType) {
+        List<Property> properties = propertyService.getMostViewedProperties(propertyType, MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT);
         PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(properties);
-        return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
+        return new ModelAndView(MOST_VIEWED_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 }

@@ -1,23 +1,23 @@
 function init() {
-	showMostPopularProperties();
+	showMostViewedProperties();
 }
 
-function showMostPopularProperties() {
+function showMostViewedProperties() {
 var propertyType = $( "select#propertyTypeSelector" ).val();
 $.ajax({
         type: "GET",
-        url: "./mostPopularProperties",
+        url: "./mostViewedProperties",
         data: { "propertyType": propertyType },
         timeout: 15000,
-        success: showMostPopularPropertiesSuccessHandler,
-        error: showMostPopularPropertiesErrorHandler
+        success: showMostViewedPropertiesSuccessHandler,
+        error: showMostViewedPropertiesErrorHandler
     });
 }
 
-function showMostPopularPropertiesSuccessHandler(responseData, status) {
-    $("#mostPopularPropertiesViewContainer").html(responseData);
+function showMostViewedPropertiesSuccessHandler(responseData, status) {
+    $("#mostViewedPropertiesViewContainer").html(responseData);
 }
 
-function showMostPopularPropertiesErrorHandler(xmlHttpRequest, textStatus, errorThrown) {
-    $("#mostPopularPropertiesViewContainer").html("An error is preventing the results from being diplayed: " + errorThrown);
+function showMostViewedPropertiesErrorHandler(xmlHttpRequest, textStatus, errorThrown) {
+    $("#mostViewedPropertiesViewContainer").html("An error is preventing the results from being diplayed: " + errorThrown);
 }
