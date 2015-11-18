@@ -31,7 +31,7 @@ public class UserPermissionEvaluator implements PermissionEvaluator {
         if (targetDomainObject == null) {
             return hasPermission(authentication, (String) permission);
         } else if (targetDomainObject instanceof Property) {
-            return propertyAccessValidator.validateUserAccess(authentication, (Property) targetDomainObject, (String) permission);
+            return propertyAccessValidator.validateAccess(authentication, (Property) targetDomainObject);
         }
         return false;
     }

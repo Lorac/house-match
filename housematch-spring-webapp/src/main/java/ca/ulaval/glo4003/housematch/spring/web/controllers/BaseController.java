@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
@@ -48,9 +47,9 @@ public class BaseController {
         return new ModelAndView(viewName, modelMap);
     }
 
-    protected void validateDomainObjectAccess(Object targetDomainObject, UserRole userRole) {
+    protected void validateDomainObjectAccess(Object targetDomainObject) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!permissionEvaluator.hasPermission(authentication, targetDomainObject, userRole.name())) {
+        if (!permissionEvaluator.hasPermission(authentication, targetDomainObject, null)) {
             throw new AccessDeniedException("Access to the specified domain object is not authorized.");
         }
     }

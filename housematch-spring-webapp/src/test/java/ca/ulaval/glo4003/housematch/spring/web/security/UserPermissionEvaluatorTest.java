@@ -79,7 +79,7 @@ public class UserPermissionEvaluatorTest {
 
     @Test
     public void permissionIsGrantedWhenUserMeetsTheAuthorizationRequirements() {
-        when(propertyAccessValidatorMock.validateUserAccess(authenticationMock, propertyMock, SAMPLE_ROLE.name())).thenReturn(true);
+        when(propertyAccessValidatorMock.validateAccess(authenticationMock, propertyMock, SAMPLE_ROLE.name())).thenReturn(true);
         boolean permissionGranted = userPermissionEvaluator.hasPermission(authenticationMock, propertyMock, SAMPLE_ROLE.name());
         assertTrue(permissionGranted);
     }

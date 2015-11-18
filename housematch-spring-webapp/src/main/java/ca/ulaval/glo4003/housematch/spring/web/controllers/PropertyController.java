@@ -16,7 +16,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
@@ -133,10 +132,10 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_VIEW_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode, ModelMap modelMap) {
+    public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode) {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
-            validateDomainObjectAccess(property, UserRole.BUYER);
+            validateDomainObjectAccess(property);
             propertyService.incrementViewCountOfProperty(property);
             return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
         } catch (PropertyNotFoundException e) {
