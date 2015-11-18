@@ -1,17 +1,17 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import org.junit.Before;
-import org.junit.Test;
+import static junit.framework.TestCase.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.junit.Before;
+import org.junit.Test;
 
 public class PropertySorterTest {
 
@@ -20,13 +20,20 @@ public class PropertySorterTest {
     private Property propertyMock;
     private Property aSecondPropertyMock;
     private Property aThirdPropertyMock;
+    private static final ZonedDateTime SAMPLE_DATE_TIME_1 = ZonedDateTime.now();
+    private static final ZonedDateTime SAMPLE_DATE_TIME_2 = ZonedDateTime.now().plusDays(1);
+    private static final ZonedDateTime SAMPLE_DATE_TIME_3 = ZonedDateTime.now().plusDays(2);
+    private static final BigDecimal SAMPLE_PRICE_1 = BigDecimal.valueOf(50000);
+    private static final BigDecimal SAMPLE_PRICE_2 = BigDecimal.valueOf(100);
+    private static final BigDecimal SAMPLE_PRICE_3 = BigDecimal.valueOf(150000);
 
     @Before
     public void init() throws Exception {
         initMocks();
-        propertySorter = new PropertySorter();
         propertyList = new ArrayList<Property>();
         initPropertiesList();
+        stubMethods();
+        propertySorter = new PropertySorter();
     }
 
     private void initMocks() {
@@ -39,20 +46,15 @@ public class PropertySorterTest {
         propertyList.add(propertyMock);
         propertyList.add(aSecondPropertyMock);
         propertyList.add(aThirdPropertyMock);
+    }
 
-        ZonedDateTime date1 = ZonedDateTime.now();
-        ZonedDateTime date2 = ZonedDateTime.now().plusDays(1);
-        ZonedDateTime date3 = ZonedDateTime.now().plusDays(2);
-        BigDecimal price1 = new BigDecimal("50000");
-        BigDecimal price2 = new BigDecimal("100");
-        BigDecimal price3 = new BigDecimal("150000");
-
-        when(propertyMock.getCreationDate()).thenReturn(date2);
-        when(propertyMock.getSellingPrice()).thenReturn(price2);
-        when(aSecondPropertyMock.getCreationDate()).thenReturn(date3);
-        when(aSecondPropertyMock.getSellingPrice()).thenReturn(price3);
-        when(aThirdPropertyMock.getCreationDate()).thenReturn(date1);
-        when(aThirdPropertyMock.getSellingPrice()).thenReturn(price1);
+    private void stubMethods() {
+        when(propertyMock.getCreationDate()).thenReturn(SAMPLE_DATE_TIME_2);
+        when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_PRICE_2);
+        when(aSecondPropertyMock.getCreationDate()).thenReturn(SAMPLE_DATE_TIME_3);
+        when(aSecondPropertyMock.getSellingPrice()).thenReturn(SAMPLE_PRICE_3);
+        when(aThirdPropertyMock.getCreationDate()).thenReturn(SAMPLE_DATE_TIME_1);
+        when(aThirdPropertyMock.getSellingPrice()).thenReturn(SAMPLE_PRICE_1);
     }
 
     @Test
@@ -72,17 +74,15 @@ public class PropertySorterTest {
     @Test
     public void filterPropertiesInAscendingOrderByPriceSortPropertiesFromCheapestToMostExpensive() throws Exception {
         propertySorter.sortByPriceInAscendingOrder(propertyList);
-        assertSame(propertyList.get(0), propertyMock);
-        assertSame(propertyList.get(1), aThirdPropertyMock);
-        assertSame(propertyList.get(2), aSecondPropertyMock);
+        assertTrue(propertyList.get(0).getSellingPrice().compareTo(propertyList.get(1).getSellingPrice()) == -1);
+        assertTrue(propertyList.get(1).getSellingPrice().compareTo(propertyList.get(2).getSellingPrice()) == -1);
     }
 
     @Test
     public void filterPropertiesInDescendingOrderByPriceSortPropertiesFromMostExpensiveToCheapest() throws Exception {
         propertySorter.sortByPriceInDescendingOrder(propertyList);
-        assertSame(propertyList.get(0), aSecondPropertyMock);
-        assertSame(propertyList.get(1), aThirdPropertyMock);
-        assertSame(propertyList.get(2), propertyMock);
+        assertTrue(propertyList.get(0).getSellingPrice().compareTo(propertyList.get(1).getSellingPrice()) == 1);
+        assertTrue(propertyList.get(1).getSellingPrice().compareTo(propertyList.get(2).getSellingPrice()) == 1);
     }
 
 }

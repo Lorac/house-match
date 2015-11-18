@@ -149,7 +149,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL, method = RequestMethod.GET)
-    public final ModelAndView sortByAscendingPrice(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
+    public final ModelAndView sortByPriceInAscendingOrder(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInAscendingOrderByPrice();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
         modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
@@ -157,7 +157,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL, method = RequestMethod.GET)
-    public final ModelAndView sortByDescendingPrice(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
+    public final ModelAndView sortByPriceInDescendingOrder(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInDescendingOrderByPrice();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
         modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));

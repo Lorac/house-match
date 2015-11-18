@@ -17,11 +17,11 @@ import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -145,7 +145,7 @@ public class PropertyServiceTest {
     @Test
     public void gettingPropertiesInChronologicalOrderReturnsAListOfSortedProperties() {
         List<Property> propertyList = propertyService.getPropertiesInChronologicalOrder();
-        
+
         verify(propertyRepositoryMock).getAll();
         verify(propertySorter).sortByDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
@@ -154,25 +154,25 @@ public class PropertyServiceTest {
     @Test
     public void gettingPropertiesInReverseChronologicalOrderSortsAllPropertiesFromTheRepository() {
         List<Property> propertyList = propertyService.getPropertiesInReverseChronologicalOrder();
-        
+
         verify(propertyRepositoryMock).getAll();
         verify(propertySorter).sortByDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
     @Test
-    public void gettingPropertiesInAscendingOrderByPriceReturnsAListOfSortedProperties() {
+    public void gettingPropertiesByPriceInAcendingOrderReturnsAListOfSortedProperties() {
         List<Property> propertyList = propertyService.getPropertiesInAscendingOrderByPrice();
-        
+
         verify(propertyRepositoryMock).getAll();
         verify(propertySorter).sortByPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
     @Test
-    public void gettingPropertiesInDescendingOrderByPriceReturnsAListOfSortedProperties() {
+    public void gettingPropertiesByPriceInDescendingOrderReturnsAListOfSortedProperties() {
         List<Property> propertyList = propertyService.getPropertiesInDescendingOrderByPrice();
-        
+
         verify(propertyRepositoryMock).getAll();
         verify(propertySorter).sortByPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
