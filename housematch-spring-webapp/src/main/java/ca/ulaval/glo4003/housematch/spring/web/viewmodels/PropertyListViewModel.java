@@ -4,9 +4,9 @@ import java.util.List;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 
-public class PropertySearchResultsViewModel extends ViewModel {
+public class PropertyListViewModel extends ViewModel {
 
-    public static final String NAME = "propertySearchResults";
+    public static final String NAME = "propertyList";
 
     private List<Property> properties;
 

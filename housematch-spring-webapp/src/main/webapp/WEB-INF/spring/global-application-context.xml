@@ -86,7 +86,7 @@
 
     <bean id="propertyDetailsFormViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyDetailsFormViewModelAssembler"/>
 
-    <bean id="propertySearchResultsViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertySearchResultsViewModelAssembler"/>
+    <bean id="propertyListViewModelAssembler" class="ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyListViewModelAssembler"/>
 
     <!-- Controllers -->
 
@@ -97,17 +97,14 @@
         <constructor-arg ref="userActivationService"/>
     </bean>
 
-    <bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController">
-        <constructor-arg ref="propertyService"/>
-        <constructor-arg ref="propertyViewModelAssembler"/>
-    </bean>
+    <bean id="homeController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController"/>
 
     <bean id="propertyController" class="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController">
         <constructor-arg ref="propertyService"/>
         <constructor-arg ref="userService"/>
         <constructor-arg ref="propertyViewModelAssembler"/>
         <constructor-arg ref="propertyDetailsFormViewModelAssembler"/>
-        <constructor-arg ref="propertySearchResultsViewModelAssembler"/>
+        <constructor-arg ref="propertyListViewModelAssembler"/>
         <constructor-arg ref="userPermissionEvaluator"/>
     </bean>
 

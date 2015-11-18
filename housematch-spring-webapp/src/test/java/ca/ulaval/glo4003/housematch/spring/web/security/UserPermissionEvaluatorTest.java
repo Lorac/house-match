@@ -21,7 +21,7 @@ public class UserPermissionEvaluatorTest {
     private static final Object SAMPLE_OBJECT = new Object();
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
-    UserPermissionEvaluator userPermisionEvaluator;
+    UserPermissionEvaluator userPermissionEvaluator;
 
     AnonymousAuthenticationToken anonymousAuthenticationTokenMock;
     Authentication authenticationMock;
@@ -33,7 +33,7 @@ public class UserPermissionEvaluatorTest {
     @Before
     public void init() {
         initMocks();
-        userPermisionEvaluator = new UserPermissionEvaluator(propertyAccessValidatorMock);
+        userPermissionEvaluator = new UserPermissionEvaluator(propertyAccessValidatorMock);
         stubMethods();
     }
 
@@ -54,53 +54,53 @@ public class UserPermissionEvaluatorTest {
 
     @Test
     public void generalPermissionIsDeniedWhenEvaluatingUsingUnsupportedPermissionEvaluationMethod() {
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(anonymousAuthenticationTokenMock, serializableMock, null, null);
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(anonymousAuthenticationTokenMock, serializableMock, null, null);
         assertFalse(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsDeniedWhenAuthenticatedUserIsAnonymous() {
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(anonymousAuthenticationTokenMock, null, SAMPLE_ROLE.name());
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(anonymousAuthenticationTokenMock, null, SAMPLE_ROLE.name());
         assertFalse(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsDeniedWhenUserIsNotActivated() {
         when(userMock.isActivated()).thenReturn(false);
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, null, SAMPLE_ROLE.name());
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(authenticationMock, null, SAMPLE_ROLE.name());
         assertFalse(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsDeniedWhenUserDoesNotHaveTheRequiredRole() {
         when(userMock.hasRole(SAMPLE_ROLE)).thenReturn(false);
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, null, SAMPLE_ROLE.name());
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(authenticationMock, null, SAMPLE_ROLE.name());
         assertFalse(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsGrantedWhenUserMeetsTheAuthorizationRequirements() {
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, null, SAMPLE_ROLE.name());
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(authenticationMock, null, SAMPLE_ROLE.name());
         assertTrue(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsDeniedWhenUserDoesNotHaveAccessToTheSpecifiedTargetDomainObject() {
         when(propertyAccessValidatorMock.validateAccess(authenticationMock, propertyMock)).thenReturn(false);
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, propertyMock, null);
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(authenticationMock, propertyMock, null);
         assertFalse(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsDeniedWhenSecurityForTargetDomainObjectIsNotImplemented() {
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, SAMPLE_OBJECT, null);
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(authenticationMock, SAMPLE_OBJECT, null);
         assertFalse(permissionGanted);
     }
 
     @Test
     public void generalPermissionIsGrantedWhenUserHasAccessToTheSpecifiedTargetDomainObject() {
         when(propertyAccessValidatorMock.validateAccess(authenticationMock, propertyMock)).thenReturn(true);
-        boolean permissionGanted = userPermisionEvaluator.hasPermission(authenticationMock, propertyMock, null);
+        boolean permissionGanted = userPermissionEvaluator.hasPermission(authenticationMock, propertyMock, null);
         assertTrue(permissionGanted);
     }
 

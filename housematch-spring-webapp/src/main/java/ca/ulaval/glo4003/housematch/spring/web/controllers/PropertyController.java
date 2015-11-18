@@ -11,20 +11,22 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyDetailsFormViewModelAssembler;
-import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertySearchResultsViewModelAssembler;
+import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyListViewModelAssembler;
 import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyViewModelAssembler;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchFormViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 
 @Controller
@@ -37,6 +39,7 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
     public static final String PROPERTY_VIEW_URL = "/buyer/propertyDetails/{propertyHashCode}";
     public static final String PROPERTY_VIEW_BASE_URL = "/buyer/propertyDetails/";
+    public static final String MOST_POPULAR_PROPERTIES_VIEW_URL = "/mostPopularProperties";
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
     static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
@@ -44,6 +47,9 @@ public class PropertyController extends BaseController {
     static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
     static final String PROPERTY_VIEW_NAME = "buyer/propertyDetails";
+    static final String MOST_POPULAR_PROPERTIES_VIEW_NAME = "home/mostPopularProperties";
+
+    private static final Integer MOST_POPULAR_PROPERTIES_VIEW_LIMIT = 10;
 
     @Inject
     private PropertyService propertyService;
@@ -54,7 +60,7 @@ public class PropertyController extends BaseController {
     @Inject
     private PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler;
     @Inject
-    private PropertySearchResultsViewModelAssembler propertySearchResultsViewModelAssembler;
+    private PropertyListViewModelAssembler propertyListViewModelAssembler;
 
     protected PropertyController() {
         // Required for Mockito
@@ -63,14 +69,13 @@ public class PropertyController extends BaseController {
     public PropertyController(final PropertyService propertyService, final UserService userService,
             final PropertyViewModelAssembler propertyViewModelAssembler,
             final PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler,
-            final PropertySearchResultsViewModelAssembler propertySearchResultsViewModelAssembler,
-            final PermissionEvaluator permissionEvaluator) {
+            final PropertyListViewModelAssembler propertySearchResultsViewModelAssembler, final PermissionEvaluator permissionEvaluator) {
         super(permissionEvaluator);
         this.propertyService = propertyService;
         this.userService = userService;
         this.propertyViewModelAssembler = propertyViewModelAssembler;
         this.propertyDetailsFormViewModelAssembler = propertyDetailsFormViewModelAssembler;
-        this.propertySearchResultsViewModelAssembler = propertySearchResultsViewModelAssembler;
+        this.propertyListViewModelAssembler = propertySearchResultsViewModelAssembler;
     }
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
@@ -127,7 +132,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView executePropertySearch(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getProperties();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
-        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
@@ -141,5 +146,12 @@ public class PropertyController extends BaseController {
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }
+    }
+
+    @RequestMapping(value = MOST_POPULAR_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
+    public final ModelAndView displayMostPopularProperties(@RequestParam("propertyType") PropertyType propertyType) {
+        List<Property> properties = propertyService.getMostViewedProperties(MOST_POPULAR_PROPERTIES_VIEW_LIMIT, propertyType);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(properties);
+        return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 }

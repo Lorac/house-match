@@ -78,7 +78,7 @@ public class PropertyService {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
-    public List<Property> getMostViewedPropertiesForCategory(int limit, PropertyType propertyType) {
+    public List<Property> getMostViewedProperties(int limit, PropertyType propertyType) {
         List<Property> all = propertyRepository.getAll();
         propertySorter.sortByHighestViewCount(all);
 

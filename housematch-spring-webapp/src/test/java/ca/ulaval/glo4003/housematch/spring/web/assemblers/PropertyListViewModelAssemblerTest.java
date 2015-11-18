@@ -9,22 +9,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListViewModel;
 
-public class PropertySearchResultsViewModelAssemblerTest {
+public class PropertyListViewModelAssemblerTest {
 
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
 
-    private PropertySearchResultsViewModelAssembler assembler;
+    private PropertyListViewModelAssembler assembler;
 
     @Before
     public void init() {
-        assembler = new PropertySearchResultsViewModelAssembler();
+        assembler = new PropertyListViewModelAssembler();
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
-        PropertySearchResultsViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        PropertyListViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
         assertSame(SAMPLE_PROPERTY_LIST, viewModel.getProperties());
     }
 }
