@@ -9,7 +9,7 @@ public class StatisticFactory {
     }
 
     public <T> Statistic<T> createStatistic(String statisticName, T initialValue) {
-        return new Statistic<T>(initialValue, statisticName, statisticsRepository);
+        return new Statistic<T>(statisticName, initialValue, statisticsRepository);
     }
 
 }

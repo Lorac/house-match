@@ -22,7 +22,7 @@ public class StatisticTest {
     public void init() {
         statisticRepositoryMock = mock(StatisticsRepository.class);
         when(statisticRepositoryMock.get(SAMPLE_STAT_NAME, SAMPLE_DEFAULT_VALUE)).thenReturn(SAMPLE_INITIAL_VALUE);
-        statistic = new Statistic<Object>(SAMPLE_DEFAULT_VALUE, SAMPLE_STAT_NAME, statisticRepositoryMock);
+        statistic = new Statistic<Object>(SAMPLE_STAT_NAME, SAMPLE_DEFAULT_VALUE, statisticRepositoryMock);
     }
 
     @Test

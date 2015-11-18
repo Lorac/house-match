@@ -7,7 +7,7 @@ public class Statistic<T> {
     protected StatisticsRepository statisticsRepository;
 
     @SuppressWarnings("unchecked")
-    public Statistic(final T initialValue, final String statisticName, final StatisticsRepository statisticsRepository) {
+    public Statistic(final String statisticName, final T initialValue, final StatisticsRepository statisticsRepository) {
         this.statisticName = statisticName;
         this.statisticsRepository = statisticsRepository;
         value = (T) statisticsRepository.get(statisticName, initialValue);
