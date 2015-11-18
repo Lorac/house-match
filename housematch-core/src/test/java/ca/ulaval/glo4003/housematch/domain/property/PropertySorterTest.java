@@ -1,6 +1,9 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -74,15 +77,15 @@ public class PropertySorterTest {
     @Test
     public void filterPropertiesInAscendingOrderByPriceSortPropertiesFromCheapestToMostExpensive() throws Exception {
         propertySorter.sortByPriceInAscendingOrder(propertyList);
-        assertTrue(propertyList.get(0).getSellingPrice().compareTo(propertyList.get(1).getSellingPrice()) == -1);
-        assertTrue(propertyList.get(1).getSellingPrice().compareTo(propertyList.get(2).getSellingPrice()) == -1);
+        assertThat(propertyList.get(0).getSellingPrice(), lessThanOrEqualTo(propertyList.get(1).getSellingPrice()));
+        assertThat(propertyList.get(1).getSellingPrice(), lessThanOrEqualTo(propertyList.get(2).getSellingPrice()));
     }
 
     @Test
     public void filterPropertiesInDescendingOrderByPriceSortPropertiesFromMostExpensiveToCheapest() throws Exception {
         propertySorter.sortByPriceInDescendingOrder(propertyList);
-        assertTrue(propertyList.get(0).getSellingPrice().compareTo(propertyList.get(1).getSellingPrice()) == 1);
-        assertTrue(propertyList.get(1).getSellingPrice().compareTo(propertyList.get(2).getSellingPrice()) == 1);
+        assertThat(propertyList.get(0).getSellingPrice(), greaterThanOrEqualTo(propertyList.get(1).getSellingPrice()));
+        assertThat(propertyList.get(1).getSellingPrice(), greaterThanOrEqualTo(propertyList.get(2).getSellingPrice()));
     }
 
 }
