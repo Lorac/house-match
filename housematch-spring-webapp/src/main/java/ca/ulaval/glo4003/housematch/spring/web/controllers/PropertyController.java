@@ -37,8 +37,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTIES_FOR_SALE_LIST_URL = "/seller/propertyList";
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
-    public static final String PROPERTY_VIEW_URL = "/buyer/propertyDetails/{propertyHashCode}";
-    public static final String PROPERTY_VIEW_BASE_URL = "/buyer/propertyDetails/";
+    public static final String PROPERTY_VIEW_URL = "/property/{propertyHashCode}";
+    public static final String PROPERTY_VIEW_BASE_URL = "/property/";
     public static final String MOST_POPULAR_PROPERTIES_VIEW_URL = "/mostPopularProperties";
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
     static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";

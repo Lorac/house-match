@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -22,14 +23,16 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
 public class BaseController {
 
     public static final String USER_ATTRIBUTE_NAME = "user";
+
+    @Inject
     private PermissionEvaluator permissionEvaluator;
 
     public BaseController() {
 
     }
 
-    public BaseController(final PermissionEvaluator userPermissionEvaluator) {
-        this.permissionEvaluator = userPermissionEvaluator;
+    public BaseController(final PermissionEvaluator permissionEvaluator) {
+        this.permissionEvaluator = permissionEvaluator;
     }
 
     protected User getUserFromHttpSession(HttpSession httpSession) {

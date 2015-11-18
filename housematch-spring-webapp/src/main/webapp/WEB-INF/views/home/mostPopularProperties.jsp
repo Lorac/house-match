@@ -11,7 +11,7 @@
         <tr>
             <th></th>
             <th>ID</th>
-            <th>Addresssss</th>
+            <th>Address</th>
             <th>Selling Price</th>
         </tr>
     </thead>
