@@ -3,6 +3,8 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -21,6 +23,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -34,23 +38,26 @@ import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyDetailsFormViewModelAssembler;
-import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertySearchResultsViewModelAssembler;
+import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyListViewModelAssembler;
 import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyViewModelAssembler;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
 
 public class PropertyControllerTest extends BaseControllerTest {
 
-    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
+    private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
+    private static final String PROPERTY_TYPE_REQUEST_PARAMETER_NAME = "propertyType";
 
     private Property propertyMock;
     private PropertyService propertyServiceMock;
     private UserService userServiceMock;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
     private PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssemblerMock;
-    private PropertySearchResultsViewModelAssembler propertySearchResultsViewModelAssemblerMock;
+    private PropertyListViewModelAssembler propertyListViewModelAssemblerMock;
     private PropertyController propertyController;
     private String samplePropertyDetailsUpdateUrl;
+    private PermissionEvaluator permissionEvaluatorMock;
 
     @Before
     public void init() throws Exception {
@@ -59,7 +66,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         stubMethods();
         samplePropertyDetailsUpdateUrl = PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + propertyMock.hashCode();
         propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyViewModelAssemblerMock,
-                propertyDetailsFormViewModelAssemblerMock, propertySearchResultsViewModelAssemblerMock);
+                propertyDetailsFormViewModelAssemblerMock, propertyListViewModelAssemblerMock, permissionEvaluatorMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
     }
 
@@ -69,7 +76,8 @@ public class PropertyControllerTest extends BaseControllerTest {
         userServiceMock = mock(UserService.class);
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
         propertyDetailsFormViewModelAssemblerMock = mock(PropertyDetailsFormViewModelAssembler.class);
-        propertySearchResultsViewModelAssemblerMock = mock(PropertySearchResultsViewModelAssembler.class);
+        propertyListViewModelAssemblerMock = mock(PropertyListViewModelAssembler.class);
+        permissionEvaluatorMock = mock(PermissionEvaluator.class);
     }
 
     private void stubMethods() throws Exception {
@@ -187,7 +195,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerAssemblesTheViewModelFromThePropertiesDuringPropertySearchRequest() throws Exception {
         when(propertyServiceMock.getProperties()).thenReturn(SAMPLE_PROPERTY_LIST);
         performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
-        verify(propertySearchResultsViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -242,6 +250,21 @@ public class PropertyControllerTest extends BaseControllerTest {
         verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
         results.andExpect(status().isOk());
+    public void propertyControllerIncrementsThePropertyViewCountDuringPropertyViewAccess() throws Exception {
+        when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
+        performPropertyGetRequest();
+        verify(propertyServiceMock).incrementPropertyViewCount(propertyMock);
+    }
+
+    @Test
+    public void propertyControllerRendersMostPopularPropertiesView() throws Exception {
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
+                .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());
+
+        ResultActions results = mockMvc.perform(getRequest);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_NAME));
     }
 
     @Test
@@ -260,6 +283,24 @@ public class PropertyControllerTest extends BaseControllerTest {
         verify(propertyServiceMock).getPropertiesInDescendingOrderByPrice();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
         results.andExpect(status().isOk());
+    }
+
+    public void propertyControllerRetrievesMostPopularPropertyListDuringMostPopularPropertiesViewAccess() throws Exception {
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
+                .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());
+        mockMvc.perform(getRequest);
+        verify(propertyServiceMock).getMostViewedProperties(eq(SAMPLE_PROPERTY_TYPE), anyInt());
+    }
+
+    @Test
+    public void propertyControllerAssemblesTheViewModelFromThePropertyListDuringMostPopularPropertiesViewAccess() throws Exception {
+        when(propertyServiceMock.getMostViewedProperties(eq(SAMPLE_PROPERTY_TYPE), anyInt())).thenReturn(SAMPLE_PROPERTY_LIST);
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
+                .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());
+
+        mockMvc.perform(getRequest);
+
+        verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
     }
 
     private ResultActions postPropertyCreationForm() throws Exception {
@@ -283,6 +324,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     private ResultActions performPropertyGetRequest() throws Exception {
+        when(permissionEvaluatorMock.hasPermission(any(Authentication.class), anyObject(), anyObject())).thenReturn(true);
         return performGetRequest(PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode());
     }
 }

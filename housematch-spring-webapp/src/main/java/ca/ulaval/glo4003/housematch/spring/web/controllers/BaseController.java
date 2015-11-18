@@ -2,11 +2,15 @@ package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +23,17 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
 public class BaseController {
 
     public static final String USER_ATTRIBUTE_NAME = "user";
+
+    @Inject
+    private PermissionEvaluator permissionEvaluator;
+
+    public BaseController() {
+
+    }
+
+    public BaseController(final PermissionEvaluator permissionEvaluator) {
+        this.permissionEvaluator = permissionEvaluator;
+    }
 
     protected User getUserFromHttpSession(HttpSession httpSession) {
         return (User) httpSession.getAttribute(USER_ATTRIBUTE_NAME);
@@ -33,6 +48,13 @@ public class BaseController {
         modelMap.put(AlertMessageViewModel.NAME, new AlertMessageViewModel(message, messageType));
         modelMap.put(viewModel.getName(), viewModel);
         return new ModelAndView(viewName, modelMap);
+    }
+
+    protected void validateDomainObjectAccess(Object targetDomainObject) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!permissionEvaluator.hasPermission(authentication, targetDomainObject, null)) {
+            throw new AccessDeniedException("Access to the specified domain object is not authorized.");
+        }
     }
 
     @ExceptionHandler(AccessDeniedException.class)

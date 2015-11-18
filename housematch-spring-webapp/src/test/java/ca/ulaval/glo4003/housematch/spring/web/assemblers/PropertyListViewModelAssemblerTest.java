@@ -12,15 +12,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 
-public class PropertySearchResultsViewModelAssemblerTest {
+public class PropertyListViewModelAssemblerTest {
 
     private static List<Property> SAMPLE_PROPERTY_LIST;
     private static List<PropertyViewModel> SAMPLE_PROPERTY_VIEW_MODEL_LIST;
 
-    private PropertySearchResultsViewModelAssembler assembler;
+    private PropertyListViewModelAssembler assembler;
 
     private static Property propertyMock;
     private PropertyViewModel propertyViewModelMock;
@@ -48,7 +48,7 @@ public class PropertySearchResultsViewModelAssemblerTest {
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
-        PropertySearchResultsViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        PropertyListViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_VIEW_MODEL_LIST, viewModel.getPropertyViewModels());
     }
 }

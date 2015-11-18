@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.utils.VersionedValue;
 
 public class Property extends PropertyObservable {
 
@@ -15,6 +16,9 @@ public class Property extends PropertyObservable {
     private PropertyDetails propertyDetails;
     private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate;
+    private Integer viewCount;
+    private VersionedValue<Boolean> isMostViewed = new VersionedValue<>(false);
+    private static Integer isMostViewedFlagValueVersion = 0;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -23,6 +27,15 @@ public class Property extends PropertyObservable {
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
         this.creationDate = ZonedDateTime.now();
+        this.viewCount = new Integer(0);
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
     }
 
     public PropertyType getPropertyType() {
@@ -47,18 +60,26 @@ public class Property extends PropertyObservable {
 
     public PropertyStatus getStatus() {
         return status;
+    public Integer incrementViewCount() {
+        return ++viewCount;
     }
 
     public void setStatus(PropertyStatus propertyStatus) {
         this.status = propertyStatus;
+    public Boolean isMostViewed() {
+        return isMostViewed.getValue() && isMostViewed.getVersion().equals(isMostViewedFlagValueVersion);
     }
 
     public ZonedDateTime getCreationDate() {
         return creationDate;
+    public void markAsMostViewed() {
+        isMostViewed.setValue(true, isMostViewedFlagValueVersion);
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
+    public static void incrementMostViewedFlagValueVersion() {
+        isMostViewedFlagValueVersion++;
     }
 
     public void markForSale() {

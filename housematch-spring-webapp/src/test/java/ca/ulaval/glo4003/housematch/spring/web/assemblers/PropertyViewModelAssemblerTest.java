@@ -55,4 +55,5 @@ public class PropertyViewModelAssemblerTest {
         assertSame(addressMock, viewModel.getAddress());
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
     }
+
 }

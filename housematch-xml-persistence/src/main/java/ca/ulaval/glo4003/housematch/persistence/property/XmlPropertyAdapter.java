@@ -18,6 +18,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         Property property = propertyFactory.createProperty(xmlProperty.propertyType, xmlProperty.address, xmlProperty.sellingPrice);
         property.setPropertyDetails(xmlProperty.propertyDetails);
         property.setCreationDate(xmlProperty.creationDate);
+        property.setViewCount(xmlProperty.viewCount);
         property.setStatus(xmlProperty.status);
         return property;
     }
@@ -31,6 +32,7 @@ public class XmlPropertyAdapter extends XmlAdapter<XmlProperty, Property> {
         xmlProperty.sellingPrice = property.getSellingPrice();
         xmlProperty.propertyDetails = property.getPropertyDetails();
         xmlProperty.creationDate = property.getCreationDate();
+        xmlProperty.viewCount = property.getViewCount();
         xmlProperty.status = property.getStatus();
 
         return xmlProperty;

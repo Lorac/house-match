@@ -14,6 +14,9 @@ public class HttpStatusController extends BaseController {
     static final String HTTP_FORBIDDEN_STATUS_URL = "/customErrorPages/403";
     static final String HTTP_FORBIDDEN_STATUS_VIEW_NAME = "customErrorPages/403";
 
+    public HttpStatusController() {
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @RequestMapping(value = HTTP_NOT_FOUND_STATUS_URL)
     public ModelAndView httpNotFoundStatusHandler() {

@@ -18,6 +18,7 @@ public class XmlProperty {
     public Address address;
     public BigDecimal sellingPrice;
     public PropertyDetails propertyDetails;
+    public Integer viewCount;
     @XmlJavaTypeAdapter(XmlZonedDateTimeAdapter.class)
     public ZonedDateTime creationDate;
     public PropertyStatus status;

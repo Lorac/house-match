@@ -21,4 +21,18 @@ public class PropertySorter {
     public void sortByPriceInDescendingOrder(List<Property> properties) {
         Collections.sort(properties, Comparator.comparing(Property::getSellingPrice).reversed());
     }
+
+    public void sortByViewCount(List<Property> properties, SortOrder sortOrder) {
+        switch (sortOrder) {
+        case ASCENDING:
+            Collections.sort(properties, Comparator.comparing(Property::getViewCount));
+            break;
+        case DESCENDING:
+            Collections.sort(properties, Comparator.comparing(Property::getViewCount).reversed());
+            break;
+        default:
+            break;
+        }
+    }
+}
 }

@@ -12,6 +12,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SortOrder;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,8 +36,9 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator
 
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
-    private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
-    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<Property>();
+    private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
+    private static final int MOST_POPULAR_PROPERTIES_VIEW_LIMIT = 3;
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
@@ -48,7 +51,7 @@ public class PropertyServiceTest {
     private Address addressMock;
     private Property propertyMock;
     private PropertyDetails propertyDetailsMock;
-    private PropertySorter propertySorter;
+    private PropertySorter propertySorterMock;
 
     private PropertyService propertyService;
 
@@ -72,12 +75,13 @@ public class PropertyServiceTest {
         propertyDetailsValidatorMock = mock(PropertyDetailsValidator.class);
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
-        propertySorter = mock(PropertySorter.class);
+        propertySorterMock = mock(PropertySorter.class);
     }
 
     private void stubMethods() {
         when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class)))
                 .thenReturn(propertyMock);
+        when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -195,6 +199,23 @@ public class PropertyServiceTest {
         when(propertyStatisticsCollectorMock.getStatistics()).thenReturn(propertyStatisticsMock);
         PropertyStatistics returnedPropertyStatistics = propertyService.getStatistics();
         assertSame(propertyStatisticsMock, returnedPropertyStatistics);
+    public void incrementingThePropertyViewCountIncrementsThePropertyViewCount() {
+        propertyService.incrementPropertyViewCount(propertyMock);
+        verify(propertyMock).incrementViewCount();
+    }
+
+    @Test
+    public void incrementingThePropertyViewCountSavesThePropertyToTheRepository() {
+        propertyService.incrementPropertyViewCount(propertyMock);
+        verify(propertyRepositoryMock).update(propertyMock);
+    }
+
+    @Test
+    public void gettingTheMostViewedPropertiesSortsThePropertiesOfTheSpecifiedTypeUsingThePropertySorter() {
+        propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_POPULAR_PROPERTIES_VIEW_LIMIT);
+
+        verify(propertyRepositoryMock).getByType(SAMPLE_PROPERTY_TYPE);
+        verify(propertySorterMock).sortByViewCount(SAMPLE_PROPERTY_LIST, SortOrder.DESCENDING);
     }
 
     private void createProperty() throws PropertyServiceException {

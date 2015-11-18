@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 
-public class PropertySearchResultsViewModelAssembler {
+public class PropertyListViewModelAssembler {
     PropertyViewModelAssembler propertyViewModelAssembler;
 
     public PropertySearchResultsViewModelAssembler(final PropertyViewModelAssembler propertyViewModelAssembler) {
@@ -18,8 +18,8 @@ public class PropertySearchResultsViewModelAssembler {
         this.propertyViewModelAssembler = new PropertyViewModelAssembler();
     }
 
-    public PropertySearchResultsViewModel assembleFromPropertyList(List<Property> properties) {
-        PropertySearchResultsViewModel viewModel = new PropertySearchResultsViewModel();
+    public PropertyListViewModel assembleFromPropertyList(List<Property> properties) {
+        PropertyListViewModel viewModel = new PropertyListViewModel();
         viewModel.setPropertyViewModels(convertPropertyListToPropertyViewModelList(properties));
         return viewModel;
     }

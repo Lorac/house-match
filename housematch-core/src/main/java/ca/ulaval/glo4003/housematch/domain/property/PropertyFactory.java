@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import java.math.BigDecimal;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+
+import java.math.BigDecimal;
 
 public class PropertyFactory {
 

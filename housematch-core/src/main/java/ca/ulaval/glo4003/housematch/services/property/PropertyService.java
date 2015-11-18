@@ -2,6 +2,9 @@ package ca.ulaval.glo4003.housematch.services.property;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.swing.SortOrder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -73,6 +76,11 @@ public class PropertyService {
     }
 
     public PropertyStatistics getStatistics() {
+    public void incrementPropertyViewCount(Property property) {
+        property.incrementViewCount();
+        propertyRepository.update(property);
+    }
+
         return propertyStatisticsCollector.getStatistics();
     }
 
@@ -89,6 +97,15 @@ public class PropertyService {
     public List<Property> getPropertiesInReverseChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
         propertySorter.sortByDateInDescendingOrder(properties);
+        return properties;
+    }
+
+    public List<Property> getMostViewedProperties(PropertyType propertyType, Integer limit) {
+        List<Property> properties = propertyRepository.getByType(propertyType);
+        propertySorter.sortByViewCount(properties, SortOrder.DESCENDING);
+        properties = properties.stream().limit(limit).collect(Collectors.toList());
+        Property.incrementMostViewedFlagValueVersion();
+        properties.stream().forEach(p -> p.markAsMostViewed());
         return properties;
     }
 

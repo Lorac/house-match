@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.housematch.spring.web.viewmodels;
 
 import java.util.List;
 
-public class PropertySearchResultsViewModel extends ViewModel {
+public class PropertyListViewModel extends ViewModel {
 
-    public static final String NAME = "propertySearchResults";
+    public static final String NAME = "propertyList";
 
     private List<PropertyViewModel> propertyViewModels;
 
