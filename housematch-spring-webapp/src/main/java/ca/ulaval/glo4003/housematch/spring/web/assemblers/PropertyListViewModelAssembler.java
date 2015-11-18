@@ -8,7 +8,7 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyListViewModel;
 public class PropertyListViewModelAssembler {
     PropertyViewModelAssembler propertyViewModelAssembler;
 
-    public PropertyListViewModelAssembler(PropertyViewModelAssembler propertyViewModelAssembler) {
+    public PropertyListViewModelAssembler(final PropertyViewModelAssembler propertyViewModelAssembler) {
         this.propertyViewModelAssembler = propertyViewModelAssembler;
     }
 
