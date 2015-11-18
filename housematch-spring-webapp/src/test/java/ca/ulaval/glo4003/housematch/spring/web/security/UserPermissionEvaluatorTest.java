@@ -1,21 +1,21 @@
 package ca.ulaval.glo4003.housematch.spring.web.security;
 
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.spring.web.security.accessvalidators.PropertyAccessValidator;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-
-import java.io.Serializable;
-
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.io.Serializable;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.spring.web.security.accessvalidators.PropertyAccessValidator;
 
 public class UserPermissionEvaluatorTest {
     private static final Object SAMPLE_OBJECT = new Object();

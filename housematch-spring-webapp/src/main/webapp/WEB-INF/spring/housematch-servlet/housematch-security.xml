@@ -14,12 +14,13 @@
     <http use-expressions="true" disable-url-rewriting="true">
         <!-- Be careful, the order matters -->
         <intercept-url pattern="/" access="permitAll"/>
-        <intercept-url pattern="/customErrorPages" access="permitAll"/>
-        <intercept-url pattern="/login" access="permitAll"/>
-        <intercept-url pattern="/logout" access="permitAll"/>
-        <intercept-url pattern="/admin/**" access="hasPermission(null, 'ADMINISTRATOR')"/>
-        <intercept-url pattern="/buyer/**" access="permitAll"/>
-        <intercept-url pattern="/seller/**" access="permitAll"/>
+        <intercept-url pattern="/customErrorPages" access="permitAll" />
+        <intercept-url pattern="/login" access="permitAll" />
+        <intercept-url pattern="/logout" access="permitAll" />
+        <intercept-url pattern="/admin/**" access="hasPermission(null, 'ADMINISTRATOR')" />
+        <intercept-url pattern="/buyer/**" access="hasPermission(null, 'BUYER')" />
+        <intercept-url pattern="/seller/**" access="hasPermission(null, 'SELLER')" />
+        <intercept-url pattern="/user/**" access="not isAnonymous()" />
 
         <!-- Use default provided form. See docs to customize. -->
         <form-login login-page="/login" authentication-failure-url="/login" login-processing-url="/login"
