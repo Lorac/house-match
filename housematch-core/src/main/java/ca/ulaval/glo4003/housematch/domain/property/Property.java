@@ -20,7 +20,7 @@ public class Property {
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
-        this.viewCount = 0;
+        this.viewCount = new Integer(0);
     }
 
     public int getViewCount() {

@@ -1,13 +1,16 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.spring.web.assemblers.PropertyViewModelAssembler;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.CategoryFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -59,10 +62,18 @@ public class HomeController extends BaseController {
             }
         }
 
-        List<Property> properties = propertyService.getMostViewedProperties(TOP_FIVE);
+        return new ModelAndView(HOME_VIEW_NAME, "categoryFormViewModel", new CategoryFormViewModel());
+    }
+
+    @RequestMapping(value = HOME_URL, method = RequestMethod.GET, params = "category")
+    public final ModelAndView displayHomeViewWithCategory(HttpSession httpSession, @RequestParam("category") String category) {
+
+        List<Property> properties = propertyService.getMostViewedPropertiesForCategory(TOP_FIVE, PropertyType.valueOf(category));
         List<PropertyViewModel> propertyViewModels = propertyViewModelAssembler.assembleFromPropertyList(properties);
 
-        return new ModelAndView(HOME_VIEW_NAME, "properties", propertyViewModels);
+        ModelAndView modelAndView = new ModelAndView(HOME_VIEW_NAME, "properties", propertyViewModels);
+        modelAndView.addObject("categoryFormViewModel", new CategoryFormViewModel());
+        return modelAndView;
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)

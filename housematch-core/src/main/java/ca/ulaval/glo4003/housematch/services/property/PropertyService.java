@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class PropertyService {
@@ -77,10 +78,12 @@ public class PropertyService {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
-    public List<Property> getMostViewedProperties(int limit) {
+    public List<Property> getMostViewedPropertiesForCategory(int limit, PropertyType propertyType) {
         List<Property> all = propertyRepository.getAll();
         propertySorter.sortByHighestViewCount(all);
-        List<Property> properties = all.stream().limit(limit).collect(Collectors.toList());
+
+        Predicate<Property> propertyPredicate = p -> p.getPropertyType().equals(propertyType);
+        List<Property> properties = all.stream().filter(propertyPredicate).limit(limit).collect(Collectors.toList());
 
         updateMostPopularProperties(all, properties);
 
