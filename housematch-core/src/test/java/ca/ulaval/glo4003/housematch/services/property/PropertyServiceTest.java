@@ -57,8 +57,7 @@ public class PropertyServiceTest {
         initMocks();
         stubMethods();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
-                propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorter);
-                propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock);
+                propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorter);
     }
 
     private void initMocks() {

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence;
+package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
 import java.time.ZonedDateTime;
 

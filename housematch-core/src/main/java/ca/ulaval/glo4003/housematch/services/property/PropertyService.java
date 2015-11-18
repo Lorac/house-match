@@ -1,13 +1,16 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -17,9 +20,6 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidati
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
-
-import java.math.BigDecimal;
-import java.util.List;
 
 public class PropertyService {
 
@@ -33,8 +33,8 @@ public class PropertyService {
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
             final UserRepository userRepository, final PropertyStatisticsCollector propertyStatisticsCollector,
-            final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter) {
-            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator) {
+            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator,
+            final PropertySorter propertySorter) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
         this.userRepository = userRepository;
@@ -68,18 +68,20 @@ public class PropertyService {
         }
     }
 
-    public List<Property> getProperties() {
-        return propertyRepository.getAll();
-    }
-
     public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
-    public List<Property> getPropertiesInChronologicalOrder() {
-        List<Property> properties = propertyRepository.getAll();
     public PropertyStatistics getStatistics() {
         return propertyStatisticsCollector.getStatistics();
+    }
+
+    public List<Property> getProperties() {
+        return propertyRepository.getAll();
+    }
+
+    public List<Property> getPropertiesInChronologicalOrder() {
+        List<Property> properties = propertyRepository.getAll();
         propertySorter.sortByDateInAscendingOrder(properties);
         return properties;
     }
@@ -93,14 +95,12 @@ public class PropertyService {
     public List<Property> getPropertiesInAscendingOrderByPrice() {
         List<Property> properties = propertyRepository.getAll();
         propertySorter.sortByPriceInAscendingOrder(properties);
-
         return properties;
     }
 
     public List<Property> getPropertiesInDescendingOrderByPrice() {
         List<Property> properties = propertyRepository.getAll();
         propertySorter.sortByPriceInDescendingOrder(properties);
-
         return properties;
     }
 }

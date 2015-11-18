@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.persistence;
+package ca.ulaval.glo4003.housematch.persistence.marshalling;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,8 @@ import java.time.ZonedDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlZonedDateTimeAdapter;
 
 public class XmlZonedDateTimeAdapterTest {
 

@@ -47,14 +47,18 @@ public class Property extends PropertyObservable {
 
     public PropertyStatus getStatus() {
         return status;
+    }
+
+    public void setStatus(PropertyStatus propertyStatus) {
+        this.status = propertyStatus;
+    }
+
     public ZonedDateTime getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
-    public void setStatus(PropertyStatus propertyStatus) {
-        this.status = propertyStatus;
     }
 
     public void markForSale() {

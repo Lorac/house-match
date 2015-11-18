@@ -82,9 +82,9 @@
         <constructor-arg ref="xmlStatisticsRepository" />
     </bean>
 
-	<!-- Filters -->
+	<!-- Sorters -->
 
-	<bean id="propertiesFilter" class="ca.ulaval.glo4003.housematch.domain.property.PropertySorter" />
+	<bean id="propertySorter" class="ca.ulaval.glo4003.housematch.domain.property.PropertySorter" />
 
     <!-- Services -->
 
@@ -109,7 +109,7 @@
         <constructor-arg ref="propertyStatisticsCollector" />
         <constructor-arg ref="propertyCreationValidator" />
         <constructor-arg ref="propertyDetailsValidator" />
-        <constructor-arg ref="propertiesFilter" />
+        <constructor-arg ref="propertySorter" />
     </bean>
 
     <!-- Assemblers -->

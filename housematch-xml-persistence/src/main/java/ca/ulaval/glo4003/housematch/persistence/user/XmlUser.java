@@ -13,7 +13,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
-import ca.ulaval.glo4003.housematch.persistence.XmlZonedDateTimeAdapter;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlZonedDateTimeAdapter;
 
 @XmlRootElement(name = "user")
 public class XmlUser {
