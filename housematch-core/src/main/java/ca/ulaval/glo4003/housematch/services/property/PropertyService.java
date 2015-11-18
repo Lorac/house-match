@@ -82,4 +82,18 @@ public class PropertyService {
         propertySorter.sortByDateInDescendingOrder(properties);
         return properties;
     }
+
+    public List<Property> getPropertiesInAscendingOrderByPrice() {
+        List<Property> properties = propertyRepository.getAll();
+        propertySorter.sortByPriceInAscendingOrder(properties);
+
+        return properties;
+    }
+
+    public List<Property> getPropertiesInDescendingOrderByPrice() {
+        List<Property> properties = propertyRepository.getAll();
+        propertySorter.sortByPriceInDescendingOrder(properties);
+
+        return properties;
+    }
 }

@@ -1,14 +1,20 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import org.junit.Before;
-import org.junit.Test;
-import java.text.ParseException;
-import java.time.ZonedDateTime;
-import java.util.*;
-
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class PropertySorterTest {
 
@@ -17,13 +23,20 @@ public class PropertySorterTest {
     private Property propertyMock;
     private Property aSecondPropertyMock;
     private Property aThirdPropertyMock;
+    private static final ZonedDateTime SAMPLE_DATE_TIME_1 = ZonedDateTime.now();
+    private static final ZonedDateTime SAMPLE_DATE_TIME_2 = ZonedDateTime.now().plusDays(1);
+    private static final ZonedDateTime SAMPLE_DATE_TIME_3 = ZonedDateTime.now().plusDays(2);
+    private static final BigDecimal SAMPLE_PRICE_1 = BigDecimal.valueOf(50000);
+    private static final BigDecimal SAMPLE_PRICE_2 = BigDecimal.valueOf(100);
+    private static final BigDecimal SAMPLE_PRICE_3 = BigDecimal.valueOf(150000);
 
     @Before
     public void init() throws Exception {
         initMocks();
-        propertySorter = new PropertySorter();
         propertyList = new ArrayList<Property>();
         initPropertiesList();
+        stubMethods();
+        propertySorter = new PropertySorter();
     }
 
     private void initMocks() {
@@ -36,14 +49,15 @@ public class PropertySorterTest {
         propertyList.add(propertyMock);
         propertyList.add(aSecondPropertyMock);
         propertyList.add(aThirdPropertyMock);
+    }
 
-        ZonedDateTime date1 = ZonedDateTime.now();
-        ZonedDateTime date2 = ZonedDateTime.now().plusDays(1);
-        ZonedDateTime date3 = ZonedDateTime.now().plusDays(2);
-
-        when(propertyMock.getCreationDate()).thenReturn(date2);
-        when(aSecondPropertyMock.getCreationDate()).thenReturn(date3);
-        when(aThirdPropertyMock.getCreationDate()).thenReturn(date1);
+    private void stubMethods() {
+        when(propertyMock.getCreationDate()).thenReturn(SAMPLE_DATE_TIME_2);
+        when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_PRICE_2);
+        when(aSecondPropertyMock.getCreationDate()).thenReturn(SAMPLE_DATE_TIME_3);
+        when(aSecondPropertyMock.getSellingPrice()).thenReturn(SAMPLE_PRICE_3);
+        when(aThirdPropertyMock.getCreationDate()).thenReturn(SAMPLE_DATE_TIME_1);
+        when(aThirdPropertyMock.getSellingPrice()).thenReturn(SAMPLE_PRICE_1);
     }
 
     @Test
@@ -58,6 +72,20 @@ public class PropertySorterTest {
         propertySorter.sortByDateInDescendingOrder(propertyList);
         assertTrue(propertyList.get(0).getCreationDate().isAfter(propertyList.get(1).getCreationDate()));
         assertTrue(propertyList.get(1).getCreationDate().isAfter(propertyList.get(2).getCreationDate()));
+    }
+
+    @Test
+    public void filterPropertiesInAscendingOrderByPriceSortPropertiesFromCheapestToMostExpensive() throws Exception {
+        propertySorter.sortByPriceInAscendingOrder(propertyList);
+        assertThat(propertyList.get(0).getSellingPrice(), lessThanOrEqualTo(propertyList.get(1).getSellingPrice()));
+        assertThat(propertyList.get(1).getSellingPrice(), lessThanOrEqualTo(propertyList.get(2).getSellingPrice()));
+    }
+
+    @Test
+    public void filterPropertiesInDescendingOrderByPriceSortPropertiesFromMostExpensiveToCheapest() throws Exception {
+        propertySorter.sortByPriceInDescendingOrder(propertyList);
+        assertThat(propertyList.get(0).getSellingPrice(), greaterThanOrEqualTo(propertyList.get(1).getSellingPrice()));
+        assertThat(propertyList.get(1).getSellingPrice(), greaterThanOrEqualTo(propertyList.get(2).getSellingPrice()));
     }
 
 }
