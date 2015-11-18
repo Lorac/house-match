@@ -18,10 +18,6 @@ public class UserPermissionEvaluator implements PermissionEvaluator {
     @Inject
     private PropertyAccessValidator propertyAccessValidator;
 
-    public UserPermissionEvaluator() {
-
-    }
-
     public UserPermissionEvaluator(final PropertyAccessValidator propertyAccessValidator) {
         this.propertyAccessValidator = propertyAccessValidator;
     }
