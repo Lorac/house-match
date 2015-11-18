@@ -142,12 +142,12 @@ public class User extends UserObservable {
     }
 
     public void applyUserStatusPolicy() {
-        if (role == UserRole.BUYER && isActiveAsBuyer()) {
-            changeStatus(UserStatus.ACTIVE);
-        } else if (role == UserRole.SELLER && isActiveAsSeller()) {
-            changeStatus(UserStatus.ACTIVE);
-        } else {
+        if (role == UserRole.BUYER && !isActiveAsBuyer()) {
             changeStatus(UserStatus.INACTIVE);
+        } else if (role == UserRole.SELLER && !isActiveAsSeller()) {
+            changeStatus(UserStatus.INACTIVE);
+        } else {
+            changeStatus(UserStatus.ACTIVE);
         }
     }
 
