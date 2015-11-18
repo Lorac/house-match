@@ -4,8 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -17,33 +16,17 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 
 public class PropertyListViewModelAssemblerTest {
 
-    private static List<Property> SAMPLE_PROPERTY_LIST;
-    private static List<PropertyViewModel> SAMPLE_PROPERTY_VIEW_MODEL_LIST;
+    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
+    private static final List<PropertyViewModel> SAMPLE_PROPERTY_VIEW_MODEL_LIST = new ArrayList<>();
 
     private PropertyListViewModelAssembler assembler;
-
-    private static Property propertyMock;
-    private PropertyViewModel propertyViewModelMock;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
 
     @Before
     public void init() {
-        initMocks();
-        stubMethods();
-        assembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
-        SAMPLE_PROPERTY_LIST = Collections.unmodifiableList(Arrays.asList(propertyMock));
-        SAMPLE_PROPERTY_VIEW_MODEL_LIST = Collections.unmodifiableList(Arrays.asList(propertyViewModelMock));
-    }
-
-    private void initMocks() {
-        propertyMock = mock(Property.class);
-        propertyViewModelMock = mock(PropertyViewModel.class);
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
-
-    }
-
-    private void stubMethods() {
-        when(propertyViewModelAssemblerMock.assembleFromProperty(propertyMock)).thenReturn(propertyViewModelMock);
+        when(propertyViewModelAssemblerMock.assembleFromPropertyList(SAMPLE_PROPERTY_LIST)).thenReturn(SAMPLE_PROPERTY_VIEW_MODEL_LIST);
+        assembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
     }
 
     @Test
