@@ -1,5 +1,19 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
@@ -13,18 +27,6 @@ import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormVie
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchFormViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchResultsViewModel;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
-import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class PropertyController extends BaseController {
@@ -71,7 +73,6 @@ public class PropertyController extends BaseController {
         this.propertyDetailsFormViewModelAssembler = propertyDetailsFormViewModelAssembler;
         this.propertySearchResultsViewModelAssembler = propertySearchResultsViewModelAssembler;
     }
-
 
     @RequestMapping(value = PROPERTY_CREATION_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyCreationView(HttpSession httpSession) {
@@ -135,13 +136,9 @@ public class PropertyController extends BaseController {
     public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode, ModelMap modelMap) {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
-
             validateDomainObjectAccess(property, UserRole.BUYER);
-
-            propertyService.incrementViewCountOnProperty(property);
-            modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
-            return new ModelAndView(PROPERTY_VIEW_NAME);
-
+            propertyService.incrementViewCountOfProperty(property);
+            return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }

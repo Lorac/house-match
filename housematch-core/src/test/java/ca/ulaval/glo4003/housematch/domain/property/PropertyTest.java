@@ -66,7 +66,7 @@ public class PropertyTest {
 
     @Test
     public void visitingThePropertyForTheFirstTimeShouldHaveOneView() {
-        int actualViewCount = property.increaseViewCount();
+        int actualViewCount = property.incrementViewCount();
         assertEquals(ONE_VIEW, actualViewCount);
     }
 

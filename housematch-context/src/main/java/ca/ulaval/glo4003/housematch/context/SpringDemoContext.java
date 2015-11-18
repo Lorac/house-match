@@ -115,7 +115,7 @@ public class SpringDemoContext extends ContextBase {
 
     private void increaseViewCount(Property property, int viewCount) {
         IntStream.range(0, viewCount).forEach(
-                value -> property.increaseViewCount()
+                value -> property.incrementViewCount()
         );
     }
 

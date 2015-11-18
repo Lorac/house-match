@@ -1,10 +1,10 @@
 package ca.ulaval.glo4003.housematch.spring.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
-import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.PermissionEvaluator;
@@ -14,9 +14,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageType;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.AlertMessageViewModel;
+import ca.ulaval.glo4003.housematch.spring.web.viewmodels.ViewModel;
 
 public class BaseController {
 
@@ -48,8 +50,8 @@ public class BaseController {
 
     protected void validateDomainObjectAccess(Object targetDomainObject, UserRole userRole) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!permissionEvaluator.hasPermission(authentication, targetDomainObject, userRole.getDisplayName())) {
-            throw new AccessDeniedException("You do not have access to the specified resource.");
+        if (!permissionEvaluator.hasPermission(authentication, targetDomainObject, userRole.name())) {
+            throw new AccessDeniedException("Access to the specified domain object is not authorized.");
         }
     }
 

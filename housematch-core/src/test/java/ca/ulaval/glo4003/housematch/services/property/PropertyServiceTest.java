@@ -146,13 +146,13 @@ public class PropertyServiceTest {
 
     @Test
     public void incrementingTheViewCountShouldCallTheIncrementOnTheProperty() {
-        propertyService.incrementViewCountOnProperty(propertyMock);
-        verify(propertyMock).increaseViewCount();
+        propertyService.incrementViewCountOfProperty(propertyMock);
+        verify(propertyMock).incrementViewCount();
     }
 
     @Test
     public void afterIncrementingTheViewCountItShouldSaveTheProperty() {
-        propertyService.incrementViewCountOnProperty(propertyMock);
+        propertyService.incrementViewCountOfProperty(propertyMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
 

@@ -235,7 +235,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerWillAskTheServiceToUpdateViewCountOnPropertyWhenVisited() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
         performPropertyGetRequest();
-        verify(propertyServiceMock).incrementViewCountOnProperty(propertyMock);
+        verify(propertyServiceMock).incrementViewCountOfProperty(propertyMock);
     }
 
     private ResultActions postPropertyCreationForm() throws Exception {

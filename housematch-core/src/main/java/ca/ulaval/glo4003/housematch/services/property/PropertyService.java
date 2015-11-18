@@ -1,5 +1,10 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -15,11 +20,6 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidati
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
-
-import java.math.BigDecimal;
-import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class PropertyService {
 
@@ -65,8 +65,8 @@ public class PropertyService {
         }
     }
 
-    public void incrementViewCountOnProperty(Property property) {
-        property.increaseViewCount();
+    public void incrementViewCountOfProperty(Property property) {
+        property.incrementViewCount();
         propertyRepository.update(property);
     }
 

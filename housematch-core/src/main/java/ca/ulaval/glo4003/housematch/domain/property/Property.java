@@ -51,7 +51,7 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
-    public int increaseViewCount() {
+    public int incrementViewCount() {
         return ++viewCount;
     }
 
