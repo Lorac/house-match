@@ -60,7 +60,7 @@ public class PropertyServiceTest {
         initMocks();
         stubMethods();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
-                propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorter);
+                propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorterMock);
     }
 
     private void initMocks() {
@@ -157,7 +157,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInChronologicalOrder();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorter).sortByDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortByDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -166,7 +166,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInReverseChronologicalOrder();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorter).sortByDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortByDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -175,7 +175,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInAscendingOrderByPrice();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorter).sortByPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortByPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -184,7 +184,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInDescendingOrderByPrice();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorter).sortByPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortByPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -199,6 +199,9 @@ public class PropertyServiceTest {
         when(propertyStatisticsCollectorMock.getStatistics()).thenReturn(propertyStatisticsMock);
         PropertyStatistics returnedPropertyStatistics = propertyService.getStatistics();
         assertSame(propertyStatisticsMock, returnedPropertyStatistics);
+    }
+
+    @Test
     public void incrementingThePropertyViewCountIncrementsThePropertyViewCount() {
         propertyService.incrementPropertyViewCount(propertyMock);
         verify(propertyMock).incrementViewCount();

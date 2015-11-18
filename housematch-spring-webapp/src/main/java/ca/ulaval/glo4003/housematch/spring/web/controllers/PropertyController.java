@@ -136,7 +136,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView executePropertySearch(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getProperties();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
-        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
@@ -144,7 +144,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView sortByAscendingDate(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInChronologicalOrder();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
-        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
@@ -152,7 +152,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView sortByDescendingDate(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInReverseChronologicalOrder();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
-        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
@@ -160,7 +160,7 @@ public class PropertyController extends BaseController {
     public final ModelAndView sortByPriceInAscendingOrder(ModelMap modelMap, PropertySearchFormViewModel propertySearchFormViewModel) {
         List<Property> properties = propertyService.getPropertiesInAscendingOrderByPrice();
         modelMap.put(PropertySearchFormViewModel.NAME, propertySearchFormViewModel);
-        modelMap.put(PropertySearchResultsViewModel.NAME, propertySearchResultsViewModelAssembler.assembleFromPropertyList(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyList(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 

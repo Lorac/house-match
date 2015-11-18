@@ -250,6 +250,9 @@ public class PropertyControllerTest extends BaseControllerTest {
         verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
         results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
         results.andExpect(status().isOk());
+    }
+
+    @Test
     public void propertyControllerIncrementsThePropertyViewCountDuringPropertyViewAccess() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
         performPropertyGetRequest();
@@ -285,6 +288,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         results.andExpect(status().isOk());
     }
 
+    @Test
     public void propertyControllerRetrievesMostPopularPropertyListDuringMostPopularPropertiesViewAccess() throws Exception {
         MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.MOST_POPULAR_PROPERTIES_VIEW_URL)
                 .param(PROPERTY_TYPE_REQUEST_PARAMETER_NAME, SAMPLE_PROPERTY_TYPE.name());

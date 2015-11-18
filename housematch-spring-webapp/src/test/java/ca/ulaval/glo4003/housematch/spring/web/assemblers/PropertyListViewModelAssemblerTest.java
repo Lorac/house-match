@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.housematch.spring.web.assemblers;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +30,7 @@ public class PropertyListViewModelAssemblerTest {
     public void init() {
         initMocks();
         stubMethods();
-        assembler = new PropertySearchResultsViewModelAssembler(propertyViewModelAssemblerMock);
+        assembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
         SAMPLE_PROPERTY_LIST = Collections.unmodifiableList(Arrays.asList(propertyMock));
         SAMPLE_PROPERTY_VIEW_MODEL_LIST = Collections.unmodifiableList(Arrays.asList(propertyViewModelMock));
     }
@@ -41,7 +41,7 @@ public class PropertyListViewModelAssemblerTest {
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
 
     }
-    
+
     private void stubMethods() {
         when(propertyViewModelAssemblerMock.assembleFromProperty(propertyMock)).thenReturn(propertyViewModelMock);
     }

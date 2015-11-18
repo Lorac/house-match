@@ -19,9 +19,6 @@ public class PropertySorterTest {
     private static final Integer NUMBER_OF_TEST_ITEMS = 5;
     private static final Integer VIEW_COUNT_TEST_RANGE_UPPER_BOUND = 1000;
 
-public class PropertySorterTest {
-
-    private List<Property> propertyList;
     private PropertySorter propertySorter;
     private List<Property> properties = new ArrayList<>();
 
@@ -56,6 +53,4 @@ public class PropertySorterTest {
             assertThat(properties.get(i - 1).getViewCount(), greaterThanOrEqualTo(properties.get(i).getViewCount()));
         }
     }
-}      
-
 }

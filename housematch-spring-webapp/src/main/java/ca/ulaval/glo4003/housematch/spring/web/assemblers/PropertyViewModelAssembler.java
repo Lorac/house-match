@@ -1,9 +1,22 @@
 package ca.ulaval.glo4003.housematch.spring.web.assemblers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyViewModel;
 
 public class PropertyViewModelAssembler {
+
+    public List<PropertyViewModel> assembleFromPropertyList(List<Property> propertyList) {
+        List<PropertyViewModel> propertyViewModelList = new ArrayList<>();
+
+        for (Property property : propertyList) {
+            propertyViewModelList.add(assembleFromProperty(property));
+        }
+
+        return propertyViewModelList;
+    }
 
     public PropertyViewModel assembleFromProperty(Property property) {
         PropertyViewModel viewModel = new PropertyViewModel();
@@ -15,4 +28,5 @@ public class PropertyViewModelAssembler {
         viewModel.setCreationDate(property.getCreationDate());
         return viewModel;
     }
+
 }

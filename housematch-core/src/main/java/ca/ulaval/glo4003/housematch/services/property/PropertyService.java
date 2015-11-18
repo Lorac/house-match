@@ -75,12 +75,12 @@ public class PropertyService {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
-    public PropertyStatistics getStatistics() {
     public void incrementPropertyViewCount(Property property) {
         property.incrementViewCount();
         propertyRepository.update(property);
     }
 
+    public PropertyStatistics getStatistics() {
         return propertyStatisticsCollector.getStatistics();
     }
 

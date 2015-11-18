@@ -4,6 +4,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.SortOrder;
+
 public class PropertySorter {
 
     public void sortByDateInAscendingOrder(List<Property> properties) {
@@ -34,5 +36,4 @@ public class PropertySorter {
             break;
         }
     }
-}
 }

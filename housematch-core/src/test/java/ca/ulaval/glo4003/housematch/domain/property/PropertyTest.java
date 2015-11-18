@@ -111,13 +111,23 @@ public class PropertyTest {
     public void settingTheStatusSetsTheSpecifiedStatus() {
         property.setStatus(SAMPLE_STATUS);
         assertEquals(SAMPLE_STATUS, property.getStatus());
+    }
+
+    @Test
     public void settingTheViewCountSetsTheSpecifiedViewCount() {
         property.setViewCount(SAMPLE_VIEW_COUNT);
         assertEquals(SAMPLE_VIEW_COUNT, property.getViewCount());
     }
 
     @Test
-    public void markingThePropertyForSaleMarksThePropertyAsForSale() {
+    public void incrementingThePropetyViewCountIncrementsThePropertyViewCountByOne() {
+        property.setViewCount(SAMPLE_VIEW_COUNT);
+        int newViewCount = property.incrementViewCount();
+        assertTrue(newViewCount - SAMPLE_VIEW_COUNT == 1);
+    }
+
+    @Test
+    public void markingThePropertyForSaleMarksThePropertyForSale() {
         property.markForSale();
         assertEquals(PropertyStatus.FOR_SALE, property.getStatus());
     }
@@ -126,30 +136,32 @@ public class PropertyTest {
     public void markingThePropertyForSaleNotifiesTheObservers() {
         property.markForSale();
         verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.FOR_SALE);
-    public void incrementingThePropetyViewCountIncrementsThePropertyViewCountByOne() {
-        property.setViewCount(SAMPLE_VIEW_COUNT);
-        int newViewCount = property.incrementViewCount();
-        assertTrue(newViewCount - SAMPLE_VIEW_COUNT == 1);
-    }
-
-    @Test
-    public void propertyIsNotMarkedAsMostVisistedOnCreation() {
-        assertFalse(property.isMostViewed());
     }
 
     @Test
     public void markingThePropertyAsSoldMarksThePropertyAsSold() {
         property.markAsSold();
         assertEquals(PropertyStatus.SOLD, property.getStatus());
-    public void markingThePropertyAsMostViewedMarksThePropertyAsMostVisisted() {
-        property.markAsMostViewed();
-        assertTrue(property.isMostViewed());
     }
 
     @Test
     public void markingThePropertyAsSoldNotifiesTheObservers() {
         property.markAsSold();
         verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.SOLD);
+    }
+
+    @Test
+    public void propertyIsNotMarkedAsMostVisitedOnCreation() {
+        assertFalse(property.isMostViewed());
+    }
+
+    @Test
+    public void markingThePropertyAsMostViewedMarksThePropertyAsMostVisisted() {
+        property.markAsMostViewed();
+        assertTrue(property.isMostViewed());
+    }
+
+    @Test
     public void incrementingTheMostViewedFlagValueVersionUnmarksThePropertyAsMostVisisted() {
         property.markAsMostViewed();
         Property.incrementMostViewedFlagValueVersion();

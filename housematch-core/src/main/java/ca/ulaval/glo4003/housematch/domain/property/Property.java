@@ -60,24 +60,32 @@ public class Property extends PropertyObservable {
 
     public PropertyStatus getStatus() {
         return status;
-    public Integer incrementViewCount() {
-        return ++viewCount;
     }
 
     public void setStatus(PropertyStatus propertyStatus) {
         this.status = propertyStatus;
-    public Boolean isMostViewed() {
-        return isMostViewed.getValue() && isMostViewed.getVersion().equals(isMostViewedFlagValueVersion);
     }
 
     public ZonedDateTime getCreationDate() {
         return creationDate;
-    public void markAsMostViewed() {
-        isMostViewed.setValue(true, isMostViewedFlagValueVersion);
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Integer incrementViewCount() {
+        return ++viewCount;
+    }
+
+    public Boolean isMostViewed() {
+        return isMostViewed.getValue() && isMostViewed.getVersion().equals(isMostViewedFlagValueVersion);
+    }
+
+    public void markAsMostViewed() {
+        isMostViewed.setValue(true, isMostViewedFlagValueVersion);
+    }
+
     public static void incrementMostViewedFlagValueVersion() {
         isMostViewedFlagValueVersion++;
     }
