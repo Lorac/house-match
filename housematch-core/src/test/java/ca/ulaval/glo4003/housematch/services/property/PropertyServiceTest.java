@@ -1,5 +1,21 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
+import static org.junit.Assert.assertSame;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.SortOrder;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -14,22 +30,12 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidati
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
 
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
-    private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
+    private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
-    private static final int TOP_FIVE = 5;
+    private static final int MOST_POPULAR_PROPERTIES_VIEW_LIMIT = 3;
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
@@ -145,24 +151,24 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void incrementingTheViewCountShouldCallTheIncrementOnTheProperty() {
-        propertyService.incrementViewCountOfProperty(propertyMock);
+    public void incrementingThePropertyViewCountShouldIncrementThePropertyViewCount() {
+        propertyService.incrementPropertyViewCount(propertyMock);
         verify(propertyMock).incrementViewCount();
     }
 
     @Test
-    public void afterIncrementingTheViewCountItShouldSaveTheProperty() {
-        propertyService.incrementViewCountOfProperty(propertyMock);
+    public void incrementingThePropertyViewCountSavesThePropertyToTheRepository() {
+        propertyService.incrementPropertyViewCount(propertyMock);
         verify(propertyRepositoryMock).update(propertyMock);
     }
 
     @Test
-    public void gettingTheTopViewedPropertiesShouldSendTheResultIntoTheSorter() {
-        propertyService.getMostViewedProperties(TOP_FIVE, PropertyType.valueOf("COMMERCIAL"));
-        verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByHighestViewCount(SAMPLE_PROPERTY_LIST);
-    }
+    public void gettingTheMostViewedPropertiesSortsThePropertiesOfTheSpecifiedTypeUsingThePropertySorter() {
+        propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_POPULAR_PROPERTIES_VIEW_LIMIT);
 
+        verify(propertyRepositoryMock).getByType(SAMPLE_PROPERTY_TYPE);
+        verify(propertySorterMock).sortByViewCount(SAMPLE_PROPERTY_LIST, SortOrder.DESCENDING);
+    }
 
     private void createProperty() throws PropertyServiceException {
         propertyService.createProperty(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, userMock);

@@ -141,7 +141,7 @@ public class PropertyController extends BaseController {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
             validateDomainObjectAccess(property);
-            propertyService.incrementViewCountOfProperty(property);
+            propertyService.incrementPropertyViewCount(property);
             return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
@@ -150,7 +150,7 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = MOST_POPULAR_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayMostPopularProperties(@RequestParam("propertyType") PropertyType propertyType) {
-        List<Property> properties = propertyService.getMostViewedProperties(MOST_POPULAR_PROPERTIES_VIEW_LIMIT, propertyType);
+        List<Property> properties = propertyService.getMostViewedProperties(propertyType, MOST_POPULAR_PROPERTIES_VIEW_LIMIT);
         PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(properties);
         return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }

@@ -1,61 +1,56 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.number.OrderingComparison.greaterThanOrEqualTo;
+import static org.hamcrest.number.OrderingComparison.lessThanOrEqualTo;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import javax.swing.SortOrder;
 
+import org.junit.Before;
+import org.junit.Test;
 
 public class PropertySorterTest {
 
-    private static final int TWO_VIEW = 2;
-    private static final int ONE_VIEW = 1;
-    private static final int NO_VIEWS = 0;
+    private static final Integer NUMBER_OF_TEST_ITEMS = 5;
+    private static final Integer VIEW_COUNT_TEST_RANGE_UPPER_BOUND = 1000;
 
     private PropertySorter propertySorter;
-    private List<Property> properties;
-    private Property mostViewedProperty;
-    private Property secondMostViewedProperty;
-    private Property thirdMostViewedProperty;
+    private List<Property> properties = new ArrayList<>();
 
     @Before
     public void init() {
-        initMocks();
-        initStubs();
+        initPropertyMockList();
         propertySorter = new PropertySorter();
-        properties = new ArrayList<>();
     }
 
-    private void initStubs() {
-        when(mostViewedProperty.getViewCount()).thenReturn(TWO_VIEW);
-        when(secondMostViewedProperty.getViewCount()).thenReturn(ONE_VIEW);
-        when(thirdMostViewedProperty.getViewCount()).thenReturn(NO_VIEWS);
-    }
-
-    private void initMocks() {
-        mostViewedProperty = mock(Property.class);
-        secondMostViewedProperty = mock(Property.class);
-        thirdMostViewedProperty = mock(Property.class);
+    private void initPropertyMockList() {
+        for (int i = 0; i < NUMBER_OF_TEST_ITEMS; i++) {
+            Property propertyMock = mock(Property.class);
+            when(propertyMock.getViewCount()).thenReturn((int) (Math.random() * VIEW_COUNT_TEST_RANGE_UPPER_BOUND));
+            properties.add(propertyMock);
+        }
     }
 
     @Test
-    public void whenSortingByMostViewedItShouldSortByMostViewed() {
-        List<Property> expected = new ArrayList<>(3);
-        expected.add(mostViewedProperty);
-        expected.add(secondMostViewedProperty);
-        expected.add(thirdMostViewedProperty);
+    public void sortingtByViewCountInAscendingOrderSortsThePropertiesByViewCountInAscendingOrder() {
+        propertySorter.sortByViewCount(properties, SortOrder.ASCENDING);
 
-        properties.add(secondMostViewedProperty);
-        properties.add(thirdMostViewedProperty);
-        properties.add(mostViewedProperty);
+        for (int i = 1; i < properties.size(); i++) {
+            assertThat(properties.get(i - 1).getViewCount(), lessThanOrEqualTo(properties.get(i).getViewCount()));
+        }
+    }
 
-        propertySorter.sortByHighestViewCount(properties);
+    @Test
+    public void sortingtByViewCountInDescendingOrderSortsThePropertiesByViewCountInAscendingOrder() {
+        propertySorter.sortByViewCount(properties, SortOrder.DESCENDING);
 
-        assertEquals(expected, properties);
+        for (int i = 1; i < properties.size(); i++) {
+            assertThat(properties.get(i - 1).getViewCount(), greaterThanOrEqualTo(properties.get(i).getViewCount()));
+        }
     }
 }

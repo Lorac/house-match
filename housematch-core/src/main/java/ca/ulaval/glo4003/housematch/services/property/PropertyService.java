@@ -2,8 +2,9 @@ package ca.ulaval.glo4003.housematch.services.property;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import javax.swing.SortOrder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -65,7 +66,7 @@ public class PropertyService {
         }
     }
 
-    public void incrementViewCountOfProperty(Property property) {
+    public void incrementPropertyViewCount(Property property) {
         property.incrementViewCount();
         propertyRepository.update(property);
     }
@@ -78,21 +79,12 @@ public class PropertyService {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
-    public List<Property> getMostViewedProperties(int limit, PropertyType propertyType) {
-        List<Property> all = propertyRepository.getAll();
-        propertySorter.sortByHighestViewCount(all);
-
-        Predicate<Property> propertyPredicate = p -> p.getPropertyType().equals(propertyType);
-        List<Property> properties = all.stream().filter(propertyPredicate).limit(limit).collect(Collectors.toList());
-
-        updateMostPopularProperties(all, properties);
-
+    public List<Property> getMostViewedProperties(PropertyType propertyType, Integer limit) {
+        List<Property> properties = propertyRepository.getByType(propertyType);
+        propertySorter.sortByViewCount(properties, SortOrder.DESCENDING);
+        properties = properties.stream().limit(limit).collect(Collectors.toList());
+        Property.incrementMostViewedFlagValueVersion();
+        properties.stream().forEach(p -> p.markAsMostViewed());
         return properties;
-    }
-
-    private void updateMostPopularProperties(List<Property> allProperties, List<Property> mostViewedProperties) {
-        allProperties.stream().filter(p -> !mostViewedProperties.contains(p)).forEach(p -> p.setMostPopular(false));
-        allProperties.stream().filter(mostViewedProperties::contains).forEach(p -> p.setMostPopular(true));
-        allProperties.stream().forEach(property -> propertyRepository.update(property));
     }
 }

@@ -4,8 +4,6 @@
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml"/>
 
-    <bean id="propertySorter" class="ca.ulaval.glo4003.housematch.domain.property.PropertySorter"/>
-
     <!-- Email -->
 
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -56,6 +54,10 @@
 
     <bean id="propertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory"/>
 
+    <!-- Sorters -->
+
+    <bean id="propertySorter" class="ca.ulaval.glo4003.housematch.domain.property.PropertySorter"/>
+		
     <!-- Services -->
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.user.UserService">

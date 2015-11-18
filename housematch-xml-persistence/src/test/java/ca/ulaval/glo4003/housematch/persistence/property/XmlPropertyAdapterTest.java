@@ -1,19 +1,20 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.math.BigDecimal;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.math.BigDecimal;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class XmlPropertyAdapterTest {
 
@@ -49,7 +50,6 @@ public class XmlPropertyAdapterTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
-        when(propertyMock.isMostPopular()).thenReturn(true);
     }
 
     private void initXmlPropertyMock() {
@@ -58,7 +58,6 @@ public class XmlPropertyAdapterTest {
         xmlPropertyMock.sellingPrice = SAMPLE_SELLING_PRICE;
         xmlPropertyMock.address = addressMock;
         xmlPropertyMock.propertyDetails = propertyDetailsMock;
-        xmlPropertyMock.isMostPopular = true;
     }
 
     private void stubMethods() {
@@ -74,7 +73,6 @@ public class XmlPropertyAdapterTest {
         assertEquals(propertyMock.getAddress(), xmlPropertyMock.address);
         assertEquals(propertyMock.getSellingPrice(), xmlPropertyMock.sellingPrice);
         assertEquals(propertyMock.getPropertyDetails(), xmlPropertyMock.propertyDetails);
-        assertEquals(propertyMock.isMostPopular(), xmlPropertyMock.isMostPopular);
     }
 
     @Test
@@ -85,6 +83,5 @@ public class XmlPropertyAdapterTest {
         assertEquals(xmlPropertyMock.address, propertyMock.getAddress());
         assertEquals(xmlPropertyMock.sellingPrice, propertyMock.getSellingPrice());
         assertEquals(xmlPropertyMock.propertyDetails, propertyMock.getPropertyDetails());
-        assertEquals(xmlPropertyMock.isMostPopular, propertyMock.isMostPopular());
     }
 }

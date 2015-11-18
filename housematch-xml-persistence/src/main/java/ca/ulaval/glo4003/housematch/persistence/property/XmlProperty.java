@@ -15,5 +15,4 @@ public class XmlProperty {
     public BigDecimal sellingPrice;
     public PropertyDetails propertyDetails;
     public Integer viewCount;
-    public boolean isMostPopular;
 }

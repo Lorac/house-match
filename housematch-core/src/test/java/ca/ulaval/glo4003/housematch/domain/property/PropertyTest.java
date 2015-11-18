@@ -1,13 +1,17 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class PropertyTest {
 
@@ -15,9 +19,8 @@ public class PropertyTest {
     private static final PropertyType ANOTHER_SAMPLE_PROPERTY_TYPE = PropertyType.LOT;
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
     private static final BigDecimal ANOTHER_SAMPLE_SELLING_PRICE = BigDecimal.valueOf(4535);
+    private static final Integer SAMPLE_VIEW_COUNT = 350;
     private static final Object SAMPLE_OBJECT = new Object();
-    private static final int ONE_VIEW = 1;
-    private static final int NO_VIEW = 0;
 
     private Property property;
     private PropertyDetails propertyDetailsMock;
@@ -60,14 +63,8 @@ public class PropertyTest {
     }
 
     @Test
-    public void propertiesShouldHaveNoViewsAfterBeingCreated() {
-        assertEquals(NO_VIEW, property.getViewCount());
-    }
-
-    @Test
-    public void visitingThePropertyForTheFirstTimeShouldHaveOneView() {
-        int actualViewCount = property.incrementViewCount();
-        assertEquals(ONE_VIEW, actualViewCount);
+    public void propertyHasNoViewsOnCreation() {
+        assertTrue(property.getViewCount() == 0);
     }
 
     @Test
@@ -99,5 +96,36 @@ public class PropertyTest {
     public void settingThePropertyDetailsSetsTheSpecifiedPropertyDetails() {
         property.setPropertyDetails(propertyDetailsMock);
         assertEquals(propertyDetailsMock, property.getPropertyDetails());
+    }
+
+    @Test
+    public void settingTheViewCountSetsTheSpecifiedViewCount() {
+        property.setViewCount(SAMPLE_VIEW_COUNT);
+        assertEquals(SAMPLE_VIEW_COUNT, property.getViewCount());
+    }
+
+    @Test
+    public void incrementingThePropetyViewCountIncrementsThePropertyViewCountByOne() {
+        property.setViewCount(SAMPLE_VIEW_COUNT);
+        int newViewCount = property.incrementViewCount();
+        assertTrue(newViewCount - SAMPLE_VIEW_COUNT == 1);
+    }
+
+    @Test
+    public void propertyIsNotMarkedAsMostVisistedOnCreation() {
+        assertFalse(property.isMostViewed());
+    }
+
+    @Test
+    public void markingThePropertyAsMostViewedMarksThePropertyAsMostVisisted() {
+        property.markAsMostViewed();
+        assertTrue(property.isMostViewed());
+    }
+
+    @Test
+    public void incrementingTheMostViewedFlagValueVersionUnmarksThePropertyAsMostVisisted() {
+        property.markAsMostViewed();
+        Property.incrementMostViewedFlagValueVersion();
+        assertFalse(property.isMostViewed());
     }
 }

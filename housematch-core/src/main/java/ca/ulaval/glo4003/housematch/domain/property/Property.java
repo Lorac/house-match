@@ -1,9 +1,11 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.math.BigDecimal;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import java.math.BigDecimal;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.utils.VersionedValue;
 
 public class Property {
 
@@ -12,7 +14,8 @@ public class Property {
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
     private Integer viewCount;
-    private boolean isMostPopular;
+    private VersionedValue<Boolean> isMostViewed = new VersionedValue<>(false);
+    private static Integer isMostViewedFlagValueVersion = 0;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -23,7 +26,7 @@ public class Property {
         this.viewCount = new Integer(0);
     }
 
-    public int getViewCount() {
+    public Integer getViewCount() {
         return viewCount;
     }
 
@@ -51,16 +54,20 @@ public class Property {
         this.propertyDetails = propertyDetails;
     }
 
-    public int incrementViewCount() {
+    public Integer incrementViewCount() {
         return ++viewCount;
     }
 
-    public boolean isMostPopular() {
-        return isMostPopular;
+    public Boolean isMostViewed() {
+        return isMostViewed.getValue() && isMostViewed.getVersion().equals(isMostViewedFlagValueVersion);
     }
 
-    public void setMostPopular(boolean mostPopular) {
-        isMostPopular = mostPopular;
+    public void markAsMostViewed() {
+        isMostViewed.setValue(true, isMostViewedFlagValueVersion);
+    }
+
+    public static void incrementMostViewedFlagValueVersion() {
+        isMostViewedFlagValueVersion++;
     }
 
     @Override
