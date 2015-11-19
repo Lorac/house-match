@@ -72,9 +72,8 @@ public class Property extends PropertyObservable {
         this.creationDate = creationDate;
     }
 
-    public Integer incrementViewCount(Integer value) {
-        viewCount += value;
-        return viewCount;
+    public Integer incrementViewCount() {
+        return ++viewCount;
     }
 
     public Boolean isMostPopular() {

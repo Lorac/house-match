@@ -24,7 +24,6 @@ public class PropertyTest {
     private static final PropertyStatus SAMPLE_STATUS = PropertyStatus.FOR_SALE;
     private static final ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
     private static final Integer SAMPLE_VIEW_COUNT = 350;
-    private static final Integer SAMPLE_VIEW_COUNT_INCREMENT = 5;
     private static final Object SAMPLE_OBJECT = new Object();
 
     private Property property;
@@ -131,8 +130,8 @@ public class PropertyTest {
     @Test
     public void incrementingThePropetyViewCountIncrementsThePropertyViewCountByOne() {
         property.setViewCount(SAMPLE_VIEW_COUNT);
-        int newViewCount = property.incrementViewCount(SAMPLE_VIEW_COUNT_INCREMENT);
-        assertTrue(newViewCount - SAMPLE_VIEW_COUNT == SAMPLE_VIEW_COUNT_INCREMENT);
+        int newViewCount = property.incrementViewCount();
+        assertTrue(newViewCount - SAMPLE_VIEW_COUNT == 1);
     }
 
     @Test

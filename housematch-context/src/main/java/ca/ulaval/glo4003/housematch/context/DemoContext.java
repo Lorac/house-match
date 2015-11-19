@@ -40,6 +40,7 @@ public class DemoContext extends ContextBase {
             "Eddy", "Fallen", "Anchor", "Canyon", "Perfection"};
 
     private static final Integer PROPERTY_POOL_SIZE = 100;
+    private static final Integer NUMBER_OF_PROPERTY_SALES = 7;
     private static final Integer DAYS_IN_YEAR = 365;
 
     private UserFactory userFactory;
@@ -106,7 +107,7 @@ public class DemoContext extends ContextBase {
     }
 
     private void purchaseProperties(User buyer1, List<Property> propertyPool) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < NUMBER_OF_PROPERTY_SALES; i++) {
             buyer1.purchaseProperty(propertyPool.get(i));
         }
     }
@@ -130,7 +131,7 @@ public class DemoContext extends ContextBase {
 
         property.setCreationDate(ZonedDateTime.now().minusDays(random.nextInt(DAYS_IN_YEAR * 5)));
         property.setPropertyDetails(createRandomPropertyDetails());
-        property.incrementViewCount(random.nextInt(1000));
+        property.setViewCount(random.nextInt(1000));
 
         return property;
     }

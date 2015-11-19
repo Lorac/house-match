@@ -40,7 +40,6 @@ public class PropertyServiceTest {
     private static final PropertySortColumn SAMPLE_PROPERTY_SORT_COLUMN = PropertySortColumn.SELLING_PRICE;
     private static final SortOrder SAMPLE_SORT_ORDER = SortOrder.ASCENDING;
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
-    private static final Integer DEFAULT_VIEW_COUNT_INCREMENT = 1;
     private static final Integer MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT = 3;
 
     private PropertyFactory propertyFactoryMock;
@@ -178,7 +177,7 @@ public class PropertyServiceTest {
     @Test
     public void incrementingThePropertyViewCountIncrementsThePropertyViewCount() {
         propertyService.incrementPropertyViewCount(propertyMock);
-        verify(propertyMock).incrementViewCount(DEFAULT_VIEW_COUNT_INCREMENT);
+        verify(propertyMock).incrementViewCount();
     }
 
     @Test
