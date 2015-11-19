@@ -44,7 +44,7 @@
             <div class="col-md-8">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-sm-6">Browse the most popular properties:</label>
+                        <label class="control-label col-sm-6">View the most popular properties:</label>
                         <div class="col-sm-6">
                             <select id="propertyTypeSelector" class="form-control" onchange="javascript:showMostPopularProperties()">
                                 <c:forEach var="propertyType" items="${propertyTypes}" varStatus="count">

@@ -33,13 +33,15 @@ public class DemoContext extends ContextBase {
 
     @Override
     protected void applyFillers() throws Exception {
-        User buyer1 = userFactory.createUser("buyer1", "buyer@gmail.com", "1234", UserRole.BUYER);
-        User seller1 = userFactory.createUser("seller1", "seller@gmail.com", "1234", UserRole.SELLER);
+        User buyer1 = userFactory.createUser("buyer1", "buyer1@gmail.com", "1234", UserRole.BUYER);
+        User buyer2 = userFactory.createUser("buyer2", "buyer2@gmail.com", "1234", UserRole.BUYER);
+        User seller1 = userFactory.createUser("seller1", "seller1@gmail.com", "1234", UserRole.SELLER);
         User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "1234", UserRole.SELLER);
-        User admin1 = userFactory.createUser("admin1", "admin@gmail.com", "1234", UserRole.ADMINISTRATOR);
+        User admin1 = userFactory.createUser("admin1", "admin1@gmail.com", "1234", UserRole.ADMINISTRATOR);
 
         List<User> userPool = new ArrayList<>();
         userPool.add(buyer1);
+        userPool.add(buyer2);
         userPool.add(seller1);
         userPool.add(seller2);
         userPool.add(admin1);
@@ -47,7 +49,7 @@ public class DemoContext extends ContextBase {
         activateUsers(userPool);
 
         List<Property> propertyPool = createPropertyPool();
-        putPropertiesForSale(userPool, propertyPool);
+        putPropertiesForSale(seller1, propertyPool);
         purchaseProperties(buyer1, propertyPool);
 
         persistProperties(propertyPool);
@@ -68,18 +70,18 @@ public class DemoContext extends ContextBase {
         return propertyPool;
     }
 
-    private void putPropertiesForSale(List<User> userPool, List<Property> propertyPool) {
+    private void putPropertiesForSale(User seller, List<Property> propertyPool) {
         List<Property> propertiesForSale = new ArrayList<>(propertyPool);
         while (!propertiesForSale.isEmpty()) {
             Property property = RandomUtils.getRandomListElement(propertiesForSale);
             propertiesForSale.remove(property);
-            RandomUtils.getRandomListElement(userPool).addPropertyForSale(property);
+            seller.addPropertyForSale(property);
         }
     }
 
-    private void purchaseProperties(User buyer1, List<Property> propertyPool) {
+    private void purchaseProperties(User buyer, List<Property> propertyPool) {
         for (int i = 0; i < NUMBER_OF_PROPERTY_SALES; i++) {
-            buyer1.purchaseProperty(propertyPool.get(i));
+            buyer.purchaseProperty(propertyPool.get(i));
         }
     }
 
