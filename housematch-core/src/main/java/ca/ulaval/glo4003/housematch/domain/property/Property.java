@@ -15,8 +15,8 @@ public class Property extends PropertyObservable {
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
     private PropertyStatus status = PropertyStatus.CREATED;
-    private ZonedDateTime creationDate;
-    private Integer viewCount;
+    private ZonedDateTime creationDate = ZonedDateTime.now();
+    private Integer viewCount = 0;
     private VersionedValue<Boolean> isMostViewed = new VersionedValue<>(false);
     private static Integer isMostViewedFlagValueVersion = 0;
 
@@ -26,8 +26,6 @@ public class Property extends PropertyObservable {
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
-        this.creationDate = ZonedDateTime.now();
-        this.viewCount = new Integer(0);
     }
 
     public Integer getViewCount() {
