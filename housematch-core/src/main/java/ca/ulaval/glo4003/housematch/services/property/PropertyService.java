@@ -76,7 +76,7 @@ public class PropertyService {
     }
 
     public void incrementPropertyViewCount(Property property) {
-        property.incrementViewCount();
+        property.incrementViewCount(1);
         propertyRepository.update(property);
     }
 

@@ -2,13 +2,17 @@ package ca.ulaval.glo4003.housematch.context;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.stream.IntStream;
+
+import org.apache.commons.lang3.StringUtils;
 
 import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.address.Region;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType;
@@ -16,15 +20,34 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStyle;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.utils.RandomUtils;
 
 public class DemoContext extends ContextBase {
+
+    private static final String[] WORD_POOL = {"Red", "Lookout", "Challenge", "Emerald", "View", "Maze", "Paris", "Blue", "Falls",
+            "Ireland", "Misty", "Apple", "View", "Loop", "Loop", "Rustic", "Gate", "Pysht", "Sunny", "Highway", "Wickchoupai", "Clear",
+            "Creek", "Glade", "Mount", "Massive", "Lakes", "Golden", "Drive", "Mumper", "Corner", "Colonial", "Wynd", "Tomboy", "Noble",
+            "Fox", "Townline", "Slickpoo", "Easy", "Glen", "Eggnog", "Green", "Park", "Cave-in-Rock", "Lazy", "Downs", "Chittyville",
+            "High", "Stead", "Oblong", "Iron", "Mountain", "Turnabout", "Cranks", "Quaking", "Crescent", "Immaculata", "Pleasant",
+            "By-pass", "Squealer", "Point", "Landing", "Rocky", "Common", "Wham", "Silver", "Wagon", "Impasse", "Splitlog", "Amber",
+            "Plaza", "Circleback", "Umber", "Walk", "Veribest", "Stony", "Quay", "Birdland", "Dusty", "Elk", "Passage", "Chumuckla",
+            "Bright", "Private", "Niceville", "Thunder", "Edge", "Tocktoethla", "Cotton", "Gate", "Woods", "Totstalahoeetska", "Crystal",
+            "Branch", "Subdivision", "Mosquito", "Crossing", "Foggy", "Lagoon", "Green", "Thermopylae", "Honey", "Bear", "Farms", "Peas",
+            "Eddy", "Fallen", "Anchor", "Canyon", "Perfection"};
+
+    private static final Integer PROPERTY_POOL_SIZE = 100;
+    private static final Integer DAYS_IN_YEAR = 365;
+
     private UserFactory userFactory;
     private UserRepository userRepository;
     private PropertyFactory propertyFactory;
     private PropertyRepository propertyRepository;
+
+    private Random random = new Random();
 
     public DemoContext(final UserFactory userFactory, final UserRepository userRepository, final PropertyFactory propertyFactory,
             final PropertyRepository propertyRepository) {
@@ -35,6 +58,7 @@ public class DemoContext extends ContextBase {
     }
 
     // CHECKSTYLE:OFF
+
     @Override
     protected void applyFillers() throws Exception {
         User buyer1 = userFactory.createUser("buyer1", "buyer@gmail.com", "1234", UserRole.BUYER);
@@ -42,106 +66,102 @@ public class DemoContext extends ContextBase {
         User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "1234", UserRole.SELLER);
         User admin1 = userFactory.createUser("admin1", "admin@gmail.com", "1234", UserRole.ADMINISTRATOR);
 
-        buyer1.setActivated(true);
-        seller1.setActivated(true);
-        seller2.setActivated(true);
-        admin1.setActivated(true);
+        List<User> userPool = new ArrayList<>();
+        userPool.add(buyer1);
+        userPool.add(seller1);
+        userPool.add(seller2);
+        userPool.add(admin1);
 
-        Address quebecAddress = createAddress(4500, "1er Avenue", "Charlesbourg", Region.QC, "G1H 6Y7");
-        Address abitibiAddress = createAddress(425, "boulevard du Collège", "Rouyn-Noranda", Region.QC, "J9X 5E5");
-        Address outaouaisAddress = createAddress(188, "rue Jeanne-d'Arc", "Papineau", Region.QC, "J0V 1R0");
-        Address montrealAddress = createAddress(275, "Rue Notre-Dame E", "Montréal", Region.QC, "H2Y 1C6");
-        Address primeMinisterAddress = createAddress(24, "Sussex Drive", "Ottawa", Region.ON, "H2Y 1C6");
-        Address greatDivideLodgeAddress = createAddress(1, "Highway", "Field", Region.BC, "T0L 1E0");
-        Address westEdmontonMallAddress = createAddress(8882, "170 St NW", "Edmonton", Region.AB, "T5T 4J2");
-        Address cnTowerAddress = createAddress(301, "Front St W", "Toronto", Region.ON, "M5V 2T6");
+        activateUsers(userPool);
 
-        PropertyDetails quebecPropertyDetails = createRandomPropertyDetails();
-        PropertyDetails abitibiPropertyDetails = createRandomPropertyDetails();
-        PropertyDetails outaouaisPropertyDetails = createRandomPropertyDetails();
-        PropertyDetails montrealPropertyDetails = createRandomPropertyDetails();
-        PropertyDetails primeMinisterPropertyDetails = createRandomPropertyDetails();
-        PropertyDetails greatDivideLodgeDetails = createRandomPropertyDetails();
-        PropertyDetails westEdmontonMallDetails = createRandomPropertyDetails();
-        PropertyDetails cnTowerDetails = createRandomPropertyDetails();
+        List<Property> propertyPool = createPropertyPool();
+        putPropertiesForSale(userPool, propertyPool);
+        purchaseProperties(buyer1, propertyPool);
 
-        Property quebecProperty = propertyFactory.createProperty(PropertyType.LOT, quebecAddress, BigDecimal.valueOf(100000));
-        Property abitibiProperty = propertyFactory.createProperty(PropertyType.COTTAGE, abitibiAddress, BigDecimal.valueOf(500));
-        Property outaouaisProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, outaouaisAddress, BigDecimal.valueOf(5000));
-        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress, BigDecimal.valueOf(350000));
-        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress, BigDecimal.valueOf(3500000));
-        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress, BigDecimal.valueOf(5500000));
-        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress, BigDecimal.valueOf(1000000000));
-        Property cnTowerProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, cnTowerAddress, BigDecimal.valueOf(100000000));
-
-        increaseViewCount(quebecProperty, 5);
-        increaseViewCount(abitibiProperty, 4);
-        increaseViewCount(outaouaisProperty, 3);
-        increaseViewCount(montrealProperty, 2);
-        increaseViewCount(primeMinisterProperty, 1);
-
-        quebecProperty.setPropertyDetails(quebecPropertyDetails);
-        abitibiProperty.setPropertyDetails(abitibiPropertyDetails);
-        outaouaisProperty.setPropertyDetails(outaouaisPropertyDetails);
-
-        quebecProperty.setCreationDate(ZonedDateTime.now());
-        abitibiProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 7));
-        outaouaisProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 1));
-        montrealProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 2));
-        primeMinisterProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 3));
-        greatDivideLodgeProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 4));
-        westEdmontonMallProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 5));
-        cnTowerProperty.setCreationDate(ZonedDateTime.now().minusMonths((long) 6));
-
-        montrealProperty.setPropertyDetails(montrealPropertyDetails);
-        primeMinisterProperty.setPropertyDetails(primeMinisterPropertyDetails);
-        greatDivideLodgeProperty.setPropertyDetails(greatDivideLodgeDetails);
-        westEdmontonMallProperty.setPropertyDetails(westEdmontonMallDetails);
-        cnTowerProperty.setPropertyDetails(cnTowerDetails);
-
-        seller1.addPropertyForSale(quebecProperty);
-        seller1.addPropertyForSale(montrealProperty);
-        seller2.addPropertyForSale(abitibiProperty);
-        seller2.addPropertyForSale(outaouaisProperty);
-        seller2.addPropertyForSale(primeMinisterProperty);
-        seller2.addPropertyForSale(greatDivideLodgeProperty);
-        seller2.addPropertyForSale(westEdmontonMallProperty);
-        seller2.addPropertyForSale(cnTowerProperty);
-
-        buyer1.purchaseProperty(westEdmontonMallProperty);
-
-        propertyRepository.persist(quebecProperty);
-        propertyRepository.persist(abitibiProperty);
-        propertyRepository.persist(outaouaisProperty);
-        propertyRepository.persist(montrealProperty);
-        propertyRepository.persist(primeMinisterProperty);
-        propertyRepository.persist(greatDivideLodgeProperty);
-        propertyRepository.persist(westEdmontonMallProperty);
-        propertyRepository.persist(cnTowerProperty);
-
-        userRepository.persist(buyer1);
-        userRepository.persist(seller1);
-        userRepository.persist(seller2);
-        userRepository.persist(admin1);
+        persistProperties(propertyPool);
+        persistUsers(userPool);
     }
-    // CHECKSTYLE:OFF
 
-    private void increaseViewCount(Property property, int viewCount) {
-        IntStream.range(0, viewCount).forEach(value -> property.incrementViewCount());
+    private void activateUsers(List<User> userPool) {
+        for (User user : userPool) {
+            user.setActivated(true);
+        }
+    }
+
+    private List<Property> createPropertyPool() {
+        List<Property> propertyPool = new ArrayList<>();
+        for (int i = 0; i < PROPERTY_POOL_SIZE; i++) {
+            propertyPool.add(createRandomProperty());
+        }
+        return propertyPool;
+    }
+
+    private void putPropertiesForSale(List<User> userPool, List<Property> propertyPool) {
+        List<Property> propertiesForSale = new ArrayList<>(propertyPool);
+        while (!propertiesForSale.isEmpty()) {
+            Property property = RandomUtils.getRandomElement(propertiesForSale);
+            propertiesForSale.remove(property);
+            RandomUtils.getRandomElement(userPool).addPropertyForSale(property);
+        }
+    }
+
+    private void purchaseProperties(User buyer1, List<Property> propertyPool) {
+        for (int i = 0; i < 5; i++) {
+            buyer1.purchaseProperty(propertyPool.get(i));
+        }
+    }
+
+    private void persistProperties(List<Property> propertyPool) throws PropertyAlreadyExistsException {
+        for (Property property : propertyPool) {
+            propertyRepository.persist(property);
+        }
+    }
+
+    private void persistUsers(List<User> userPool) throws UserAlreadyExistsException {
+        for (User user : userPool) {
+            userRepository.persist(user);
+        }
+    }
+
+    private Property createRandomProperty() {
+        Address address = createRandomAddress();
+        Property property = propertyFactory.createProperty(RandomUtils.getRandomElement(PropertyType.values()), address,
+                BigDecimal.valueOf(random.nextInt(1000000)));
+
+        property.setCreationDate(ZonedDateTime.now().minusDays(random.nextInt(DAYS_IN_YEAR * 5)));
+        property.setPropertyDetails(createRandomPropertyDetails());
+        property.incrementViewCount(random.nextInt(1000));
+
+        return property;
+    }
+
+    private Address createRandomAddress() {
+        Address address = new Address();
+
+        address.setRegion(RandomUtils.getRandomElement(Region.values()));
+        address.setPostCode(createRandomPostCode());
+        address.setTown(StringUtils.join(RandomUtils.getRandomElements(WORD_POOL, 1), " ") + " Town");
+        address.setStreetName(StringUtils.join(RandomUtils.getRandomElements(WORD_POOL, 2), " ") + " Street");
+        address.setStreetNumber(random.nextInt(9000));
+
+        return address;
+    }
+
+    private String createRandomPostCode() {
+        return String.format("%c%d%c %d%c%d", RandomUtils.getRandomAlphaChar(), random.nextInt(9), RandomUtils.getRandomAlphaChar(),
+                random.nextInt(9), RandomUtils.getRandomAlphaChar(), random.nextInt(9));
     }
 
     private PropertyDetails createRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();
-        Random random = new Random();
 
-        propertyDetails.setPropertyStyle(PropertyStyle.values()[random.nextInt(PropertyStyle.values().length)]);
-        propertyDetails.setOwnershipType(PropertyOwnershipType.values()[random.nextInt(PropertyOwnershipType.values().length)]);
+        propertyDetails.setPropertyStyle(RandomUtils.getRandomElement(PropertyStyle.values()));
+        propertyDetails.setOwnershipType(RandomUtils.getRandomElement(PropertyOwnershipType.values()));
         propertyDetails.setNumberOfExteriorParkingSpaces(random.nextInt(3) + 1);
         propertyDetails.setNumberOfInteriorParkingSpaces(random.nextInt(3));
         propertyDetails.setNumberOfLevels(random.nextInt(3) + 1);
         propertyDetails.setYearOfConstruction(random.ints(50, 1900, 2015).findAny().getAsInt());
-
-        propertyDetails.setBackyardDirection(CardinalDirection.values()[random.nextInt(CardinalDirection.values().length)]);
+        propertyDetails.setBackyardDirection(RandomUtils.getRandomElement(CardinalDirection.values()));
         propertyDetails.setTotalNumberOfRooms(random.nextInt(4) + 3);
         propertyDetails.setNumberOfBedrooms(random.nextInt(4) + 1);
         propertyDetails.setNumberOfBathrooms(random.nextInt(3) + 1);
@@ -151,15 +171,5 @@ public class DemoContext extends ContextBase {
         propertyDetails.setMunicipalAssessment(random.ints(500, 50000, 500000).findAny().getAsInt());
 
         return propertyDetails;
-    }
-
-    private Address createAddress(int streetNumber, String streetName, String town, Region region, String postCode) {
-        Address address = new Address();
-        address.setRegion(region);
-        address.setPostCode(postCode);
-        address.setTown(town);
-        address.setStreetName(streetName);
-        address.setStreetNumber(streetNumber);
-        return address;
     }
 }
