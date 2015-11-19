@@ -1,8 +1,8 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -15,12 +15,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.SortOrder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -35,6 +37,8 @@ import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
+    private static final PropertySortColumn SAMPLE_PROPERTY_SORT_COLUMN = PropertySortColumn.SELLING_PRICE;
+    private static final SortOrder SAMPLE_SORT_ORDER = SortOrder.ASCENDING;
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
     private static final int MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT = 3;
 
@@ -139,51 +143,22 @@ public class PropertyServiceTest {
 
     @Test
     public void gettingPropertiesGetsAllPropertiesFromThePropertyRepository() {
-        propertyService.getProperties();
+        propertyService.getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
         verify(propertyRepositoryMock).getAll();
     }
 
     @Test
     public void gettingPropertiesReturnsListContainingAllTheProperties() {
-        when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
-        List<Property> returnedPropertyList = propertyService.getProperties();
+        when(propertySorterMock.sort(eq(SAMPLE_PROPERTY_LIST), any(PropertySortColumn.class), any(SortOrder.class)))
+                .thenReturn(SAMPLE_PROPERTY_LIST);
+        List<Property> returnedPropertyList = propertyService.getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
         assertSame(SAMPLE_PROPERTY_LIST, returnedPropertyList);
     }
 
     @Test
-    public void gettingPropertiesInChronologicalOrderReturnsAListOfSortedProperties() {
-        List<Property> propertyList = propertyService.getPropertiesInChronologicalOrder();
-
-        verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByCreationDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
-    }
-
-    @Test
-    public void gettingPropertiesInReverseChronologicalOrderSortsAllPropertiesFromTheRepository() {
-        List<Property> propertyList = propertyService.getPropertiesInReverseChronologicalOrder();
-
-        verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByCreationDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
-    }
-
-    @Test
-    public void gettingPropertiesByPriceInAcendingOrderReturnsAListOfSortedProperties() {
-        List<Property> propertyList = propertyService.getPropertiesInAscendingOrderByPrice();
-
-        verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortBySellingPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
-    }
-
-    @Test
-    public void gettingPropertiesByPriceInDescendingOrderReturnsAListOfSortedProperties() {
-        List<Property> propertyList = propertyService.getPropertiesInDescendingOrderByPrice();
-
-        verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortBySellingPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
+    public void gettingPropertiesSortsThePropertiesUsingThePropertySorter() {
+        propertyService.getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
+        verify(propertySorterMock).sort(SAMPLE_PROPERTY_LIST, SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
     }
 
     @Test
@@ -216,7 +191,7 @@ public class PropertyServiceTest {
         propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT);
 
         verify(propertyRepositoryMock).getByType(SAMPLE_PROPERTY_TYPE);
-        verify(propertySorterMock).sortByViewCountInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sort(SAMPLE_PROPERTY_LIST, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
     }
 
     private void createProperty() throws PropertyServiceException {

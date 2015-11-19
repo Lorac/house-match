@@ -4,7 +4,8 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
-<%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.PropertySearchFormViewModel"%>
+<%@page import="ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn"%>
+<%@page import="ca.ulaval.glo4003.housematch.domain.SortOrder"%>
 
 <html>
 <head>
@@ -21,17 +22,6 @@
     <div class="container">
         <h1 class="center">Search Properties</h1>
 
-        <form:form id="property-search-form" role="form" modelAttribute="<%=PropertySearchFormViewModel.NAME%>"
-            action='<%=PropertyController.PROPERTY_SEARCH_EXECUTE_URL%>' method="GET">
-            <div class="input-group">
-                <form:input type="text" path="searchExpression" class="form-control" maxlength="32" placeholder="Search for..."
-                    autofocus="true" />
-                <span class="input-group-btn"> <input type="submit" name="property-search-submit" id="property-seatch-submit"
-                        tabindex="0" class="btn btn-default" value="Search">
-                </span>
-            </div>
-        </form:form>
-
         <c:if test="${not empty propertyList}">
             <h3 class="center">Search results</h3>
             <c:choose>
@@ -43,12 +33,12 @@
                                 <th>ID</th>
                                 <th>Address</th>
                                 <th>
-                                    <span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL%>';"></span>
-                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>
                                     Price</th>
                                 <th>
-                                	<span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL%>';"></span>
-                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL%>';"></span>
+                                	<span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>
                                     Date</th>
                             </tr>
                         </thead>

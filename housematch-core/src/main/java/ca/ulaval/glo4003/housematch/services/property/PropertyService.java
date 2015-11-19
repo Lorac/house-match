@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import ca.ulaval.glo4003.housematch.domain.SortOrder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -11,6 +12,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -82,40 +84,17 @@ public class PropertyService {
         return propertyStatisticsCollector.getStatistics();
     }
 
-    public List<Property> getProperties() {
-        return propertyRepository.getAll();
-    }
-
-    public List<Property> getPropertiesInChronologicalOrder() {
+    public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
         List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortByCreationDateInAscendingOrder(properties);
-        return properties;
-    }
-
-    public List<Property> getPropertiesInReverseChronologicalOrder() {
-        List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortByCreationDateInDescendingOrder(properties);
-        return properties;
+        return propertySorter.sort(properties, sortColumn, sortOrder);
     }
 
     public List<Property> getMostViewedProperties(PropertyType propertyType, Integer limit) {
         List<Property> properties = propertyRepository.getByType(propertyType);
-        propertySorter.sortByViewCountInDescendingOrder(properties);
+        propertySorter.sort(properties, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
         properties = properties.stream().limit(limit).collect(Collectors.toList());
         Property.incrementMostViewedFlagValueVersion();
         properties.stream().forEach(p -> p.markAsMostViewed());
-        return properties;
-    }
-
-    public List<Property> getPropertiesInAscendingOrderByPrice() {
-        List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortBySellingPriceInAscendingOrder(properties);
-        return properties;
-    }
-
-    public List<Property> getPropertiesInDescendingOrderByPrice() {
-        List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortBySellingPriceInDescendingOrder(properties);
         return properties;
     }
 }

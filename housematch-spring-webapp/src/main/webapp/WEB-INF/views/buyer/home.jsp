@@ -37,7 +37,7 @@
                                 <p class="itemLabel">Update contact information</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=PropertyController.PROPERTY_SEARCH_EXECUTE_URL%>"><span class="icon glyphicon glyphicon-search"></span>
+                            <a href="<%=PropertyController.PROPERTY_SEARCH_URL%>"><span class="icon glyphicon glyphicon-search"></span>
                                 <p class="itemLabel">Search properties for sale</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">

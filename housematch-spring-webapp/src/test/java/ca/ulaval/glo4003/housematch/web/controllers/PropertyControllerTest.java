@@ -29,10 +29,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import ca.ulaval.glo4003.housematch.domain.SortOrder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
@@ -40,7 +42,6 @@ import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyDetailsFormViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyListViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler;
-import ca.ulaval.glo4003.housematch.web.controllers.PropertyController;
 import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageViewModel;
 
@@ -48,7 +49,12 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
+    private static final PropertySortColumn SAMPLE_PROPERTY_SORT_COLUMN = PropertySortColumn.VIEW_COUNT;
+    private static final SortOrder SAMPLE_SORT_ORDER = SortOrder.ASCENDING;
+
     private static final String PROPERTY_TYPE_REQUEST_PARAMETER_NAME = "propertyType";
+    private static final String PROPERTY_SORT_COLUMN_PARAMETER_NAME = "sortColumn";
+    private static final String PROPERTY_SORT_ORDER_PARAMETER_NAME = "sortOrder";
 
     private Property propertyMock;
     private PropertyService propertyServiceMock;
@@ -188,23 +194,20 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerGetsAllPropertiesFromThePropertyServiceDuringPropertySearchRequest() throws Exception {
-        performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
-        verify(propertyServiceMock).getProperties();
+        MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(PropertyController.PROPERTY_SEARCH_URL);
+        getRequest.param(PROPERTY_SORT_COLUMN_PARAMETER_NAME, SAMPLE_PROPERTY_SORT_COLUMN.name());
+        getRequest.param(PROPERTY_SORT_ORDER_PARAMETER_NAME, SAMPLE_SORT_ORDER.name());
+
+        mockMvc.perform(getRequest);
+
+        verify(propertyServiceMock).getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
     }
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromThePropertiesDuringPropertySearchRequest() throws Exception {
-        when(propertyServiceMock.getProperties()).thenReturn(SAMPLE_PROPERTY_LIST);
-        performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
+        when(propertyServiceMock.getProperties(any(PropertySortColumn.class), any(SortOrder.class))).thenReturn(SAMPLE_PROPERTY_LIST);
+        performGetRequest(PropertyController.PROPERTY_SEARCH_URL);
         verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
-    }
-
-    @Test
-    public void propertyControllerRendersPropertyListViewUponCompletionOfPropertyListRequest() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_EXECUTE_URL);
-
-        results.andExpect(status().isOk());
-        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
     }
 
     @Test
@@ -236,24 +239,6 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyControllerReturnsPropertySearchViewWithPropertiesInChronologicalOrderWhenRequested() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL);
-
-        verify(propertyServiceMock).getPropertiesInChronologicalOrder();
-        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
-        results.andExpect(status().isOk());
-    }
-
-    @Test
-    public void propertyControllerReturnsPropertySearchViewWithPropertiesInReverseChronologicalOrderWhenRequested() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL);
-
-        verify(propertyServiceMock).getPropertiesInReverseChronologicalOrder();
-        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
-        results.andExpect(status().isOk());
-    }
-
-    @Test
     public void propertyControllerIncrementsThePropertyViewCountDuringPropertyViewAccess() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
         performPropertyGetRequest();
@@ -269,24 +254,6 @@ public class PropertyControllerTest extends BaseControllerTest {
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(PropertyController.MOST_VIEWED_PROPERTIES_VIEW_NAME));
-    }
-
-    @Test
-    public void propertyControllerReturnsPropertySearchViewWithPropertiesInAscendingOrderByPriceWhenRequested() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL);
-
-        verify(propertyServiceMock).getPropertiesInAscendingOrderByPrice();
-        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
-        results.andExpect(status().isOk());
-    }
-
-    @Test
-    public void propertyControllerReturnsPropertySearchViewWithPropertiesInDescendingOrderByPriceWhenRequested() throws Exception {
-        ResultActions results = performGetRequest(PropertyController.PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL);
-
-        verify(propertyServiceMock).getPropertiesInDescendingOrderByPrice();
-        results.andExpect(view().name(PropertyController.PROPERTY_SEARCH_VIEW_NAME));
-        results.andExpect(status().isOk());
     }
 
     @Test
