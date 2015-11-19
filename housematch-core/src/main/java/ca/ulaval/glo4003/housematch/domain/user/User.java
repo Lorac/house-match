@@ -85,6 +85,14 @@ public class User extends UserObservable {
         propertiesForSale = properties;
     }
 
+    public List<Property> getPurchasedProperties() {
+        return purchasedProperties;
+    }
+
+    public void setPurchasedProperties(List<Property> properties) {
+        purchasedProperties = properties;
+    }
+
     public UserStatus getStatus() {
         return status;
     }

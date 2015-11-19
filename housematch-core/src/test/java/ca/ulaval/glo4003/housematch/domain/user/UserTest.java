@@ -246,6 +246,12 @@ public class UserTest {
     }
 
     @Test
+    public void settingPurchasedPropertiesSetsThePurchasedProperties() {
+        user.setPurchasedProperties(properties);
+        assertEquals(properties, user.getPurchasedProperties());
+    }
+
+    @Test
     public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
         user.setAddress(addressMock);
         assertEquals(addressMock, user.getAddress());

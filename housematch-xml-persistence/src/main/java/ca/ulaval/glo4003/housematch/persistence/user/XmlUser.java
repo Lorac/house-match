@@ -28,6 +28,9 @@ public class XmlUser {
     @XmlJavaTypeAdapter(XmlZonedDateTimeAdapter.class)
     public ZonedDateTime lastLoginDate;
     @XmlElementWrapper(name = "propertiesForSale")
-    @XmlElement(name = "propertyRef")
+    @XmlElement(name = "propertyHashCode")
     public List<Integer> propertiesForSale = new ArrayList<Integer>();
+    @XmlElementWrapper(name = "purchasedProperties")
+    @XmlElement(name = "propertyHashCode")
+    public List<Integer> purchasedProperties = new ArrayList<Integer>();
 }
