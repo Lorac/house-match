@@ -17,10 +17,13 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlPropertyRepositoryTest {
     private static final Integer SAMPLE_UNEXISTING_HASHCODE = 345435;
+    private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
+    private static final PropertyType ANOTHER_SAMPLE_PROPERTY_TYPE = PropertyType.LOT;
 
     private XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshallerMock;
     private XmlPropertyAdapter xmlPropertyAdapterMock;
@@ -48,6 +51,8 @@ public class XmlPropertyRepositoryTest {
 
     private void initStubs() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlPropertyRootElementMock);
+        when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
+        when(anotherPropertyMock.getPropertyType()).thenReturn(ANOTHER_SAMPLE_PROPERTY_TYPE);
     }
 
     @Test
@@ -107,6 +112,16 @@ public class XmlPropertyRepositoryTest {
         List<Property> properties = xmlPropertyRepository.getAll();
 
         assertThat(properties, containsInAnyOrder(propertyMock, anotherPropertyMock));
+    }
+
+    @Test
+    public void gettingPropertiesByTypeGetsThePropertiesByType() throws Exception {
+        xmlPropertyRepository.persist(propertyMock);
+        xmlPropertyRepository.persist(anotherPropertyMock);
+
+        List<Property> properties = xmlPropertyRepository.getByType(SAMPLE_PROPERTY_TYPE);
+
+        assertThat(properties, containsInAnyOrder(propertyMock));
     }
 
 }

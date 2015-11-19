@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.web.assemblers;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -13,7 +14,6 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 
 public class PropertyViewModelAssemblerTest {
@@ -42,8 +42,8 @@ public class PropertyViewModelAssemblerTest {
 
     private void initStubs() {
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
-        when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);
+        when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
     }
 
@@ -52,9 +52,10 @@ public class PropertyViewModelAssemblerTest {
         PropertyViewModel viewModel = assembler.assembleFromProperty(propertyMock);
 
         assertSame(SAMPLE_PROPERTY_TYPE, viewModel.getPropertyType());
-        assertSame(SAMPLE_SELLING_PRICE, viewModel.getSellingPrice());
         assertSame(addressMock, viewModel.getAddress());
+        assertSame(SAMPLE_SELLING_PRICE, viewModel.getSellingPrice());
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
+        assertEquals(propertyMock.hashCode(), viewModel.getHashCode());
     }
 
 }

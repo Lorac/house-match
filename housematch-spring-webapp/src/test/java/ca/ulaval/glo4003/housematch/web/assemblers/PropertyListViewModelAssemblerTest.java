@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.web.assemblers;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -11,29 +12,34 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.web.assemblers.PropertyListViewModelAssembler;
-import ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyListViewModel;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 
 public class PropertyListViewModelAssemblerTest {
 
-    private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
-    private static final List<PropertyViewModel> SAMPLE_PROPERTY_VIEW_MODEL_LIST = new ArrayList<>();
-
-    private PropertyListViewModelAssembler assembler;
+    private PropertyListViewModelAssembler propertyListViewModelAssembler;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
+    private List<Property> propertyList = new ArrayList<>();
+    private PropertyViewModel propertyViewModelMock;
+    private Property propertyMock;
 
     @Before
     public void init() {
+        initMocks();
+        propertyList.add(propertyMock);
+        propertyListViewModelAssembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
+    }
+
+    private void initMocks() {
+        propertyMock = mock(Property.class);
+        propertyViewModelMock = mock(PropertyViewModel.class);
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
-        when(propertyViewModelAssemblerMock.assembleFromPropertyList(SAMPLE_PROPERTY_LIST)).thenReturn(SAMPLE_PROPERTY_VIEW_MODEL_LIST);
-        assembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
-        PropertyListViewModel viewModel = assembler.assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
-        assertEquals(SAMPLE_PROPERTY_VIEW_MODEL_LIST, viewModel.getPropertyViewModels());
+        when(propertyViewModelAssemblerMock.assembleFromProperty(propertyMock)).thenReturn(propertyViewModelMock);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(propertyList);
+        assertThat(viewModel.getPropertyViewModels(), contains(propertyViewModelMock));
     }
 }

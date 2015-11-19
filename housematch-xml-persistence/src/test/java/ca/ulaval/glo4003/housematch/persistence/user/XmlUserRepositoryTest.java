@@ -1,12 +1,15 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -19,7 +22,7 @@ import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshal
 
 public class XmlUserRepositoryTest {
     private static final String SAMPLE_USERNAME = "username1";
-    private static final String SAMPLE_UNEXISTING_USERNAME = "username2";
+    private static final String ANOTHER_SAMPLE_USERNAME = "username2";
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final UUID ANOTHER_SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
 
@@ -27,6 +30,7 @@ public class XmlUserRepositoryTest {
     private XmlUserAdapter xmlUserAdapterMock;
     private XmlUserRootElement xmlUserRootElementMock;
     private User userMock;
+    private User anotherUserMock;
 
     private XmlUserRepository xmlUserRepository;
 
@@ -40,6 +44,7 @@ public class XmlUserRepositoryTest {
     @SuppressWarnings("unchecked")
     private void initMocks() {
         userMock = mock(User.class);
+        anotherUserMock = mock(User.class);
         xmlUserAdapterMock = mock(XmlUserAdapter.class);
         xmlUserRootElementMock = mock(XmlUserRootElement.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
@@ -48,6 +53,7 @@ public class XmlUserRepositoryTest {
     private void initStubs() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlUserRootElementMock);
         when(userMock.getUsername()).thenReturn(SAMPLE_USERNAME);
+        when(anotherUserMock.getUsername()).thenReturn(ANOTHER_SAMPLE_USERNAME);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
 
     }
@@ -97,7 +103,7 @@ public class XmlUserRepositoryTest {
     public void gettingUserByUsernameUsingNonExistingUsernameThrowsUserNotFoundException() throws Exception {
         when(userMock.usernameEquals(SAMPLE_USERNAME)).thenReturn(true);
         xmlUserRepository.persist(userMock);
-        xmlUserRepository.getByUsername(SAMPLE_UNEXISTING_USERNAME);
+        xmlUserRepository.getByUsername(ANOTHER_SAMPLE_USERNAME);
     }
 
     @Test
@@ -110,5 +116,15 @@ public class XmlUserRepositoryTest {
     @Test(expected = UserNotFoundException.class)
     public void gettingUserByActivationCodeUsingNonExistingActivationCodeThrowsUserNotFoundException() throws Exception {
         xmlUserRepository.getByActivationCode(ANOTHER_SAMPLE_ACTIVATION_CODE);
+    }
+
+    @Test
+    public void gettingAllUsersGetsAllTheUsers() throws Exception {
+        xmlUserRepository.persist(userMock);
+        xmlUserRepository.persist(anotherUserMock);
+
+        List<User> users = xmlUserRepository.getAll();
+
+        assertThat(users, containsInAnyOrder(userMock, anotherUserMock));
     }
 }

@@ -8,6 +8,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,7 @@ public class PropertyTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
     private static final BigDecimal ANOTHER_SAMPLE_SELLING_PRICE = BigDecimal.valueOf(4535);
     private static final PropertyStatus SAMPLE_STATUS = PropertyStatus.FOR_SALE;
+    private static final ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
     private static final Integer SAMPLE_VIEW_COUNT = 350;
     private static final Object SAMPLE_OBJECT = new Object();
 
@@ -111,6 +113,12 @@ public class PropertyTest {
     public void settingTheStatusSetsTheSpecifiedStatus() {
         property.setStatus(SAMPLE_STATUS);
         assertEquals(SAMPLE_STATUS, property.getStatus());
+    }
+
+    @Test
+    public void settingTheCreationDateSetsTheSpecifiedCreationDate() {
+        property.setCreationDate(SAMPLE_DATE);
+        assertEquals(SAMPLE_DATE, property.getCreationDate());
     }
 
     @Test

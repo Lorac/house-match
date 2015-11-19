@@ -82,4 +82,5 @@ public class HomeController extends BaseController {
     private ModelAndView displaySellerHomeView(HttpSession httpSession) {
         return new ModelAndView(SELLER_HOME_VIEW_NAME);
     }
+
 }
