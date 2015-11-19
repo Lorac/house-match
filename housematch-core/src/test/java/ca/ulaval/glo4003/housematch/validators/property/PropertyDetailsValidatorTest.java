@@ -26,10 +26,10 @@ public class PropertyDetailsValidatorTest {
     public void init() throws Exception {
         propertyDetailsMock = mock(PropertyDetails.class);
         propertyDetailsValidator = new PropertyDetailsValidator();
-        stubMethods();
+        initStubs();
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(propertyDetailsMock.getBuildingDimensionsInSquareFeet()).thenReturn(SAMPLE_POSITIVE_NUMBER);
         when(propertyDetailsMock.getLivingSpaceAreaInSquareFeet()).thenReturn(SAMPLE_POSITIVE_NUMBER);
         when(propertyDetailsMock.getLotDimensionsInSquareFeet()).thenReturn(SAMPLE_POSITIVE_NUMBER);

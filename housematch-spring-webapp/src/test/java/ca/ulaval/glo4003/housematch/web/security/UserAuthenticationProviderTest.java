@@ -38,7 +38,7 @@ public class UserAuthenticationProviderTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         userAuthenticationProvider = new UserAuthenticationProvider(userServiceMock);
     }
 
@@ -48,7 +48,7 @@ public class UserAuthenticationProviderTest {
         userMock = mock(User.class);
     }
 
-    private void stubMethods() throws Exception {
+    private void initStubs() throws Exception {
         when(authenticationMock.getName()).thenReturn(SAMPLE_USERNAME);
         when(authenticationMock.getCredentials()).thenReturn(SAMPLE_PASSWORD);
         when(userServiceMock.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD)).thenReturn(userMock);

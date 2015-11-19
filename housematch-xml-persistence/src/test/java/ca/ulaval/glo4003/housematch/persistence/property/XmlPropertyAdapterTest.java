@@ -36,7 +36,7 @@ public class XmlPropertyAdapterTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlPropertyAdapter = new XmlPropertyAdapter(propertyFactoryMock);
     }
 
@@ -68,7 +68,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyMock.creationDate = SAMPLE_DATE;
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class)))
                 .thenReturn(propertyMock);
     }

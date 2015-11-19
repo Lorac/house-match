@@ -36,7 +36,7 @@ public class PropertyStatisticsCollectorTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         initStats();
         propertyStatisticsCollector = new PropertyStatisticsCollector(statisticFactoryMock);
     }
@@ -49,7 +49,7 @@ public class PropertyStatisticsCollectorTest {
         propertyMock = mock(Property.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsCollector.NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME), anyInt()))
                 .thenReturn(numberOfSoldPropertiesThisYearStatMock);
         when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsCollector.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME),

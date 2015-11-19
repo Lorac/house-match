@@ -33,7 +33,7 @@ public class XmlUserRepositoryTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlUserRepository = new XmlUserRepository(xmlRepositoryMarshallerMock, xmlUserAdapterMock);
     }
 
@@ -45,7 +45,7 @@ public class XmlUserRepositoryTest {
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlUserRootElementMock);
         when(userMock.getUsername()).thenReturn(SAMPLE_USERNAME);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);

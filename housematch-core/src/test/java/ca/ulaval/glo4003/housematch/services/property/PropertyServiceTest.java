@@ -58,7 +58,7 @@ public class PropertyServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
                 propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorterMock);
     }
@@ -78,7 +78,7 @@ public class PropertyServiceTest {
         propertySorterMock = mock(PropertySorter.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class)))
                 .thenReturn(propertyMock);
         when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);

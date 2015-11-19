@@ -64,7 +64,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void init() throws Exception {
         super.init();
         initMocks();
-        stubMethods();
+        initStubs();
         samplePropertyDetailsUpdateUrl = PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + propertyMock.hashCode();
         propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyViewModelAssemblerMock,
                 propertyDetailsFormViewModelAssemblerMock, propertyListViewModelAssemblerMock, permissionEvaluatorMock);
@@ -81,7 +81,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         permissionEvaluatorMock = mock(PermissionEvaluator.class);
     }
 
-    private void stubMethods() throws Exception {
+    private void initStubs() throws Exception {
         when(propertyServiceMock.createProperty(any(), any(), any(), any())).thenReturn(propertyMock);
     }
 

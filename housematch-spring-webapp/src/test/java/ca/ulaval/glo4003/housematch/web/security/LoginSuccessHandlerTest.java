@@ -37,7 +37,7 @@ public class LoginSuccessHandlerTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         loginSuccessHandler = new LoginSuccessHandler();
         loginSuccessHandler.setRedirectStrategy(redirectStrategyMock);
     }
@@ -51,7 +51,7 @@ public class LoginSuccessHandlerTest {
         authenticationMock = mock(Authentication.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(authenticationMock.getPrincipal()).thenReturn(userMock);
         when(httpServletRequestMock.getSession()).thenReturn(httpSessionMock);
     }

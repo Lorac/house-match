@@ -30,7 +30,7 @@ public class PropertyViewModelAssemblerTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         assembler = new PropertyViewModelAssembler();
     }
 
@@ -40,7 +40,7 @@ public class PropertyViewModelAssemblerTest {
         addressMock = mock(Address.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getAddress()).thenReturn(addressMock);

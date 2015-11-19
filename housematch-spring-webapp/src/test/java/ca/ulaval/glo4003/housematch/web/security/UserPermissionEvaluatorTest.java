@@ -35,7 +35,7 @@ public class UserPermissionEvaluatorTest {
     public void init() {
         initMocks();
         userPermissionEvaluator = new UserPermissionEvaluator(propertyAccessValidatorMock);
-        stubMethods();
+        initStubs();
     }
 
     private void initMocks() {
@@ -47,7 +47,7 @@ public class UserPermissionEvaluatorTest {
         authenticationMock = mock(Authentication.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(authenticationMock.getPrincipal()).thenReturn(userMock);
         when(userMock.isActivated()).thenReturn(true);
         when(userMock.hasRole(SAMPLE_ROLE)).thenReturn(true);

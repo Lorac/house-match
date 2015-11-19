@@ -33,7 +33,7 @@ public class XmlPropertyRepositoryTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlPropertyRepository = new XmlPropertyRepository(xmlRepositoryMarshallerMock, xmlPropertyAdapterMock);
     }
 
@@ -46,7 +46,7 @@ public class XmlPropertyRepositoryTest {
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlPropertyRootElementMock);
     }
 

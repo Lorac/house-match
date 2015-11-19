@@ -32,7 +32,7 @@ public class XmlRepositoryMarshallerTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlRepositoryMarshaller = new XmlRepositoryMarshaller<Object>(marshallerMock, unmarshallerMock, resourceLoaderMock,
                 SAMPLE_RESOURCE_NAME);
     }
@@ -47,7 +47,7 @@ public class XmlRepositoryMarshallerTest {
         xmlAdapterMock = mock(XmlAdapter.class);
     }
 
-    private void stubMethods() throws Exception {
+    private void initStubs() throws Exception {
         when(resourceLoaderMock.loadResourceAsInputStream(any(XmlRepositoryMarshaller.class), eq(SAMPLE_RESOURCE_NAME)))
                 .thenReturn(inputStreamMock);
         when(resourceLoaderMock.loadResourceAsOutputStream(any(XmlRepositoryMarshaller.class), eq(SAMPLE_RESOURCE_NAME)))

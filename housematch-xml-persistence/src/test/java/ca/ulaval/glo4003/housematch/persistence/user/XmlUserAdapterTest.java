@@ -50,7 +50,7 @@ public class XmlUserAdapterTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlUserAdapter = new XmlUserAdapter(userFactoryMock, propertyRepositoryMock);
     }
 
@@ -88,7 +88,7 @@ public class XmlUserAdapterTest {
         xmlUserMock.propertiesForSale = propertyRefs;
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
     }
 

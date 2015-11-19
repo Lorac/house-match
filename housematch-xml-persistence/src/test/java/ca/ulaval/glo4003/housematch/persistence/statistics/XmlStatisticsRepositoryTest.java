@@ -28,7 +28,7 @@ public class XmlStatisticsRepositoryTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlStatisticsRepository = new XmlStatisticsRepository(xmlRepositoryMarshallerMock);
     }
 
@@ -38,7 +38,7 @@ public class XmlStatisticsRepositoryTest {
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlStatisticsRootElementMock);
         when(xmlStatisticsRootElementMock.getStatistics()).thenReturn(new ConcurrentHashMap<String, Object>());
     }

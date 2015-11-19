@@ -57,7 +57,7 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userStatisticsCollectorMock,
                 userRegistrationValidatorMock, addressValidatorMock);
     }
@@ -75,7 +75,7 @@ public class UserServiceTest {
         addressMock = mock(Address.class);
     }
 
-    private void stubMethods() throws UserNotFoundException {
+    private void initStubs() throws UserNotFoundException {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }

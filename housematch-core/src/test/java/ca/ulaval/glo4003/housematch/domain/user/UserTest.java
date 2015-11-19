@@ -56,7 +56,7 @@ public class UserTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         properties = new ArrayList<>();
         createUsers();
     }
@@ -68,7 +68,7 @@ public class UserTest {
         addressMock = mock(Address.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
     }
 

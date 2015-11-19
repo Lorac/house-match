@@ -30,7 +30,7 @@ public class UserStatisticsCollectorTest {
     @Before
     public void init() {
         initMocks();
-        stubMethods();
+        initStubs();
         initStats();
         userStatisticsCollector = new UserStatisticsCollector(statisticFactoryMock);
     }
@@ -43,7 +43,7 @@ public class UserStatisticsCollectorTest {
         userMock = mock(User.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(statisticFactoryMock.createStatistic(eq(UserStatisticsCollector.NUMBER_OF_ACTIVE_BUYERS_STAT_NAME), anyInt()))
                 .thenReturn(numberOfActiveBuyersStatMock);
         when(statisticFactoryMock.createStatistic(eq(UserStatisticsCollector.NUMBER_OF_ACTIVE_SELLERS_STAT_NAME), anyInt()))
