@@ -40,7 +40,7 @@ public class PropertyServiceTest {
     private static final PropertySortColumn SAMPLE_PROPERTY_SORT_COLUMN = PropertySortColumn.SELLING_PRICE;
     private static final SortOrder SAMPLE_SORT_ORDER = SortOrder.ASCENDING;
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
-    private static final int MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT = 3;
+    private static final int MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT = 3;
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
@@ -187,8 +187,8 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void gettingTheMostViewedPropertiesSortsThePropertiesOfTheSpecifiedTypeUsingThePropertySorter() {
-        propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT);
+    public void gettingTheMostPopularPropertiesSortsThePropertiesOfTheSpecifiedTypeUsingThePropertySorter() {
+        propertyService.getMostPopularProperties(SAMPLE_PROPERTY_TYPE, MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT);
 
         verify(propertyRepositoryMock).getByType(SAMPLE_PROPERTY_TYPE);
         verify(propertySorterMock).sort(SAMPLE_PROPERTY_LIST, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);

@@ -9,7 +9,7 @@ public class PropertyAccessValidator {
 
     public boolean validateAccess(Authentication authentication, Property property) {
         if (authentication instanceof AnonymousAuthenticationToken) {
-            return property.isMostViewed();
+            return property.isMostPopular();
         }
         return true;
     }

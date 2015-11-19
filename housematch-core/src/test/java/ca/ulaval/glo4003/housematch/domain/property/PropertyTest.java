@@ -160,19 +160,19 @@ public class PropertyTest {
 
     @Test
     public void propertyIsNotMarkedAsMostVisitedOnCreation() {
-        assertFalse(property.isMostViewed());
+        assertFalse(property.isMostPopular());
     }
 
     @Test
-    public void markingThePropertyAsMostViewedMarksThePropertyAsMostVisisted() {
-        property.markAsMostViewed();
-        assertTrue(property.isMostViewed());
+    public void markingThePropertyAsMostPopularMarksThePropertyAsMostVisisted() {
+        property.markAsMostPopular();
+        assertTrue(property.isMostPopular());
     }
 
     @Test
-    public void incrementingTheMostViewedFlagValueVersionUnmarksThePropertyAsMostVisisted() {
-        property.markAsMostViewed();
-        Property.incrementMostViewedFlagValueVersion();
-        assertFalse(property.isMostViewed());
+    public void incrementingTheMostPopularFlagValueVersionUnmarksThePropertyAsMostVisisted() {
+        property.markAsMostPopular();
+        Property.resetPropertyPopularityFlags();
+        assertFalse(property.isMostPopular());
     }
 }

@@ -40,7 +40,7 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_VIEW_URL = "/property/{propertyHashCode}";
     public static final String PROPERTY_VIEW_BASE_URL = "/property/";
-    public static final String MOST_VIEWED_PROPERTIES_VIEW_URL = "/mostViewedProperties";
+    public static final String MOST_POPULAR_PROPERTIES_VIEW_URL = "/mostPopularProperties";
 
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
@@ -48,9 +48,9 @@ public class PropertyController extends BaseController {
     static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
     static final String PROPERTY_VIEW_NAME = "property/propertyDetails";
-    static final String MOST_VIEWED_PROPERTIES_VIEW_NAME = "property/mostViewedProperties";
+    static final String MOST_POPULAR_PROPERTIES_VIEW_NAME = "property/mostPopularProperties";
 
-    private static final Integer MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT = 10;
+    private static final Integer MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT = 10;
 
     @Inject
     private PropertyService propertyService;
@@ -145,10 +145,10 @@ public class PropertyController extends BaseController {
         }
     }
 
-    @RequestMapping(value = MOST_VIEWED_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
-    public final ModelAndView displayMostViewedProperties(@RequestParam("propertyType") PropertyType propertyType) {
-        List<Property> properties = propertyService.getMostViewedProperties(propertyType, MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT);
+    @RequestMapping(value = MOST_POPULAR_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
+    public final ModelAndView displayMostPopularProperties(@RequestParam("propertyType") PropertyType propertyType) {
+        List<Property> properties = propertyService.getMostPopularProperties(propertyType, MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT);
         PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(properties);
-        return new ModelAndView(MOST_VIEWED_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
+        return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 }

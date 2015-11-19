@@ -89,12 +89,12 @@ public class PropertyService {
         return propertySorter.sort(properties, sortColumn, sortOrder);
     }
 
-    public List<Property> getMostViewedProperties(PropertyType propertyType, Integer limit) {
+    public List<Property> getMostPopularProperties(PropertyType propertyType, Integer limit) {
         List<Property> properties = propertyRepository.getByType(propertyType);
         propertySorter.sort(properties, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
         properties = properties.stream().limit(limit).collect(Collectors.toList());
-        Property.incrementMostViewedFlagValueVersion();
-        properties.stream().forEach(p -> p.markAsMostViewed());
+        Property.resetPropertyPopularityFlags();
+        properties.stream().forEach(p -> p.markAsMostPopular());
         return properties;
     }
 }

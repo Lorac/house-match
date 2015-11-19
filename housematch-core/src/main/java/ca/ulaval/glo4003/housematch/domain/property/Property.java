@@ -17,8 +17,8 @@ public class Property extends PropertyObservable {
     private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate = ZonedDateTime.now();
     private Integer viewCount = 0;
-    private VersionedValue<Boolean> isMostViewed = new VersionedValue<>(false);
-    private static Integer isMostViewedFlagValueVersion = 0;
+    private VersionedValue<Boolean> isMostPopular = new VersionedValue<>(false);
+    private static Integer popularityFlagValueVersion = 0;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -76,16 +76,16 @@ public class Property extends PropertyObservable {
         return ++viewCount;
     }
 
-    public Boolean isMostViewed() {
-        return isMostViewed.getValue() && isMostViewed.getVersion().equals(isMostViewedFlagValueVersion);
+    public Boolean isMostPopular() {
+        return isMostPopular.getValue() && isMostPopular.getVersion().equals(popularityFlagValueVersion);
     }
 
-    public void markAsMostViewed() {
-        isMostViewed.setValue(true, isMostViewedFlagValueVersion);
+    public void markAsMostPopular() {
+        isMostPopular.setValue(true, popularityFlagValueVersion);
     }
 
-    public static void incrementMostViewedFlagValueVersion() {
-        isMostViewedFlagValueVersion++;
+    public static void resetPropertyPopularityFlags() {
+        popularityFlagValueVersion++;
     }
 
     public void markForSale() {

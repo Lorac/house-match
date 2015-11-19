@@ -44,9 +44,9 @@
             <div class="col-md-8">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-sm-6">Browse the most viewed properties:</label>
+                        <label class="control-label col-sm-6">Browse the most popular properties:</label>
                         <div class="col-sm-6">
-                            <select id="propertyTypeSelector" class="form-control" onchange="javascript:showMostViewedProperties()">
+                            <select id="propertyTypeSelector" class="form-control" onchange="javascript:showMostPopularProperties()">
                                 <c:forEach var="propertyType" items="${propertyTypes}" varStatus="count">
                                     <option value="${propertyType}" ${count.index == 0 ? 'selected' : ''}>${propertyType.displayName}</option>
                                 </c:forEach>
@@ -54,7 +54,7 @@
                         </div>
                     </div>
                 </form>
-                <div id="mostViewedPropertiesViewContainer"></div>
+                <div id="mostPopularPropertiesViewContainer"></div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
