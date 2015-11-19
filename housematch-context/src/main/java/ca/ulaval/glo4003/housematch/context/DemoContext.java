@@ -47,14 +47,14 @@ public class DemoContext extends ContextBase {
         seller2.setActivated(true);
         admin1.setActivated(true);
 
-        Address quebecAddress = createAddress("G1H 6Y7", Region.QC, "Charlesbourg", "1er Avenue", 4500);
-        Address abitibiAddress = createAddress("J9X 5E5", Region.QC, "Rouyn-Noranda", "boulevard du Collège", 425);
-        Address outaouaisAddress = createAddress("J0V 1R0", Region.QC, "Papineau", "rue Jeanne-d'Arc", 188);
-        Address montrealAddress = createAddress("H2Y 1C6", Region.QC, "Montréal", "Rue Notre-Dame E", 275);
-        Address primeMinisterAddress = createAddress("H2Y 1C6", Region.ON, "Ottawa", "Sussex Drive", 24);
-        Address greatDivideLodgeAddress = createAddress("T0L 1E0", Region.BC, "Field", "Highway", 1);
-        Address westEdmontonMallAddress = createAddress("T5T 4J2", Region.AB, "Edmonton", "170 St NW", 8882);
-        Address cnTowerAddress = createAddress("M5V 2T6", Region.ON, "Toronto", "Front St W", 301);
+        Address quebecAddress = createAddress(4500, "1er Avenue", "Charlesbourg", Region.QC, "G1H 6Y7");
+        Address abitibiAddress = createAddress(425, "boulevard du Collège", "Rouyn-Noranda", Region.QC, "J9X 5E5");
+        Address outaouaisAddress = createAddress(188, "rue Jeanne-d'Arc", "Papineau", Region.QC, "J0V 1R0");
+        Address montrealAddress = createAddress(275, "Rue Notre-Dame E", "Montréal", Region.QC, "H2Y 1C6");
+        Address primeMinisterAddress = createAddress(24, "Sussex Drive", "Ottawa", Region.ON, "H2Y 1C6");
+        Address greatDivideLodgeAddress = createAddress(1, "Highway", "Field", Region.BC, "T0L 1E0");
+        Address westEdmontonMallAddress = createAddress(8882, "170 St NW", "Edmonton", Region.AB, "T5T 4J2");
+        Address cnTowerAddress = createAddress(301, "Front St W", "Toronto", Region.ON, "M5V 2T6");
 
         PropertyDetails quebecPropertyDetails = createRandomPropertyDetails();
         PropertyDetails abitibiPropertyDetails = createRandomPropertyDetails();
@@ -153,7 +153,7 @@ public class DemoContext extends ContextBase {
         return propertyDetails;
     }
 
-    private Address createAddress(String postCode, Region region, String town, String streetName, int streetNumber) {
+    private Address createAddress(int streetNumber, String streetName, String town, Region region, String postCode) {
         Address address = new Address();
         address.setRegion(region);
         address.setPostCode(postCode);
