@@ -71,9 +71,9 @@ public class DemoContext extends ContextBase {
     private void putPropertiesForSale(List<User> userPool, List<Property> propertyPool) {
         List<Property> propertiesForSale = new ArrayList<>(propertyPool);
         while (!propertiesForSale.isEmpty()) {
-            Property property = RandomUtils.getRandomElement(propertiesForSale);
+            Property property = RandomUtils.getRandomListElement(propertiesForSale);
             propertiesForSale.remove(property);
-            RandomUtils.getRandomElement(userPool).addPropertyForSale(property);
+            RandomUtils.getRandomListElement(userPool).addPropertyForSale(property);
         }
     }
 

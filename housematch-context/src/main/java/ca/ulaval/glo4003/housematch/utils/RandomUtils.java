@@ -14,22 +14,22 @@ public final class RandomUtils {
 
     };
 
-    public static char getRandomAlphaChar() {
-        return (char) (random.nextInt(NUMBER_OF_LETTERS_IN_ALPHABET) + 'A');
+    public static char generateRandomUpperCaseAlphaChar() {
+        return (char) ('A' + random.nextInt(NUMBER_OF_LETTERS_IN_ALPHABET));
     }
 
-    public static <T> T getRandomElement(List<T> list) {
+    public static <T> T getRandomListElement(List<T> list) {
         return list.get(random.nextInt(list.size()));
     }
 
-    public static <T> T getRandomElement(T[] array) {
+    public static <T> T getRandomArrayElement(T[] array) {
         return array[(random.nextInt(array.length))];
     }
 
     public static <T> List<T> getRandomElements(T[] array, Integer count) {
         List<T> list = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            list.add(getRandomElement(array));
+            list.add(getRandomArrayElement(array));
         }
         return list;
     }

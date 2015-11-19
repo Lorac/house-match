@@ -31,7 +31,7 @@ public class RandomPropertyGenerator {
 
     public Property generateRandomProperty() {
         Address address = randomAddressgGenerator.generateRandomAddress();
-        Property property = propertyFactory.createProperty(RandomUtils.getRandomElement(PropertyType.values()), address,
+        Property property = propertyFactory.createProperty(RandomUtils.getRandomArrayElement(PropertyType.values()), address,
                 BigDecimal.valueOf(random.nextInt(1000000)));
 
         property.setCreationDate(ZonedDateTime.now().minusDays(random.nextInt(MAX_PROPERTY_AGE_IN_DAYS)));
@@ -44,13 +44,13 @@ public class RandomPropertyGenerator {
     private PropertyDetails generateRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();
 
-        propertyDetails.setPropertyStyle(RandomUtils.getRandomElement(PropertyStyle.values()));
-        propertyDetails.setOwnershipType(RandomUtils.getRandomElement(PropertyOwnershipType.values()));
+        propertyDetails.setPropertyStyle(RandomUtils.getRandomArrayElement(PropertyStyle.values()));
+        propertyDetails.setOwnershipType(RandomUtils.getRandomArrayElement(PropertyOwnershipType.values()));
         propertyDetails.setNumberOfExteriorParkingSpaces(random.nextInt(3) + 1);
         propertyDetails.setNumberOfInteriorParkingSpaces(random.nextInt(3));
         propertyDetails.setNumberOfLevels(random.nextInt(3) + 1);
         propertyDetails.setYearOfConstruction(random.ints(50, 1900, 2015).findAny().getAsInt());
-        propertyDetails.setBackyardDirection(RandomUtils.getRandomElement(CardinalDirection.values()));
+        propertyDetails.setBackyardDirection(RandomUtils.getRandomArrayElement(CardinalDirection.values()));
         propertyDetails.setTotalNumberOfRooms(random.nextInt(4) + 3);
         propertyDetails.setNumberOfBedrooms(random.nextInt(4) + 1);
         propertyDetails.setNumberOfBathrooms(random.nextInt(3) + 1);

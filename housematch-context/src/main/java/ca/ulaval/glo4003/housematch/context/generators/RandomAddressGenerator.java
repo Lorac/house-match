@@ -28,7 +28,7 @@ public class RandomAddressGenerator {
     public Address generateRandomAddress() {
         Address address = new Address();
 
-        address.setRegion(RandomUtils.getRandomElement(Region.values()));
+        address.setRegion(RandomUtils.getRandomArrayElement(Region.values()));
         address.setPostCode(generateRandomPostCode());
         address.setTown(StringUtils.join(RandomUtils.getRandomElements(WORD_POOL, 1), " ") + " Town");
         address.setStreetName(StringUtils.join(RandomUtils.getRandomElements(WORD_POOL, 2), " ") + " Street");
@@ -38,7 +38,7 @@ public class RandomAddressGenerator {
     }
 
     private String generateRandomPostCode() {
-        return String.format("%c%d%c %d%c%d", RandomUtils.getRandomAlphaChar(), random.nextInt(9), RandomUtils.getRandomAlphaChar(),
-                random.nextInt(9), RandomUtils.getRandomAlphaChar(), random.nextInt(9));
+        return String.format("%c%d%c %d%c%d", RandomUtils.generateRandomUpperCaseAlphaChar(), random.nextInt(9), RandomUtils.generateRandomUpperCaseAlphaChar(),
+                random.nextInt(9), RandomUtils.generateRandomUpperCaseAlphaChar(), random.nextInt(9));
     }
 }
