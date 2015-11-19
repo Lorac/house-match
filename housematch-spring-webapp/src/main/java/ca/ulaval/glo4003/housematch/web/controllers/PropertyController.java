@@ -125,7 +125,7 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyBrowseView(ModelMap modelMap,
+    public final ModelAndView displayPropertySearchView(ModelMap modelMap,
             @RequestParam(value = "sortColumn", defaultValue = "NONE") PropertySortColumn sortColumn,
             @RequestParam(value = "sortOrder", defaultValue = "NONE") SortOrder sortOrder) {
         List<Property> properties = propertyService.getProperties(sortColumn, sortOrder);
