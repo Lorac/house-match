@@ -142,26 +142,26 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatingUserEmailUpdatesTheEmailFromTheUserObject() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+    public void updatingUserContactInformationUpdatesTheEmailFromTheUserObject() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userMock).updateEmail(SAMPLE_EMAIL);
     }
 
     @Test
-    public void updatingUserEmailBeginsTheUserActivationProcess() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+    public void updatingUserContactInformationWithNewEmailBeginsTheUserActivationProcess() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userActivationServiceMock).beginActivation(userMock);
     }
 
     @Test(expected = UserServiceException.class)
-    public void updatingUserEmailUsingInvalidEmailThrowsUserServiceException() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_INVALID_EMAIL);
+    public void updatingUserContactInformationUsingInvalidEmailThrowsUserServiceException() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_INVALID_EMAIL);
     }
 
     @Test
-    public void updatingUserEmailWithTheSameEmailDoesNotBeginTheUserActivationProcess() throws Exception {
+    public void updatingUserContactInformationWithTheSameEmailDoesNotBeginTheUserActivationProcess() throws Exception {
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userActivationServiceMock, never()).beginActivation(userMock);
     }
 
