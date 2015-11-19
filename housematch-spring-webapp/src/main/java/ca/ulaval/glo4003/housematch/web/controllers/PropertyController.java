@@ -33,25 +33,26 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 public class PropertyController extends BaseController {
 
     public static final String PROPERTY_CREATION_URL = "/seller/sellProperty";
+    public static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
     public static final String PROPERTY_DETAILS_UPDATE_BASE_URL = "/seller/updatePropertyDetails/";
     public static final String PROPERTIES_FOR_SALE_LIST_URL = "/seller/propertyList";
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_SEARCH_EXECUTE_URL = "/buyer/executePropertySearch";
-    public static final String PROPERTY_VIEW_URL = "/property/{propertyHashCode}";
-    public static final String PROPERTY_VIEW_BASE_URL = "/property/";
-    public static final String MOST_VIEWED_PROPERTIES_VIEW_URL = "/mostViewedProperties";
-    static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
-    static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
-    static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
-    static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
-    static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     public static final String PROPERTY_SEARCH_SORT_BY_DATE_ASC_URL = "/buyer/executePropertySearch/sortByAscendingDate";
     public static final String PROPERTY_SEARCH_SORT_BY_DATE_DESC_URL = "/buyer/executePropertySearch/sortByDescendingDate";
     public static final String PROPERTY_SEARCH_SORT_BY_PRICE_ASC_URL = "/buyer/executePropertySearch/sortByAscendingPrice";
     public static final String PROPERTY_SEARCH_SORT_BY_PRICE_DESC_URL = "/buyer/executePropertySearch/sortByDescendingPrice";
+    public static final String PROPERTY_VIEW_URL = "/property/{propertyHashCode}";
+    public static final String PROPERTY_VIEW_BASE_URL = "/property/";
+    public static final String MOST_VIEWED_PROPERTIES_VIEW_URL = "/mostViewedProperties";
+
+    static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
+    static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
+    static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
+    static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
-    static final String PROPERTY_VIEW_NAME = "buyer/propertyDetails";
-    static final String MOST_VIEWED_PROPERTIES_VIEW_NAME = "home/mostViewedProperties";
+    static final String PROPERTY_VIEW_NAME = "property/propertyDetails";
+    static final String MOST_VIEWED_PROPERTIES_VIEW_NAME = "property/mostViewedProperties";
 
     private static final Integer MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT = 10;
 

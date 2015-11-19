@@ -20,7 +20,7 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.StatisticsViewModel;
 public class HomeController extends BaseController {
 
     public static final String HOME_URL = "/";
-    static final String HOME_VIEW_NAME = "home/home";
+    static final String HOME_VIEW_NAME = "home";
     static final String ADMIN_HOME_URL = "/admin";
     static final String ADMIN_HOME_VIEW_NAME = "admin/home";
     static final String SELLER_HOME_URL = "/seller";
