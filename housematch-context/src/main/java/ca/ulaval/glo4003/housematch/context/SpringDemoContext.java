@@ -1,7 +1,9 @@
 package ca.ulaval.glo4003.housematch.context;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import java.util.Random;
+import java.util.stream.IntStream;
 
 import ca.ulaval.glo4003.housematch.domain.CardinalDirection;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
@@ -18,8 +20,6 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
-import java.time.ZonedDateTime;
-import java.util.stream.IntStream;
 public class SpringDemoContext extends ContextBase {
     private UserFactory userFactory;
     private UserRepository userRepository;
@@ -37,15 +37,15 @@ public class SpringDemoContext extends ContextBase {
     // CHECKSTYLE:OFF
     @Override
     protected void applyFillers() throws Exception {
-        User buyer = userFactory.createUser("buyer", "buyer@gmail.com", "123", UserRole.BUYER);
-        User seller = userFactory.createUser("seller", "seller@gmail.com", "123", UserRole.SELLER);
-        User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "123", UserRole.SELLER);
-        User admin = userFactory.createUser("admin", "admin@gmail.com", "123", UserRole.ADMINISTRATOR);
+        User buyer1 = userFactory.createUser("buyer1", "buyer@gmail.com", "1234", UserRole.BUYER);
+        User seller1 = userFactory.createUser("seller1", "seller@gmail.com", "1234", UserRole.SELLER);
+        User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "1234", UserRole.SELLER);
+        User admin1 = userFactory.createUser("admin1", "admin@gmail.com", "1234", UserRole.ADMINISTRATOR);
 
-        buyer.setActivated(true);
-        seller.setActivated(true);
+        buyer1.setActivated(true);
+        seller1.setActivated(true);
         seller2.setActivated(true);
-        admin.setActivated(true);
+        admin1.setActivated(true);
 
         Address quebecAddress = createAddress("G1H 6Y7", Region.QC, "Charlesbourg", "1er Avenue", 4500);
         Address abitibiAddress = createAddress("J9X 5E5", Region.QC, "Rouyn-Noranda", "boulevard du Collège", 425);
@@ -68,14 +68,10 @@ public class SpringDemoContext extends ContextBase {
         Property quebecProperty = propertyFactory.createProperty(PropertyType.LOT, quebecAddress, BigDecimal.valueOf(100000));
         Property abitibiProperty = propertyFactory.createProperty(PropertyType.COTTAGE, abitibiAddress, BigDecimal.valueOf(500));
         Property outaouaisProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, outaouaisAddress, BigDecimal.valueOf(5000));
-        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress,
-                BigDecimal.valueOf(350000));
-        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress,
-                BigDecimal.valueOf(3500000));
-        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress,
-                BigDecimal.valueOf(5500000));
-        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress,
-                BigDecimal.valueOf(1000000000));
+        Property montrealProperty = propertyFactory.createProperty(PropertyType.SINGLE_FAMILY_HOME, montrealAddress, BigDecimal.valueOf(350000));
+        Property primeMinisterProperty = propertyFactory.createProperty(PropertyType.FARM, primeMinisterAddress, BigDecimal.valueOf(3500000));
+        Property greatDivideLodgeProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, greatDivideLodgeAddress, BigDecimal.valueOf(5500000));
+        Property westEdmontonMallProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, westEdmontonMallAddress, BigDecimal.valueOf(1000000000));
         Property cnTowerProperty = propertyFactory.createProperty(PropertyType.COMMERCIAL, cnTowerAddress, BigDecimal.valueOf(100000000));
 
         increaseViewCount(quebecProperty, 5);
@@ -103,8 +99,8 @@ public class SpringDemoContext extends ContextBase {
         westEdmontonMallProperty.setPropertyDetails(westEdmontonMallDetails);
         cnTowerProperty.setPropertyDetails(cnTowerDetails);
 
-        seller.addPropertyForSale(quebecProperty);
-        seller.addPropertyForSale(montrealProperty);
+        seller1.addPropertyForSale(quebecProperty);
+        seller1.addPropertyForSale(montrealProperty);
         seller2.addPropertyForSale(abitibiProperty);
         seller2.addPropertyForSale(outaouaisProperty);
         seller2.addPropertyForSale(primeMinisterProperty);
@@ -112,7 +108,7 @@ public class SpringDemoContext extends ContextBase {
         seller2.addPropertyForSale(westEdmontonMallProperty);
         seller2.addPropertyForSale(cnTowerProperty);
 
-        buyer.purchaseProperty(westEdmontonMallProperty);
+        buyer1.purchaseProperty(westEdmontonMallProperty);
 
         propertyRepository.persist(quebecProperty);
         propertyRepository.persist(abitibiProperty);
@@ -123,19 +119,16 @@ public class SpringDemoContext extends ContextBase {
         propertyRepository.persist(westEdmontonMallProperty);
         propertyRepository.persist(cnTowerProperty);
 
-        userRepository.persist(buyer);
-        userRepository.persist(seller);
+        userRepository.persist(buyer1);
+        userRepository.persist(seller1);
         userRepository.persist(seller2);
-        userRepository.persist(admin);
+        userRepository.persist(admin1);
     }
     // CHECKSTYLE:OFF
 
     private void increaseViewCount(Property property, int viewCount) {
-        IntStream.range(0, viewCount).forEach(
-                value -> property.incrementViewCount()
-        );
+        IntStream.range(0, viewCount).forEach(value -> property.incrementViewCount());
     }
-
 
     private PropertyDetails createRandomPropertyDetails() {
         PropertyDetails propertyDetails = new PropertyDetails();
