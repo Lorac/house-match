@@ -2,7 +2,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.HomeController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.HomeController"%>
 
 <html>
 <head>

@@ -5,7 +5,7 @@
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <global-method-security pre-post-annotations="enabled"/>
-    <beans:bean class="ca.ulaval.glo4003.housematch.spring.web.security.SecurityBeanPostProcessor">
+    <beans:bean class="ca.ulaval.glo4003.housematch.web.security.SecurityBeanPostProcessor">
         <beans:constructor-arg ref="userPermissionEvaluator"/>
     </beans:bean>
 
@@ -30,13 +30,13 @@
         <csrf disabled="true"/>
     </http>
 
-    <beans:bean id="propertyAccessValidator" class="ca.ulaval.glo4003.housematch.spring.web.security.accessvalidators.PropertyAccessValidator"/>
+    <beans:bean id="propertyAccessValidator" class="ca.ulaval.glo4003.housematch.web.security.accessvalidators.PropertyAccessValidator"/>
 
-    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.spring.web.security.UserPermissionEvaluator">
+    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.web.security.UserPermissionEvaluator">
         <beans:constructor-arg ref="propertyAccessValidator"/>
     </beans:bean>
 
-    <beans:bean id="userAuthenticationProvider" class="ca.ulaval.glo4003.housematch.spring.web.security.UserAuthenticationProvider">
+    <beans:bean id="userAuthenticationProvider" class="ca.ulaval.glo4003.housematch.web.security.UserAuthenticationProvider">
         <beans:constructor-arg ref="userService"/>
     </beans:bean>
 
@@ -57,6 +57,6 @@
         <authentication-provider ref="userAuthenticationProvider"/>
     </authentication-manager>
 
-    <beans:bean id="customSuccessHandler" class="ca.ulaval.glo4003.housematch.spring.web.security.LoginSuccessHandler"/>
+    <beans:bean id="customSuccessHandler" class="ca.ulaval.glo4003.housematch.web.security.LoginSuccessHandler"/>
 
 </beans:beans>

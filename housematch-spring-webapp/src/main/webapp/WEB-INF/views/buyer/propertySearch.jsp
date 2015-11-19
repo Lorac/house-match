@@ -3,8 +3,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchFormViewModel"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.PropertySearchFormViewModel"%>
 
 <html>
 <head>

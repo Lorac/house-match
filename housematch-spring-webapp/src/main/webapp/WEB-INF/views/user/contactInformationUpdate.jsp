@@ -2,8 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.UserProfileController"%>
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.ContactInformationFormViewModel"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.ContactInformationFormViewModel"%>
 
 <% pageContext.setAttribute("regions", ca.ulaval.glo4003.housematch.domain.address.Region.values()); %>
 
