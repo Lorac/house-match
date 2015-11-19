@@ -23,6 +23,7 @@ public class PropertyViewModel extends ViewModel {
     private PropertyDetails propertyDetails;
     private int hashCode;
     private ZonedDateTime creationDate;
+    private Integer viewCount;
 
     public PropertyViewModel() {
 
@@ -79,6 +80,14 @@ public class PropertyViewModel extends ViewModel {
 
     public void setCreationDate(ZonedDateTime creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
     }
 
 }

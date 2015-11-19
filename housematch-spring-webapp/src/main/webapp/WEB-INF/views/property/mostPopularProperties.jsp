@@ -15,6 +15,7 @@
                     <th></th>
                     <th>Address</th>
                     <th>Price</th>
+                    <th>Views</th>
                 </tr>
             </thead>
             <c:forEach var="property" items="${propertyList.propertyViewModels}">
@@ -23,6 +24,7 @@
                     <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                     <td>${property.address}</td>
                     <td>${property.sellingPrice}&nbsp;$</td>
+                    <td>${property.viewCount}</td>
                 </tr>
             </c:forEach>
         </table>

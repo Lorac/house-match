@@ -13,6 +13,7 @@ public class PropertyViewModelAssembler {
         viewModel.setPropertyDetails(property.getPropertyDetails());
         viewModel.setHashCode(property.hashCode());
         viewModel.setCreationDate(property.getCreationDate());
+        viewModel.setViewCount(property.getViewCount());
         return viewModel;
     }
 

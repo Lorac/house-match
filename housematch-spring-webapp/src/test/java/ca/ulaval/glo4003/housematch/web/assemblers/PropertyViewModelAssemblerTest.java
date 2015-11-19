@@ -20,6 +20,7 @@ public class PropertyViewModelAssemblerTest {
 
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.SINGLE_FAMILY_HOME;
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
+    private static final Integer SAMPLE_VIEW_COUNT = 60;
 
     private Property propertyMock;
     private PropertyDetails propertyDetailsMock;
@@ -45,17 +46,19 @@ public class PropertyViewModelAssemblerTest {
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
+        when(propertyMock.getViewCount()).thenReturn(SAMPLE_VIEW_COUNT);
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedProperty() {
         PropertyViewModel viewModel = assembler.assembleFromProperty(propertyMock);
 
-        assertSame(SAMPLE_PROPERTY_TYPE, viewModel.getPropertyType());
-        assertSame(addressMock, viewModel.getAddress());
-        assertSame(SAMPLE_SELLING_PRICE, viewModel.getSellingPrice());
+        assertEquals(SAMPLE_PROPERTY_TYPE, viewModel.getPropertyType());
+        assertEquals(addressMock, viewModel.getAddress());
+        assertEquals(SAMPLE_SELLING_PRICE, viewModel.getSellingPrice());
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
         assertEquals(propertyMock.hashCode(), viewModel.getHashCode());
+        assertEquals(SAMPLE_VIEW_COUNT, viewModel.getViewCount());
     }
 
 }
