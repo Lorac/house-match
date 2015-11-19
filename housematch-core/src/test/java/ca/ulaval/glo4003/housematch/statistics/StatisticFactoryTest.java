@@ -23,7 +23,7 @@ public class StatisticFactoryTest {
     }
 
     @Test
-    public void userFactoryCreatesStatisticWithTheSpecifiedAttributes() {
+    public void statisticFactoryCreatesTheStatisticWithTheSpecifiedAttributes() {
         when(statisticsRepositoryMock.get(SAMPLE_STAT_NAME, SAMPLE_INITIAL_VALUE)).thenReturn(SAMPLE_VALUE);
         Statistic<Object> statistic = statisticFactory.createStatistic(SAMPLE_STAT_NAME, SAMPLE_INITIAL_VALUE);
         assertEquals(SAMPLE_VALUE, statistic.getValue());
