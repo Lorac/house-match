@@ -12,8 +12,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.SortOrder;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -157,7 +155,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInChronologicalOrder();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortByCreationDateInAscendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -166,7 +164,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInReverseChronologicalOrder();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortByCreationDateInDescendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -175,7 +173,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInAscendingOrderByPrice();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortBySellingPriceInAscendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -184,7 +182,7 @@ public class PropertyServiceTest {
         List<Property> propertyList = propertyService.getPropertiesInDescendingOrderByPrice();
 
         verify(propertyRepositoryMock).getAll();
-        verify(propertySorterMock).sortByPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
+        verify(propertySorterMock).sortBySellingPriceInDescendingOrder(SAMPLE_PROPERTY_LIST);
         assertEquals(SAMPLE_PROPERTY_LIST, propertyList);
     }
 
@@ -218,7 +216,7 @@ public class PropertyServiceTest {
         propertyService.getMostViewedProperties(SAMPLE_PROPERTY_TYPE, MOST_VIEWED_PROPERTIES_DISPLAY_LIMIT);
 
         verify(propertyRepositoryMock).getByType(SAMPLE_PROPERTY_TYPE);
-        verify(propertySorterMock).sortByViewCount(SAMPLE_PROPERTY_LIST, SortOrder.DESCENDING);
+        verify(propertySorterMock).sortByViewCountInDescendingOrder(SAMPLE_PROPERTY_LIST);
     }
 
     private void createProperty() throws PropertyServiceException {

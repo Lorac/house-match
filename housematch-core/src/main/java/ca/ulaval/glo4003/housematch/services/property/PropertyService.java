@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.SortOrder;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -90,19 +88,19 @@ public class PropertyService {
 
     public List<Property> getPropertiesInChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortByDateInAscendingOrder(properties);
+        propertySorter.sortByCreationDateInAscendingOrder(properties);
         return properties;
     }
 
     public List<Property> getPropertiesInReverseChronologicalOrder() {
         List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortByDateInDescendingOrder(properties);
+        propertySorter.sortByCreationDateInDescendingOrder(properties);
         return properties;
     }
 
     public List<Property> getMostViewedProperties(PropertyType propertyType, Integer limit) {
         List<Property> properties = propertyRepository.getByType(propertyType);
-        propertySorter.sortByViewCount(properties, SortOrder.DESCENDING);
+        propertySorter.sortByViewCountInDescendingOrder(properties);
         properties = properties.stream().limit(limit).collect(Collectors.toList());
         Property.incrementMostViewedFlagValueVersion();
         properties.stream().forEach(p -> p.markAsMostViewed());
@@ -111,13 +109,13 @@ public class PropertyService {
 
     public List<Property> getPropertiesInAscendingOrderByPrice() {
         List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortByPriceInAscendingOrder(properties);
+        propertySorter.sortBySellingPriceInAscendingOrder(properties);
         return properties;
     }
 
     public List<Property> getPropertiesInDescendingOrderByPrice() {
         List<Property> properties = propertyRepository.getAll();
-        propertySorter.sortByPriceInDescendingOrder(properties);
+        propertySorter.sortBySellingPriceInDescendingOrder(properties);
         return properties;
     }
 }
