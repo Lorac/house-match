@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.housematch.utils.RandomUtils;
 
 public class DemoContext extends ContextBase {
     private static final Integer PROPERTY_POOL_SIZE = 100;
-    private static final Integer NUMBER_OF_PROPERTY_SALES = 7;
+    private static final Integer NUMBER_OF_PROPERTY_PURCHASES = 7;
 
     private UserFactory userFactory;
     private UserRepository userRepository;
@@ -80,7 +80,7 @@ public class DemoContext extends ContextBase {
     }
 
     private void purchaseProperties(User buyer, List<Property> propertyPool) {
-        for (int i = 0; i < NUMBER_OF_PROPERTY_SALES; i++) {
+        for (int i = 0; i < NUMBER_OF_PROPERTY_PURCHASES; i++) {
             buyer.purchaseProperty(propertyPool.get(i));
         }
     }
