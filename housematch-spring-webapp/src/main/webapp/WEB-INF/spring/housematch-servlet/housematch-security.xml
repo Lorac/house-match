@@ -1,57 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns="http://www.springframework.org/schema/security"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+             xmlns="http://www.springframework.org/schema/security"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
                         http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <global-method-security pre-post-annotations="enabled" />
-    <beans:bean class="ca.ulaval.glo4003.housematch.spring.web.security.SecurityBeanPostProcessor">
-        <beans:constructor-arg ref="userPermissionEvaluator" />
+    <global-method-security pre-post-annotations="enabled"/>
+    <beans:bean class="ca.ulaval.glo4003.housematch.web.security.SecurityBeanPostProcessor">
+        <beans:constructor-arg ref="userPermissionEvaluator"/>
     </beans:bean>
 
-    <http pattern="/resources/**" security="none" />
+    <http pattern="/resources/**" security="none"/>
 
     <http use-expressions="true" disable-url-rewriting="true">
         <!-- Be careful, the order matters -->
-        <intercept-url pattern="/" access="permitAll" />
+        <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/customErrorPages" access="permitAll" />
         <intercept-url pattern="/login" access="permitAll" />
         <intercept-url pattern="/logout" access="permitAll" />
         <intercept-url pattern="/admin/**" access="hasPermission(null, 'ADMINISTRATOR')" />
         <intercept-url pattern="/buyer/**" access="hasPermission(null, 'BUYER')" />
         <intercept-url pattern="/seller/**" access="hasPermission(null, 'SELLER')" />
+        <intercept-url pattern="/user/**" access="not isAnonymous()" />
 
         <!-- Use default provided form. See docs to customize. -->
         <form-login login-page="/login" authentication-failure-url="/login" login-processing-url="/login"
-            authentication-success-handler-ref="customSuccessHandler" />
-        <logout logout-success-url="/login" />
+                    authentication-success-handler-ref="customSuccessHandler"/>
+        <logout logout-success-url="/login"/>
         <!-- Enable csrf protection -->
-        <csrf disabled="true" />
+        <csrf disabled="true"/>
     </http>
 
-    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.spring.web.security.UserPermissionEvaluator" />
+    <beans:bean id="propertyAccessValidator" class="ca.ulaval.glo4003.housematch.web.security.accessvalidators.PropertyAccessValidator"/>
 
-    <beans:bean id="userAuthenticationProvider" class="ca.ulaval.glo4003.housematch.spring.web.security.UserAuthenticationProvider">
-        <beans:constructor-arg ref="userService" />
+    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.web.security.UserPermissionEvaluator">
+        <beans:constructor-arg ref="propertyAccessValidator"/>
+    </beans:bean>
+
+    <beans:bean id="userAuthenticationProvider" class="ca.ulaval.glo4003.housematch.web.security.UserAuthenticationProvider">
+        <beans:constructor-arg ref="userService"/>
     </beans:bean>
 
     <beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-        <beans:constructor-arg value="/logout-success" />
+        <beans:constructor-arg value="/logout-success"/>
         <beans:constructor-arg>
-            <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+            <beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
         </beans:constructor-arg>
 
-        <beans:property name="filterProcessesUrl" value="/logout" />
+        <beans:property name="filterProcessesUrl" value="/logout"/>
     </beans:bean>
 
     <beans:bean id="loginUrlAuthenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <beans:constructor-arg value="/login" />
+        <beans:constructor-arg value="/login"/>
     </beans:bean>
 
     <authentication-manager>
-        <authentication-provider ref="userAuthenticationProvider" />
+        <authentication-provider ref="userAuthenticationProvider"/>
     </authentication-manager>
 
-    <beans:bean id="customSuccessHandler" class="ca.ulaval.glo4003.housematch.spring.web.security.LoginSuccessHandler" />
+    <beans:bean id="customSuccessHandler" class="ca.ulaval.glo4003.housematch.web.security.LoginSuccessHandler"/>
 
 </beans:beans>

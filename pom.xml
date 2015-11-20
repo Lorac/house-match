@@ -10,12 +10,12 @@
         <module>housematch-spring-webapp</module>
         <module>housematch-xml-persistence</module>
         <module>housematch-emailer</module>
+        <module>housematch-context</module>
     </modules>
     <name>HouseMatch</name>
 
     <properties>
-        <spring.version>4.2.1.RELEASE</spring.version>
-        <spring.security.version>4.0.2.RELEASE</spring.security.version>
+
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
     </properties>

@@ -10,8 +10,10 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -36,32 +38,46 @@ public class UserTest {
     private static final String SAMPLE_USERNAME = "Alice";
     private static final String SAMPLE_CAPITALIZED_USERNAME = "ALICE";
     private static final String ANOTHER_SAMPLE_USERNAME = "Bob";
+    private static final UserStatus SAMPLE_STATUS = UserStatus.ACTIVE;
+    private static final ZonedDateTime SAMPLE_DATE_TIME = ZonedDateTime.now();
     private static final Object SAMPLE_OBJECT = new Object();
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private Address addressMock;
 
     private StringHasher stringHasherMock;
     private Property propertyMock;
+    private UserObserver userObserverMock;
 
     private List<Property> properties;
     private User user;
+    private User buyer;
+    private User seller;
 
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         properties = new ArrayList<>();
-        user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        createUsers();
     }
 
     private void initMocks() {
         stringHasherMock = mock(StringHasher.class);
         propertyMock = mock(Property.class);
+        userObserverMock = mock(UserObserver.class);
         addressMock = mock(Address.class);
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
+    }
+
+    private void createUsers() {
+        buyer = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.BUYER);
+        buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS - 1));
+        seller = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.SELLER);
+        user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        user.registerObserver(userObserverMock);
     }
 
     @Test
@@ -230,9 +246,86 @@ public class UserTest {
     }
 
     @Test
+    public void settingPurchasedPropertiesSetsThePurchasedProperties() {
+        user.setPurchasedProperties(properties);
+        assertEquals(properties, user.getPurchasedProperties());
+    }
+
+    @Test
     public void settingTheAddressSetsTheSpecifiedAddress() throws Exception {
         user.setAddress(addressMock);
         assertEquals(addressMock, user.getAddress());
+    }
 
+    @Test
+    public void settingTheStatusSetsTheSpecifiedStatus() {
+        user.setStatus(SAMPLE_STATUS);
+        assertEquals(SAMPLE_STATUS, user.getStatus());
+    }
+
+    @Test
+    public void settingTheLastLoginDateSetsTheLastLoginDate() {
+        user.setLastLoginDate(SAMPLE_DATE_TIME);
+        assertEquals(SAMPLE_DATE_TIME, user.getLastLoginDate());
+    }
+
+    @Test
+    public void applyingUserStatusPolicyWhenBuyerHasPurchasedAPropertySetsTheUserStatusToInactive() {
+        buyer.purchaseProperty(propertyMock);
+        buyer.applyUserStatusPolicy();
+        assertEquals(UserStatus.INACTIVE, buyer.getStatus());
+    }
+
+    @Test
+    public void applyingUserStatusPolicyWhenBuyerHasNeverLoggedInSetsTheUserStatusToInactive() {
+        buyer.setLastLoginDate(null);
+        buyer.applyUserStatusPolicy();
+        assertEquals(UserStatus.INACTIVE, buyer.getStatus());
+    }
+
+    @Test
+    public void applyingUserStatusPolicyWhenBuyerHasLoggedMoreThanSixMonthsAgoSetsTheUserStatusToInactive() {
+        buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS + 1));
+        buyer.applyUserStatusPolicy();
+        assertEquals(UserStatus.INACTIVE, buyer.getStatus());
+    }
+
+    @Test
+    public void applyingUserStatusPolicyWhenBuyerCompliesToTheStatusPolicyRequirementsSetsTheUserStatusToActive() {
+        buyer.applyUserStatusPolicy();
+
+        assertEquals(UserStatus.ACTIVE, buyer.getStatus());
+    }
+
+    @Test
+    public void applyingUserStatusPolicyWhenSellerHasNoPropertiesForSaleSetsTheUserStatusToInactive() {
+        seller.applyUserStatusPolicy();
+        assertEquals(UserStatus.INACTIVE, seller.getStatus());
+    }
+
+    @Test
+    public void applyingUserStatusPolicyWhenSellerHasSomePropertiesForSaleSetsTheUserStatusToActive() {
+        seller.addPropertyForSale(propertyMock);
+        seller.applyUserStatusPolicy();
+        assertEquals(UserStatus.ACTIVE, seller.getStatus());
+    }
+
+    @Test
+    public void updatingTheUserStatusNotifiesTheObservers() {
+        user.setStatus(UserStatus.ACTIVE);
+        user.applyUserStatusPolicy();
+        verify(userObserverMock).userStatusChanged(user, UserStatus.INACTIVE);
+    }
+
+    @Test
+    public void purchasingAPropertyMarksThePropertyAsSold() {
+        buyer.purchaseProperty(propertyMock);
+        verify(propertyMock).markAsSold();
+    }
+
+    @Test
+    public void purchasingAPropertyMarksTheUserAsInactive() {
+        buyer.purchaseProperty(propertyMock);
+        assertEquals(UserStatus.INACTIVE, buyer.getStatus());
     }
 }

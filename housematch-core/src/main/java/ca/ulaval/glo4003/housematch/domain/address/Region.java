@@ -10,7 +10,8 @@ public enum Region {
     PE("Prince Edward Island", Country.CAN),
     SK("Saskatchewan", Country.CAN),
     AB("Alberta", Country.CAN),
-    NL("Newfoundland and Labrador", Country.CAN);
+    NL("Newfoundland and Labrador", Country.CAN),
+    NT("Northwest Territories", Country.CAN);
 
     private final String name;
     private final Country country;

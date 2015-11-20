@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -22,15 +23,18 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
 
 public class XmlUserAdapterTest {
 
     private static final UserRole SAMPLE_ROLE = UserRole.SELLER;
+    private static final UserStatus SAMPLE_STATUS = UserStatus.ACTIVE;
     private static final String SAMPLE_ENCRYPTED_PASSWORD = "ENCRYPTEDPASSWORD";
     private static final String SAMPLE_PASSWORD = "PASSWORD1234";
     private static final String SAMPLE_EMAIL = "email@hotmail.com";
     private static final String SAMPLE_USERNAME = "Alice";
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
+    private static final ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
     private static final Boolean SAMPLE_BOOLEAN = true;
 
     private UserFactory userFactoryMock;
@@ -40,13 +44,15 @@ public class XmlUserAdapterTest {
     private Property propertyMock;
 
     private XmlUserAdapter xmlUserAdapter;
-    private List<Property> properties = new ArrayList<Property>();
-    private List<Integer> propertyRefs = new ArrayList<Integer>();
+    private List<Property> propertiesForSale = new ArrayList<Property>();
+    private List<Property> purchasedProperties = new ArrayList<Property>();
+    private List<Integer> propertyForSaleHashCodes = new ArrayList<Integer>();
+    private List<Integer> purchasedPropertyHashCodes = new ArrayList<Integer>();
 
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         xmlUserAdapter = new XmlUserAdapter(userFactoryMock, propertyRepositoryMock);
     }
 
@@ -66,7 +72,10 @@ public class XmlUserAdapterTest {
         when(userMock.getRole()).thenReturn(SAMPLE_ROLE);
         when(userMock.getActivationCode()).thenReturn(SAMPLE_ACTIVATION_CODE);
         when(userMock.isActivated()).thenReturn(SAMPLE_BOOLEAN);
-        when(userMock.getPropertiesForSale()).thenReturn(properties);
+        when(userMock.getStatus()).thenReturn(SAMPLE_STATUS);
+        when(userMock.getLastLoginDate()).thenReturn(SAMPLE_DATE);
+        when(userMock.getPropertiesForSale()).thenReturn(propertiesForSale);
+        when(userMock.getPurchasedProperties()).thenReturn(purchasedProperties);
     }
 
     private void initXmlUserMock() {
@@ -76,11 +85,14 @@ public class XmlUserAdapterTest {
         xmlUserMock.email = SAMPLE_EMAIL;
         xmlUserMock.role = SAMPLE_ROLE;
         xmlUserMock.activationCode = SAMPLE_ACTIVATION_CODE;
+        xmlUserMock.lastLoginDate = SAMPLE_DATE;
         xmlUserMock.activated = SAMPLE_BOOLEAN;
-        xmlUserMock.propertiesForSale = propertyRefs;
+        xmlUserMock.status = SAMPLE_STATUS;
+        xmlUserMock.propertiesForSale = propertyForSaleHashCodes;
+        xmlUserMock.purchasedProperties = purchasedPropertyHashCodes;
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
     }
 
@@ -93,13 +105,22 @@ public class XmlUserAdapterTest {
         assertEquals(userMock.getRole(), xmlUserMock.role);
         assertEquals(userMock.getActivationCode(), xmlUserMock.activationCode);
         assertEquals(userMock.isActivated(), xmlUserMock.activated);
+        assertEquals(userMock.getLastLoginDate(), xmlUserMock.lastLoginDate);
+        assertEquals(userMock.getStatus(), xmlUserMock.status);
     }
 
     @Test
     public void propertiesForSaleAreMarshalledAsReferenceDuringMarshalling() throws Exception {
-        properties.add(propertyMock);
+        propertiesForSale.add(propertyMock);
         XmlUser xmlUser = xmlUserAdapter.marshal(userMock);
         assertThat(xmlUser.propertiesForSale, contains(propertyMock.hashCode()));
+    }
+
+    @Test
+    public void purchasedPropertiesAreMarshalledAsReferenceDuringMarshalling() throws Exception {
+        purchasedProperties.add(propertyMock);
+        XmlUser xmlUser = xmlUserAdapter.marshal(userMock);
+        assertThat(xmlUser.purchasedProperties, contains(propertyMock.hashCode()));
     }
 
     @Test
@@ -111,16 +132,29 @@ public class XmlUserAdapterTest {
         assertEquals(xmlUserMock.role, userMock.getRole());
         assertEquals(xmlUserMock.activationCode, userMock.getActivationCode());
         assertEquals(xmlUserMock.activated, userMock.isActivated());
+        assertEquals(xmlUserMock.lastLoginDate, userMock.getLastLoginDate());
+        assertEquals(xmlUserMock.status, userMock.getStatus());
     }
 
     @Test
     public void propertiesForSaleAreDereferencedDuringUnmarshalling() throws Exception {
         when(propertyRepositoryMock.getByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
-        properties.add(propertyMock);
-        propertyRefs.add(propertyMock.hashCode());
+        propertiesForSale.add(propertyMock);
+        propertyForSaleHashCodes.add(propertyMock.hashCode());
 
         xmlUserAdapter.unmarshal(xmlUserMock);
 
-        verify(userMock).setPropertiesForSale(eq(properties));
+        verify(userMock).setPropertiesForSale(eq(propertiesForSale));
+    }
+
+    @Test
+    public void purchasedPropertiesAreDereferencedDuringUnmarshalling() throws Exception {
+        when(propertyRepositoryMock.getByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
+        purchasedProperties.add(propertyMock);
+        purchasedPropertyHashCodes.add(propertyMock.hashCode());
+
+        xmlUserAdapter.unmarshal(xmlUserMock);
+
+        verify(userMock).setPurchasedProperties(eq(purchasedProperties));
     }
 }

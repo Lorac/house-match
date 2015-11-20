@@ -28,13 +28,16 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.setActivationCode(xmlUser.activationCode);
         user.setActivated(xmlUser.activated);
         user.setAddress(xmlUser.address);
-        user.setPropertiesForSale(dereferenceProperties(xmlUser));
+        user.setStatus(xmlUser.status);
+        user.setLastLoginDate(xmlUser.lastLoginDate);
+        user.setPropertiesForSale(dereferenceProperties(xmlUser.propertiesForSale));
+        user.setPurchasedProperties(dereferenceProperties(xmlUser.purchasedProperties));
         return user;
     }
 
-    private List<Property> dereferenceProperties(XmlUser xmlUser) throws PropertyNotFoundException {
+    private List<Property> dereferenceProperties(List<Integer> propertyHashCodes) throws PropertyNotFoundException {
         List<Property> properties = new ArrayList<Property>();
-        for (Integer propertyHashCode : xmlUser.propertiesForSale) {
+        for (Integer propertyHashCode : propertyHashCodes) {
             properties.add(propertyRepository.getByHashCode(propertyHashCode));
         }
         return properties;
@@ -50,11 +53,18 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.activationCode = user.getActivationCode();
         xmlUser.activated = user.isActivated();
         xmlUser.address = user.getAddress();
-
-        for (Property property : user.getPropertiesForSale()) {
-            xmlUser.propertiesForSale.add(property.hashCode());
-        }
-
+        xmlUser.status = user.getStatus();
+        xmlUser.lastLoginDate = user.getLastLoginDate();
+        xmlUser.propertiesForSale = referenceProperties(user.getPropertiesForSale());
+        xmlUser.purchasedProperties = referenceProperties(user.getPurchasedProperties());
         return xmlUser;
+    }
+
+    private List<Integer> referenceProperties(List<Property> properties) {
+        List<Integer> propertyHashCodes = new ArrayList<Integer>();
+        for (Property property : properties) {
+            propertyHashCodes.add(property.hashCode());
+        }
+        return propertyHashCodes;
     }
 }

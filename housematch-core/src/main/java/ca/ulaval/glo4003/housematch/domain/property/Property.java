@@ -1,17 +1,24 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.utils.VersionedValue;
 
-public class Property {
+public class Property extends PropertyObservable {
 
     private PropertyType propertyType;
     private Address address;
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
+    private PropertyStatus status = PropertyStatus.CREATED;
+    private ZonedDateTime creationDate = ZonedDateTime.now();
+    private Integer viewCount = 0;
+    private VersionedValue<Boolean> isMostPopular = new VersionedValue<>(false);
+    private static Integer popularityFlagValueVersion = 0;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -19,6 +26,14 @@ public class Property {
         this.address = address;
         this.sellingPrice = sellingPrice;
         this.propertyDetails = propertyDetails;
+    }
+
+    public Integer getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Integer viewCount) {
+        this.viewCount = viewCount;
     }
 
     public PropertyType getPropertyType() {
@@ -39,6 +54,48 @@ public class Property {
 
     public void setPropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
+    }
+
+    public PropertyStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PropertyStatus propertyStatus) {
+        this.status = propertyStatus;
+    }
+
+    public ZonedDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(ZonedDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public Integer incrementViewCount() {
+        return ++viewCount;
+    }
+
+    public Boolean isMostPopular() {
+        return isMostPopular.getValue() && isMostPopular.getVersion().equals(popularityFlagValueVersion);
+    }
+
+    public void markAsMostPopular() {
+        isMostPopular.setValue(true, popularityFlagValueVersion);
+    }
+
+    public static void resetPropertyPopularityFlags() {
+        popularityFlagValueVersion++;
+    }
+
+    public void markForSale() {
+        status = PropertyStatus.FOR_SALE;
+        propertyStatusChanged(this, status);
+    }
+
+    public void markAsSold() {
+        status = PropertyStatus.SOLD;
+        propertyStatusChanged(this, status);
     }
 
     @Override

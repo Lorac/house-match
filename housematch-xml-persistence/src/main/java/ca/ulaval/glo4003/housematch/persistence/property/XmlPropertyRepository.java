@@ -5,11 +5,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlPropertyRepository implements PropertyRepository {
@@ -38,7 +40,6 @@ public class XmlPropertyRepository implements PropertyRepository {
         if (properties.containsValue(property)) {
             throw new PropertyAlreadyExistsException(String.format("A property with address '%s' already exists.", property.getAddress()));
         }
-
         properties.put(property.hashCode(), property);
         marshal();
     }
@@ -63,7 +64,12 @@ public class XmlPropertyRepository implements PropertyRepository {
 
     @Override
     public List<Property> getAll() {
-        return new ArrayList<Property>(properties.values());
+        return new ArrayList<>(properties.values());
+    }
+
+    @Override
+    public List<Property> getByType(PropertyType propertyType) {
+        return properties.values().stream().filter(p -> p.getPropertyType().equals(propertyType)).collect(Collectors.toList());
     }
 
     private void marshal() {

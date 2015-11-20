@@ -33,7 +33,7 @@ public class UserActivationServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
+        initStubs();
         userActivationService = new UserActivationService(mailSenderMock, userRepositoryMock);
     }
 
@@ -43,7 +43,7 @@ public class UserActivationServiceTest {
         mailSenderMock = mock(MailSender.class);
     }
 
-    private void stubMethods() throws UserNotFoundException {
+    private void initStubs() throws UserNotFoundException {
         when(userRepositoryMock.getByActivationCode(SAMPLE_ACTIVATION_CODE)).thenReturn(userMock);
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
     }

@@ -2,8 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertyDetailsFormViewModel"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.PropertyDetailsFormViewModel"%>
 
 <%pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values());%>
 <%pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values());%>

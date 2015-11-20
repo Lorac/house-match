@@ -3,8 +3,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.PropertyController"%>
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.PropertySearchFormViewModel"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
+<%@page import="ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn"%>
+<%@page import="ca.ulaval.glo4003.housematch.domain.SortOrder"%>
 
 <html>
 <head>
@@ -21,37 +22,31 @@
     <div class="container">
         <h1 class="center">Search Properties</h1>
 
-        <form:form id="property-search-form" role="form" modelAttribute="<%=PropertySearchFormViewModel.NAME%>"
-            action='<%=PropertyController.PROPERTY_SEARCH_EXECUTE_URL%>' method="GET">
-            <div class="input-group">
-                <form:input type="text" path="searchExpression" class="form-control" maxlength="32" placeholder="Search for..."
-                    autofocus="true" />
-                <span class="input-group-btn"> <input type="submit" name="property-search-submit" id="property-seatch-submit"
-                        tabindex="0" class="btn btn-default" value="Search">
-                </span>
-            </div>
-        </form:form>
-
-        <c:if test="${not empty propertySearchResults}">
+        <c:if test="${not empty propertyList}">
             <h3 class="center">Search results</h3>
             <c:choose>
-                <c:when test="${not empty propertySearchResults.properties}">
+                <c:when test="${not empty propertyList.propertyViewModels}">
                     <table class="table table-hover align-middle clickable-rows">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>ID</th>
                                 <th>Address</th>
-                                <th>Price</th>
+                                <th style="min-width:100px;">
+                                    <span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>Price</th>
+                                <th>
+                                	<span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>Date</th>
                             </tr>
                         </thead>
-                        <c:forEach var="property" items="${propertySearchResults.properties}">
-                            <tr
-                                onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL + pageContext.getAttribute("property").hashCode()%>"'>
+                        <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}" varStatus="status">
+                            <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}';">
                                 <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
-                                <td>${property.hashCode()}</td>
-                                <td>${property.address}</td>
-                                <td>${property.sellingPrice}&nbsp;$</td>
+                                <td>${propertyViewModel.getHashCode()}</td>
+                                <td>${propertyViewModel.getAddress()}</td>
+                                <td>${propertyViewModel.getSellingPrice()}&nbsp;$</td>
+                                <td>${propertyViewModel.getCreationDate()}</td>
                             </tr>
                         </c:forEach>
                     </table>

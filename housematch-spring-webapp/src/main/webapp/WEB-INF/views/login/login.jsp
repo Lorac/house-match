@@ -2,8 +2,8 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.controllers.RegistrationController"%>
-<%@page import="ca.ulaval.glo4003.housematch.spring.web.viewmodels.LoginFormViewModel"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.RegistrationController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.LoginFormViewModel"%>
 
 <html>
 <head>

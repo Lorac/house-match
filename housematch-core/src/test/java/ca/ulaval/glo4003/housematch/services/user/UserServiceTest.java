@@ -11,6 +11,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -24,6 +25,8 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
+import ca.ulaval.glo4003.housematch.statistics.user.UserStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidationException;
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
@@ -39,6 +42,8 @@ public class UserServiceTest {
 
     private UserFactory userFactoryMock;
     private UserRepository userRepositoryMock;
+    private UserStatisticsCollector userStatisticsCollectorMock;
+    private UserStatistics userStatisticsMock;
     private UserRegistrationValidator userRegistrationValidatorMock;
     private UserActivationService userActivationServiceMock;
     private AddressValidator addressValidatorMock;
@@ -52,9 +57,9 @@ public class UserServiceTest {
     @Before
     public void init() throws Exception {
         initMocks();
-        stubMethods();
-        userService = new UserService(userFactoryMock, userRepositoryMock, userRegistrationValidatorMock, userActivationServiceMock,
-                addressValidatorMock);
+        initStubs();
+        userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userStatisticsCollectorMock,
+                userRegistrationValidatorMock, addressValidatorMock);
     }
 
     private void initMocks() throws UserNotFoundException {
@@ -63,12 +68,14 @@ public class UserServiceTest {
         userMock = mock(User.class);
         propertyMock = mock(Property.class);
         userActivationServiceMock = mock(UserActivationService.class);
+        userStatisticsCollectorMock = mock(UserStatisticsCollector.class);
+        userStatisticsMock = mock(UserStatistics.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
         addressValidatorMock = mock(AddressValidator.class);
         addressMock = mock(Address.class);
     }
 
-    private void stubMethods() throws UserNotFoundException {
+    private void initStubs() throws UserNotFoundException {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
     }
@@ -135,26 +142,26 @@ public class UserServiceTest {
     }
 
     @Test
-    public void updatingUserEmailUpdatesTheEmailFromTheUserObject() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+    public void updatingUserContactInformationUpdatesTheEmailFromTheUserObject() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userMock).updateEmail(SAMPLE_EMAIL);
     }
 
     @Test
-    public void updatingUserEmailBeginsTheUserActivationProcess() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+    public void updatingUserContactInformationWithNewEmailBeginsTheUserActivationProcess() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userActivationServiceMock).beginActivation(userMock);
     }
 
     @Test(expected = UserServiceException.class)
-    public void updatingUserEmailUsingInvalidEmailThrowsUserServiceException() throws Exception {
-        userService.updateUserEmail(userMock, SAMPLE_INVALID_EMAIL);
+    public void updatingUserContactInformationUsingInvalidEmailThrowsUserServiceException() throws Exception {
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_INVALID_EMAIL);
     }
 
     @Test
-    public void updatingUserEmailWithTheSameEmailDoesNotBeginTheUserActivationProcess() throws Exception {
+    public void updatingUserContactInformationWithTheSameEmailDoesNotBeginTheUserActivationProcess() throws Exception {
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
-        userService.updateUserEmail(userMock, SAMPLE_EMAIL);
+        userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
         verify(userActivationServiceMock, never()).beginActivation(userMock);
     }
 
@@ -200,6 +207,20 @@ public class UserServiceTest {
         List<UserRole> userRoles = userService.getPubliclyRegistrableUserRoles();
         assertFalse(userRoles.isEmpty());
         userRoles.stream().forEach(u -> assertTrue(u.isPubliclyRegistrable()));
+    }
+
+    @Test
+    public void gettingTheStatisticsGetsTheStatistics() {
+        when(userStatisticsCollectorMock.getStatistics()).thenReturn(userStatisticsMock);
+        UserStatistics returnedUserStatistics = userService.getStatistics();
+        assertSame(userStatisticsMock, returnedUserStatistics);
+    }
+
+    @Test
+    public void applyingTheUserStatusPolicyAppliesTheUserStatusPolicyToUsers() {
+        when(userRepositoryMock.getAll()).thenReturn(Arrays.asList(userMock));
+        userService.applyUserStatusPolicy();
+        verify(userMock).applyUserStatusPolicy();
     }
 
     private void registerUser() throws UserServiceException {

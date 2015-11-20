@@ -29,11 +29,11 @@ public class AddressValidatorTest {
     @Before
     public void init() throws Exception {
         addressMock = mock(Address.class);
-        stubMethods();
+        initStubs();
         addressValidator = new AddressValidator();
     }
 
-    private void stubMethods() {
+    private void initStubs() {
         when(addressMock.getStreetNumber()).thenReturn(SAMPLE_ADDRESS_NUMBER);
         when(addressMock.getStreetName()).thenReturn(SAMPLE_STREET_NAME);
         when(addressMock.getAdditionalAddressInfo()).thenReturn(SAMPLE_ADDITIONNAL_ADDRESS_INFO);

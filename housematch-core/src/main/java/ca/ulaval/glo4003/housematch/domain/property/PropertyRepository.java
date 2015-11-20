@@ -11,4 +11,6 @@ public interface PropertyRepository {
     void update(Property property);
 
     List<Property> getAll();
+
+    List<Property> getByType(PropertyType propertyType);
 }

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
@@ -15,13 +16,15 @@ public class PropertyFactoryTest {
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.FARM;
 
     private Address addressMock;
+    private PropertyObserver propertyObserverMock;
 
     private PropertyFactory propertyFactory;
 
     @Before
     public void init() {
         addressMock = mock(Address.class);
-        propertyFactory = new PropertyFactory();
+        propertyObserverMock = mock(PropertyObserver.class);
+        propertyFactory = new PropertyFactory(propertyObserverMock);
     }
 
     @Test
@@ -31,5 +34,11 @@ public class PropertyFactoryTest {
         assertEquals(SAMPLE_PROPERTY_TYPE, property.getPropertyType());
         assertEquals(addressMock, property.getAddress());
         assertEquals(SAMPLE_SELLING_PRICE, property.getSellingPrice());
+    }
+
+    @Test
+    public void propertyFactoryRegistersTheSharedObserverToTheProperty() {
+        Property property = propertyFactory.createProperty(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE);
+        assertTrue(property.isObserverRegistered(propertyObserverMock));
     }
 }
