@@ -11,9 +11,9 @@
     <artifactId>housematch-spring-webapp</artifactId>
 
     <properties>
-        <spring.version>4.2.2.RELEASE</spring.version>
+        <spring.version>4.2.3.RELEASE</spring.version>
         <spring.security.version>4.0.3.RELEASE</spring.security.version>
-        <slf4jVersion>1.7.12</slf4jVersion>
+        <slf4jVersion>1.7.13</slf4jVersion>
     </properties>
 
     <dependencies>
