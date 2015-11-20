@@ -157,22 +157,4 @@ public class PropertyTest {
         property.markAsSold();
         verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.SOLD);
     }
-
-    @Test
-    public void propertyIsNotMarkedAsMostVisitedOnCreation() {
-        assertFalse(property.isMostPopular());
-    }
-
-    @Test
-    public void markingThePropertyAsMostPopularMarksThePropertyAsMostVisisted() {
-        property.markAsMostPopular();
-        assertTrue(property.isMostPopular());
-    }
-
-    @Test
-    public void incrementingTheMostPopularFlagValueVersionUnmarksThePropertyAsMostVisisted() {
-        property.markAsMostPopular();
-        Property.resetPropertyPopularityFlags();
-        assertFalse(property.isMostPopular());
-    }
 }

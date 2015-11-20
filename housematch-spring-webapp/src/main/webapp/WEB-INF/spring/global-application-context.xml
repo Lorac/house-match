@@ -145,7 +145,6 @@
         <constructor-arg ref="propertyViewModelAssembler" />
         <constructor-arg ref="propertyDetailsFormViewModelAssembler" />
         <constructor-arg ref="propertyListViewModelAssembler" />
-        <constructor-arg ref="userPermissionEvaluator" />
     </bean>
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController">

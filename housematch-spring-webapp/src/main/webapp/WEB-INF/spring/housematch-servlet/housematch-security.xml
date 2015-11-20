@@ -20,7 +20,6 @@
         <intercept-url pattern="/admin/**" access="hasPermission(null, 'ADMINISTRATOR')" />
         <intercept-url pattern="/buyer/**" access="hasPermission(null, 'BUYER')" />
         <intercept-url pattern="/seller/**" access="hasPermission(null, 'SELLER')" />
-        <intercept-url pattern="/user/**" access="not isAnonymous()" />
 
         <!-- Use default provided form. See docs to customize. -->
         <form-login login-page="/login" authentication-failure-url="/login" login-processing-url="/login"
@@ -30,11 +29,7 @@
         <csrf disabled="true"/>
     </http>
 
-    <beans:bean id="propertyAccessValidator" class="ca.ulaval.glo4003.housematch.web.security.accessvalidators.PropertyAccessValidator"/>
-
-    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.web.security.UserPermissionEvaluator">
-        <beans:constructor-arg ref="propertyAccessValidator"/>
-    </beans:bean>
+    <beans:bean id="userPermissionEvaluator" class="ca.ulaval.glo4003.housematch.web.security.UserPermissionEvaluator" />
 
     <beans:bean id="userAuthenticationProvider" class="ca.ulaval.glo4003.housematch.web.security.UserAuthenticationProvider">
         <beans:constructor-arg ref="userService"/>

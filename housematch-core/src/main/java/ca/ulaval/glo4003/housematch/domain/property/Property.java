@@ -6,7 +6,6 @@ import java.time.ZonedDateTime;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.utils.VersionedValue;
 
 public class Property extends PropertyObservable {
 
@@ -17,8 +16,6 @@ public class Property extends PropertyObservable {
     private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate = ZonedDateTime.now();
     private Integer viewCount = 0;
-    private VersionedValue<Boolean> isMostPopular = new VersionedValue<>(false);
-    private static Integer popularityFlagValueVersion = 0;
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -74,18 +71,6 @@ public class Property extends PropertyObservable {
 
     public Integer incrementViewCount() {
         return ++viewCount;
-    }
-
-    public Boolean isMostPopular() {
-        return isMostPopular.getValue() && isMostPopular.getVersion().equals(popularityFlagValueVersion);
-    }
-
-    public void markAsMostPopular() {
-        isMostPopular.setValue(true, popularityFlagValueVersion);
-    }
-
-    public static void resetPropertyPopularityFlags() {
-        popularityFlagValueVersion++;
     }
 
     public void markForSale() {

@@ -92,9 +92,6 @@ public class PropertyService {
     public List<Property> getMostPopularProperties(PropertyType propertyType, Integer limit) {
         List<Property> properties = propertyRepository.getByType(propertyType);
         propertySorter.sort(properties, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
-        properties = properties.stream().limit(limit).collect(Collectors.toList());
-        Property.resetPropertyPopularityFlags();
-        properties.stream().forEach(p -> p.markAsMostPopular());
-        return properties;
+        return properties.stream().limit(limit).collect(Collectors.toList());
     }
 }

@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.hasProperty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -23,8 +22,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.core.Authentication;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -64,7 +61,6 @@ public class PropertyControllerTest extends BaseControllerTest {
     private PropertyListViewModelAssembler propertyListViewModelAssemblerMock;
     private PropertyController propertyController;
     private String samplePropertyDetailsUpdateUrl;
-    private PermissionEvaluator permissionEvaluatorMock;
 
     @Before
     public void init() throws Exception {
@@ -73,7 +69,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         initStubs();
         samplePropertyDetailsUpdateUrl = PropertyController.PROPERTY_DETAILS_UPDATE_BASE_URL + propertyMock.hashCode();
         propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyViewModelAssemblerMock,
-                propertyDetailsFormViewModelAssemblerMock, propertyListViewModelAssemblerMock, permissionEvaluatorMock);
+                propertyDetailsFormViewModelAssemblerMock, propertyListViewModelAssemblerMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
     }
 
@@ -84,7 +80,6 @@ public class PropertyControllerTest extends BaseControllerTest {
         propertyViewModelAssemblerMock = mock(PropertyViewModelAssembler.class);
         propertyDetailsFormViewModelAssemblerMock = mock(PropertyDetailsFormViewModelAssembler.class);
         propertyListViewModelAssemblerMock = mock(PropertyListViewModelAssembler.class);
-        permissionEvaluatorMock = mock(PermissionEvaluator.class);
     }
 
     private void initStubs() throws Exception {
@@ -296,7 +291,6 @@ public class PropertyControllerTest extends BaseControllerTest {
     }
 
     private ResultActions performPropertyGetRequest() throws Exception {
-        when(permissionEvaluatorMock.hasPermission(any(Authentication.class), anyObject(), anyObject())).thenReturn(true);
         return performGetRequest(PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode());
     }
 }
