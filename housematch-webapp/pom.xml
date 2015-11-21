@@ -8,7 +8,7 @@
     <packaging>war</packaging>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>housematch-spring-webapp</artifactId>
+    <artifactId>housematch-webapp</artifactId>
 
     <properties>
         <spring.version>4.2.3.RELEASE</spring.version>
@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
-            <artifactId>housematch-xml-persistence</artifactId>
+            <artifactId>housematch-persistence</artifactId>
             <version>3.1-SNAPSHOT</version>
         </dependency>
         <dependency>

@@ -7,8 +7,8 @@
     <version>3.1-SNAPSHOT</version>
     <modules>
         <module>housematch-core</module>
-        <module>housematch-spring-webapp</module>
-        <module>housematch-xml-persistence</module>
+        <module>housematch-webapp</module>
+        <module>housematch-persistence</module>
         <module>housematch-emailer</module>
         <module>housematch-context</module>
     </modules>
@@ -136,7 +136,7 @@
                     <webapps>
                         <webapp>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>housematch-spring-webapp</artifactId>
+                            <artifactId>housematch-webapp</artifactId>
                             <version>${project.version}</version>
                             <type>war</type>
                             <asWebapp>true</asWebapp>
