@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.housematch.web.controllers;
 
-import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 @Controller
 public class HomeController extends BaseController {
