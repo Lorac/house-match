@@ -1,19 +1,15 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PropertyTest {
 
@@ -137,7 +133,7 @@ public class PropertyTest {
     @Test
     public void markingThePropertyForSaleMarksThePropertyForSale() {
         property.markForSale();
-        assertEquals(PropertyStatus.FOR_SALE, property.getStatus());
+        assertTrue(property.isForSale());
     }
 
     @Test
@@ -149,7 +145,7 @@ public class PropertyTest {
     @Test
     public void markingThePropertyAsSoldMarksThePropertyAsSold() {
         property.markAsSold();
-        assertEquals(PropertyStatus.SOLD, property.getStatus());
+        assertFalse(property.isForSale());
     }
 
     @Test

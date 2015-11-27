@@ -1,5 +1,11 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -7,12 +13,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.user.UserNotFoundException;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
-import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
 public class XmlUserRepository implements UserRepository {
 
@@ -73,7 +73,7 @@ public class XmlUserRepository implements UserRepository {
 
     @Override
     public List<User> getAll() {
-        return new ArrayList<User>(users.values());
+        return new ArrayList<>(users.values());
     }
 
     private void marshal() {

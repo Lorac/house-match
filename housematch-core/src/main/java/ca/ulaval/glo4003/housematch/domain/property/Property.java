@@ -1,11 +1,10 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
-
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 public class Property extends PropertyObservable {
 
@@ -71,6 +70,10 @@ public class Property extends PropertyObservable {
 
     public Integer incrementViewCount() {
         return ++viewCount;
+    }
+
+    public boolean isForSale() {
+        return status == PropertyStatus.FOR_SALE;
     }
 
     public void markForSale() {

@@ -1,29 +1,26 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.*;
 
 public class XmlUserAdapterTest {
 
@@ -44,10 +41,12 @@ public class XmlUserAdapterTest {
     private Property propertyMock;
 
     private XmlUserAdapter xmlUserAdapter;
-    private List<Property> propertiesForSale = new ArrayList<Property>();
-    private List<Property> purchasedProperties = new ArrayList<Property>();
-    private List<Integer> propertyForSaleHashCodes = new ArrayList<Integer>();
-    private List<Integer> purchasedPropertyHashCodes = new ArrayList<Integer>();
+    private List<Property> propertiesForSale = new ArrayList<>();
+    private List<Property> purchasedProperties = new ArrayList<>();
+    private List<Integer> propertyForSaleHashCodes = new ArrayList<>();
+    private List<Integer> purchasedPropertyHashCodes = new ArrayList<>();
+    private List<Property> favoriteProperties = new ArrayList<>();
+    private List<Integer> favoritePropertiesHashCodes = new ArrayList<>();
 
     @Before
     public void init() throws Exception {
@@ -76,6 +75,7 @@ public class XmlUserAdapterTest {
         when(userMock.getLastLoginDate()).thenReturn(SAMPLE_DATE);
         when(userMock.getPropertiesForSale()).thenReturn(propertiesForSale);
         when(userMock.getPurchasedProperties()).thenReturn(purchasedProperties);
+        when(userMock.getFavoriteProperties()).thenReturn(favoriteProperties);
     }
 
     private void initXmlUserMock() {
@@ -90,6 +90,7 @@ public class XmlUserAdapterTest {
         xmlUserMock.status = SAMPLE_STATUS;
         xmlUserMock.propertiesForSale = propertyForSaleHashCodes;
         xmlUserMock.purchasedProperties = purchasedPropertyHashCodes;
+        xmlUserMock.favoriteProperties = favoritePropertiesHashCodes;
     }
 
     private void initStubs() {
@@ -156,5 +157,16 @@ public class XmlUserAdapterTest {
         xmlUserAdapter.unmarshal(xmlUserMock);
 
         verify(userMock).setPurchasedProperties(eq(purchasedProperties));
+    }
+
+    @Test
+    public void favoritePropertiesAreDereferencedDuringUnmarshalling() throws Exception {
+        when(propertyRepositoryMock.getByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
+        favoriteProperties.add(propertyMock);
+        favoritePropertiesHashCodes.add(propertyMock.hashCode());
+
+        xmlUserAdapter.unmarshal(xmlUserMock);
+
+        verify(userMock).setFavoriteProperties(eq(favoriteProperties));
     }
 }

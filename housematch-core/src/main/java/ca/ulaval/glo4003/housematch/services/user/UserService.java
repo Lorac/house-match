@@ -1,11 +1,5 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.validator.routines.EmailValidator;
-
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
@@ -22,6 +16,11 @@ import ca.ulaval.glo4003.housematch.validators.address.AddressValidationExceptio
 import ca.ulaval.glo4003.housematch.validators.address.AddressValidator;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationException;
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
+import org.apache.commons.validator.routines.EmailValidator;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserService {
 
@@ -100,6 +99,11 @@ public class UserService {
 
     public void applyUserStatusPolicy() {
         List<User> users = userRepository.getAll();
-        users.stream().forEach(u -> u.applyUserStatusPolicy());
+        users.stream().forEach(User::applyUserStatusPolicy);
+    }
+
+    public void addFavoritePropertyToUser(User user, Property property) {
+        user.addPropertyToFavorites(property);
+        userRepository.update(user);
     }
 }

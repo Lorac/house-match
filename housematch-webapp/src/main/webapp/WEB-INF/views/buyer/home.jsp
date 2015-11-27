@@ -41,8 +41,10 @@
                                 <p class="itemLabel">Search properties for sale</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
-                            <span class="icon glyphicon glyphicon-question-sign"></span>
-                            <p class="itemLabel">Sample menu item</p>
+                            <a href="<%=PropertyController.FAVORITE_PROPERTIES_VIEW_URL%>">
+                                <span class="icon glyphicon glyphicon-star"></span>
+                                <p class="itemLabel">My favorite properties</p>
+                            </a>
                         </div>
                     </div>
                 </div>

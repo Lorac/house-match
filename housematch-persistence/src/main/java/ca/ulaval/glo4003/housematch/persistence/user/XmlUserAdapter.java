@@ -1,15 +1,15 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
 
@@ -32,11 +32,12 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.setLastLoginDate(xmlUser.lastLoginDate);
         user.setPropertiesForSale(dereferenceProperties(xmlUser.propertiesForSale));
         user.setPurchasedProperties(dereferenceProperties(xmlUser.purchasedProperties));
+        user.setFavoriteProperties(dereferenceProperties(xmlUser.favoriteProperties));
         return user;
     }
 
     private List<Property> dereferenceProperties(List<Integer> propertyHashCodes) throws PropertyNotFoundException {
-        List<Property> properties = new ArrayList<Property>();
+        List<Property> properties = new ArrayList<>();
         for (Integer propertyHashCode : propertyHashCodes) {
             properties.add(propertyRepository.getByHashCode(propertyHashCode));
         }
@@ -57,14 +58,11 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.lastLoginDate = user.getLastLoginDate();
         xmlUser.propertiesForSale = referenceProperties(user.getPropertiesForSale());
         xmlUser.purchasedProperties = referenceProperties(user.getPurchasedProperties());
+        xmlUser.favoriteProperties = referenceProperties(user.getFavoriteProperties());
         return xmlUser;
     }
 
     private List<Integer> referenceProperties(List<Property> properties) {
-        List<Integer> propertyHashCodes = new ArrayList<Integer>();
-        for (Property property : properties) {
-            propertyHashCodes.add(property.hashCode());
-        }
-        return propertyHashCodes;
+        return properties.stream().map(Property::hashCode).collect(Collectors.toList());
     }
 }

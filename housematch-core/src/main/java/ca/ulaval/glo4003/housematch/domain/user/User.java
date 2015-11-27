@@ -1,17 +1,16 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.utils.StringHasher;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
-import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable {
     static final Integer INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
@@ -27,6 +26,7 @@ public class User extends UserObservable {
     private ZonedDateTime lastLoginDate;
     private List<Property> propertiesForSale = new ArrayList<>();
     private List<Property> purchasedProperties = new ArrayList<>();
+    private List<Property> favoriteProperties = new ArrayList<>();
     private Address address;
 
     public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
@@ -93,6 +93,10 @@ public class User extends UserObservable {
         purchasedProperties = properties;
     }
 
+    public boolean isActive() {
+        return status == UserStatus.ACTIVE;
+    }
+
     public UserStatus getStatus() {
         return status;
     }
@@ -144,6 +148,20 @@ public class User extends UserObservable {
     public Property getPropertyForSaleByHashCode(int hashCode) throws PropertyNotFoundException {
         try {
             return propertiesForSale.stream().filter(p -> p.hashCode() == hashCode).findFirst().get();
+        } catch (NoSuchElementException e) {
+            throw new PropertyNotFoundException(String.format("Cannot find property with hashcode '%s' belonging to this user.", hashCode));
+        }
+    }
+
+    public void addPropertyToFavorites(Property property) {
+        favoriteProperties.add(property);
+    }
+
+    public Property getFavoritePropertyByHashCode(int hashCode) throws PropertyNotFoundException {
+        try {
+            return favoriteProperties.stream()
+                    .filter(p -> p.hashCode() == hashCode)
+                    .filter(Property::isForSale).findFirst().get();
         } catch (NoSuchElementException e) {
             throw new PropertyNotFoundException(String.format("Cannot find property with hashcode '%s' belonging to this user.", hashCode));
         }
@@ -201,5 +219,17 @@ public class User extends UserObservable {
 
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
+    }
+
+    public List<Property> getFavoriteProperties() {
+        return favoriteProperties;
+    }
+
+    public void setFavoriteProperties(List<Property> favoriteProperties) {
+        this.favoriteProperties = favoriteProperties;
+    }
+
+    public boolean hasPropertyInFavorite(Property property) {
+        return favoriteProperties.contains(property);
     }
 }

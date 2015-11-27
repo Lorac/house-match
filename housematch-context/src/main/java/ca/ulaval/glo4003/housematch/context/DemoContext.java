@@ -1,8 +1,5 @@
 package ca.ulaval.glo4003.housematch.context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ca.ulaval.glo4003.housematch.context.generators.RandomPropertyGenerator;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -13,6 +10,11 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.utils.RandomUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
 
 public class DemoContext extends ContextBase {
     private static final Integer PROPERTY_POOL_SIZE = 100;
@@ -51,9 +53,16 @@ public class DemoContext extends ContextBase {
         List<Property> propertyPool = createPropertyPool();
         putPropertiesForSale(seller1, propertyPool);
         purchaseProperties(buyer1, propertyPool);
+        favoriteProperties(buyer1, propertyPool);
 
         persistProperties(propertyPool);
         persistUsers(userPool);
+    }
+
+    private void favoriteProperties(User buyer, List<Property> propertyPool) {
+        IntStream.generate(() -> ThreadLocalRandom.current().nextInt(propertyPool.size()))
+                .limit(5)
+                .forEach(p -> buyer.addPropertyToFavorites(propertyPool.get(p)));
     }
 
     private void activateUsers(List<User> userPool) {
