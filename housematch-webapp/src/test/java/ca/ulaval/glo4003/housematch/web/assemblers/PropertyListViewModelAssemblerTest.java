@@ -38,7 +38,7 @@ public class PropertyListViewModelAssemblerTest {
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
-        when(propertyViewModelAssemblerMock.assembleFromProperty(propertyMock)).thenReturn(propertyViewModelMock);
+        when(propertyViewModelAssemblerMock.assemble(propertyMock, null)).thenReturn(propertyViewModelMock);
         PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(propertyList);
         assertThat(viewModel.getPropertyViewModels(), contains(propertyViewModelMock));
     }

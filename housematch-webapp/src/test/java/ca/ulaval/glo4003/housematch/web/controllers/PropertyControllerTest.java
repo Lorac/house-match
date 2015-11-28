@@ -223,7 +223,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyViewAccess() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
         performPropertyGetRequest();
-        verify(propertyViewModelAssemblerMock).assembleFromProperty(propertyMock);
+        verify(propertyViewModelAssemblerMock).assemble(propertyMock, userMock);
     }
 
     @Test

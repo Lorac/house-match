@@ -166,6 +166,10 @@ public class User extends UserObservable {
         favoriteProperties.add(property);
     }
 
+    public Boolean hasPropertyInFavorites(Property property) {
+        return favoriteProperties.contains(property);
+    }
+
     public void applyUserStatusPolicy() {
         if (role == UserRole.BUYER && !isActiveAsBuyer()) {
             changeStatus(UserStatus.INACTIVE);

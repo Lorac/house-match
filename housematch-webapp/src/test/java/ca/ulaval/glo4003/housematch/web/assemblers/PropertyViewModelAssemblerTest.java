@@ -14,6 +14,7 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 
 public class PropertyViewModelAssemblerTest {
@@ -21,8 +22,10 @@ public class PropertyViewModelAssemblerTest {
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.SINGLE_FAMILY_HOME;
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
     private static final Integer SAMPLE_VIEW_COUNT = 60;
+    private static final Boolean SAMPLE_BOOLEAN = Boolean.TRUE;
 
     private Property propertyMock;
+    private User userMock;
     private PropertyDetails propertyDetailsMock;
     private Address addressMock;
 
@@ -37,6 +40,7 @@ public class PropertyViewModelAssemblerTest {
 
     private void initMocks() {
         propertyMock = mock(Property.class);
+        userMock = mock(User.class);
         propertyDetailsMock = mock(PropertyDetails.class);
         addressMock = mock(Address.class);
     }
@@ -47,11 +51,12 @@ public class PropertyViewModelAssemblerTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
         when(propertyMock.getViewCount()).thenReturn(SAMPLE_VIEW_COUNT);
+        when(userMock.hasPropertyInFavorites(propertyMock)).thenReturn(SAMPLE_BOOLEAN);
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedProperty() {
-        PropertyViewModel viewModel = assembler.assembleFromProperty(propertyMock);
+        PropertyViewModel viewModel = assembler.assemble(propertyMock, userMock);
 
         assertEquals(SAMPLE_PROPERTY_TYPE, viewModel.getPropertyType());
         assertEquals(addressMock, viewModel.getAddress());
@@ -59,6 +64,7 @@ public class PropertyViewModelAssemblerTest {
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
         assertEquals(propertyMock.hashCode(), viewModel.getHashCode());
         assertEquals(SAMPLE_VIEW_COUNT, viewModel.getViewCount());
+        assertEquals(SAMPLE_BOOLEAN, viewModel.isPropertyAddedToFavorites());
     }
 
 }

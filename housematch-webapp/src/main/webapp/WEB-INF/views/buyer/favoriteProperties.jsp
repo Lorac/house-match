@@ -31,9 +31,9 @@
                 <c:forEach var="property" items="${propertyList.propertyViewModels}">
                     <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${property.hashCode}"'>
                         <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
+                        <td>${property.hashCode}</td>
                         <td>${property.address}</td>
                         <td>${property.sellingPrice}&nbsp;$</td>
-                        <td>${property.viewCount}</td>
                     </tr>
                 </c:forEach>
             </table>

@@ -24,7 +24,7 @@ public class PropertyListViewModelAssembler {
     private List<PropertyViewModel> assemblePropertyViewModelListFromPropertyList(List<Property> propertyList) {
         List<PropertyViewModel> propertyViewModelList = new ArrayList<>();
         for (Property property : propertyList) {
-            propertyViewModelList.add(propertyViewModelAssembler.assembleFromProperty(property));
+            propertyViewModelList.add(propertyViewModelAssembler.assemble(property, null));
         }
         return propertyViewModelList;
     }

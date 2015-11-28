@@ -134,11 +134,12 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTY_VIEW_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode) {
+    public final ModelAndView displayPropertyView(@PathVariable int propertyHashCode, HttpSession httpSession) {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
             propertyService.incrementPropertyViewCount(property);
-            return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME, propertyViewModelAssembler.assembleFromProperty(property));
+            User user = getUserFromHttpSession(httpSession);
+            return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME, propertyViewModelAssembler.assemble(property, user));
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }

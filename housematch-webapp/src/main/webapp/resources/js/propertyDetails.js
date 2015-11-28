@@ -29,5 +29,5 @@ function favoritePropertyCreationErrorHandler(xmlHttpRequest, textStatus, errorT
 }
 
 function showFavoritePropertyCreationAlert() {
-	$("#favoriteCreationAlert").addClass("in");
+	$("#favoriteCreationAlert").fadeIn("slow");
 }

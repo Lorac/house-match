@@ -19,7 +19,7 @@ import java.util.stream.IntStream;
 public class DemoContext extends ContextBase {
     private static final Integer PROPERTY_POOL_SIZE = 100;
     private static final Integer NUMBER_OF_PROPERTY_PURCHASES = 7;
-    private static final Integer LIMIT_FAVORITE_PROPERTIES = 5;
+    private static final Integer NUMBER_OF_FAVORITED_PROPERTIES = 5;
     private UserFactory userFactory;
     private UserRepository userRepository;
     private RandomPropertyGenerator randomPropertyGenerator;
@@ -61,7 +61,7 @@ public class DemoContext extends ContextBase {
 
     private void favoriteProperties(User buyer, List<Property> propertyPool) {
         IntStream.generate(() -> ThreadLocalRandom.current().nextInt(propertyPool.size()))
-                .limit(LIMIT_FAVORITE_PROPERTIES)
+                .limit(NUMBER_OF_FAVORITED_PROPERTIES)
                 .forEach(p -> buyer.addPropertyToFavorites(propertyPool.get(p)));
     }
 
