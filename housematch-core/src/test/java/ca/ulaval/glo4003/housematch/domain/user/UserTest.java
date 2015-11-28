@@ -1,20 +1,30 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
-import ca.ulaval.glo4003.housematch.utils.StringHasher;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.Matchers.contains;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class UserTest {
 
@@ -320,27 +330,8 @@ public class UserTest {
     }
 
     @Test
-    public void gettingFavoritePropertyByHashCodeWhenNotSoldReturnsThePropertyFromTheSpecifiedHashCode() throws Exception {
-        user.addPropertyToFavorites(propertyMock);
-        when(propertyMock.isForSale()).thenReturn(true);
-        assertSame(propertyMock, user.getFavoritePropertyByHashCode(propertyMock.hashCode()));
-    }
-
-    @Test(expected = PropertyNotFoundException.class)
-    public void gettingFavoritePropertyByHashCodeWhenSoldThrowsAnException() throws Exception {
-        user.addPropertyToFavorites(propertyMock);
-        when(propertyMock.isForSale()).thenReturn(false);
-        user.getFavoritePropertyByHashCode(propertyMock.hashCode());
-    }
-
-    @Test
     public void settingFavoritePropertiesSetsTheFavoriteProperties() {
         user.setFavoriteProperties(properties);
         assertEquals(properties, user.getFavoriteProperties());
-    }
-
-    @Test(expected = PropertyNotFoundException.class)
-    public void gettingANonFavoritePropertyShouldThrowAnException() throws Exception {
-        user.getFavoritePropertyByHashCode(propertyMock.hashCode());
     }
 }

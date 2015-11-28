@@ -11,12 +11,12 @@
     <!-- Custom styles for this page -->
     <link href="/resources/css/login.css" rel="stylesheet">
 
-    <title>HouseMatch - Favorite properties</title>
+    <title>HouseMatch - Favorite Properties</title>
 </head>
 <body>
 <jsp:include page="/WEB-INF/includes/navigationBar.jsp"/>
 <div class="container">
-    <h1 class="center">Favorite properties</h1>
+    <h1 class="center">Favorite Properties</h1>
     <c:choose>
         <c:when test="${not empty propertyList.propertyViewModels}">
             <table class="table table-hover align-middle clickable-rows">
@@ -39,10 +39,7 @@
             </table>
         </c:when>
         <c:otherwise>
-            <p>
-                You have no properties for sale. You can put a property up for sale <a
-                    href="<%=PropertyController.PROPERTY_CREATION_URL%>">here</a>.
-            </p>
+            <p>You have not added any properties to your favorites yet.</p>
         </c:otherwise>
     </c:choose>
 </div>

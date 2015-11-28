@@ -271,17 +271,17 @@
         <div class="row center">
             <input tabindex="8" class="btn btn-primary btn-lg" onclick="window.history.back()" value="Back to Search Results">
             <button id="addPropertiesToFavorite" tabindex="9" class="btn btn-success btn-lg"
-                    value="${property.hashCode}">Add to favorites
+                    value="${property.hashCode}"><span class="icon glyphicon glyphicon-star"></span>&nbsp;Add to Favorites
             </button>
         </div>
     </div>
-    <div id="favoriteAlert" class="alert alert-success alert-dismissible fade" role="alert">
+    <div id="favoriteCreationAlert" class="alert alert-success alert-dismissible fade" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        You added this property to your favorite
+        This property has been added to your favorites.
     </div>
 </div>
 
 <%@include file="/WEB-INF/includes/footer.jsp" %>
-<script src="/resources/js/buyerFavorite.js"></script>
+<script src="/resources/js/favoriteProperties.js"></script>
 </body>
 </html>

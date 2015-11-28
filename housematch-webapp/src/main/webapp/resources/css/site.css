@@ -113,6 +113,7 @@ body {
     -o-transition: opacity 0.15s linear;
     transition: opacity 0.15s linear;
 }
+
 .fade.in {
     opacity: 1;
 }
