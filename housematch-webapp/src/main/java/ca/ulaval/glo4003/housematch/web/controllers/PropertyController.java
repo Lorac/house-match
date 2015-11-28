@@ -5,12 +5,14 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -41,9 +43,10 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_VIEW_URL = "/buyer/viewProperty/{propertyHashCode}";
     public static final String PROPERTY_VIEW_BASE_URL = "/buyer/viewProperty/";
     public static final String MOST_POPULAR_PROPERTIES_VIEW_URL = "/mostPopularProperties";
-    public static final String FAVORITE_PROPERTIES_VIEW_URL = "buyer/favoriteProperties";
+    public static final String FAVORITE_PROPERTIES_VIEW_URL = "/buyer/favoriteProperties";
     public static final String FAVORITE_PROPERTIES_VIEW_NAME = "buyer/favoriteProperties";
-    public static final String PROPERTY_FAVORITING_URL = "buyer/addPropertyToFavorites/{propertyHashCode}";
+    public static final String PROPERTY_FAVORITING_URL = "/buyer/addPropertyToFavorites/{propertyHashCode}";
+    public static final String PROPERTY_FAVORITING_BASE_URL = "/buyer/addPropertyToFavorites/";
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
     static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
     static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
@@ -152,19 +155,18 @@ public class PropertyController extends BaseController {
         return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 
+    @RequestMapping(value = FAVORITE_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
+    public final ModelAndView displayFavoriteProperties(HttpSession httpSession) {
+        List<Property> favoriteProperties = userService.getFavoriteProperties(getUserFromHttpSession(httpSession));
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(favoriteProperties);
+        return new ModelAndView(FAVORITE_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
+    }
+
     @RequestMapping(value = PROPERTY_FAVORITING_URL, method = RequestMethod.POST)
-    public final ModelAndView addPropertyToFavorites(@PathVariable int propertyHashCode, HttpSession httpSession) throws Exception {
+    @ResponseStatus(HttpStatus.OK)
+    public final void addPropertyToFavorites(@PathVariable int propertyHashCode, HttpSession httpSession) throws Exception {
         Property property = propertyService.getPropertyByHashCode(propertyHashCode);
         User user = getUserFromHttpSession(httpSession);
         userService.addFavoritePropertyToUser(user, property);
-        return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
-    }
-
-    @RequestMapping(value = FAVORITE_PROPERTIES_VIEW_URL)
-    public final ModelAndView displayFavoriteProperties(HttpSession httpSession) {
-        User user = getUserFromHttpSession(httpSession);
-        List<Property> favoriteProperties = user.getFavoriteProperties();
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(favoriteProperties);
-        return new ModelAndView(FAVORITE_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 }

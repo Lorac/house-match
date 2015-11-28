@@ -270,6 +270,46 @@ public class PropertyControllerTest extends BaseControllerTest {
         verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
     }
 
+    @Test
+    public void propertyControllerRendersFavoritePropertiesView() throws Exception {
+        ResultActions results = performGetRequest(PropertyController.FAVORITE_PROPERTIES_VIEW_URL);
+
+        results.andExpect(status().isOk());
+        results.andExpect(view().name(PropertyController.FAVORITE_PROPERTIES_VIEW_NAME));
+    }
+
+    @Test
+    public void propertyControllerRetrievesFavoritePropertyListDuringFavoritePropertiesViewAccess() throws Exception {
+        performGetRequest(PropertyController.FAVORITE_PROPERTIES_VIEW_URL);
+        verify(userServiceMock).getFavoriteProperties(userMock);
+    }
+
+    @Test
+    public void propertyControllerAssemblesTheViewModelFromTheFavoritePropertyListDuringPropertiesViewAccess() throws Exception {
+        when(userMock.getFavoriteProperties()).thenReturn(SAMPLE_PROPERTY_LIST);
+        performGetRequest(PropertyController.FAVORITE_PROPERTIES_VIEW_URL);
+        verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+    }
+
+    @Test
+    public void propertyControllerGetsPropertyFromPropertyServiceUsingTheSpecifiedHashCodeDuringPropertyFavoriting() throws Exception {
+        performPropertyFavoritingRequest();
+        verify(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
+    }
+
+    @Test
+    public void propertyControllerAddsTheSpecifiedPropertyToFavoritePropertiesOfUserDuringPropertyFavoriting() throws Exception {
+        when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
+        performPropertyFavoritingRequest();
+        verify(userServiceMock).addFavoritePropertyToUser(userMock, propertyMock);
+    }
+
+    @Test
+    public void propertyControllerReturnsOkHttpStatusOnSuccessfulPropertyFavoriting() throws Exception {
+        ResultActions results = performPropertyFavoritingRequest();
+        results.andExpect(status().isOk());
+    }
+
     private ResultActions postPropertyCreationForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_CREATION_URL)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -284,6 +324,14 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     private ResultActions postPropertyDetailsUpdateForm() throws Exception {
         MockHttpServletRequestBuilder postRequest = post(samplePropertyDetailsUpdateUrl);
+        postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
+        postRequest.session(mockHttpSession);
+
+        return mockMvc.perform(postRequest);
+    }
+
+    private ResultActions performPropertyFavoritingRequest() throws Exception {
+        MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_FAVORITING_BASE_URL + propertyMock.hashCode());
         postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
         postRequest.session(mockHttpSession);
 

@@ -223,6 +223,24 @@ public class UserServiceTest {
         verify(userMock).applyUserStatusPolicy();
     }
 
+    @Test
+    public void addingFavoritePropertyToUserAddsThePropertyToTheSpecifiedUser() {
+        userService.addFavoritePropertyToUser(userMock, propertyMock);
+        verify(userMock).addPropertyToFavorites(propertyMock);
+    }
+
+    @Test
+    public void addingFavoritePropertyToUserUpdatesTheUserInRepository() {
+        userService.addFavoritePropertyToUser(userMock, propertyMock);
+        verify(userRepositoryMock).update(userMock);
+    }
+
+    @Test
+    public void gettingFavoritePropertiesRetrievesFavoritePropertiesFromUser() {
+        userService.getFavoriteProperties(userMock);
+        verify(userMock).getFavoriteProperties();
+    }
+
     private void registerUser() throws UserServiceException {
         userService.registerUser(SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
     }

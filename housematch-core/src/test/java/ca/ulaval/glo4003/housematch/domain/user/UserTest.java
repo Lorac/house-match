@@ -334,4 +334,10 @@ public class UserTest {
         user.setFavoriteProperties(properties);
         assertEquals(properties, user.getFavoriteProperties());
     }
+
+    @Test
+    public void addingPropertyToFavoriteAddsThePropertyToFavorites() {
+        user.addPropertyToFavorites(propertyMock);
+        assertTrue(user.hasPropertyInFavorites(propertyMock));
+    }
 }
