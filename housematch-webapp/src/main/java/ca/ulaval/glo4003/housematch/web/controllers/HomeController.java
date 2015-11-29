@@ -69,8 +69,10 @@ public class HomeController extends BaseController {
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)
-    private ModelAndView displayAdminHomeView(HttpSession httpSession) {
-        return new ModelAndView(ADMIN_HOME_VIEW_NAME);
+    private ModelAndView displayAdminHomeView(HttpSession httpSession, ModelMap modelMap) {
+        modelMap.put(StatisticsViewModel.NAME,
+                statisticsViewModelAssembler.assembleFromStatistics(propertyService.getStatistics(), userService.getStatistics()));
+        return new ModelAndView(ADMIN_HOME_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = BUYER_HOME_URL, method = RequestMethod.GET)
