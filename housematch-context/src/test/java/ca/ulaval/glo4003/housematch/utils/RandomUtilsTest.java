@@ -15,7 +15,7 @@ public class RandomUtilsTest {
     @Test
     public void gettingRandomAlphaCharGetsARandomAlphaChar() {
         char returnedChar = RandomUtils.generateRandomUpperCaseAlphaChar();
-        assertTrue(returnedChar > 'A' && returnedChar < 'Z');
+        assertTrue(returnedChar >= 'A' && returnedChar <= 'Z');
     }
 
     @Test
