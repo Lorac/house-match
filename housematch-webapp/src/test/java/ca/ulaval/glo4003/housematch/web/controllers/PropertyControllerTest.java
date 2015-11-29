@@ -17,7 +17,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,6 +47,7 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageViewModel;
 public class PropertyControllerTest extends BaseControllerTest {
 
     private static final List<Property> SAMPLE_PROPERTY_LIST = new ArrayList<>();
+    private static final Set<Property> SAMPLE_PROPERTY_SET = new HashSet<>();
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.CONDO_LOFT;
     private static final PropertySortColumn SAMPLE_PROPERTY_SORT_COLUMN = PropertySortColumn.VIEW_COUNT;
     private static final SortOrder SAMPLE_SORT_ORDER = SortOrder.ASCENDING;
@@ -202,7 +205,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerAssemblesTheViewModelFromThePropertiesDuringPropertySearchRequest() throws Exception {
         when(propertyServiceMock.getProperties(any(PropertySortColumn.class), any(SortOrder.class))).thenReturn(SAMPLE_PROPERTY_LIST);
         performGetRequest(PropertyController.PROPERTY_SEARCH_URL);
-        verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -267,7 +270,7 @@ public class PropertyControllerTest extends BaseControllerTest {
 
         mockMvc.perform(getRequest);
 
-        verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -286,9 +289,9 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromTheFavoritePropertyListDuringPropertiesViewAccess() throws Exception {
-        when(userMock.getFavoriteProperties()).thenReturn(SAMPLE_PROPERTY_LIST);
+        when(userMock.getFavoriteProperties()).thenReturn(SAMPLE_PROPERTY_SET);
         performGetRequest(PropertyController.FAVORITE_PROPERTIES_VIEW_URL);
-        verify(propertyListViewModelAssemblerMock).assembleFromPropertyList(SAMPLE_PROPERTY_LIST);
+        verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_SET);
     }
 
     @Test

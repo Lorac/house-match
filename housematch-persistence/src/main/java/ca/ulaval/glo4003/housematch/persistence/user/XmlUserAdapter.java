@@ -1,15 +1,16 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
-
-import javax.xml.bind.annotation.adapters.XmlAdapter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
 
@@ -36,8 +37,8 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         return user;
     }
 
-    private List<Property> dereferenceProperties(List<Integer> propertyHashCodes) throws PropertyNotFoundException {
-        List<Property> properties = new ArrayList<>();
+    private Set<Property> dereferenceProperties(Set<Integer> propertyHashCodes) throws PropertyNotFoundException {
+        Set<Property> properties = new HashSet<>();
         for (Integer propertyHashCode : propertyHashCodes) {
             properties.add(propertyRepository.getByHashCode(propertyHashCode));
         }
@@ -62,7 +63,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         return xmlUser;
     }
 
-    private List<Integer> referenceProperties(List<Property> properties) {
-        return properties.stream().map(Property::hashCode).collect(Collectors.toList());
+    private Set<Integer> referenceProperties(Set<Property> properties) {
+        return properties.stream().map(Property::hashCode).collect(Collectors.toSet());
     }
 }

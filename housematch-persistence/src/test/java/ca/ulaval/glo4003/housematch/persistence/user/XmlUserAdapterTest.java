@@ -1,26 +1,29 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import ca.ulaval.glo4003.housematch.domain.property.Property;
-import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
-import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.user.User;
+import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
 
 public class XmlUserAdapterTest {
 
@@ -41,12 +44,12 @@ public class XmlUserAdapterTest {
     private Property propertyMock;
 
     private XmlUserAdapter xmlUserAdapter;
-    private List<Property> propertiesForSale = new ArrayList<>();
-    private List<Property> purchasedProperties = new ArrayList<>();
-    private List<Integer> propertyForSaleHashCodes = new ArrayList<>();
-    private List<Integer> purchasedPropertyHashCodes = new ArrayList<>();
-    private List<Property> favoriteProperties = new ArrayList<>();
-    private List<Integer> favoritePropertiesHashCodes = new ArrayList<>();
+    private Set<Property> propertiesForSale = new HashSet<>();
+    private Set<Property> purchasedProperties = new HashSet<>();
+    private Set<Integer> propertyForSaleHashCodes = new HashSet<>();
+    private Set<Integer> purchasedPropertyHashCodes = new HashSet<>();
+    private Set<Property> favoriteProperties = new HashSet<>();
+    private Set<Integer> favoritePropertiesHashCodes = new HashSet<>();
 
     @Before
     public void init() throws Exception {

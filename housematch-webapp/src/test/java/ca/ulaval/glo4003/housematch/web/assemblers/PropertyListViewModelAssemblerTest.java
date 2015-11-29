@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,14 +19,14 @@ public class PropertyListViewModelAssemblerTest {
 
     private PropertyListViewModelAssembler propertyListViewModelAssembler;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
-    private List<Property> propertyList = new ArrayList<>();
+    private Collection<Property> propertyCollection = new ArrayList<>();
     private PropertyViewModel propertyViewModelMock;
     private Property propertyMock;
 
     @Before
     public void init() {
         initMocks();
-        propertyList.add(propertyMock);
+        propertyCollection.add(propertyMock);
         propertyListViewModelAssembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
     }
 
@@ -39,7 +39,7 @@ public class PropertyListViewModelAssemblerTest {
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
         when(propertyViewModelAssemblerMock.assemble(propertyMock, null)).thenReturn(propertyViewModelMock);
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(propertyList);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(propertyCollection);
         assertThat(viewModel.getPropertyViewModels(), contains(propertyViewModelMock));
     }
 }

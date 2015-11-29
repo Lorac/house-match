@@ -14,8 +14,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -48,7 +48,7 @@ public class UserTest {
     private Property propertyMock;
     private UserObserver userObserverMock;
 
-    private List<Property> properties;
+    private Set<Property> properties = new HashSet<>();
     private User user;
     private User buyer;
     private User seller;
@@ -57,7 +57,6 @@ public class UserTest {
     public void init() throws Exception {
         initMocks();
         initStubs();
-        properties = new ArrayList<>();
         createUsers();
     }
 

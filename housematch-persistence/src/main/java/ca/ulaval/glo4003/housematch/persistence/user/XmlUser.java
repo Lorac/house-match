@@ -1,18 +1,19 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
-import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlZonedDateTimeAdapter;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.user.UserRole;
+import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
+import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlZonedDateTimeAdapter;
 
 @XmlRootElement(name = "user")
 public class XmlUser {
@@ -28,11 +29,11 @@ public class XmlUser {
     public ZonedDateTime lastLoginDate;
     @XmlElementWrapper(name = "propertiesForSale")
     @XmlElement(name = "propertyHashCode")
-    public List<Integer> propertiesForSale = new ArrayList<>();
+    public Set<Integer> propertiesForSale = new HashSet<>();
     @XmlElementWrapper(name = "purchasedProperties")
     @XmlElement(name = "propertyHashCode")
-    public List<Integer> purchasedProperties = new ArrayList<>();
+    public Set<Integer> purchasedProperties = new HashSet<>();
     @XmlElementWrapper(name = "favoriteProperties")
     @XmlElement(name = "propertyHashCode")
-    public List<Integer> favoriteProperties = new ArrayList<>();
+    public Set<Integer> favoriteProperties = new HashSet<>();
 }

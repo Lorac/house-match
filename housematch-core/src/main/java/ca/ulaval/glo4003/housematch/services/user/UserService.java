@@ -2,6 +2,7 @@ package ca.ulaval.glo4003.housematch.services.user;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.apache.commons.validator.routines.EmailValidator;
@@ -108,7 +109,7 @@ public class UserService {
         userRepository.update(user);
     }
 
-    public List<Property> getFavoriteProperties(User user) {
+    public Set<Property> getFavoriteProperties(User user) {
         return user.getFavoriteProperties();
     }
 }

@@ -1,9 +1,9 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -25,9 +25,9 @@ public class User extends UserObservable {
     private UUID activationCode;
     private Boolean activated = false;
     private ZonedDateTime lastLoginDate;
-    private List<Property> propertiesForSale = new ArrayList<>();
-    private List<Property> purchasedProperties = new ArrayList<>();
-    private List<Property> favoriteProperties = new ArrayList<>();
+    private Set<Property> propertiesForSale = new HashSet<>();
+    private Set<Property> purchasedProperties = new HashSet<>();
+    private Set<Property> favoriteProperties = new HashSet<>();
     private Address address;
 
     public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
@@ -78,27 +78,27 @@ public class User extends UserObservable {
         this.activated = activated;
     }
 
-    public List<Property> getPropertiesForSale() {
+    public Set<Property> getPropertiesForSale() {
         return propertiesForSale;
     }
 
-    public void setPropertiesForSale(List<Property> properties) {
+    public void setPropertiesForSale(Set<Property> properties) {
         propertiesForSale = properties;
     }
 
-    public List<Property> getPurchasedProperties() {
+    public Set<Property> getPurchasedProperties() {
         return purchasedProperties;
     }
 
-    public void setPurchasedProperties(List<Property> properties) {
+    public void setPurchasedProperties(Set<Property> properties) {
         purchasedProperties = properties;
     }
 
-    public List<Property> getFavoriteProperties() {
+    public Set<Property> getFavoriteProperties() {
         return favoriteProperties;
     }
 
-    public void setFavoriteProperties(List<Property> favoriteProperties) {
+    public void setFavoriteProperties(Set<Property> favoriteProperties) {
         this.favoriteProperties = favoriteProperties;
     }
 

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.web.assemblers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -14,14 +15,14 @@ public class PropertyListViewModelAssembler {
         this.propertyViewModelAssembler = propertyViewModelAssembler;
     }
 
-    public PropertyListViewModel assembleFromPropertyList(List<Property> propertyList) {
+    public PropertyListViewModel assembleFromPropertyCollection(Collection<Property> propertyList) {
         PropertyListViewModel propertyListViewModel = new PropertyListViewModel();
-        List<PropertyViewModel> propertyViewModelList = assemblePropertyViewModelListFromPropertyList(propertyList);
+        List<PropertyViewModel> propertyViewModelList = assemblePropertyViewModelListFromPropertyCollection(propertyList);
         propertyListViewModel.setPropertyViewModels(propertyViewModelList);
         return propertyListViewModel;
     }
 
-    private List<PropertyViewModel> assemblePropertyViewModelListFromPropertyList(List<Property> propertyList) {
+    private List<PropertyViewModel> assemblePropertyViewModelListFromPropertyCollection(Collection<Property> propertyList) {
         List<PropertyViewModel> propertyViewModelList = new ArrayList<>();
         for (Property property : propertyList) {
             propertyViewModelList.add(propertyViewModelAssembler.assemble(property, null));

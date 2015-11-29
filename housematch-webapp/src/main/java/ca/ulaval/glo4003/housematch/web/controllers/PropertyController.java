@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.web.controllers;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -132,7 +133,7 @@ public class PropertyController extends BaseController {
             @RequestParam(value = "sortColumn", defaultValue = "NONE") PropertySortColumn sortColumn,
             @RequestParam(value = "sortOrder", defaultValue = "NONE") SortOrder sortOrder) {
         List<Property> properties = propertyService.getProperties(sortColumn, sortOrder);
-        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyList(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyCollection(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
@@ -151,14 +152,14 @@ public class PropertyController extends BaseController {
     @RequestMapping(value = MOST_POPULAR_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayMostPopularProperties(@RequestParam("propertyType") PropertyType propertyType) {
         List<Property> properties = propertyService.getMostPopularProperties(propertyType, MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT);
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(properties);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(properties);
         return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 
     @RequestMapping(value = FAVORITE_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayFavoriteProperties(HttpSession httpSession) {
-        List<Property> favoriteProperties = userService.getFavoriteProperties(getUserFromHttpSession(httpSession));
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyList(favoriteProperties);
+        Set<Property> favoriteProperties = userService.getFavoriteProperties(getUserFromHttpSession(httpSession));
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(favoriteProperties);
         return new ModelAndView(FAVORITE_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 
