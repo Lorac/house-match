@@ -35,20 +35,20 @@
                             <div class="col-lg-12">
                                 <form class="form-horizontal">
                                     <div class="form-group">
-                                        <label class="col-sm-9 control-label">Number of Active Buyers:</label>
-                                        <div class="col-sm-3">
+                                        <label class="col-sm-10 control-label">Number of Active Buyers:</label>
+                                        <div class="col-sm-2">
                                             <p class="control-label">${statistics.userStatistics.numberOfActiveBuyers}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-9 control-label">Number of Active Sellers:</label>
-                                        <div class="col-sm-3">
+                                        <label class="col-sm-10 control-label">Number of Active Sellers:</label>
+                                        <div class="col-sm-2">
                                             <p class="control-label">${statistics.userStatistics.numberOfActiveSellers}</p>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-9 control-label">Number of Properties Sold This Year:</label>
-                                        <div class="col-sm-3">
+                                        <label class="col-sm-10 control-label">Number of Properties Sold This Year:</label>
+                                        <div class="col-sm-2">
                                             <p class="control-label">${statistics.propertyStatistics.numberOfSoldPropertiesThisYear}</p>
                                         </div>
                                     </div>
