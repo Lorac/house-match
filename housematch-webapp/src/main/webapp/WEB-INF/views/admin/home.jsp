@@ -24,7 +24,6 @@
             Hello <b><sec:authentication property="principal.username" /></b>!
         </p>
         <hr>
-        <br>
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default">
