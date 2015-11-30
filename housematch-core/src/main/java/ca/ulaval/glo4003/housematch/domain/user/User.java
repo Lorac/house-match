@@ -218,8 +218,7 @@ public class User extends UserObservable {
     }
 
     private Boolean isActiveAsBuyer() {
-        return lastLoginDate != null && lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS))
-                && purchasedProperties.size() == 0;
+        return lastLoginDate != null && lastLoginDate.isAfter(ZonedDateTime.now().minusMonths(INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS));
     }
 
     private Boolean isActiveAsSeller() {
