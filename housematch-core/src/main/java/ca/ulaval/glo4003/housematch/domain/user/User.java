@@ -14,7 +14,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
-import ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -201,7 +200,7 @@ public class User extends UserObservable {
 
     public void addPropertyToFavorites(Property property) {
         favoriteProperties.add(property);
-        property.registerObserver(new UserFavoritePropertyObserver(this, new NotificationFactory()));
+        property.registerObserver(new UserFavoritePropertyObserver(this));
     }
 
     public Boolean hasPropertyInFavorites(Property property) {
