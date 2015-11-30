@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.web.utils.DateFormatter;
+import ca.ulaval.glo4003.housematch.utils.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
 
@@ -76,7 +76,7 @@ public class PropertyViewModel extends ViewModel {
     }
 
     public String getCreationDate() {
-        return DateFormatter.parse(creationDate);
+        return DateFormatter.toShortDate(creationDate);
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {

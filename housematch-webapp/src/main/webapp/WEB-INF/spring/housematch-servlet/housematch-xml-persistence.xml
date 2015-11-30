@@ -16,7 +16,7 @@
     </bean>
 
     <bean id="xmlUserAdapter" class="ca.ulaval.glo4003.housematch.persistence.user.XmlUserAdapter">
-        <constructor-arg ref="userFactory" />
+        <constructor-arg ref="persistenceUserFactory" />
         <constructor-arg ref="xmlPropertyRepository" />
     </bean>
 
@@ -34,7 +34,7 @@
     </bean>
 
     <bean id="xmlPropertyAdapter" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyAdapter">
-        <constructor-arg ref="propertyFactory" />
+        <constructor-arg ref="persistencePropertyFactory" />
     </bean>
 
     <!-- Statistics -->

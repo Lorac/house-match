@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-sm-4 menuItem">
                             <a href="<%=UserProfileController.USER_PROFILE_SETTINGS_URL%>"> <span
-                                class="icon glyphicon glyphicon-envelope"></span>
+                                class="icon glyphicon glyphicon-user"></span>
                                 <p class="itemLabel">Edit my profile</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">

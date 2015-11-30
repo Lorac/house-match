@@ -87,6 +87,11 @@ public class Property extends PropertyObservable {
         propertyStatusChanged(this, status);
     }
 
+    public void updatePropertyDetails(PropertyDetails propertyDetails) {
+        this.propertyDetails = propertyDetails;
+        propertyDetailsChanged(this, propertyDetails);
+    }
+
     @Override
     public int hashCode() {
         return Math.abs(address.hashCode());

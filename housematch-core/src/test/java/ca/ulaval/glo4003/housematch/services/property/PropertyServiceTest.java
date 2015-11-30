@@ -26,7 +26,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
 import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
@@ -44,7 +44,7 @@ public class PropertyServiceTest {
 
     private PropertyFactory propertyFactoryMock;
     private PropertyRepository propertyRepositoryMock;
-    private UserService userServiceMock;
+    private UserRepository userRepositoryMock;
     private PropertyStatisticsCollector propertyStatisticsCollectorMock;
     private PropertyStatistics propertyStatisticsMock;
     private PropertyCreationValidator propertyCreationValidatorMock;
@@ -61,14 +61,14 @@ public class PropertyServiceTest {
     public void init() throws Exception {
         initMocks();
         initStubs();
-        propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, propertyStatisticsCollectorMock,
-                propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorterMock, userServiceMock);
+        propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
+                propertyStatisticsCollectorMock, propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorterMock);
     }
 
     private void initMocks() {
         propertyFactoryMock = mock(PropertyFactory.class);
-        userServiceMock = mock(UserService.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
+        userRepositoryMock = mock(UserRepository.class);
         propertyStatisticsCollectorMock = mock(PropertyStatisticsCollector.class);
         propertyStatisticsMock = mock(PropertyStatistics.class);
         userMock = mock(User.class);
@@ -95,7 +95,7 @@ public class PropertyServiceTest {
     @Test
     public void propertyCreationUpdatesTheUserInTheRepositoryUsingTheUserService() throws Exception {
         createProperty();
-        verify(userServiceMock).repositoryUpdate(userMock);
+        verify(userRepositoryMock).update(userMock);
     }
 
     @Test
@@ -124,9 +124,9 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void updatingPropertyDetailsSetsThePropertyDetailsOnThePropertyObject() throws Exception {
+    public void updatingPropertyDetailsUpdatesThePropertyDetailsOnThePropertyObject() throws Exception {
         propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
-        verify(propertyMock).setPropertyDetails(propertyDetailsMock);
+        verify(propertyMock).updatePropertyDetails(propertyDetailsMock);
     }
 
     @Test

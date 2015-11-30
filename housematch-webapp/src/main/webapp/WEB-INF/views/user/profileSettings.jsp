@@ -36,10 +36,24 @@
                                 class="icon glyphicon glyphicon-envelope"></span>
                                 <p class="itemLabel">Update contact information</p></a>
                         </div>
+                        <c:choose>
+                            <c:when test="${sessionScope.user.hasRole('BUYER')}">
+                                <div class="col-sm-4 menuItem">
+                                    <a href="<%=UserProfileController.NOTIFICATION_SETTINGS_URL%>"> <span
+                                        class="icon glyphicon glyphicon-bell"></span>
+                                        <p class="itemLabel">Edit notification settings</p></a>
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                                <div class="col-sm-4 menuItem">
+                                    <span class="icon glyphicon glyphicon-question-sign"></span>
+                                    <p class="itemLabel">Sample menu item</p>
+                                </div>
+                            </c:otherwise>
+                        </c:choose>
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=UserProfileController.NOTIFICATION_SETTINGS_MODIFICATION_URL%>"> <span
-                                class="icon glyphicon glyphicon-envelope"></span>
-                                <p class="itemLabel">Edit notification settings</p></a>
+                            <span class="icon glyphicon glyphicon-question-sign"></span>
+                            <p class="itemLabel">Sample menu item</p>
                         </div>
                     </div>
                 </div>

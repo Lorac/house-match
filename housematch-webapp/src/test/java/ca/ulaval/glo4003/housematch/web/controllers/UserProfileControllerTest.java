@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
-import ca.ulaval.glo4003.housematch.web.controllers.UserProfileController;
+import ca.ulaval.glo4003.housematch.web.converters.NotificationSettingsConverter;
 import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.web.viewmodels.ContactInformationFormViewModel;
@@ -33,13 +33,16 @@ public class UserProfileControllerTest extends BaseControllerTest {
     private static final String SAMPLE_EMAIL = "Potato@gmail.com";
 
     private UserService userServiceMock;
+    private NotificationSettingsConverter notificationSettingsConverterMock;
+
     private UserProfileController userProfileController;
 
     @Before
     public void init() throws Exception {
         super.init();
         userServiceMock = mock(UserService.class);
-        userProfileController = new UserProfileController(userServiceMock);
+        notificationSettingsConverterMock = mock(NotificationSettingsConverter.class);
+        userProfileController = new UserProfileController(userServiceMock, notificationSettingsConverterMock);
         mockMvc = MockMvcBuilders.standaloneSetup(userProfileController).setViewResolvers(viewResolver).build();
     }
 

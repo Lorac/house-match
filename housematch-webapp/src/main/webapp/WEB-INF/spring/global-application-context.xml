@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns="http://www.springframework.org/schema/beans"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
     <import resource="housematch-servlet/housematch-xml-persistence.xml" />
     <import resource="housematch-servlet/housematch-tasks.xml" />
@@ -67,16 +68,50 @@
         <constructor-arg ref="userStatisticsCollector" />
     </bean>
 
+    <bean id="userNotificationObserver" class="ca.ulaval.glo4003.housematch.services.notification.UserNotificationObserver">
+        <constructor-arg ref="notificationService" />
+    </bean>
+
+    <bean id="propertyCreationNotificationObserver" class="ca.ulaval.glo4003.housematch.services.notification.PropertyCreationNotificationObserver">
+        <constructor-arg ref="notificationService" />
+        <constructor-arg ref="notificationFactory" />
+    </bean>
+
     <!-- Factories -->
 
-    <bean id="userFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory">
+    <bean id="domainUserFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory">
         <constructor-arg ref="stringHasher" />
-        <constructor-arg ref="userStatisticsObserver" />
+        <constructor-arg>
+            <util:list>
+                <ref bean="userStatisticsObserver" />
+                <ref bean="userNotificationObserver" />
+            </util:list>
+        </constructor-arg>
     </bean>
 
-    <bean id="propertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory">
-        <constructor-arg ref="propertyStatisticsObserver" />
+    <bean id="persistenceUserFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory">
+        <constructor-arg ref="stringHasher" />
+        <constructor-arg>
+            <util:list />
+        </constructor-arg>
     </bean>
+
+    <bean id="domainPropertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory">
+        <constructor-arg>
+            <util:list>
+                <ref bean="propertyStatisticsObserver" />
+                <ref bean="propertyCreationNotificationObserver" />
+            </util:list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="persistencePropertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory">
+        <constructor-arg>
+            <util:list />
+        </constructor-arg>
+    </bean>
+
+    <bean id="notificationFactory" class="ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory" />
 
     <bean id="statisticFactory" class="ca.ulaval.glo4003.housematch.statistics.StatisticFactory">
         <constructor-arg ref="xmlStatisticsRepository" />
@@ -89,7 +124,7 @@
     <!-- Services -->
 
     <bean id="userService" class="ca.ulaval.glo4003.housematch.services.user.UserService">
-        <constructor-arg ref="userFactory" />
+        <constructor-arg ref="domainUserFactory" />
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="userActivationService" />
         <constructor-arg ref="userStatisticsCollector" />
@@ -103,13 +138,18 @@
     </bean>
 
     <bean id="propertyService" class="ca.ulaval.glo4003.housematch.services.property.PropertyService">
-        <constructor-arg ref="propertyFactory" />
+        <constructor-arg ref="domainPropertyFactory" />
         <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="propertyStatisticsCollector" />
         <constructor-arg ref="propertyCreationValidator" />
         <constructor-arg ref="propertyDetailsValidator" />
         <constructor-arg ref="propertySorter" />
+    </bean>
+
+    <bean id="notificationService" class="ca.ulaval.glo4003.housematch.services.notification.NotificationService">
+        <constructor-arg ref="mailSender" />
+        <constructor-arg ref="xmlUserRepository" />
     </bean>
 
     <!-- Assemblers -->
@@ -123,6 +163,10 @@
     </bean>
 
     <bean id="statisticsViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.StatisticsViewModelAssembler" />
+
+    <!-- Converters -->
+
+    <bean id="notificationSettingsConverter" class="ca.ulaval.glo4003.housematch.web.converters.NotificationSettingsConverter" />
 
     <!-- Controllers -->
 
@@ -149,24 +193,25 @@
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController">
         <constructor-arg ref="userService" />
+        <constructor-arg ref="notificationSettingsConverter" />
     </bean>
-    
+
     <!-- Contexts -->
 
     <bean id="contextLoading" class="ca.ulaval.glo4003.housematch.context.DemoContext" init-method="apply">
-        <constructor-arg ref="userFactory" />
+        <constructor-arg ref="domainUserFactory" />
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="randomPropertyGenerator" />
         <constructor-arg ref="xmlPropertyRepository" />
     </bean>
 
     <!-- Generators -->
-    
+
     <bean id="randomPropertyGenerator" class="ca.ulaval.glo4003.housematch.context.generators.RandomPropertyGenerator">
-        <constructor-arg ref="propertyFactory" />
+        <constructor-arg ref="domainPropertyFactory" />
         <constructor-arg ref="randomAddressGenerator" />
     </bean>
-    
+
     <bean id="randomAddressGenerator" class="ca.ulaval.glo4003.housematch.context.generators.RandomAddressGenerator" />
 
 </beans>

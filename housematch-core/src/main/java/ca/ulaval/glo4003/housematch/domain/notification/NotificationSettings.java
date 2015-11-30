@@ -7,6 +7,12 @@ public class NotificationSettings {
 
     private Map<NotificationType, NotificationInterval> notificationIntervals = new HashMap<>();
 
+    public NotificationSettings() {
+        for (NotificationType notificationType : NotificationType.values()) {
+            notificationIntervals.put(notificationType, NotificationInterval.NEVER);
+        }
+    }
+
     public void setNotificationInterval(NotificationType notificationType, NotificationInterval notificationInterval) {
         notificationIntervals.put(notificationType, notificationInterval);
     }
@@ -20,6 +26,7 @@ public class NotificationSettings {
     }
 
     public Boolean isNotificationTypeEnabled(NotificationType notificationType) {
-        return getNotificationInterval(notificationType) != NotificationInterval.NONE;
+        return getNotificationInterval(notificationType) != NotificationInterval.NEVER;
     }
+
 }

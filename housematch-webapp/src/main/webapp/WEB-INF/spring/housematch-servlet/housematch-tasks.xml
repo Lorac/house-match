@@ -9,9 +9,23 @@
 
     <task:scheduled-tasks scheduler="taskScheduler">
         <task:scheduled ref="userStatusPolicyVerificationTask" method="run" fixed-rate="86400000" initial-delay="5000" />
+        <task:scheduled ref="dailyUserNotificationTask" method="run" fixed-rate="86400000" initial-delay="86400000" />
+        <task:scheduled ref="weeklyUserNotificationTask" method="run" fixed-rate="604800000" initial-delay="604800000" />
     </task:scheduled-tasks>
 
     <bean id="userStatusPolicyVerificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserStatusPolicyVerificationTask">
+        <constructor-arg ref="userService" />
+    </bean>
+
+    <bean id="dailyUserNotificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserNotificationTask">
+        <constructor-arg value="DAILY" />
+        <constructor-arg ref="notificationService" />
+        <constructor-arg ref="userService" />
+    </bean>
+
+    <bean id="weeklyUserNotificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserNotificationTask">
+        <constructor-arg value="WEEKLY" />
+        <constructor-arg ref="notificationService" />
         <constructor-arg ref="userService" />
     </bean>
 
