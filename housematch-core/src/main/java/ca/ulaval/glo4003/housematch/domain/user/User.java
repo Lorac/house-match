@@ -235,7 +235,6 @@ public class User extends UserObservable {
     public void purchaseProperty(Property property) {
         purchasedProperties.add(property);
         property.markAsSold();
-        applyUserStatusPolicy();
     }
 
     public void notify(Notification notification) {

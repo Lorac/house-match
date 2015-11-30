@@ -269,13 +269,6 @@ public class UserTest {
     }
 
     @Test
-    public void applyingUserStatusPolicyWhenBuyerHasPurchasedAPropertySetsTheUserStatusToInactive() {
-        buyer.purchaseProperty(propertyMock);
-        buyer.applyUserStatusPolicy();
-        assertFalse(buyer.isActive());
-    }
-
-    @Test
     public void applyingUserStatusPolicyWhenBuyerHasNeverLoggedInSetsTheUserStatusToInactive() {
         buyer.setLastLoginDate(null);
         buyer.applyUserStatusPolicy();
@@ -320,12 +313,6 @@ public class UserTest {
     public void purchasingAPropertyMarksThePropertyAsSold() {
         buyer.purchaseProperty(propertyMock);
         verify(propertyMock).markAsSold();
-    }
-
-    @Test
-    public void purchasingAPropertyMarksTheUserAsInactive() {
-        buyer.purchaseProperty(propertyMock);
-        assertFalse(buyer.isActive());
     }
 
     @Test
