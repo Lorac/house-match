@@ -19,7 +19,7 @@ public class UserStatisticsCollector {
         numberOfActiveSellers = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_INT_VALUE);
     }
 
-    public void applyUserStatusChangeToActive(User user) {
+    public void processUserStatusChangeToActive(User user) {
         if (user.hasRole(UserRole.BUYER)) {
             adjustNumberOfActiveBuyers(1);
         } else if (user.hasRole(UserRole.SELLER)) {
@@ -27,7 +27,7 @@ public class UserStatisticsCollector {
         }
     }
 
-    public void applyUserStatusChangeToInactive(User user) {
+    public void processUserStatusChangeToInactive(User user) {
         if (user.hasRole(UserRole.BUYER)) {
             adjustNumberOfActiveBuyers(-1);
         } else if (user.hasRole(UserRole.SELLER)) {

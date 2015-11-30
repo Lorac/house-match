@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class PropertyFactory {
 
-    List<PropertyObserver> sharedPropertyObservers;
+    private List<PropertyObserver> sharedPropertyObservers;
 
     public PropertyFactory(final List<PropertyObserver> sharedPropertyObservers) {
         this.sharedPropertyObservers = sharedPropertyObservers;

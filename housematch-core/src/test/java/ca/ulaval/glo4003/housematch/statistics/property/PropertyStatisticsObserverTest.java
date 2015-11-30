@@ -25,13 +25,13 @@ public class PropertyStatisticsObserverTest {
     @Test
     public void newPropertyForSaleStatusChangeFiresTheProperEventOfTheStatisticsCollector() {
         propertyStatisticsObserver.propertyStatusChanged(propertyMock, PropertyStatus.FOR_SALE);
-        verify(propertyStatisticsCollectorMock).applyNewPropertyForSale(propertyMock);
+        verify(propertyStatisticsCollectorMock).processNewPropertyForSale(propertyMock);
     }
 
     @Test
     public void propertySaleStatusChangeFiresTheProperEventOfTheStatisticsCollector() {
         propertyStatisticsObserver.propertyStatusChanged(propertyMock, PropertyStatus.SOLD);
-        verify(propertyStatisticsCollectorMock).applyPropertySale(propertyMock);
+        verify(propertyStatisticsCollectorMock).processPropertySale(propertyMock);
     }
 
 }

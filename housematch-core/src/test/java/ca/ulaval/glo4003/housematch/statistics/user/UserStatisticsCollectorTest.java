@@ -56,30 +56,30 @@ public class UserStatisticsCollectorTest {
     }
 
     @Test
-    public void applyingBuyerStatusChangeToActiveIncrementsTheNumberOfActiveBuyers() {
+    public void processingBuyerStatusChangeToActiveIncrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToActive(userMock);
+        userStatisticsCollector.processUserStatusChangeToActive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS + 1);
     }
 
     @Test
-    public void applyingSellerStatusChangeToActiveIncrementsTheNumberOfActiveSellers() {
+    public void processingSellerStatusChangeToActiveIncrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToActive(userMock);
+        userStatisticsCollector.processUserStatusChangeToActive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS + 1);
     }
 
     @Test
-    public void applyingBuyerStatusChangeToInactiveDecrementsTheNumberOfActiveBuyers() {
+    public void processingBuyerStatusChangeToInactiveDecrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToInactive(userMock);
+        userStatisticsCollector.processUserStatusChangeToInactive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS - 1);
     }
 
     @Test
-    public void applyingSellerStatusChangeToInactiveDecrementsTheNumberOfActiveSellers() {
+    public void processingSellerStatusChangeToInactiveDecrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToInactive(userMock);
+        userStatisticsCollector.processUserStatusChangeToInactive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS - 1);
     }
 

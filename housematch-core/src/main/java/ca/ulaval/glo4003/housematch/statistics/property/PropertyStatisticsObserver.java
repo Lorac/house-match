@@ -17,10 +17,10 @@ public class PropertyStatisticsObserver implements PropertyObserver {
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
         switch (newStatus) {
         case FOR_SALE:
-            propertyStatisticsCollector.applyNewPropertyForSale(property);
+            propertyStatisticsCollector.processNewPropertyForSale(property);
             break;
         case SOLD:
-            propertyStatisticsCollector.applyPropertySale(property);
+            propertyStatisticsCollector.processPropertySale(property);
             break;
         default:
         }

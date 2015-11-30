@@ -71,13 +71,19 @@ public class PropertyService {
         }
     }
 
+    public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
+        List<Property> properties = propertyRepository.getAll();
+        return propertySorter.sort(properties, sortColumn, sortOrder);
+    }
+
     public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
-    public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
-        List<Property> properties = propertyRepository.getAll();
-        return propertySorter.sort(properties, sortColumn, sortOrder);
+    public List<Property> getMostPopularProperties(PropertyType propertyType, Integer limit) {
+        List<Property> properties = propertyRepository.getByType(propertyType);
+        propertySorter.sort(properties, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
+        return properties.stream().limit(limit).collect(Collectors.toList());
     }
 
     public void incrementPropertyViewCount(Property property) {
@@ -89,9 +95,4 @@ public class PropertyService {
         return propertyStatisticsCollector.getStatistics();
     }
 
-    public List<Property> getMostPopularProperties(PropertyType propertyType, Integer limit) {
-        List<Property> properties = propertyRepository.getByType(propertyType);
-        propertySorter.sort(properties, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
-        return properties.stream().limit(limit).collect(Collectors.toList());
-    }
 }

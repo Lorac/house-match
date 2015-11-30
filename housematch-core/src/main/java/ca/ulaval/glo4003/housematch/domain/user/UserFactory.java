@@ -6,8 +6,8 @@ import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class UserFactory {
 
-    StringHasher stringHasher;
-    List<UserObserver> sharedUserObservers;
+    private StringHasher stringHasher;
+    private List<UserObserver> sharedUserObservers;
 
     public UserFactory(final StringHasher stringHasher, final List<UserObserver> sharedUserObservers) {
         this.stringHasher = stringHasher;

@@ -7,13 +7,13 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyObserver;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 
-public class PropertyCreationNotificationObserver implements PropertyObserver {
+public class PropertyCreationObserver implements PropertyObserver {
 
     private static final String PROPERTY_CREATION_EVENT_DESCRIPTION = "A new property has been put up for sale: %s.";
 
     private NotificationService notificationService;
 
-    public PropertyCreationNotificationObserver(final NotificationService notificationService) {
+    public PropertyCreationObserver(final NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 

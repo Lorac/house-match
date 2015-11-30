@@ -25,13 +25,13 @@ public class UserStatisticsObserverTest {
     @Test
     public void userStatusChangeToActiveFiresTheProperEventOfTheStatisticsCollector() {
         userStatisticsObserver.userStatusChanged(userMock, UserStatus.ACTIVE);
-        verify(userStatisticsCollectorMock).applyUserStatusChangeToActive(userMock);
+        verify(userStatisticsCollectorMock).processUserStatusChangeToActive(userMock);
     }
 
     @Test
     public void userStatusChangeToInactiveFiresTheProperEventOfTheStatisticsCollector() {
         userStatisticsObserver.userStatusChanged(userMock, UserStatus.INACTIVE);
-        verify(userStatisticsCollectorMock).applyUserStatusChangeToInactive(userMock);
+        verify(userStatisticsCollectorMock).processUserStatusChangeToInactive(userMock);
     }
 
 }

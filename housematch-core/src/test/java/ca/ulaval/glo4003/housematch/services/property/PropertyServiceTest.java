@@ -93,7 +93,7 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void propertyCreationUpdatesTheUserInTheRepositoryUsingTheUserService() throws Exception {
+    public void propertyCreationUpdatesTheUserInTheRepository() throws Exception {
         createProperty();
         verify(userRepositoryMock).update(userMock);
     }

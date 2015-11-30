@@ -9,6 +9,8 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 
 public class UserFavoritePropertyObserver implements PropertyObserver {
 
+    private static final String FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION = "The details of a property you favorited (%s) have changed.";
+
     private User user;
 
     public UserFavoritePropertyObserver(final User user) {
@@ -26,7 +28,7 @@ public class UserFavoritePropertyObserver implements PropertyObserver {
     }
 
     private void notifyUser(Property property) {
-        String eventDescription = String.format("The details of a property you favorited (%s) have changed.", property.toString());
+        String eventDescription = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
         Notification notification = new Notification(NotificationType.FAVORITE_PROPERTY_MODIFICATION, eventDescription);
         user.notify(notification);
     }
