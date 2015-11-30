@@ -1,14 +1,19 @@
 package ca.ulaval.glo4003.housematch.utils;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public abstract class Observable<ObserverType> {
 
-    protected List<ObserverType> observers = new ArrayList<>();
+    protected Set<ObserverType> observers = new HashSet<>();
 
     public void registerObserver(ObserverType observer) {
         observers.add(observer);
+    }
+
+    public void registerObservers(List<ObserverType> observers) {
+        this.observers.addAll(observers);
     }
 
     public void unregisterObserver(ObserverType observer) {

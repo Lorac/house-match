@@ -8,6 +8,8 @@ import java.util.stream.Collectors;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
@@ -25,6 +27,8 @@ import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidationEx
 import ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator;
 
 public class UserService {
+
+    private static final String PROPERTY_CREATION_EVENT_DESCRIPTION = "A new property has been put up for sale: '%s'.";
 
     private UserFactory userFactory;
     private UserRepository userRepository;
@@ -54,6 +58,10 @@ public class UserService {
         }
     }
 
+    public List<User> getUsers() {
+        return userRepository.getAll();
+    }
+
     public void registerUser(String username, String email, String password, UserRole role) throws UserServiceException {
         try {
             userRegistrationValidator.validateUserRegistration(username, email, password, role);
@@ -79,7 +87,7 @@ public class UserService {
             addressValidator.validateAddress(address);
             user.setAddress(address);
             updateUserEmail(user, email);
-            userRepository.update(user);
+            repositoryUpdate(user);
         } catch (UserActivationServiceException | AddressValidationException e) {
             throw new UserServiceException(e);
         }
@@ -106,10 +114,22 @@ public class UserService {
 
     public void addFavoritePropertyToUser(User user, Property property) {
         user.addPropertyToFavorites(property);
+        repositoryUpdate(user);
+    }
+
+    public Set<Property> getFavoritePropertiesForSale(User user) {
+        return user.getFavoriteProperties().stream().filter(p -> p.isForSale()).collect(Collectors.toSet());
+    }
+
+    public void repositoryUpdate(User user) {
         userRepository.update(user);
     }
 
-    public Set<Property> getFavoriteProperties(User user) {
-        return user.getFavoriteProperties();
+    public void notifyPropertyCreation(Property property) {
+        String eventDescription = String.format(PROPERTY_CREATION_EVENT_DESCRIPTION, property.toString());
+        Notification notification = new Notification(NotificationType.NEW_PROPERTY_FOR_SALE, eventDescription);
+
+        List<User> users = userRepository.getAll();
+        users.stream().forEach(user -> user.notify(notification));
     }
 }

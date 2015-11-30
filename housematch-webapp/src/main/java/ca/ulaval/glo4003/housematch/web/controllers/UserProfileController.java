@@ -15,9 +15,13 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.ContactInformationFormViewMod
 @Controller
 public class UserProfileController extends BaseController {
 
+    public static final String USER_PROFILE_SETTINGS_URL = "/user/profileSettings";
     public static final String CONTACT_INFO_UPDATE_URL = "/user/updateContactInformation";
+    public static final String NOTIFICATION_SETTINGS_MODIFICATION_URL = "/user/editNotificationSettings";
+    static final String USER_PROFILE_SETTINGS_VIEW_NAME = "user/profileSettings";
     static final String CONTACT_INFO_UPDATE_VIEW_NAME = "user/contactInformationUpdate";
     static final String CONTACT_INFO_UPDATE_CONFIRMATION_VIEW_NAME = "user/contactInformationUpdateConfirmation";
+    static final String NOTIFICATION_SETTINGS_MODIFICATION_VIEW_NAME = "user/notificationSettingsModification";
 
     @Inject
     private UserService userService;
@@ -28,6 +32,11 @@ public class UserProfileController extends BaseController {
 
     public UserProfileController(final UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping(value = USER_PROFILE_SETTINGS_URL, method = RequestMethod.GET)
+    public final ModelAndView displayUserProfileSettingsView() {
+        return new ModelAndView(USER_PROFILE_SETTINGS_VIEW_NAME);
     }
 
     @RequestMapping(value = CONTACT_INFO_UPDATE_URL, method = RequestMethod.GET)

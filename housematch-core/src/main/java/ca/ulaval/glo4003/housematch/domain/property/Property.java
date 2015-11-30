@@ -1,10 +1,11 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+
+import org.apache.commons.lang3.builder.EqualsBuilder;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class Property extends PropertyObservable {
 
@@ -102,5 +103,10 @@ public class Property extends PropertyObservable {
 
         Property property = (Property) obj;
         return new EqualsBuilder().append(address, property.address).isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return address.toString();
     }
 }

@@ -16,7 +16,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
+import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
 import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatisticsCollector;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
@@ -28,23 +28,22 @@ public class PropertyService {
 
     private PropertyFactory propertyFactory;
     private PropertyRepository propertyRepository;
-    private UserRepository userRepository;
+    private UserService userService;
     private PropertyCreationValidator propertyCreationValidator;
     private PropertyDetailsValidator propertyDetailsValidator;
     private PropertySorter propertySorter;
     private PropertyStatisticsCollector propertyStatisticsCollector;
 
     public PropertyService(final PropertyFactory propertyFactory, final PropertyRepository propertyRepository,
-            final UserRepository userRepository, final PropertyStatisticsCollector propertyStatisticsCollector,
-            final PropertyCreationValidator propertyCreationValidator, final PropertyDetailsValidator propertyDetailsValidator,
-            final PropertySorter propertySorter) {
+            final PropertyStatisticsCollector propertyStatisticsCollector, final PropertyCreationValidator propertyCreationValidator,
+            final PropertyDetailsValidator propertyDetailsValidator, final PropertySorter propertySorter, final UserService userService) {
         this.propertyFactory = propertyFactory;
         this.propertyRepository = propertyRepository;
-        this.userRepository = userRepository;
         this.propertyStatisticsCollector = propertyStatisticsCollector;
         this.propertyCreationValidator = propertyCreationValidator;
         this.propertyDetailsValidator = propertyDetailsValidator;
         this.propertySorter = propertySorter;
+        this.userService = userService;
     }
 
     public Property createProperty(PropertyType propertyType, Address address, BigDecimal sellingPrice, User user)
@@ -54,7 +53,8 @@ public class PropertyService {
             Property property = propertyFactory.createProperty(propertyType, address, sellingPrice);
             propertyRepository.persist(property);
             user.addPropertyForSale(property);
-            userRepository.update(user);
+            userService.notifyPropertyCreation(property);
+            userService.repositoryUpdate(user);
             return property;
         } catch (PropertyCreationValidationException | PropertyAlreadyExistsException e) {
             throw new PropertyServiceException(e);
@@ -75,6 +75,11 @@ public class PropertyService {
         return propertyRepository.getByHashCode(propertyHashCode);
     }
 
+    public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
+        List<Property> properties = propertyRepository.getAll();
+        return propertySorter.sort(properties, sortColumn, sortOrder);
+    }
+
     public void incrementPropertyViewCount(Property property) {
         property.incrementViewCount();
         propertyRepository.update(property);
@@ -82,11 +87,6 @@ public class PropertyService {
 
     public PropertyStatistics getStatistics() {
         return propertyStatisticsCollector.getStatistics();
-    }
-
-    public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
-        List<Property> properties = propertyRepository.getAll();
-        return propertySorter.sort(properties, sortColumn, sortOrder);
     }
 
     public List<Property> getMostPopularProperties(PropertyType propertyType, Integer limit) {

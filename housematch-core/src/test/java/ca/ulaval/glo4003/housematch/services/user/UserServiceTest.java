@@ -1,7 +1,10 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -12,7 +15,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -48,16 +53,17 @@ public class UserServiceTest {
     private UserActivationService userActivationServiceMock;
     private AddressValidator addressValidatorMock;
     private Address addressMock;
-
     private User userMock;
     private Property propertyMock;
 
     private UserService userService;
+    private Set<Property> propertyList = new HashSet<Property>();
 
     @Before
     public void init() throws Exception {
         initMocks();
         initStubs();
+        propertyList.add(propertyMock);
         userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userStatisticsCollectorMock,
                 userRegistrationValidatorMock, addressValidatorMock);
     }
@@ -78,6 +84,7 @@ public class UserServiceTest {
     private void initStubs() throws UserNotFoundException {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+        when(userMock.getFavoriteProperties()).thenReturn(propertyList);
     }
 
     @Test
@@ -236,9 +243,23 @@ public class UserServiceTest {
     }
 
     @Test
-    public void gettingFavoritePropertiesRetrievesFavoritePropertiesFromUser() {
-        userService.getFavoriteProperties(userMock);
+    public void gettingFavoritePropertiesForSaleRetrievesFavoritePropertiesFromUser() {
+        userService.getFavoritePropertiesForSale(userMock);
         verify(userMock).getFavoriteProperties();
+    }
+
+    @Test
+    public void gettingFavoritePropertiesForSaleReturnsAPropertyWhenItIsForSale() {
+        when(propertyMock.isForSale()).thenReturn(true);
+        Set<Property> returnedProperties = userService.getFavoritePropertiesForSale(userMock);
+        assertThat(returnedProperties, hasItem(propertyMock));
+    }
+
+    @Test
+    public void gettingFavoritePropertiesForSaleDoesReturnsAPropertyWhenItIsNotForSale() {
+        when(propertyMock.isForSale()).thenReturn(false);
+        Set<Property> returnedProperties = userService.getFavoritePropertiesForSale(userMock);
+        assertThat(returnedProperties, not(hasItem(propertyMock)));
     }
 
     private void registerUser() throws UserServiceException {

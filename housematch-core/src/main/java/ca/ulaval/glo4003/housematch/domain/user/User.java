@@ -2,13 +2,20 @@ package ca.ulaval.glo4003.housematch.domain.user;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
@@ -28,6 +35,8 @@ public class User extends UserObservable {
     private Set<Property> propertiesForSale = new HashSet<>();
     private Set<Property> purchasedProperties = new HashSet<>();
     private Set<Property> favoriteProperties = new HashSet<>();
+    private Map<NotificationType, Queue<Notification>> notificationsQueues = new ConcurrentHashMap<>();
+    private NotificationSettings notificationSettings;
     private Address address;
 
     public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
@@ -36,6 +45,13 @@ public class User extends UserObservable {
         this.email = email;
         this.passwordHash = stringHasher.hash(password);
         this.role = role;
+        initNotificationQueues();
+    }
+
+    private void initNotificationQueues() {
+        for (NotificationType notificationType : NotificationType.values()) {
+            notificationsQueues.put(notificationType, new ConcurrentLinkedQueue<>());
+        }
     }
 
     public String getUsername() {
@@ -102,6 +118,26 @@ public class User extends UserObservable {
         this.favoriteProperties = favoriteProperties;
     }
 
+    public NotificationSettings getNotificationSettings() {
+        return notificationSettings;
+    }
+
+    public void setNotificationSettings(NotificationSettings notificationSettings) {
+        this.notificationSettings = notificationSettings;
+    }
+
+    public Map<NotificationType, Queue<Notification>> getNotificationQueues() {
+        return notificationsQueues;
+    }
+
+    public void setNotificationQueues(Map<NotificationType, Queue<Notification>> queuedNotifications) {
+        this.notificationsQueues = queuedNotifications;
+    }
+
+    public Queue<Notification> getNotificationQueue(NotificationType notificationType) {
+        return notificationsQueues.get(notificationType);
+    }
+
     public boolean isActive() {
         return status == UserStatus.ACTIVE;
     }
@@ -164,6 +200,7 @@ public class User extends UserObservable {
 
     public void addPropertyToFavorites(Property property) {
         favoriteProperties.add(property);
+        property.registerObserver(new UserFavoritePropertyObserver(this));
     }
 
     public Boolean hasPropertyInFavorites(Property property) {
@@ -200,6 +237,14 @@ public class User extends UserObservable {
         purchasedProperties.add(property);
         property.markAsSold();
         applyUserStatusPolicy();
+    }
+
+    public void notify(Notification notification) {
+        if (!notificationSettings.isNotificationTypeEnabled(notification.getNotificationType())) {
+            return;
+        }
+        notificationsQueues.get(notification.getNotificationType()).add(notification);
+        userNotificationQueued(this, notification);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.statistics.property;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyObserver;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 
@@ -23,6 +24,11 @@ public class PropertyStatisticsObserver implements PropertyObserver {
             break;
         default:
         }
+    }
+
+    @Override
+    public void propertyDetailsChanged(Property property, PropertyDetails newPropertyDetails) {
+        // Event intentionally ignored.
     }
 
 }

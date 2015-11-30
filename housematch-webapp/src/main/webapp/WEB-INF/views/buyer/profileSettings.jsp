@@ -32,19 +32,14 @@
                 <div class="profileMenu">
                     <div class="row">
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=UserProfileController.USER_PROFILE_SETTINGS_URL%>"> <span
+                            <a href="<%=UserProfileController.CONTACT_INFO_UPDATE_URL%>"> <span
                                 class="icon glyphicon glyphicon-envelope"></span>
-                                <p class="itemLabel">Edit my profile</p></a>
+                                <p class="itemLabel">Update contact information</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=PropertyController.PROPERTY_SEARCH_URL%>"><span class="icon glyphicon glyphicon-search"></span>
-                                <p class="itemLabel">Search properties for sale</p></a>
-                        </div>
-                        <div class="col-sm-4 menuItem">
-                            <a href="<%=PropertyController.FAVORITE_PROPERTIES_VIEW_URL%>">
-                                <span class="icon glyphicon glyphicon-star"></span>
-                                <p class="itemLabel">My favorite properties</p>
-                            </a>
+                            <a href="<%=UserProfileController.NOTIFICATION_SETTINGS_MODIFICATION_URL%>"> <span
+                                class="icon glyphicon glyphicon-envelope"></span>
+                                <p class="itemLabel">Edit notification settings</p></a>
                         </div>
                     </div>
                 </div>
