@@ -9,17 +9,17 @@ public class NotificationSettingsConverter {
     public NotificationSettingsFormViewModel convert(NotificationSettings notificationSettings) {
         NotificationSettingsFormViewModel viewModel = new NotificationSettingsFormViewModel();
         viewModel.setPropertyAddedForSaleNotificationInterval(
-                notificationSettings.getNotificationInterval(NotificationType.PROPERTY_ADDED_FOR_SALE));
+                notificationSettings.getNotificationInterval(NotificationType.PROPERTY_PUT_UP_FOR_SALE));
         viewModel.setFavoritePropertyModificationNotificationInterval(
-                notificationSettings.getNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFICATION));
+                notificationSettings.getNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFIED));
         return viewModel;
     }
 
     public NotificationSettings convert(NotificationSettingsFormViewModel viewModel) {
         NotificationSettings notificationSettings = new NotificationSettings();
-        notificationSettings.setNotificationInterval(NotificationType.PROPERTY_ADDED_FOR_SALE,
+        notificationSettings.setNotificationInterval(NotificationType.PROPERTY_PUT_UP_FOR_SALE,
                 viewModel.getPropertyAddedForSaleNotificationInterval());
-        notificationSettings.setNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFICATION,
+        notificationSettings.setNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFIED,
                 viewModel.getFavoritePropertyModificationNotificationInterval());
         return notificationSettings;
     }

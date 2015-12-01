@@ -72,7 +72,7 @@
         <constructor-arg ref="notificationService" />
     </bean>
 
-    <bean id="propertyCreationObserver" class="ca.ulaval.glo4003.housematch.services.notification.PropertyCreationObserver">
+    <bean id="propertyNotificationObserver" class="ca.ulaval.glo4003.housematch.services.notification.PropertyNotificationObserver">
         <constructor-arg ref="notificationService" />
     </bean>
 
@@ -99,7 +99,7 @@
         <constructor-arg>
             <util:list>
                 <ref bean="propertyStatisticsObserver" />
-                <ref bean="propertyCreationObserver" />
+                <ref bean="propertyNotificationObserver" />
             </util:list>
         </constructor-arg>
     </bean>

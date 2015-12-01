@@ -29,7 +29,7 @@ public class UserFavoritePropertyObserver implements PropertyObserver {
 
     private void notifyUser(Property property) {
         String eventDescription = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
-        Notification notification = new Notification(NotificationType.FAVORITE_PROPERTY_MODIFICATION, eventDescription);
+        Notification notification = new Notification(NotificationType.FAVORITE_PROPERTY_MODIFIED, eventDescription);
         user.notify(notification);
     }
 

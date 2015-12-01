@@ -7,27 +7,27 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyObserver;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 
-public class PropertyCreationObserver implements PropertyObserver {
+public class PropertyNotificationObserver implements PropertyObserver {
 
-    private static final String PROPERTY_CREATION_EVENT_DESCRIPTION = "A new property has been put up for sale: %s.";
+    private static final String PROPERTY_PUT_UP_FOR_SALE_EVENT_DESCRIPTION = "A new property has been put up for sale: %s.";
 
     private NotificationService notificationService;
 
-    public PropertyCreationObserver(final NotificationService notificationService) {
+    public PropertyNotificationObserver(final NotificationService notificationService) {
         this.notificationService = notificationService;
     }
 
     @Override
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
         if (newStatus == PropertyStatus.FOR_SALE) {
-            Notification notification = createPropertyAddedForSaleNotification(property);
+            Notification notification = createPropertyPutUpForSaleNotification(property);
             notificationService.notifyAllUsers(notification);
         }
     }
 
-    private Notification createPropertyAddedForSaleNotification(Property property) {
-        String eventDescription = String.format(PROPERTY_CREATION_EVENT_DESCRIPTION, property.toString());
-        return new Notification(NotificationType.PROPERTY_ADDED_FOR_SALE, eventDescription);
+    private Notification createPropertyPutUpForSaleNotification(Property property) {
+        String eventDescription = String.format(PROPERTY_PUT_UP_FOR_SALE_EVENT_DESCRIPTION, property.toString());
+        return new Notification(NotificationType.PROPERTY_PUT_UP_FOR_SALE, eventDescription);
     }
 
     @Override
