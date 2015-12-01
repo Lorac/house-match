@@ -41,10 +41,10 @@
                     <div class="form-group">
                         <label class="control-label col-sm-6">A new property has been put up for sale:</label>
                         <div class="col-sm-6">
-                            <form:select path="propertyAddedForSaleNotificationInterval" class="form-control" tabindex="1">
+                            <form:select path="propertyPutUpForSaleNotificationInterval" class="form-control" tabindex="1">
                                 <c:forEach var="notificationInterval" items="${notificationIntervals}">
                                     <option value="${notificationInterval}"
-                                        ${notificationInterval == notificationSettingsForm.propertyAddedForSaleNotificationInterval ? 'selected' : ''}>${notificationInterval.displayName}</option>
+                                        ${notificationInterval == notificationSettingsForm.propertyPutUpForSaleNotificationInterval ? 'selected' : ''}>${notificationInterval.displayName}</option>
                                 </c:forEach>
                             </form:select>
                         </div>

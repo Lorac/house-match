@@ -5,7 +5,7 @@ import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
 public class NotificationSettingsFormViewModel extends ViewModel {
     public static final String NAME = "notificationSettingsForm";
 
-    private NotificationInterval propertyAddedForSaleNotificationInterval;
+    private NotificationInterval propertyPutUpForSaleNotificationInterval;
     private NotificationInterval favoritePropertyModificationNotificationInterval;
 
     @Override
@@ -13,12 +13,12 @@ public class NotificationSettingsFormViewModel extends ViewModel {
         return NAME;
     }
 
-    public NotificationInterval getPropertyAddedForSaleNotificationInterval() {
-        return propertyAddedForSaleNotificationInterval;
+    public NotificationInterval getPropertyPutUpForSaleNotificationInterval() {
+        return propertyPutUpForSaleNotificationInterval;
     }
 
-    public void setPropertyAddedForSaleNotificationInterval(NotificationInterval propertyAddedForSaleNotificationInterval) {
-        this.propertyAddedForSaleNotificationInterval = propertyAddedForSaleNotificationInterval;
+    public void setPropertyPutUpForSaleNotificationInterval(NotificationInterval propertyAddedForSaleNotificationInterval) {
+        this.propertyPutUpForSaleNotificationInterval = propertyAddedForSaleNotificationInterval;
     }
 
     public NotificationInterval getFavoritePropertyModificationNotificationInterval() {

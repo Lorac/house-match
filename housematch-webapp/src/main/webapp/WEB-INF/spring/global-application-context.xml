@@ -74,6 +74,7 @@
 
     <bean id="propertyNotificationObserver" class="ca.ulaval.glo4003.housematch.services.notification.PropertyNotificationObserver">
         <constructor-arg ref="notificationService" />
+        <constructor-arg ref="notificationFactory" />
     </bean>
 
     <!-- Factories -->
@@ -113,6 +114,8 @@
     <bean id="statisticFactory" class="ca.ulaval.glo4003.housematch.statistics.StatisticFactory">
         <constructor-arg ref="xmlStatisticsRepository" />
     </bean>
+
+    <bean id="notificationFactory" class="ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory" />
 
     <!-- Sorters -->
 
