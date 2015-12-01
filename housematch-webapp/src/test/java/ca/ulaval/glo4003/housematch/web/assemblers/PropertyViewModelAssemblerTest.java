@@ -64,7 +64,7 @@ public class PropertyViewModelAssemblerTest {
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
         assertEquals(propertyMock.hashCode(), viewModel.getHashCode());
         assertEquals(SAMPLE_VIEW_COUNT, viewModel.getViewCount());
-        assertEquals(SAMPLE_BOOLEAN, viewModel.isPropertyAddedToFavorites());
+        assertEquals(SAMPLE_BOOLEAN, viewModel.isPropertyFavorited());
     }
 
 }

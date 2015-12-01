@@ -24,7 +24,7 @@ public class PropertyViewModel extends ViewModel {
     private int hashCode;
     private ZonedDateTime creationDate;
     private Integer viewCount;
-    private Boolean propertyAddedToFavorites;
+    private Boolean propertyFavorited;
 
     public PropertyViewModel() {
 
@@ -91,12 +91,12 @@ public class PropertyViewModel extends ViewModel {
         this.viewCount = viewCount;
     }
 
-    public Boolean isPropertyAddedToFavorites() {
-        return propertyAddedToFavorites;
+    public Boolean isPropertyFavorited() {
+        return propertyFavorited;
     }
 
-    public void setPropertyAddedToFavorites(Boolean propertyAddedToFavorites) {
-        this.propertyAddedToFavorites = propertyAddedToFavorites;
+    public void setPropertyFavorited(Boolean propertyFavorited) {
+        this.propertyFavorited = propertyFavorited;
     }
 
 }
