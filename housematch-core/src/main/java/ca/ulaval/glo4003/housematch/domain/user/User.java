@@ -130,8 +130,8 @@ public class User extends UserObservable {
         return notificationsQueues;
     }
 
-    public void setNotificationQueues(Map<NotificationType, Queue<Notification>> queuedNotifications) {
-        this.notificationsQueues = queuedNotifications;
+    public void setNotificationQueues(Map<NotificationType, Queue<Notification>> notificationsQueues) {
+        this.notificationsQueues = notificationsQueues;
     }
 
     public Queue<Notification> getNotificationQueue(NotificationType notificationType) {
@@ -238,10 +238,10 @@ public class User extends UserObservable {
     }
 
     public void notify(Notification notification) {
-        if (!notificationSettings.isNotificationTypeEnabled(notification.getNotificationType())) {
+        if (!notificationSettings.isNotificationTypeEnabled(notification.getType())) {
             return;
         }
-        notificationsQueues.get(notification.getNotificationType()).add(notification);
+        notificationsQueues.get(notification.getType()).add(notification);
         userNotificationQueued(this, notification);
     }
 

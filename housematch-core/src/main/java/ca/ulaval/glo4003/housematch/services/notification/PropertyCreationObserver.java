@@ -20,12 +20,12 @@ public class PropertyCreationObserver implements PropertyObserver {
     @Override
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
         if (newStatus == PropertyStatus.FOR_SALE) {
-            Notification notification = createPropertAddedForSaleNotification(property);
+            Notification notification = createPropertyAddedForSaleNotification(property);
             notificationService.notifyAllUsers(notification);
         }
     }
 
-    private Notification createPropertAddedForSaleNotification(Property property) {
+    private Notification createPropertyAddedForSaleNotification(Property property) {
         String eventDescription = String.format(PROPERTY_CREATION_EVENT_DESCRIPTION, property.toString());
         return new Notification(NotificationType.PROPERTY_ADDED_FOR_SALE, eventDescription);
     }

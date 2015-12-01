@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.services.notification;
 
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserObserver;
 import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
@@ -20,7 +21,9 @@ public class UserNotificationObserver implements UserObserver {
 
     @Override
     public void userNotificationQueued(User user, Notification notification) {
-        notificationService.processNotifications(user, notification.getNotificationType());
+        if (user.getNotificationSettings().notificationIntervalEquals(notification.getType(), NotificationInterval.IMMEDIATELY)) {
+            notificationService.processNotifications(user, notification.getType());
+        }
     }
 
 }

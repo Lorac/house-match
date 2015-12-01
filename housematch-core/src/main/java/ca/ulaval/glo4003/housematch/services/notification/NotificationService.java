@@ -23,14 +23,13 @@ public class NotificationService {
 
     public void processNotifications(User user, NotificationType notificationType) {
         Queue<Notification> notificationQueue = user.getNotificationQueue(notificationType);
-        processNotificationQueue(user, notificationQueue);
+        while (!notificationQueue.isEmpty()) {
+            processNotification(notificationQueue.remove(), user);
+        }
     }
 
-    private void processNotificationQueue(User user, Queue<Notification> notificationQueue) {
-        while (!notificationQueue.isEmpty()) {
-            Notification notification = notificationQueue.remove();
-            mailSender.sendAsync(NOTIFICATION_EMAIL_SUBJECT, notification.toString(), user.getEmail());
-        }
+    private void processNotification(Notification notification, User user) {
+        mailSender.sendAsync(NOTIFICATION_EMAIL_SUBJECT, notification.toString(), user.getEmail());
     }
 
     public void notifyAllUsers(Notification notification) {
