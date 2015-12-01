@@ -51,7 +51,7 @@ public class PropertyViewModelAssemblerTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
         when(propertyMock.getViewCount()).thenReturn(SAMPLE_VIEW_COUNT);
-        when(userMock.hasPropertyInFavorites(propertyMock)).thenReturn(SAMPLE_BOOLEAN);
+        when(userMock.isPropertyFavorited(propertyMock)).thenReturn(SAMPLE_BOOLEAN);
     }
 
     @Test

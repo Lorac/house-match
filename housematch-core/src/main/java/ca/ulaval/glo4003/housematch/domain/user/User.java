@@ -203,7 +203,7 @@ public class User extends UserObservable {
         property.registerObserver(new UserFavoritePropertyObserver(this));
     }
 
-    public Boolean hasPropertyInFavorites(Property property) {
+    public Boolean isPropertyFavorited(Property property) {
         return favoriteProperties.contains(property);
     }
 

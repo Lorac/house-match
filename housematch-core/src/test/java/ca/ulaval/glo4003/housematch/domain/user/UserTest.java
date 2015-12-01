@@ -324,6 +324,6 @@ public class UserTest {
     @Test
     public void addingPropertyToFavoriteAddsThePropertyToFavorites() {
         user.addPropertyToFavorites(propertyMock);
-        assertTrue(user.hasPropertyInFavorites(propertyMock));
+        assertTrue(user.isPropertyFavorited(propertyMock));
     }
 }

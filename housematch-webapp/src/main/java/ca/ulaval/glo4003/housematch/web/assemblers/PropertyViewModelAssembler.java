@@ -16,7 +16,7 @@ public class PropertyViewModelAssembler {
         viewModel.setCreationDate(property.getCreationDate());
         viewModel.setViewCount(property.getViewCount());
         if (user != null) {
-            viewModel.setPropertyAddedToFavorites(user.hasPropertyInFavorites(property));
+            viewModel.setPropertyAddedToFavorites(user.isPropertyFavorited(property));
         }
         return viewModel;
     }
