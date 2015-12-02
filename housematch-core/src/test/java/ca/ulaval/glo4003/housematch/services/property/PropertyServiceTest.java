@@ -29,11 +29,12 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidationException;
 import ca.ulaval.glo4003.housematch.validators.property.PropertyCreationValidator;
-import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidationException;
-import ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyUpdateValidationException;
+import ca.ulaval.glo4003.housematch.validators.property.PropertyUpdateValidator;
 
 public class PropertyServiceTest {
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(5541);
+    private static final BigDecimal ANOTHER_SAMPLE_SELLING_PRICE = BigDecimal.valueOf(123);
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
     private static final PropertySortColumn SAMPLE_PROPERTY_SORT_COLUMN = PropertySortColumn.SELLING_PRICE;
     private static final SortOrder SAMPLE_SORT_ORDER = SortOrder.ASCENDING;
@@ -44,7 +45,7 @@ public class PropertyServiceTest {
     private PropertyRepository propertyRepositoryMock;
     private UserRepository userRepositoryMock;
     private PropertyCreationValidator propertyCreationValidatorMock;
-    private PropertyDetailsValidator propertyDetailsValidatorMock;
+    private PropertyUpdateValidator propertyUpdateValidatorMock;
     private User userMock;
     private Address addressMock;
     private Property propertyMock;
@@ -58,7 +59,7 @@ public class PropertyServiceTest {
         initMocks();
         initStubs();
         propertyService = new PropertyService(propertyFactoryMock, propertyRepositoryMock, userRepositoryMock,
-                propertyCreationValidatorMock, propertyDetailsValidatorMock, propertySorterMock);
+                propertyCreationValidatorMock, propertyUpdateValidatorMock, propertySorterMock);
     }
 
     private void initMocks() {
@@ -68,7 +69,7 @@ public class PropertyServiceTest {
         userMock = mock(User.class);
         addressMock = mock(Address.class);
         propertyCreationValidatorMock = mock(PropertyCreationValidator.class);
-        propertyDetailsValidatorMock = mock(PropertyDetailsValidator.class);
+        propertyUpdateValidatorMock = mock(PropertyUpdateValidator.class);
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
         propertySorterMock = mock(PropertySorter.class);
@@ -112,27 +113,34 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void updatingPropertyDetailsCallsThePropertyDetailsValidator() throws Exception {
-        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
-        verify(propertyDetailsValidatorMock).validatePropertyDetails(propertyDetailsMock);
+    public void updatingPropertyCallsThePropertyUpdateValidator() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
+        verify(propertyUpdateValidatorMock).validatePropertyUpdate(propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
     }
 
     @Test
-    public void updatingPropertyDetailsSetsThePropertyDetailsOnThePropertyObject() throws Exception {
-        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
+    public void updatingPropertySetsThePropertyDetailsOnThePropertyObject() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
         verify(propertyMock).setPropertyDetails(propertyDetailsMock);
     }
 
     @Test
-    public void updatingPropertyDetailsUpdatesThePropertyInTheRepository() throws Exception {
-        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
+    public void updatingPropertyUpdatesTheSellingPriceOnThePropertyObject() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
+        verify(propertyMock).updateSellingPrice(ANOTHER_SAMPLE_SELLING_PRICE);
+    }
+
+    @Test
+    public void updatingPropertyUpdatesThePropertyInTheRepository() throws Exception {
+        propertyService.updateProperty(propertyMock, propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
         verify(propertyRepositoryMock).update(propertyMock);
     }
 
     @Test(expected = PropertyServiceException.class)
-    public void updatingPropertyDetailsThrowsPropertyServiceExceptionOnPropertyDetailsValidationException() throws Exception {
-        doThrow(new PropertyDetailsValidationException()).when(propertyDetailsValidatorMock).validatePropertyDetails(propertyDetailsMock);
-        propertyService.updatePropertyDetails(propertyMock, propertyDetailsMock);
+    public void updatingPropertyThrowsPropertyServiceExceptionOnPropertyUpdateValidationException() throws Exception {
+        doThrow(new PropertyUpdateValidationException()).when(propertyUpdateValidatorMock).validatePropertyUpdate(propertyDetailsMock,
+                ANOTHER_SAMPLE_SELLING_PRICE);
+        propertyService.updateProperty(propertyMock, propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
     }
 
     @Test

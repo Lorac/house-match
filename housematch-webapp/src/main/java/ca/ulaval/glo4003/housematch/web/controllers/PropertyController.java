@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.web.controllers;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -26,10 +27,8 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.property.PropertyServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
-import ca.ulaval.glo4003.housematch.web.assemblers.PropertyDetailsFormViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyListViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler;
-import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyDetailsFormViewModel;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyListViewModel;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 
@@ -37,8 +36,8 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 public class PropertyController extends BaseController {
 
     public static final String PROPERTY_CREATION_URL = "/seller/sellProperty";
-    public static final String PROPERTY_DETAILS_UPDATE_URL = "/seller/updatePropertyDetails/{propertyHashCode}";
-    public static final String PROPERTY_DETAILS_UPDATE_BASE_URL = "/seller/updatePropertyDetails/";
+    public static final String PROPERTY_UPDATE_URL = "/seller/updateProperty/{propertyHashCode}";
+    public static final String PROPERTY_UPDATE_BASE_URL = "/seller/updateProperty/";
     public static final String PROPERTIES_FOR_SALE_LIST_URL = "/seller/propertyList";
     public static final String PROPERTY_SEARCH_URL = "/buyer/searchProperties";
     public static final String PROPERTY_VIEW_URL = "/buyer/viewProperty/{propertyHashCode}";
@@ -49,8 +48,8 @@ public class PropertyController extends BaseController {
     public static final String PROPERTY_FAVORITING_URL = "/buyer/addPropertyToFavorites/{propertyHashCode}";
     public static final String PROPERTY_FAVORITING_BASE_URL = "/buyer/addPropertyToFavorites/";
     static final String PROPERTY_CREATION_VIEW_NAME = "seller/propertyCreation";
-    static final String PROPERTY_DETAILS_UPDATE_VIEW_NAME = "seller/propertyDetailsUpdate";
-    static final String PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyDetailsUpdateConfirmation";
+    static final String PROPERTY_UPDATE_VIEW_NAME = "seller/propertyUpdate";
+    static final String PROPERTY_UPDATE_CONFIRMATION_VIEW_NAME = "seller/propertyUpdateConfirmation";
     static final String PROPERTIES_FOR_SALE_LIST_VIEW_NAME = "seller/propertyList";
     static final String PROPERTY_SEARCH_VIEW_NAME = "buyer/propertySearch";
     static final String PROPERTY_VIEW_NAME = "buyer/propertyDetails";
@@ -64,8 +63,6 @@ public class PropertyController extends BaseController {
     @Inject
     private PropertyViewModelAssembler propertyViewModelAssembler;
     @Inject
-    private PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler;
-    @Inject
     private PropertyListViewModelAssembler propertyListViewModelAssembler;
 
     protected PropertyController() {
@@ -74,12 +71,10 @@ public class PropertyController extends BaseController {
 
     public PropertyController(final PropertyService propertyService, final UserService userService,
             final PropertyViewModelAssembler propertyViewModelAssembler,
-            final PropertyDetailsFormViewModelAssembler propertyDetailsFormViewModelAssembler,
             final PropertyListViewModelAssembler propertyListViewModelAssembler) {
         this.propertyService = propertyService;
         this.userService = userService;
         this.propertyViewModelAssembler = propertyViewModelAssembler;
-        this.propertyDetailsFormViewModelAssembler = propertyDetailsFormViewModelAssembler;
         this.propertyListViewModelAssembler = propertyListViewModelAssembler;
     }
 
@@ -93,33 +88,32 @@ public class PropertyController extends BaseController {
         try {
             Property property = propertyService.createProperty(propertyViewModel.getPropertyType(), propertyViewModel.getAddress(),
                     propertyViewModel.getSellingPrice(), getUserFromHttpSession(httpSession));
-            return new ModelAndView(new RedirectView(PROPERTY_DETAILS_UPDATE_BASE_URL + property.hashCode()));
+            return new ModelAndView(new RedirectView(PROPERTY_UPDATE_BASE_URL + property.hashCode()));
         } catch (PropertyServiceException e) {
             return showAlertMessage(PROPERTY_CREATION_VIEW_NAME, propertyViewModel, e.getMessage());
         }
     }
 
-    @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.GET)
-    public final ModelAndView displayPropertyDetailsUpdateView(@PathVariable int propertyHashCode, ModelMap modelMap,
-            HttpSession httpSession) {
+    @RequestMapping(value = PROPERTY_UPDATE_URL, method = RequestMethod.GET)
+    public final ModelAndView displayPropertyUpdateView(@PathVariable int propertyHashCode, ModelMap modelMap, HttpSession httpSession) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            modelMap.put(PropertyDetailsFormViewModel.NAME, propertyDetailsFormViewModelAssembler.assembleFromProperty(property));
-            return new ModelAndView(PROPERTY_DETAILS_UPDATE_VIEW_NAME);
+            modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assemble(property, Optional.empty()));
+            return new ModelAndView(PROPERTY_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }
     }
 
-    @RequestMapping(value = PROPERTY_DETAILS_UPDATE_URL, method = RequestMethod.POST)
-    public final ModelAndView updatePropertyDetails(@PathVariable int propertyHashCode, HttpSession httpSession,
-            PropertyDetailsFormViewModel propertyDetailsFormViewModel) {
+    @RequestMapping(value = PROPERTY_UPDATE_URL, method = RequestMethod.POST)
+    public final ModelAndView updateProperty(@PathVariable int propertyHashCode, HttpSession httpSession,
+            PropertyViewModel propertyViewModel) {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            propertyService.updatePropertyDetails(property, propertyDetailsFormViewModel.getDetails());
-            return new ModelAndView(PROPERTY_DETAILS_UPDATE_CONFIRMATION_VIEW_NAME);
+            propertyService.updateProperty(property, propertyViewModel.getPropertyDetails(), propertyViewModel.getSellingPrice());
+            return new ModelAndView(PROPERTY_UPDATE_CONFIRMATION_VIEW_NAME);
         } catch (PropertyNotFoundException | PropertyServiceException e) {
-            return showAlertMessage(PROPERTY_DETAILS_UPDATE_VIEW_NAME, propertyDetailsFormViewModel, e.getMessage());
+            return showAlertMessage(PROPERTY_UPDATE_VIEW_NAME, propertyViewModel, e.getMessage());
         }
     }
 
@@ -143,7 +137,8 @@ public class PropertyController extends BaseController {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
             propertyService.incrementPropertyViewCount(property);
             User user = getUserFromHttpSession(httpSession);
-            return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME, propertyViewModelAssembler.assemble(property, user));
+            return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME,
+                    propertyViewModelAssembler.assemble(property, Optional.ofNullable(user)));
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }

@@ -2,6 +2,8 @@ package ca.ulaval.glo4003.housematch.persistence.property;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -17,9 +19,11 @@ public class XmlProperty {
     public PropertyType propertyType;
     public Address address;
     public BigDecimal sellingPrice;
+    public List<BigDecimal> sellingPriceHistory = new ArrayList<>();
     public PropertyDetails propertyDetails;
     public Integer viewCount;
     @XmlJavaTypeAdapter(XmlZonedDateTimeAdapter.class)
     public ZonedDateTime creationDate;
     public PropertyStatus status;
+
 }

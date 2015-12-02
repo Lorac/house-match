@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,7 +57,7 @@ public class PropertyViewModelAssemblerTest {
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedProperty() {
-        PropertyViewModel viewModel = assembler.assemble(propertyMock, userMock);
+        PropertyViewModel viewModel = assembler.assemble(propertyMock, Optional.of(userMock));
 
         assertEquals(SAMPLE_PROPERTY_TYPE, viewModel.getPropertyType());
         assertEquals(addressMock, viewModel.getAddress());

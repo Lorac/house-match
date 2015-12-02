@@ -39,7 +39,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2">Selling Price:</label>
+                        <label class="control-label col-sm-2">Selling Price (CAD$):</label>
                         <div class="col-sm-10">
                             <form:input type="number" path="sellingPrice" class="form-control" step="any" min="0" max="9999999" tabindex="2"
                                 placeholder="Selling Price" />

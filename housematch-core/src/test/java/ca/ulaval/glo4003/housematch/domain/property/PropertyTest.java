@@ -1,15 +1,24 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import org.junit.Before;
-import org.junit.Test;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class PropertyTest {
 
@@ -26,10 +35,12 @@ public class PropertyTest {
     private PropertyDetails propertyDetailsMock;
     private PropertyObserver propertyObserverMock;
     private Address addressMock;
+    private List<BigDecimal> sellingPriceHistory;
 
     @Before
     public void init() throws Exception {
         initMocks();
+        sellingPriceHistory = new ArrayList<>();
         property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
         property.registerObserver(propertyObserverMock);
     }
@@ -124,6 +135,12 @@ public class PropertyTest {
     }
 
     @Test
+    public void settingTheSellingPriceHistorySetsTheSpecifiedSellingPriceHistory() {
+        property.setSellingPriceHistory(sellingPriceHistory);
+        assertEquals(sellingPriceHistory, property.getSellingPriceHistory());
+    }
+
+    @Test
     public void incrementingThePropetyViewCountIncrementsThePropertyViewCountByOne() {
         property.setViewCount(SAMPLE_VIEW_COUNT);
         int newViewCount = property.incrementViewCount();
@@ -153,4 +170,23 @@ public class PropertyTest {
         property.markAsSold();
         verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.SOLD);
     }
+
+    @Test
+    public void updatingTheSellingPriceUpdatesTheSellingPrice() {
+        property.updateSellingPrice(ANOTHER_SAMPLE_SELLING_PRICE);
+        assertEquals(ANOTHER_SAMPLE_SELLING_PRICE, property.getSellingPrice());
+    }
+
+    @Test
+    public void updatingTheSellingPriceAddsTheOldSellingPriceToTheHistory() {
+        property.updateSellingPrice(ANOTHER_SAMPLE_SELLING_PRICE);
+        assertThat(property.getSellingPriceHistory(), contains(SAMPLE_SELLING_PRICE));
+    }
+
+    @Test
+    public void updatingTheSellingPriceUsingTheSameSellingPriceDoesNotAddTheOldSellingPriceToTheHistory() {
+        property.updateSellingPrice(SAMPLE_SELLING_PRICE);
+        assertThat(property.getSellingPriceHistory(), not(contains(SAMPLE_SELLING_PRICE)));
+    }
+
 }

@@ -41,6 +41,11 @@
         <constructor-arg ref="addressValidator" />
     </bean>
 
+    <bean id="propertyUpdateValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyUpdateValidator">
+        <constructor-arg ref="propertyDetailsValidator" />
+    </bean>
+
+
     <bean id="propertyDetailsValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator" />
 
     <bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator" />
@@ -96,10 +101,10 @@
         <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="propertyCreationValidator" />
-        <constructor-arg ref="propertyDetailsValidator" />
+        <constructor-arg ref="propertyUpdateValidator" />
         <constructor-arg ref="propertySorter" />
     </bean>
-    
+
     <bean id="userStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService">
         <constructor-arg ref="statisticFactory" />
     </bean>
@@ -111,8 +116,6 @@
     <!-- Assemblers -->
 
     <bean id="propertyViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler" />
-
-    <bean id="propertyDetailsFormViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyDetailsFormViewModelAssembler" />
 
     <bean id="propertyListViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyListViewModelAssembler">
         <constructor-arg ref="propertyViewModelAssembler" />
@@ -135,20 +138,19 @@
         <constructor-arg ref="propertyService" />
         <constructor-arg ref="userService" />
         <constructor-arg ref="propertyViewModelAssembler" />
-        <constructor-arg ref="propertyDetailsFormViewModelAssembler" />
         <constructor-arg ref="propertyListViewModelAssembler" />
     </bean>
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController">
         <constructor-arg ref="userService" />
     </bean>
-	
-	<bean id="statisticsController" class="ca.ulaval.glo4003.housematch.web.controllers.StatisticsController">
+
+    <bean id="statisticsController" class="ca.ulaval.glo4003.housematch.web.controllers.StatisticsController">
         <constructor-arg ref="propertyStatisticsService" />
         <constructor-arg ref="userStatisticsService" />
         <constructor-arg ref="statisticsViewModelAssembler" />
     </bean>
-    
+
     <!-- Contexts -->
 
     <bean id="contextLoading" class="ca.ulaval.glo4003.housematch.context.DemoContext" init-method="apply">
@@ -159,12 +161,12 @@
     </bean>
 
     <!-- Generators -->
-    
+
     <bean id="randomPropertyGenerator" class="ca.ulaval.glo4003.housematch.context.generators.RandomPropertyGenerator">
         <constructor-arg ref="propertyFactory" />
         <constructor-arg ref="randomAddressGenerator" />
     </bean>
-    
+
     <bean id="randomAddressGenerator" class="ca.ulaval.glo4003.housematch.context.generators.RandomAddressGenerator" />
 
 </beans>

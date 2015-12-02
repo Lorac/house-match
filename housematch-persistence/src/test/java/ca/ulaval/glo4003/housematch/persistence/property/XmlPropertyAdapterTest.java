@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +32,7 @@ public class XmlPropertyAdapterTest {
     private PropertyDetails propertyDetailsMock;
     private XmlProperty xmlPropertyMock;
     private ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
+    private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
 
     private XmlPropertyAdapter xmlPropertyAdapter;
 
@@ -53,6 +56,7 @@ public class XmlPropertyAdapterTest {
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
         when(propertyMock.getStatus()).thenReturn(SAMPLE_PROPERTY_STATUS);
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
+        when(propertyMock.getSellingPriceHistory()).thenReturn(sellingPriceHistory);
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
         when(propertyMock.getCreationDate()).thenReturn(SAMPLE_DATE);
@@ -63,6 +67,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyMock.propertyType = SAMPLE_PROPERTY_TYPE;
         xmlPropertyMock.status = SAMPLE_PROPERTY_STATUS;
         xmlPropertyMock.sellingPrice = SAMPLE_SELLING_PRICE;
+        xmlPropertyMock.sellingPriceHistory = sellingPriceHistory;
         xmlPropertyMock.address = addressMock;
         xmlPropertyMock.propertyDetails = propertyDetailsMock;
         xmlPropertyMock.creationDate = SAMPLE_DATE;
@@ -81,6 +86,7 @@ public class XmlPropertyAdapterTest {
         assertEquals(propertyMock.getStatus(), xmlPropertyMock.status);
         assertEquals(propertyMock.getAddress(), xmlPropertyMock.address);
         assertEquals(propertyMock.getSellingPrice(), xmlPropertyMock.sellingPrice);
+        assertEquals(propertyMock.getSellingPriceHistory(), xmlPropertyMock.sellingPriceHistory);
         assertEquals(propertyMock.getPropertyDetails(), xmlPropertyMock.propertyDetails);
         assertEquals(propertyMock.getCreationDate(), SAMPLE_DATE);
     }
@@ -93,6 +99,7 @@ public class XmlPropertyAdapterTest {
         assertEquals(xmlPropertyMock.status, propertyMock.getStatus());
         assertEquals(xmlPropertyMock.address, propertyMock.getAddress());
         assertEquals(xmlPropertyMock.sellingPrice, propertyMock.getSellingPrice());
+        assertEquals(xmlPropertyMock.sellingPriceHistory, propertyMock.getSellingPriceHistory());
         assertEquals(xmlPropertyMock.propertyDetails, propertyMock.getPropertyDetails());
         assertEquals(xmlPropertyMock.creationDate, propertyMock.getCreationDate());
     }
