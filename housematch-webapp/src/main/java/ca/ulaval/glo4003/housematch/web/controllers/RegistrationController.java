@@ -42,7 +42,7 @@ public class RegistrationController extends BaseController {
     private UserActivationService userActivationService;
 
     protected RegistrationController() {
-        // Required for Mockito
+        // Required for Spring init
     }
 
     public RegistrationController(final UserService userService, final UserActivationService userActivationService) {

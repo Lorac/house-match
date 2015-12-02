@@ -69,7 +69,7 @@ public class PropertyController extends BaseController {
     private PropertyListViewModelAssembler propertyListViewModelAssembler;
 
     protected PropertyController() {
-        // Required for Mockito
+        // Required for Spring init
     }
 
     public PropertyController(final PropertyService propertyService, final UserService userService,

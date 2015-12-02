@@ -129,11 +129,7 @@
         <constructor-arg ref="userActivationService" />
     </bean>
 
-    <bean id="homeController" class="ca.ulaval.glo4003.housematch.web.controllers.HomeController">
-        <constructor-arg ref="propertyStatisticsService" />
-        <constructor-arg ref="userStatisticsService" />
-        <constructor-arg ref="statisticsViewModelAssembler" />
-    </bean>
+    <bean id="homeController" class="ca.ulaval.glo4003.housematch.web.controllers.HomeController" />
 
     <bean id="propertyController" class="ca.ulaval.glo4003.housematch.web.controllers.PropertyController">
         <constructor-arg ref="propertyService" />
@@ -145,6 +141,12 @@
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController">
         <constructor-arg ref="userService" />
+    </bean>
+	
+	<bean id="statisticsController" class="ca.ulaval.glo4003.housematch.web.controllers.StatisticsController">
+        <constructor-arg ref="propertyStatisticsService" />
+        <constructor-arg ref="userStatisticsService" />
+        <constructor-arg ref="statisticsViewModelAssembler" />
     </bean>
     
     <!-- Contexts -->

@@ -23,7 +23,7 @@ public class UserProfileController extends BaseController {
     private UserService userService;
 
     protected UserProfileController() {
-        // Required for Mockito
+        // Required for Spring init
     }
 
     public UserProfileController(final UserService userService) {
