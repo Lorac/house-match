@@ -5,15 +5,9 @@
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
 <%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel"%>
 
-<%
-    pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values());
-%>
-<%
-    pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values());
-%>
-<%
-    pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values());
-%>
+<% pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values()); %>
+<% pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values()); %>
+<% pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values()); %>
 
 <html>
 <head>
@@ -23,13 +17,13 @@
 <link href="/resources/css/login.css" rel="stylesheet">
 
 
-<title>HouseMatch - Property Edit</title>
+<title>HouseMatch - Edit Property</title>
 </head>
 <body>
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
 
     <div class="container">
-        <h1 class="center">Property Edit</h1>
+        <h1 class="center">Edit Property</h1>
         <form:form id="property-update-form" class="form-horizontal" role="form" modelAttribute="<%=PropertyViewModel.NAME%>"
             action='<%=PropertyController.PROPERTY_UPDATE_BASE_URL + request.getAttribute("propertyHashCode")%>' method="POST">
 
