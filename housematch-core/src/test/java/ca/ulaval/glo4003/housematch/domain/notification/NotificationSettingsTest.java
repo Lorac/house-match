@@ -39,12 +39,12 @@ public class NotificationSettingsTest {
     @Test
     public void notificationIsConsideredAsDisabledWhenNotificationIntervalIsSetToNever() {
         notificationSettings.setNotificationInterval(SAMPLE_NOTIFICATION_TYPE, NotificationInterval.NEVER);
-        assertFalse(notificationSettings.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE));
+        assertFalse(notificationSettings.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE));
     }
 
     @Test
     public void notificationIsConsideredAsEnabledWhenNotificationIntervalIsNotSetToNever() {
         notificationSettings.setNotificationInterval(SAMPLE_NOTIFICATION_TYPE, NotificationInterval.DAILY);
-        assertTrue(notificationSettings.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE));
+        assertTrue(notificationSettings.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE));
     }
 }

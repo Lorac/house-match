@@ -374,7 +374,7 @@ public class UserTest {
 
     @Test
     public void notifyingTheUserWithNotificationAddsTheSpecifiedNotificationToTheQueue() {
-        when(notificationSettingsMock.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
+        when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
         user.setNotificationQueues(notificationQueues);
 
         user.notify(notificationMock);
@@ -384,7 +384,7 @@ public class UserTest {
 
     @Test
     public void notifyingTheUserWhenTheseTypeOfNotificationsAreNotEnabledDoesNotAddTheNotificationToTheQueue() {
-        when(notificationSettingsMock.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(false);
+        when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(false);
         user.setNotificationQueues(notificationQueues);
 
         user.notify(notificationMock);
@@ -394,7 +394,7 @@ public class UserTest {
 
     @Test
     public void notifyingTheUserWithNotificationNotifiesTheObservers() {
-        when(notificationSettingsMock.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
+        when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
         user.notify(notificationMock);
         verify(userObserverMock).userNotificationQueued(user, notificationMock);
     }
