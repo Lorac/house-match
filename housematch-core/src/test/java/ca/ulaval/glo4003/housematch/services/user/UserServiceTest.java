@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
@@ -245,12 +244,6 @@ public class UserServiceTest {
     public void addingFavoritePropertyToUserUpdatesTheUserInRepository() {
         userService.addFavoritePropertyToUser(userMock, propertyMock);
         verify(userRepositoryMock).update(userMock);
-    }
-
-    @Test
-    public void addingFavoritePropertyRegistersANewUserFavoritePropertyObserverToTheProperty() {
-        userService.addFavoritePropertyToUser(userMock, propertyMock);
-        verify(propertyMock).registerObserver(Matchers.any(UserFavoritePropertyObserver.class));
     }
 
     @Test

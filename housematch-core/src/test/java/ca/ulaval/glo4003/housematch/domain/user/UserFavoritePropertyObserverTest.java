@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services.user;
+package ca.ulaval.glo4003.housematch.domain.user;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -15,7 +15,6 @@ import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
-import ca.ulaval.glo4003.housematch.domain.user.User;
 
 public class UserFavoritePropertyObserverTest {
 
@@ -24,7 +23,6 @@ public class UserFavoritePropertyObserverTest {
     private Property propertyMock;
     private PropertyDetails propertyDetailsMock;
     private User userMock;
-    private UserService userServiceMock;
     private Notification notificationMock;
     private NotificationFactory notificationFactoryMock;
 
@@ -35,24 +33,23 @@ public class UserFavoritePropertyObserverTest {
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
         userMock = mock(User.class);
-        userServiceMock = mock(UserService.class);
         notificationFactoryMock = mock(NotificationFactory.class);
         notificationMock = mock(Notification.class);
-        userFavoritePropertyObserver = new UserFavoritePropertyObserver(userMock, userServiceMock, notificationFactoryMock);
+        userFavoritePropertyObserver = new UserFavoritePropertyObserver(userMock, notificationFactoryMock);
     }
 
     @Test
     public void propertyStatusChangeNotifiesTheUser() {
         when(notificationFactoryMock.createNotification(any(NotificationType.class), anyString())).thenReturn(notificationMock);
         userFavoritePropertyObserver.propertyStatusChanged(propertyMock, SAMPLE_PROPERTY_STATUS);
-        verify(userServiceMock).notifyUser(userMock, notificationMock);
+        verify(userMock).notify(notificationMock);
     }
 
     @Test
     public void propertyDetailsChangeNotifiesTheUser() {
         when(notificationFactoryMock.createNotification(any(NotificationType.class), anyString())).thenReturn(notificationMock);
         userFavoritePropertyObserver.propertyDetailsChanged(propertyMock, propertyDetailsMock);
-        verify(userServiceMock).notifyUser(userMock, notificationMock);
+        verify(userMock).notify(notificationMock);
     }
 
 }

@@ -24,6 +24,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
@@ -344,6 +345,12 @@ public class UserTest {
     }
 
     @Test
+    public void addingPropertyToFavoriteRegistersANewUserFavoritePropertyObserverToTheProperty() {
+        user.addPropertyToFavorites(propertyMock);
+        verify(propertyMock).registerObserver(Matchers.any(UserFavoritePropertyObserver.class));
+    }
+
+    @Test
     public void settingTheNotificationSettingsSetsTheNotificationSettings() {
         user.setNotificationSettings(notificationSettingsMock);
         assertEquals(notificationSettingsMock, user.getNotificationSettings());
@@ -357,21 +364,21 @@ public class UserTest {
     }
 
     @Test
-    public void notifyingTheUserAddsTheSpecifiedNotificationToTheQueue() {
+    public void notifyingTheUserWithNotificationAddsTheSpecifiedNotificationToTheQueue() {
         when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
         user.notify(notificationMock);
         assertThat(notificationQueue, hasItem(notificationMock));
     }
 
     @Test
-    public void notifyingTheUserWhenTheNotificationTypeIsNotEnabledDoesNotAddTheNotificationToTheQueue() {
+    public void notifyingTheUserWhenTheseTypeOfNotificationsAreNotEnabledDoesNotAddTheNotificationToTheQueue() {
         when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(false);
         user.notify(notificationMock);
         assertThat(notificationQueue, not(hasItem(notificationMock)));
     }
 
     @Test
-    public void notifyingTheUserNotifiesTheObservers() {
+    public void notifyingTheUserWithNotificationNotifiesTheObservers() {
         when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
         user.notify(notificationMock);
         verify(userObserverMock).userNotificationQueued(user, notificationMock);

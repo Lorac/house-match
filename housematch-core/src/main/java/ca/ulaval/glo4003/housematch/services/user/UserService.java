@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.notification.Notification;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
@@ -112,12 +111,6 @@ public class UserService {
 
     public void addFavoritePropertyToUser(User user, Property property) {
         user.addPropertyToFavorites(property);
-        property.registerObserver(new UserFavoritePropertyObserver(user, this));
-        userRepository.update(user);
-    }
-
-    public void notifyUser(User user, Notification notification) {
-        user.notify(notification);
         userRepository.update(user);
     }
 

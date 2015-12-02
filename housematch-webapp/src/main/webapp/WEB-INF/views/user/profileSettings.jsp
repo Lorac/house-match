@@ -17,6 +17,7 @@
 <title>HouseMatch - Buyer Home</title>
 </head>
 <body>
+    <c:set var="homeLinkActive" value="active" scope="request" />
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <p>
