@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.property;
+package ca.ulaval.glo4003.housematch.services.statistics;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
@@ -16,10 +16,12 @@ import org.mockito.Matchers;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.statistics.Statistic;
-import ca.ulaval.glo4003.housematch.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics;
+import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.services.statistics.PropertyStatisticsService;
 
-public class PropertyStatisticsCollectorTest {
+public class PropertyStatisticsServiceTest {
 
     private static final Integer SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR = 5;
     private static final Integer SAMPLE_NUMBER_OF_PROPERTIES_FOR_SALE = 2;
@@ -31,14 +33,14 @@ public class PropertyStatisticsCollectorTest {
     private Map<PropertyType, Integer> numberOfPropertiesForSale = new HashMap<>();
     private Property propertyMock;
 
-    private PropertyStatisticsCollector propertyStatisticsCollector;
+    private PropertyStatisticsService propertyStatisticsService;
 
     @Before
     public void init() {
         initMocks();
         initStubs();
         initStats();
-        propertyStatisticsCollector = new PropertyStatisticsCollector(statisticFactoryMock);
+        propertyStatisticsService = new PropertyStatisticsService(statisticFactoryMock);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,9 +52,9 @@ public class PropertyStatisticsCollectorTest {
     }
 
     private void initStubs() {
-        when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsCollector.NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME), anyInt()))
+        when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsService.NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME), anyInt()))
                 .thenReturn(numberOfSoldPropertiesThisYearStatMock);
-        when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsCollector.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME),
+        when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsService.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME),
                 Matchers.<Map<PropertyType, Integer>> any())).thenReturn(numberOfPropertiesForSaleStatMock);
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
     }
@@ -65,25 +67,25 @@ public class PropertyStatisticsCollectorTest {
 
     @Test
     public void applyingPropertySaleIncrementsTheNumberOfSoldPropertiesThisYear() {
-        propertyStatisticsCollector.applyPropertySale(propertyMock);
+        propertyStatisticsService.applyPropertySale(propertyMock);
         verify(numberOfSoldPropertiesThisYearStatMock).setValue(SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR + 1);
     }
 
     @Test
     public void applyingPropertySaleDecrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
-        propertyStatisticsCollector.applyPropertySale(propertyMock);
+        propertyStatisticsService.applyPropertySale(propertyMock);
         assertEquals(SAMPLE_NUMBER_OF_PROPERTIES_FOR_SALE - 1, (int) numberOfPropertiesForSale.get(propertyMock.getPropertyType()));
     }
 
     @Test
     public void applyingNewPropertyForSaleIncrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
-        propertyStatisticsCollector.applyNewPropertyForSale(propertyMock);
+        propertyStatisticsService.applyNewPropertyForSale(propertyMock);
         assertEquals(SAMPLE_NUMBER_OF_PROPERTIES_FOR_SALE + 1, (int) numberOfPropertiesForSale.get(propertyMock.getPropertyType()));
     }
 
     @Test
     public void gettingTheStatisticsCorrectlyCreatesTheStatisticsDTO() {
-        PropertyStatistics propertyStatistics = propertyStatisticsCollector.getStatistics();
+        PropertyStatistics propertyStatistics = propertyStatisticsService.getStatistics();
 
         assertEquals(SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR, propertyStatistics.getNumberOfSoldPropertiesThisYear());
         assertEquals(SAMPLE_NUMBER_OF_PROPERTIES_FOR_SALE,

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.user;
+package ca.ulaval.glo4003.housematch.services.statistics;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.anyInt;
@@ -10,12 +10,14 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.statistics.Statistic;
-import ca.ulaval.glo4003.housematch.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService;
 
-public class UserStatisticsCollectorTest {
+public class UserStatisticsServiceTest {
 
     private static final Integer SAMPLE_NUMBER_OF_ACTIVER_BUYERS = 3;
     private static final Integer SAMPLE_NUMBER_OF_ACTIVER_SELLERS = 2;
@@ -25,14 +27,14 @@ public class UserStatisticsCollectorTest {
     private Statistic<Integer> numberOfActiveSellersStatMock;
     private User userMock;
 
-    private UserStatisticsCollector userStatisticsCollector;
+    private UserStatisticsService userStatisticsService;
 
     @Before
     public void init() {
         initMocks();
         initStubs();
         initStats();
-        userStatisticsCollector = new UserStatisticsCollector(statisticFactoryMock);
+        userStatisticsService = new UserStatisticsService(statisticFactoryMock);
     }
 
     @SuppressWarnings("unchecked")
@@ -44,9 +46,9 @@ public class UserStatisticsCollectorTest {
     }
 
     private void initStubs() {
-        when(statisticFactoryMock.createStatistic(eq(UserStatisticsCollector.NUMBER_OF_ACTIVE_BUYERS_STAT_NAME), anyInt()))
+        when(statisticFactoryMock.createStatistic(eq(UserStatisticsService.NUMBER_OF_ACTIVE_BUYERS_STAT_NAME), anyInt()))
                 .thenReturn(numberOfActiveBuyersStatMock);
-        when(statisticFactoryMock.createStatistic(eq(UserStatisticsCollector.NUMBER_OF_ACTIVE_SELLERS_STAT_NAME), anyInt()))
+        when(statisticFactoryMock.createStatistic(eq(UserStatisticsService.NUMBER_OF_ACTIVE_SELLERS_STAT_NAME), anyInt()))
                 .thenReturn(numberOfActiveSellersStatMock);
     }
 
@@ -58,34 +60,34 @@ public class UserStatisticsCollectorTest {
     @Test
     public void applyingBuyerStatusChangeToActiveIncrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToActive(userMock);
+        userStatisticsService.applyUserStatusChangeToActive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS + 1);
     }
 
     @Test
     public void applyingSellerStatusChangeToActiveIncrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToActive(userMock);
+        userStatisticsService.applyUserStatusChangeToActive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS + 1);
     }
 
     @Test
     public void applyingBuyerStatusChangeToInactiveDecrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToInactive(userMock);
+        userStatisticsService.applyUserStatusChangeToInactive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS - 1);
     }
 
     @Test
     public void applyingSellerStatusChangeToInactiveDecrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
-        userStatisticsCollector.applyUserStatusChangeToInactive(userMock);
+        userStatisticsService.applyUserStatusChangeToInactive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS - 1);
     }
 
     @Test
     public void gettingTheStatisticsCorrectlyCreatesTheStatisticsDTO() {
-        UserStatistics userStatistics = userStatisticsCollector.getStatistics();
+        UserStatistics userStatistics = userStatisticsService.getStatistics();
 
         assertEquals(SAMPLE_NUMBER_OF_ACTIVER_BUYERS, userStatistics.getNumberOfActiveBuyers());
         assertEquals(SAMPLE_NUMBER_OF_ACTIVER_SELLERS, userStatistics.getNumberOfActiveSellers());

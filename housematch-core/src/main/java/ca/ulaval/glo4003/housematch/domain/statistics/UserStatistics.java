@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.user;
+package ca.ulaval.glo4003.housematch.domain.statistics;
 
 public class UserStatistics {
 

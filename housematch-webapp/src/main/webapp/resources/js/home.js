@@ -1,23 +1,46 @@
-function init() {
-	showMostPopularProperties();
+function init(userRole) {
+	loadMostPopularProperties();
+	loadStatistics();
 }
 
-function showMostPopularProperties() {
+function adminInit(userRole) {
+	loadStatistics();
+}
+
+function loadMostPopularProperties() {
 var propertyType = $( "select#propertyTypeSelector" ).val();
 $.ajax({
         type: "GET",
         url: "./mostPopularProperties",
         data: { "propertyType": propertyType },
         timeout: 15000,
-        success: showMostPopularPropertiesSuccessHandler,
-        error: showMostPopularPropertiesErrorHandler
+        success: mostPopularPropertiesLoadSuccessHandler,
+        error: mostPopularPropertiesLoadErrorHandler
     });
 }
 
-function showMostPopularPropertiesSuccessHandler(responseData, status) {
+function mostPopularPropertiesLoadSuccessHandler(responseData, status) {
     $("#mostPopularPropertiesViewContainer").html(responseData);
 }
 
-function showMostPopularPropertiesErrorHandler(xmlHttpRequest, textStatus, errorThrown) {
+function mostPopularPropertiesLoadErrorHandler(xmlHttpRequest, textStatus, errorThrown) {
     $("#mostPopularPropertiesViewContainer").html("An error is preventing the results from being diplayed: " + errorThrown);
+}
+
+function loadStatistics() {
+$.ajax({
+        type: "GET",
+        url: "./statistics",
+        timeout: 15000,
+        success: statisticsLoadSuccessHandler,
+        error: statisticsLoadErrorHandler
+    });
+}
+
+function statisticsLoadSuccessHandler(responseData, status) {
+    $("#statisticsContainer").html(responseData);
+}
+
+function statisticsLoadErrorHandler(xmlHttpRequest, textStatus, errorThrown) {
+    $("#statisticsContainer").html("An error is preventing the results from being diplayed: " + errorThrown);
 }

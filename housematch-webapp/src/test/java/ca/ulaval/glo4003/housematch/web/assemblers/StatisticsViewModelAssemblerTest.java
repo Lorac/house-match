@@ -6,8 +6,8 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
-import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
+import ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics;
+import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 import ca.ulaval.glo4003.housematch.web.viewmodels.StatisticsViewModel;
 
 public class StatisticsViewModelAssemblerTest {

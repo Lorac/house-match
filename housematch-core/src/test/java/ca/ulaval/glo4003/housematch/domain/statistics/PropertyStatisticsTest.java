@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.property;
+package ca.ulaval.glo4003.housematch.domain.statistics;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+import ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics;
 
 public class PropertyStatisticsTest {
 

@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.housematch.web.viewmodels;
 
 import javax.validation.constraints.NotNull;
 
-import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
-import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
+import ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics;
+import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 
 public class StatisticsViewModel extends ViewModel {
 

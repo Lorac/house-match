@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics;
+package ca.ulaval.glo4003.housematch.domain.statistics;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -6,6 +6,10 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticsRepository;
 
 public class StatisticFactoryTest {
 

@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.housematch.persistence.statistics;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticsRepository;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import ca.ulaval.glo4003.housematch.statistics.StatisticsRepository;
 
 public class XmlStatisticsRepository implements StatisticsRepository {
 

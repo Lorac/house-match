@@ -63,41 +63,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-12">
-                                <form class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-sm-9 control-label">Number of Active Buyers:</label>
-                                        <div class="col-sm-3">
-                                            <p class="control-label">${statistics.userStatistics.numberOfActiveBuyers}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-9 control-label">Number of Active Sellers:</label>
-                                        <div class="col-sm-3">
-                                            <p class="control-label">${statistics.userStatistics.numberOfActiveSellers}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-9 control-label">Number of Properties Sold This Year:</label>
-                                        <div class="col-sm-3">
-                                            <p class="control-label">${statistics.propertyStatistics.numberOfSoldPropertiesThisYear}</p>
-                                        </div>
-                                    </div>
-                                    <label class="control-label">Number of Properties For Sale:</label>
-                                    <c:forEach var="propertyType" items="${propertyTypes}">
-                                        <div class="row">
-                                            <p class="control-label col-sm-12">${propertyType.displayName}:&nbsp;
-                                                <c:choose>
-                                                    <c:when
-                                                        test="${not empty statistics.propertyStatistics.numberOfPropertiesForSale[propertyType]}">
-                                                      ${statistics.propertyStatistics.numberOfPropertiesForSale[propertyType]}
-                                                    </c:when>
-                                                    <c:otherwise>0</c:otherwise>
-                                                </c:choose>
-                                            </p>
-                                        </div>
-                                    </c:forEach>
-                                </form>
+                            <div id="statisticsContainer" class="col-lg-12">
                             </div>
                         </div>
                     </div>

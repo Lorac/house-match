@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics;
+package ca.ulaval.glo4003.housematch.domain.statistics;
 
 public interface StatisticsRepository {
 

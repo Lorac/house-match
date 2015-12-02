@@ -11,8 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.services.property.PropertyService;
-import ca.ulaval.glo4003.housematch.services.user.UserService;
+import ca.ulaval.glo4003.housematch.services.statistics.PropertyStatisticsService;
+import ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService;
 import ca.ulaval.glo4003.housematch.web.assemblers.StatisticsViewModelAssembler;
 import ca.ulaval.glo4003.housematch.web.viewmodels.StatisticsViewModel;
 
@@ -27,11 +27,13 @@ public class HomeController extends BaseController {
     static final String SELLER_HOME_VIEW_NAME = "seller/home";
     static final String BUYER_HOME_URL = "/buyer";
     static final String BUYER_HOME_VIEW_NAME = "buyer/home";
+    static final String STATISTICS_URL = "/statistics";
+    static final String STATISTICS_VIEW_NAME = "home/statistics";
 
     @Inject
-    private PropertyService propertyService;
+    private PropertyStatisticsService propertyStatisticsService;
     @Inject
-    private UserService userService;
+    private UserStatisticsService userStatisticsService;
     @Inject
     private StatisticsViewModelAssembler statisticsViewModelAssembler;
 
@@ -39,10 +41,10 @@ public class HomeController extends BaseController {
         // Required for Mockito
     }
 
-    public HomeController(final PropertyService propertyService, final UserService userService,
-            final StatisticsViewModelAssembler statisticsViewModelAssembler) {
-        this.propertyService = propertyService;
-        this.userService = userService;
+    public HomeController(final PropertyStatisticsService propertyStatisticsService,
+            final UserStatisticsService userStatisticsService, final StatisticsViewModelAssembler statisticsViewModelAssembler) {
+        this.propertyStatisticsService = propertyStatisticsService;
+        this.userStatisticsService = userStatisticsService;
         this.statisticsViewModelAssembler = statisticsViewModelAssembler;
     }
 
@@ -63,15 +65,11 @@ public class HomeController extends BaseController {
             }
         }
 
-        modelMap.put(StatisticsViewModel.NAME,
-                statisticsViewModelAssembler.assembleFromStatistics(propertyService.getStatistics(), userService.getStatistics()));
         return new ModelAndView(HOME_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = ADMIN_HOME_URL, method = RequestMethod.GET)
     private ModelAndView displayAdminHomeView(HttpSession httpSession, ModelMap modelMap) {
-        modelMap.put(StatisticsViewModel.NAME,
-                statisticsViewModelAssembler.assembleFromStatistics(propertyService.getStatistics(), userService.getStatistics()));
         return new ModelAndView(ADMIN_HOME_VIEW_NAME, modelMap);
     }
 
@@ -85,4 +83,10 @@ public class HomeController extends BaseController {
         return new ModelAndView(SELLER_HOME_VIEW_NAME);
     }
 
+    @RequestMapping(value = STATISTICS_URL, method = RequestMethod.GET)
+    private ModelAndView displayStatisticsView(HttpSession httpSession, ModelMap modelMap) {
+        StatisticsViewModel viewModel = statisticsViewModelAssembler.assembleFromStatistics(propertyStatisticsService.getStatistics(),
+                userStatisticsService.getStatistics());
+        return new ModelAndView(STATISTICS_VIEW_NAME, StatisticsViewModel.NAME, viewModel);
+    }
 }

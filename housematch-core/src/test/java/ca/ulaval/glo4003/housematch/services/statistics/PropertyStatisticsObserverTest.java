@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.property;
+package ca.ulaval.glo4003.housematch.services.statistics;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -11,27 +11,27 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 
 public class PropertyStatisticsObserverTest {
 
-    private PropertyStatisticsCollector propertyStatisticsCollectorMock;
+    private PropertyStatisticsService propertyStatisticsServiceMock;
     private Property propertyMock;
     private PropertyStatisticsObserver propertyStatisticsObserver;
 
     @Before
     public void init() {
-        propertyStatisticsCollectorMock = mock(PropertyStatisticsCollector.class);
+        propertyStatisticsServiceMock = mock(PropertyStatisticsService.class);
         propertyMock = mock(Property.class);
-        propertyStatisticsObserver = new PropertyStatisticsObserver(propertyStatisticsCollectorMock);
+        propertyStatisticsObserver = new PropertyStatisticsObserver(propertyStatisticsServiceMock);
     }
 
     @Test
-    public void newPropertyForSaleStatusChangeFiresTheProperEventOfTheStatisticsCollector() {
+    public void newPropertyForSaleStatusChangeFiresTheProperEventOfTheStatisticsService() {
         propertyStatisticsObserver.propertyStatusChanged(propertyMock, PropertyStatus.FOR_SALE);
-        verify(propertyStatisticsCollectorMock).applyNewPropertyForSale(propertyMock);
+        verify(propertyStatisticsServiceMock).applyNewPropertyForSale(propertyMock);
     }
 
     @Test
-    public void propertySaleStatusChangeFiresTheProperEventOfTheStatisticsCollector() {
+    public void propertySaleStatusChangeFiresTheProperEventOfTheStatisticsService() {
         propertyStatisticsObserver.propertyStatusChanged(propertyMock, PropertyStatus.SOLD);
-        verify(propertyStatisticsCollectorMock).applyPropertySale(propertyMock);
+        verify(propertyStatisticsServiceMock).applyPropertySale(propertyMock);
     }
 
 }

@@ -1,9 +1,11 @@
-package ca.ulaval.glo4003.housematch.statistics.user;
+package ca.ulaval.glo4003.housematch.domain.statistics;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 
 public class UserStatisticsTest {
 

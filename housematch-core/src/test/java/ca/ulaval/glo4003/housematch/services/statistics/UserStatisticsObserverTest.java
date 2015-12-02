@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.user;
+package ca.ulaval.glo4003.housematch.services.statistics;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -11,27 +11,27 @@ import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
 
 public class UserStatisticsObserverTest {
 
-    private UserStatisticsCollector userStatisticsCollectorMock;
+    private UserStatisticsService userStatisticsServiceMock;
     private User userMock;
     private UserStatisticsObserver userStatisticsObserver;
 
     @Before
     public void init() {
-        userStatisticsCollectorMock = mock(UserStatisticsCollector.class);
+        userStatisticsServiceMock = mock(UserStatisticsService.class);
         userMock = mock(User.class);
-        userStatisticsObserver = new UserStatisticsObserver(userStatisticsCollectorMock);
+        userStatisticsObserver = new UserStatisticsObserver(userStatisticsServiceMock);
     }
 
     @Test
-    public void userStatusChangeToActiveFiresTheProperEventOfTheStatisticsCollector() {
+    public void userStatusChangeToActiveFiresTheProperEventOfTheStatisticsService() {
         userStatisticsObserver.userStatusChanged(userMock, UserStatus.ACTIVE);
-        verify(userStatisticsCollectorMock).applyUserStatusChangeToActive(userMock);
+        verify(userStatisticsServiceMock).applyUserStatusChangeToActive(userMock);
     }
 
     @Test
-    public void userStatusChangeToInactiveFiresTheProperEventOfTheStatisticsCollector() {
+    public void userStatusChangeToInactiveFiresTheProperEventOfTheStatisticsService() {
         userStatisticsObserver.userStatusChanged(userMock, UserStatus.INACTIVE);
-        verify(userStatisticsCollectorMock).applyUserStatusChangeToInactive(userMock);
+        verify(userStatisticsServiceMock).applyUserStatusChangeToInactive(userMock);
     }
 
 }

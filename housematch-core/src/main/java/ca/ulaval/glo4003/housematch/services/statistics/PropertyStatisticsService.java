@@ -1,14 +1,15 @@
-package ca.ulaval.glo4003.housematch.statistics.property;
+package ca.ulaval.glo4003.housematch.services.statistics;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.statistics.Statistic;
-import ca.ulaval.glo4003.housematch.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics;
+import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
 
-public class PropertyStatisticsCollector {
+public class PropertyStatisticsService {
 
     static final String NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME = "NumberOfSoldPropertiesThisYear";
     static final String NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME = "NumberOfPropertiesForSale";
@@ -17,7 +18,7 @@ public class PropertyStatisticsCollector {
     private Statistic<Integer> numberOfSoldPropertiesThisYear;
     private Statistic<Map<PropertyType, Integer>> numberOfPropertiesForSale;
 
-    public PropertyStatisticsCollector(final StatisticFactory statisticFactory) {
+    public PropertyStatisticsService(final StatisticFactory statisticFactory) {
         numberOfSoldPropertiesThisYear = statisticFactory.createStatistic(NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, DEFAULT_INT_VALUE);
         numberOfPropertiesForSale = statisticFactory.createStatistic(NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, new HashMap<>());
     }

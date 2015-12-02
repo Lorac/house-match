@@ -1,11 +1,12 @@
-package ca.ulaval.glo4003.housematch.statistics.user;
+package ca.ulaval.glo4003.housematch.services.statistics;
 
+import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
+import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
+import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.statistics.Statistic;
-import ca.ulaval.glo4003.housematch.statistics.StatisticFactory;
 
-public class UserStatisticsCollector {
+public class UserStatisticsService {
 
     static final String NUMBER_OF_ACTIVE_BUYERS_STAT_NAME = "NumberOfActiveBuyers";
     static final String NUMBER_OF_ACTIVE_SELLERS_STAT_NAME = "NumberOfActiveSellers";
@@ -14,7 +15,7 @@ public class UserStatisticsCollector {
     private Statistic<Integer> numberOfActiveBuyers;
     private Statistic<Integer> numberOfActiveSellers;
 
-    public UserStatisticsCollector(final StatisticFactory statisticFactory) {
+    public UserStatisticsService(final StatisticFactory statisticFactory) {
         numberOfActiveBuyers = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, DEFAULT_INT_VALUE);
         numberOfActiveSellers = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_INT_VALUE);
     }

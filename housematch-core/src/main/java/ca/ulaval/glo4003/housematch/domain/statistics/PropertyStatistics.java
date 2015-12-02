@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.statistics.property;
+package ca.ulaval.glo4003.housematch.domain.statistics;
 
 import java.util.Map;
 
