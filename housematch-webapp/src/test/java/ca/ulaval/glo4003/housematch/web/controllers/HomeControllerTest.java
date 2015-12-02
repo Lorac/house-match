@@ -69,6 +69,15 @@ public class HomeControllerTest extends BaseControllerTest {
 
         results.andExpect(model().attributeExists(StatisticsViewModel.NAME));
     }
+    
+    @Test
+    public void homeControllerRendersHomeViewWithStatisticsForAdminUser() throws Exception {
+        when(userMock.getRole()).thenReturn(UserRole.ADMINISTRATOR);
+        when(statisticsViewModelAssemblerMock.assembleFromStatistics(anyObject(), anyObject())).thenReturn(statisticsViewModelMock);
+        ResultActions results = performGetRequest(HomeController.HOME_URL);
+
+        results.andExpect(redirectedUrl(HomeController.ADMIN_HOME_URL));
+    }
 
     @Test
     public void homeControllerAssemblesTheStatisticsUsingTheStatisticsViewModelAssembler() throws Exception {
