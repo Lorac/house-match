@@ -4,28 +4,28 @@ import java.util.concurrent.TimeUnit;
 
 public class TaskSchedule {
 
-    private Runnable task;
+    private Runnable runnableTask;
     private Long interval;
     private Long initialDelay;
     private TimeUnit timeUnit;
 
-    public TaskSchedule(Runnable task, Long interval, Long initialDelay, TimeUnit timeUnit) {
-        this.task = task;
-        this.interval = interval;
+    public TaskSchedule(final Runnable runnableTask, final Long initialDelay, final Long interval, final TimeUnit timeUnit) {
+        this.runnableTask = runnableTask;
         this.initialDelay = initialDelay;
+        this.interval = interval;
         this.timeUnit = timeUnit;
     }
 
-    public Runnable getTask() {
-        return task;
-    }
-
-    public Long getInterval() {
-        return interval;
+    public Runnable getRunnableTask() {
+        return runnableTask;
     }
 
     public Long getInitialDelay() {
         return initialDelay;
+    }
+
+    public Long getInterval() {
+        return interval;
     }
 
     public TimeUnit getTimeUnit() {
