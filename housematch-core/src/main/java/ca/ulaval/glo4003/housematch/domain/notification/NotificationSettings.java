@@ -25,7 +25,7 @@ public class NotificationSettings {
         return notificationIntervals.get(notificationType) == notificationInterval;
     }
 
-    public Boolean isNotificationTypeEnabled(NotificationType notificationType) {
+    public Boolean isNotificationEnabled(NotificationType notificationType) {
         return getNotificationInterval(notificationType) != NotificationInterval.NEVER;
     }
 

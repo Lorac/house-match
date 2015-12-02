@@ -238,7 +238,7 @@ public class User extends UserObservable {
     }
 
     public void notify(Notification notification) {
-        if (notificationSettings.isNotificationTypeEnabled(notification.getType())) {
+        if (notificationSettings.isNotificationEnabled(notification.getType())) {
             notificationsQueues.get(notification.getType()).add(notification);
             userNotificationQueued(this, notification);
         }
