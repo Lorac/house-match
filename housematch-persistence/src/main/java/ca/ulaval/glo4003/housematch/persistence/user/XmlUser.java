@@ -1,7 +1,10 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -11,6 +14,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.domain.user.UserStatus;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlZonedDateTimeAdapter;
@@ -36,4 +41,5 @@ public class XmlUser {
     @XmlElementWrapper(name = "favoriteProperties")
     @XmlElement(name = "propertyHashCode")
     public Set<Integer> favoriteProperties = new HashSet<>();
+    public Map<NotificationType, ArrayList<Notification>> notificationsQueues = new HashMap<>();
 }

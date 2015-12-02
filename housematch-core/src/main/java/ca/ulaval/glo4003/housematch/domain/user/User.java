@@ -126,16 +126,12 @@ public class User extends UserObservable {
         this.notificationSettings = notificationSettings;
     }
 
-    public Map<NotificationType, Queue<Notification>> getNotificationQueues() {
-        return notificationsQueues;
-    }
-
-    public void setNotificationQueues(Map<NotificationType, Queue<Notification>> notificationsQueues) {
-        this.notificationsQueues = notificationsQueues;
-    }
-
     public Queue<Notification> getNotificationQueue(NotificationType notificationType) {
         return notificationsQueues.get(notificationType);
+    }
+
+    public Queue<Notification> setNotificationQueue(NotificationType notificationType, Queue<Notification> notificationsQueue) {
+        return notificationsQueues.put(notificationType, notificationsQueue);
     }
 
     public boolean isActive() {

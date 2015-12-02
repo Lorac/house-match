@@ -1,11 +1,14 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Collectors;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
@@ -34,6 +37,9 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.setPropertiesForSale(dereferenceProperties(xmlUser.propertiesForSale));
         user.setPurchasedProperties(dereferenceProperties(xmlUser.purchasedProperties));
         user.setFavoriteProperties(dereferenceProperties(xmlUser.favoriteProperties));
+        for (NotificationType notificationType : NotificationType.values()) {
+            user.setNotificationQueue(notificationType, new ConcurrentLinkedQueue<>(user.getNotificationQueue(notificationType)));
+        }
         return user;
     }
 
@@ -60,6 +66,9 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.propertiesForSale = referenceProperties(user.getPropertiesForSale());
         xmlUser.purchasedProperties = referenceProperties(user.getPurchasedProperties());
         xmlUser.favoriteProperties = referenceProperties(user.getFavoriteProperties());
+        for (NotificationType notificationType : NotificationType.values()) {
+            xmlUser.notificationsQueues.put(notificationType, new ArrayList<>(user.getNotificationQueue(notificationType)));
+        }
         return xmlUser;
     }
 

@@ -16,9 +16,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
@@ -62,7 +60,6 @@ public class UserTest {
     private Notification notificationMock;
 
     private Set<Property> properties = new HashSet<>();
-    private Map<NotificationType, Queue<Notification>> notificationQueues = new HashMap<>();
     private Queue<Notification> notificationQueue = new ConcurrentLinkedQueue<>();
     private User user;
     private User buyer;
@@ -73,7 +70,6 @@ public class UserTest {
         initMocks();
         initStubs();
         createUsers();
-        notificationQueues.put(SAMPLE_NOTIFICATION_TYPE, notificationQueue);
     }
 
     private void initMocks() {
@@ -97,6 +93,7 @@ public class UserTest {
         user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         user.registerObserver(userObserverMock);
         user.setNotificationSettings(notificationSettingsMock);
+        user.setNotificationQueue(SAMPLE_NOTIFICATION_TYPE, notificationQueue);
     }
 
     @Test
@@ -360,14 +357,8 @@ public class UserTest {
     }
 
     @Test
-    public void settingTheNotificationQueuesSetsTheNotificationQueues() {
-        user.setNotificationQueues(notificationQueues);
-        assertEquals(notificationQueues, user.getNotificationQueues());
-    }
-
-    @Test
-    public void gettingTheNotificationQueueGetsTheSpecifiedNotificationQueue() {
-        user.setNotificationQueues(notificationQueues);
+    public void settingTheNotificationQueueSetsTheSpecifiedNotificationQueue() {
+        user.setNotificationQueue(SAMPLE_NOTIFICATION_TYPE, notificationQueue);
         Queue<Notification> returnedNotificationQueue = user.getNotificationQueue(SAMPLE_NOTIFICATION_TYPE);
         assertEquals(notificationQueue, returnedNotificationQueue);
     }
@@ -375,21 +366,15 @@ public class UserTest {
     @Test
     public void notifyingTheUserWithNotificationAddsTheSpecifiedNotificationToTheQueue() {
         when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
-        user.setNotificationQueues(notificationQueues);
-
         user.notify(notificationMock);
-
-        assertThat(notificationQueues.get(SAMPLE_NOTIFICATION_TYPE), hasItem(notificationMock));
+        assertThat(notificationQueue, hasItem(notificationMock));
     }
 
     @Test
     public void notifyingTheUserWhenTheseTypeOfNotificationsAreNotEnabledDoesNotAddTheNotificationToTheQueue() {
         when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(false);
-        user.setNotificationQueues(notificationQueues);
-
         user.notify(notificationMock);
-
-        assertThat(notificationQueues.get(SAMPLE_NOTIFICATION_TYPE), not(hasItem(notificationMock)));
+        assertThat(notificationQueue, not(hasItem(notificationMock)));
     }
 
     @Test
