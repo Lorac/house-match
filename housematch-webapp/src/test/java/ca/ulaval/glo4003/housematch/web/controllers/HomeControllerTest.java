@@ -20,7 +20,6 @@ import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.statistics.property.PropertyStatistics;
 import ca.ulaval.glo4003.housematch.statistics.user.UserStatistics;
 import ca.ulaval.glo4003.housematch.web.assemblers.StatisticsViewModelAssembler;
-import ca.ulaval.glo4003.housematch.web.controllers.HomeController;
 import ca.ulaval.glo4003.housematch.web.viewmodels.StatisticsViewModel;
 
 public class HomeControllerTest extends BaseControllerTest {
@@ -69,14 +68,12 @@ public class HomeControllerTest extends BaseControllerTest {
 
         results.andExpect(model().attributeExists(StatisticsViewModel.NAME));
     }
-    
+
     @Test
     public void homeControllerRendersHomeViewWithStatisticsForAdminUser() throws Exception {
-        when(userMock.getRole()).thenReturn(UserRole.ADMINISTRATOR);
         when(statisticsViewModelAssemblerMock.assembleFromStatistics(anyObject(), anyObject())).thenReturn(statisticsViewModelMock);
-        ResultActions results = performGetRequest(HomeController.HOME_URL);
-
-        results.andExpect(redirectedUrl(HomeController.ADMIN_HOME_URL));
+        ResultActions results = performGetRequest(HomeController.ADMIN_HOME_URL);
+        results.andExpect(model().attributeExists(StatisticsViewModel.NAME));
     }
 
     @Test
