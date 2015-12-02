@@ -1,15 +1,19 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import org.junit.Before;
+import org.junit.Test;
+
+import ca.ulaval.glo4003.housematch.domain.address.Address;
 
 public class PropertyTest {
 
@@ -152,5 +156,22 @@ public class PropertyTest {
     public void markingThePropertyAsSoldNotifiesTheObservers() {
         property.markAsSold();
         verify(propertyObserverMock).propertyStatusChanged(property, PropertyStatus.SOLD);
+    }
+
+    @Test
+    public void updatingThePropertyDetailsUpdatesThePropertyDetails() {
+        property.updatePropertyDetails(propertyDetailsMock);
+        assertEquals(propertyDetailsMock, property.getPropertyDetails());
+    }
+
+    @Test
+    public void updatingThePropertyDetailsNotifiesTheObservers() {
+        property.updatePropertyDetails(propertyDetailsMock);
+        verify(propertyObserverMock).propertyDetailsChanged(property, propertyDetailsMock);
+    }
+
+    @Test
+    public void propertyToStringReturnsTheAddressString() {
+        assertEquals(addressMock.toString(), property.toString());
     }
 }

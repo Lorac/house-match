@@ -124,5 +124,6 @@ public class UserService {
 
     public void updateUserNotificationSettings(User user, NotificationSettings notificationSettings) {
         user.setNotificationSettings(notificationSettings);
+        userRepository.update(user);
     }
 }
