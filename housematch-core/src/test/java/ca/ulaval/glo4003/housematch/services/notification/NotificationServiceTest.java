@@ -19,6 +19,8 @@ import org.junit.Test;
 import org.mockito.InOrder;
 
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -27,6 +29,7 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 public class NotificationServiceTest {
 
     private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_MODIFIED;
+    private static final NotificationType ANOTHER_SAMPLE_NOTIFICATION_TYPE = NotificationType.PROPERTY_PUT_UP_FOR_SALE;
     private static final String SAMPLE_NOTIFICATION_STRING = "sampleString1";
     private static final String ANOTHER_SAMPLE_NOTIFICATION_STRING = "sampleString2";
     private static final String SAMPLE_EMAIL = "test@test.com";
@@ -36,6 +39,7 @@ public class NotificationServiceTest {
     private MailSender mailSenderMock;
     private Notification notificationMock;
     private Notification anotherNotificationMock;
+    private NotificationSettings notificationSettingsMock;
     private UserRepository userRepositoryMock;
 
     Queue<Notification> notificationQueue = new ConcurrentLinkedQueue<>();
@@ -56,12 +60,14 @@ public class NotificationServiceTest {
         mailSenderMock = mock(MailSender.class);
         notificationMock = mock(Notification.class);
         anotherNotificationMock = mock(Notification.class);
+        notificationSettingsMock = mock(NotificationSettings.class);
         userRepositoryMock = mock(UserRepository.class);
     }
 
     private void initStubs() {
         when(userMock.getNotificationQueue()).thenReturn(notificationQueue);
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
+        when(userMock.getNotificationSettings()).thenReturn(notificationSettingsMock);
         when(notificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
         when(notificationMock.toString()).thenReturn(SAMPLE_NOTIFICATION_STRING);
         when(anotherNotificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
@@ -75,29 +81,51 @@ public class NotificationServiceTest {
     }
 
     @Test
-    public void processingNotificationRemovesTheNotificationFromTheQueue() {
-        notificationService.processNotifications(userMock, SAMPLE_NOTIFICATION_TYPE);
-        assertTrue(notificationQueue.isEmpty());
-    }
-
-    @Test
-    public void processingNotificationDoesNotSendAnyEmailWhenNotificationQueueIsEmpty() {
-        notificationQueue.clear();
-        notificationService.processNotifications(userMock, SAMPLE_NOTIFICATION_TYPE);
-        verify(mailSenderMock, never()).sendAsync(anyString(), anyString(), anyString());
-    }
-
-    @Test
-    public void processingNotificationSendsAnEmailContainingTheNotificationDescriptionToTheSpecifiedUser() {
-        notificationService.processNotifications(userMock, SAMPLE_NOTIFICATION_TYPE);
+    public void processingQueuedNotificationSendsAnEmailContainingTheNotificationDescriptionToTheSpecifiedUser() {
+        when(notificationSettingsMock.notificationIntervalEquals(eq(SAMPLE_NOTIFICATION_TYPE), eq(NotificationInterval.IMMEDIATELY)))
+                .thenReturn(true);
+        notificationService.processQueuedUserNotification(userMock, notificationMock);
         verify(mailSenderMock).sendAsync(anyString(), eq(SAMPLE_NOTIFICATION_STRING), eq(SAMPLE_EMAIL));
     }
 
     @Test
-    public void processingNotificationsSendsTheEmailInTheRightOrderWhenNotificationQueueContainsMultipleNotifications() {
+    public void processingQueuedNotificationDoesNotSendAnEmailWhenTheNotificationInTheQueueDoesNotMatchTheSpecifiedNotificationType() {
+        notificationService.processUserNotificationQueue(userMock, ANOTHER_SAMPLE_NOTIFICATION_TYPE);
+        verify(mailSenderMock, never()).sendAsync(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void processingQueuedNotificationDoesNotSendAnEmailWhenTheNotificationIntervalSettingOfUserIsNotSetToImmediately() {
+        when(notificationSettingsMock.notificationIntervalEquals(eq(SAMPLE_NOTIFICATION_TYPE), eq(NotificationInterval.IMMEDIATELY)))
+                .thenReturn(false);
+        notificationService.processQueuedUserNotification(userMock, notificationMock);
+        verify(mailSenderMock, never()).sendAsync(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void processingNotificationQueueRemovesTheNotificationFromTheQueue() {
+        notificationService.processUserNotificationQueue(userMock, SAMPLE_NOTIFICATION_TYPE);
+        assertTrue(notificationQueue.isEmpty());
+    }
+
+    @Test
+    public void processingNotificationQueueDoesNotSendAnyEmailWhenNotificationQueueIsEmpty() {
+        notificationQueue.clear();
+        notificationService.processUserNotificationQueue(userMock, SAMPLE_NOTIFICATION_TYPE);
+        verify(mailSenderMock, never()).sendAsync(anyString(), anyString(), anyString());
+    }
+
+    @Test
+    public void processingNotificationQueueSendsAnEmailContainingTheNotificationDescriptionToTheSpecifiedUser() {
+        notificationService.processUserNotificationQueue(userMock, SAMPLE_NOTIFICATION_TYPE);
+        verify(mailSenderMock).sendAsync(anyString(), eq(SAMPLE_NOTIFICATION_STRING), eq(SAMPLE_EMAIL));
+    }
+
+    @Test
+    public void processingNotificationsQueueSendsTheEmailInTheRightOrderWhenNotificationQueueContainsMultipleNotifications() {
         notificationQueue.add(anotherNotificationMock);
 
-        notificationService.processNotifications(userMock, SAMPLE_NOTIFICATION_TYPE);
+        notificationService.processUserNotificationQueue(userMock, SAMPLE_NOTIFICATION_TYPE);
 
         InOrder inOrder = inOrder(mailSenderMock);
         inOrder.verify(mailSenderMock).sendAsync(anyString(), eq(SAMPLE_NOTIFICATION_STRING), anyString());

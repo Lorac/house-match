@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Queue;
 
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -21,16 +22,23 @@ public class NotificationService {
         this.userRepository = userRepository;
     }
 
-    public void processNotifications(User user, NotificationType notificationType) {
+    public void processQueuedUserNotification(User user, Notification notification) {
+        if (user.getNotificationSettings().notificationIntervalEquals(notification.getType(), NotificationInterval.IMMEDIATELY)) {
+            processUserNotificationQueue(user, notification.getType());
+        }
+        userRepository.update(user);
+    }
+
+    public void processUserNotificationQueue(User user, NotificationType notificationType) {
         Queue<Notification> notificationQueue = user.getNotificationQueue();
         for (Notification notification : notificationQueue) {
             if (notification.getType() == notificationType) {
-                processNotification(notificationQueue.remove(), user);
+                sendNotificationMail(notificationQueue.remove(), user);
             }
         }
     }
 
-    private void processNotification(Notification notification, User user) {
+    private void sendNotificationMail(Notification notification, User user) {
         mailSender.sendAsync(NOTIFICATION_EMAIL_SUBJECT, notification.toString(), user.getEmail());
     }
 

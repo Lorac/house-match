@@ -54,6 +54,6 @@ public class UserNotificationTaskTest {
     public void runningTheTaskCallsTheNotificationServiceWhenUserNotificationIntervalSettingMatchesTheIntervalSettingOfTheTask() {
         when(notificationSettingsMock.notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, SAMPLE_NOTIFICATION_INTERVAL)).thenReturn(true);
         userNotificationTask.run();
-        verify(notificationServiceMock).processNotifications(userMock, SAMPLE_NOTIFICATION_TYPE);
+        verify(notificationServiceMock).processUserNotificationQueue(userMock, SAMPLE_NOTIFICATION_TYPE);
     }
 }
