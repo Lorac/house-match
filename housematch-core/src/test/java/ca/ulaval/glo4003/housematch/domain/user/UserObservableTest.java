@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+
 public class UserObservableTest {
 
     private static final UserStatus SAMPLE_USER_STATUS = UserStatus.ACTIVE;
@@ -18,13 +20,20 @@ public class UserObservableTest {
     private User userMock;
     private UserObserver userObserverMock;
     private UserObserver anotherUserObserverMock;
+    private Notification notificationMock;
 
     @Before
     public void init() {
-        userObserverMock = mock(UserObserver.class);
-        anotherUserObserverMock = mock(UserObserver.class);
+        initMocks();
         userObservable = new UserObservable();
         registerObservers();
+    }
+
+    private void initMocks() {
+        userMock = mock(User.class);
+        userObserverMock = mock(UserObserver.class);
+        anotherUserObserverMock = mock(UserObserver.class);
+        notificationMock = mock(Notification.class);
     }
 
     private void registerObservers() {
@@ -43,6 +52,14 @@ public class UserObservableTest {
 
         verify(userObserverMock).userStatusChanged(userMock, SAMPLE_USER_STATUS);
         verify(anotherUserObserverMock).userStatusChanged(userMock, SAMPLE_USER_STATUS);
+    }
+
+    @Test
+    public void queuingOfUserNotificationNotifiesAllTheObservers() {
+        userObservable.userNotificationQueued(userMock, notificationMock);
+
+        verify(userObserverMock).userNotificationQueued(userMock, notificationMock);
+        verify(anotherUserObserverMock).userNotificationQueued(userMock, notificationMock);
     }
 
     @Test

@@ -15,16 +15,13 @@ public class UserFavoritePropertyObserver implements PropertyObserver {
     private NotificationFactory notificationFactory;
     private User user;
 
-    public UserFavoritePropertyObserver() {
-        this.notificationFactory = new NotificationFactory();
-    }
-
-    public UserFavoritePropertyObserver(final NotificationFactory notificationFactory) {
-        this.notificationFactory = notificationFactory;
-    }
-
     public UserFavoritePropertyObserver(final User user) {
+        this(user, new NotificationFactory());
+    }
+
+    public UserFavoritePropertyObserver(final User user, final NotificationFactory notificationFactory) {
         this.user = user;
+        this.notificationFactory = notificationFactory;
     }
 
     @Override

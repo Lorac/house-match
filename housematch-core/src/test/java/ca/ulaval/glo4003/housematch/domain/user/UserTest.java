@@ -1,6 +1,8 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -14,14 +16,22 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
@@ -42,13 +52,18 @@ public class UserTest {
     private static final ZonedDateTime SAMPLE_DATE_TIME = ZonedDateTime.now();
     private static final Object SAMPLE_OBJECT = new Object();
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
-    private Address addressMock;
+    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.PROPERTY_PUT_UP_FOR_SALE;
 
+    private Address addressMock;
     private StringHasher stringHasherMock;
     private Property propertyMock;
     private UserObserver userObserverMock;
+    private NotificationSettings notificationSettingsMock;
+    private Notification notificationMock;
 
     private Set<Property> properties = new HashSet<>();
+    private Map<NotificationType, Queue<Notification>> notificationQueues = new HashMap<>();
+    private Queue<Notification> notificationQueue = new ConcurrentLinkedQueue<>();
     private User user;
     private User buyer;
     private User seller;
@@ -58,6 +73,7 @@ public class UserTest {
         initMocks();
         initStubs();
         createUsers();
+        notificationQueues.put(SAMPLE_NOTIFICATION_TYPE, notificationQueue);
     }
 
     private void initMocks() {
@@ -65,10 +81,13 @@ public class UserTest {
         propertyMock = mock(Property.class);
         userObserverMock = mock(UserObserver.class);
         addressMock = mock(Address.class);
+        notificationSettingsMock = mock(NotificationSettings.class);
+        notificationMock = mock(Notification.class);
     }
 
     private void initStubs() {
         when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
+        when(notificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
     }
 
     private void createUsers() {
@@ -77,6 +96,7 @@ public class UserTest {
         seller = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.SELLER);
         user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         user.registerObserver(userObserverMock);
+        user.setNotificationSettings(notificationSettingsMock);
     }
 
     @Test
@@ -326,4 +346,57 @@ public class UserTest {
         user.addPropertyToFavorites(propertyMock);
         assertTrue(user.isPropertyFavorited(propertyMock));
     }
+
+    @Test
+    public void addingPropertyToFavoriteRegistersANewUserFavoritePropertyObserverToTheProperty() {
+        user.addPropertyToFavorites(propertyMock);
+        verify(propertyMock).registerObserver(Matchers.any(UserFavoritePropertyObserver.class));
+    }
+
+    @Test
+    public void settingTheNotificationSettingsSetsTheNotificationSettings() {
+        user.setNotificationSettings(notificationSettingsMock);
+        assertEquals(notificationSettingsMock, user.getNotificationSettings());
+    }
+
+    @Test
+    public void settingTheNotificationQueuesSetsTheNotificationQueues() {
+        user.setNotificationQueues(notificationQueues);
+        assertEquals(notificationQueues, user.getNotificationQueues());
+    }
+
+    @Test
+    public void gettingTheNotificationQueueGetsTheSpecifiedNotificationQueue() {
+        user.setNotificationQueues(notificationQueues);
+        Queue<Notification> returnedNotificationQueue = user.getNotificationQueue(SAMPLE_NOTIFICATION_TYPE);
+        assertEquals(notificationQueue, returnedNotificationQueue);
+    }
+
+    @Test
+    public void notifyingTheUserWithNotificationAddsTheSpecifiedNotificationToTheQueue() {
+        when(notificationSettingsMock.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
+        user.setNotificationQueues(notificationQueues);
+
+        user.notify(notificationMock);
+
+        assertThat(notificationQueues.get(SAMPLE_NOTIFICATION_TYPE), hasItem(notificationMock));
+    }
+
+    @Test
+    public void notifyingTheUserWhenTheseTypeOfNotificationsAreNotEnabledDoesNotAddTheNotificationToTheQueue() {
+        when(notificationSettingsMock.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(false);
+        user.setNotificationQueues(notificationQueues);
+
+        user.notify(notificationMock);
+
+        assertThat(notificationQueues.get(SAMPLE_NOTIFICATION_TYPE), not(hasItem(notificationMock)));
+    }
+
+    @Test
+    public void notifyingTheUserWithNotificationNotifiesTheObservers() {
+        when(notificationSettingsMock.isNotificationTypeEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
+        user.notify(notificationMock);
+        verify(userObserverMock).userNotificationQueued(user, notificationMock);
+    }
+
 }
