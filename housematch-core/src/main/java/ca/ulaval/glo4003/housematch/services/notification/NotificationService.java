@@ -22,9 +22,11 @@ public class NotificationService {
     }
 
     public void processNotifications(User user, NotificationType notificationType) {
-        Queue<Notification> notificationQueue = user.getNotificationQueue(notificationType);
-        while (!notificationQueue.isEmpty()) {
-            processNotification(notificationQueue.remove(), user);
+        Queue<Notification> notificationQueue = user.getNotificationQueue();
+        for (Notification notification : notificationQueue) {
+            if (notification.getType() == notificationType) {
+                processNotification(notificationQueue.remove(), user);
+            }
         }
     }
 

@@ -2,12 +2,10 @@ package ca.ulaval.glo4003.housematch.domain.user;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -15,7 +13,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
-import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
@@ -35,7 +32,7 @@ public class User extends UserObservable {
     private Set<Property> propertiesForSale = new HashSet<>();
     private Set<Property> purchasedProperties = new HashSet<>();
     private Set<Property> favoriteProperties = new HashSet<>();
-    private Map<NotificationType, Queue<Notification>> notificationsQueues = new ConcurrentHashMap<>();
+    private Queue<Notification> notificationsQueue = new ConcurrentLinkedQueue<>();
     private NotificationSettings notificationSettings = new NotificationSettings();
     private Address address;
 
@@ -45,13 +42,6 @@ public class User extends UserObservable {
         this.email = email;
         this.passwordHash = stringHasher.hash(password);
         this.role = role;
-        initNotificationQueues();
-    }
-
-    private void initNotificationQueues() {
-        for (NotificationType notificationType : NotificationType.values()) {
-            notificationsQueues.put(notificationType, new ConcurrentLinkedQueue<>());
-        }
     }
 
     public String getUsername() {
@@ -126,12 +116,12 @@ public class User extends UserObservable {
         this.notificationSettings = notificationSettings;
     }
 
-    public Queue<Notification> getNotificationQueue(NotificationType notificationType) {
-        return notificationsQueues.get(notificationType);
+    public Queue<Notification> getNotificationQueue() {
+        return notificationsQueue;
     }
 
-    public Queue<Notification> setNotificationQueue(NotificationType notificationType, Queue<Notification> notificationsQueue) {
-        return notificationsQueues.put(notificationType, notificationsQueue);
+    public void setNotificationQueue(Queue<Notification> notificationsQueue) {
+        this.notificationsQueue = notificationsQueue;
     }
 
     public boolean isActive() {
@@ -235,7 +225,7 @@ public class User extends UserObservable {
 
     public void notify(Notification notification) {
         if (notificationSettings.isNotificationEnabled(notification.getType())) {
-            notificationsQueues.get(notification.getType()).add(notification);
+            notificationsQueue.add(notification);
             userNotificationQueued(this, notification);
         }
     }

@@ -93,7 +93,7 @@ public class UserTest {
         user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         user.registerObserver(userObserverMock);
         user.setNotificationSettings(notificationSettingsMock);
-        user.setNotificationQueue(SAMPLE_NOTIFICATION_TYPE, notificationQueue);
+        user.setNotificationQueue(notificationQueue);
     }
 
     @Test
@@ -358,8 +358,8 @@ public class UserTest {
 
     @Test
     public void settingTheNotificationQueueSetsTheSpecifiedNotificationQueue() {
-        user.setNotificationQueue(SAMPLE_NOTIFICATION_TYPE, notificationQueue);
-        Queue<Notification> returnedNotificationQueue = user.getNotificationQueue(SAMPLE_NOTIFICATION_TYPE);
+        user.setNotificationQueue(notificationQueue);
+        Queue<Notification> returnedNotificationQueue = user.getNotificationQueue();
         assertEquals(notificationQueue, returnedNotificationQueue);
     }
 

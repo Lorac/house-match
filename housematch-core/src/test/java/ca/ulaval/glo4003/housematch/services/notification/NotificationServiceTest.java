@@ -60,9 +60,11 @@ public class NotificationServiceTest {
     }
 
     private void initStubs() {
-        when(userMock.getNotificationQueue(SAMPLE_NOTIFICATION_TYPE)).thenReturn(notificationQueue);
+        when(userMock.getNotificationQueue()).thenReturn(notificationQueue);
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
+        when(notificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
         when(notificationMock.toString()).thenReturn(SAMPLE_NOTIFICATION_STRING);
+        when(anotherNotificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
         when(anotherNotificationMock.toString()).thenReturn(ANOTHER_SAMPLE_NOTIFICATION_STRING);
     }
 
