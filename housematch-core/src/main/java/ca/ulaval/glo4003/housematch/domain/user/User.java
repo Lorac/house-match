@@ -186,7 +186,6 @@ public class User extends UserObservable {
 
     public void addPropertyToFavorites(Property property) {
         favoriteProperties.add(property);
-        property.registerObserver(new UserFavoritePropertyObserver(this));
     }
 
     public Boolean isPropertyFavorited(Property property) {
