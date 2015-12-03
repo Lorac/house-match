@@ -13,6 +13,14 @@ public class NotificationSettings {
         }
     }
 
+    public Map<NotificationType, NotificationInterval> getNotificationIntervals() {
+        return notificationIntervals;
+    }
+
+    public void setNotificationIntervals(Map<NotificationType, NotificationInterval> notificationIntervals) {
+        this.notificationIntervals = notificationIntervals;
+    }
+
     public void setNotificationInterval(NotificationType notificationType, NotificationInterval notificationInterval) {
         notificationIntervals.put(notificationType, notificationInterval);
     }

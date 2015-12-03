@@ -281,7 +281,6 @@
         </div>
         <div class="form-group">
             <div class="row center">
-                <input tabindex="8" class="btn btn-primary btn-lg" onclick="window.history.back()" value="Back to Search Results">
                 <c:if test="${property.isPropertyFavorited() == false}">
                     <button id="addPropertiesToFavorite" tabindex="9" class="btn btn-success btn-lg" value="${property.hashCode}">
                         <span class="icon glyphicon glyphicon-star"></span>&nbsp;Add to Favorites

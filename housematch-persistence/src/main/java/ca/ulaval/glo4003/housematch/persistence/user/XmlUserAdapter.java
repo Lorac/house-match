@@ -34,6 +34,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         user.setPropertiesForSale(dereferenceProperties(xmlUser.propertiesForSale));
         user.setPurchasedProperties(dereferenceProperties(xmlUser.purchasedProperties));
         user.setFavoriteProperties(dereferenceProperties(xmlUser.favoriteProperties));
+        user.setNotificationSettings(xmlUser.notificationSettings);
         user.setNotificationQueue(xmlUser.notificationsQueue);
         return user;
     }
@@ -61,6 +62,7 @@ public class XmlUserAdapter extends XmlAdapter<XmlUser, User> {
         xmlUser.propertiesForSale = referenceProperties(user.getPropertiesForSale());
         xmlUser.purchasedProperties = referenceProperties(user.getPurchasedProperties());
         xmlUser.favoriteProperties = referenceProperties(user.getFavoriteProperties());
+        xmlUser.notificationSettings = user.getNotificationSettings();
         xmlUser.notificationsQueue = user.getNotificationQueue();
         return xmlUser;
     }

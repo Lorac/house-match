@@ -353,14 +353,14 @@ public class UserTest {
     @Test
     public void settingTheNotificationSettingsSetsTheNotificationSettings() {
         user.setNotificationSettings(notificationSettingsMock);
-        assertEquals(notificationSettingsMock, user.getNotificationSettings());
+        assertSame(notificationSettingsMock, user.getNotificationSettings());
     }
 
     @Test
     public void settingTheNotificationQueueSetsTheSpecifiedNotificationQueue() {
         user.setNotificationQueue(notificationQueue);
         Queue<Notification> returnedNotificationQueue = user.getNotificationQueue();
-        assertEquals(notificationQueue, returnedNotificationQueue);
+        assertSame(notificationQueue, returnedNotificationQueue);
     }
 
     @Test

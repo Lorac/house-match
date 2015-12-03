@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -45,6 +46,7 @@ public class XmlUserAdapterTest {
     private User userMock;
     private XmlUser xmlUserMock;
     private Property propertyMock;
+    private NotificationSettings notificationSettingsMock;
 
     private XmlUserAdapter xmlUserAdapter;
     private Set<Property> propertiesForSale = new HashSet<>();
@@ -66,6 +68,7 @@ public class XmlUserAdapterTest {
         userFactoryMock = mock(UserFactory.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
         propertyMock = mock(Property.class);
+        notificationSettingsMock = mock(NotificationSettings.class);
         initUserMock();
         initXmlUserMock();
     }
@@ -83,6 +86,7 @@ public class XmlUserAdapterTest {
         when(userMock.getPropertiesForSale()).thenReturn(propertiesForSale);
         when(userMock.getPurchasedProperties()).thenReturn(purchasedProperties);
         when(userMock.getFavoriteProperties()).thenReturn(favoriteProperties);
+        when(userMock.getNotificationSettings()).thenReturn(notificationSettingsMock);
         when(userMock.getNotificationQueue()).thenReturn(notificationsQueue);
     }
 
@@ -99,6 +103,7 @@ public class XmlUserAdapterTest {
         xmlUserMock.propertiesForSale = propertyForSaleHashCodes;
         xmlUserMock.purchasedProperties = purchasedPropertyHashCodes;
         xmlUserMock.favoriteProperties = favoritePropertiesHashCodes;
+        xmlUserMock.notificationSettings = notificationSettingsMock;
         xmlUserMock.notificationsQueue = notificationsQueue;
     }
 
@@ -117,6 +122,7 @@ public class XmlUserAdapterTest {
         assertEquals(userMock.isActivated(), xmlUserMock.activated);
         assertEquals(userMock.getLastLoginDate(), xmlUserMock.lastLoginDate);
         assertEquals(userMock.getStatus(), xmlUserMock.status);
+        assertEquals(userMock.getNotificationSettings(), xmlUserMock.notificationSettings);
         assertEquals(userMock.getNotificationQueue(), xmlUserMock.notificationsQueue);
     }
 
@@ -145,6 +151,7 @@ public class XmlUserAdapterTest {
         assertEquals(xmlUserMock.activated, userMock.isActivated());
         assertEquals(xmlUserMock.lastLoginDate, userMock.getLastLoginDate());
         assertEquals(xmlUserMock.status, userMock.getStatus());
+        assertEquals(xmlUserMock.notificationSettings, userMock.getNotificationSettings());
         assertEquals(xmlUserMock.notificationsQueue, userMock.getNotificationQueue());
     }
 
