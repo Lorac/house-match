@@ -46,6 +46,5 @@
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>
-    <script src="/resources/js/login.js"></script>
 </body>
 </html>

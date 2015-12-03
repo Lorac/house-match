@@ -12,9 +12,6 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
-<!-- Custom scripts for this page -->
-<script src="/resources/js/home.js"></script>
-
 <title>HouseMatch - Home</title>
 </head>
 <body onload="javascript:init()">
@@ -71,5 +68,8 @@
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>
+	
+	<!-- Custom JavaScript for this page -->
+	<script src="/resources/js/view-specific/home.js"></script>
 </body>
 </html>

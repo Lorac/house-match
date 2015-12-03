@@ -7,6 +7,8 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
+	
 <title>HouseMatch - Home</title>
 </head>
 <body>
@@ -285,8 +287,10 @@
             </div>
         </div>
     </div>
+	
+	<%@include file="/WEB-INF/includes/footer.jsp"%>
 
-    <%@include file="/WEB-INF/includes/footer.jsp"%>
-    <script src="/resources/js/propertyDetails.js"></script>
+	<!-- Custom JavaScript for this page -->
+	<script src="/resources/js/view-specific/property-details.js"></script>
 </body>
 </html>

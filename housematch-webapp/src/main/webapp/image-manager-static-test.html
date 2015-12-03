@@ -5,17 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
     <meta name="description" content="HouseMatch">
 
-    <!-- Bootstrap core CSS -->
-    <link href="./resources/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Common CSS -->
     <link href="./resources/css/site.css" rel="stylesheet">
+    <link href="./resources/css/components/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this page -->
-    <link href="./resources/css/image-manager.css" rel="stylesheet">
-
-    <!-- Custom scripts for this page -->
-    <script src="./resources/js/image-manager.js"></script>
+    <!-- Custom CSS for this page -->
+    <link href="./resources/css/components/image-manager.css" rel="stylesheet">
 
     <title>HouseMatch - Property Image Upload</title>
 </head>
@@ -49,55 +44,53 @@
         <h1 class="center">Image Upload</h1>
 
 
-        <div class="image-manager">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="col-sm-6 grid-cell">
-                        <div id="item-container" class="item-container" style="background-image:url('../resources/data/properties/images/12563252/image_2015_12_03_11_54_12_23423.jpg'); ">
-                            <div class="action-button-container">
-                                <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Delete image"><div class="icon delete-icon center-vertical center-horizontal"></div></div>
-                                <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Reject image"><div class="icon reject-icon center-vertical center-horizontal"></div></div>
-                                <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Accept image"><div class="icon accept-icon center-vertical center-horizontal"></div></div>
-                            </div>
+        <div id="property-image-uploader" class="image-manager">
+            <div class="div-templates">
+            <div class="image-grid-cell-template">
+                <div class="grid-cell">
+                    <div class="item-container image-container">
+                        <div class="image" style="background-image:url('../resources/data/properties/images/12563252/image_2015_12_03_11_54_12_23423.jpg');"></div>
+                        <div class="action-button-container">
+                            <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Delete image"><div class="icon delete-icon center-vertical center-horizontal"></div></div>
+                            <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Reject image"><div class="icon reject-icon center-vertical center-horizontal"></div></div>
+                            <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Accept image"><div class="icon accept-icon center-vertical center-horizontal"></div></div>
                         </div>
                     </div>
-                    <div class="col-sm-6 grid-cell">
-                        <div class="item-container">
-                            <div class="progress-container center-horizontal center-vertical">
-                                <div class="progress-text center-vertical">Uploading...</div>
-                                <div class="progress center-vertical">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="70"
-                                         aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                                        <span class="sr-only">70% Complete</span>
-                                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="content">
+                <div class="grid-cell">
+                    <div class="item-container progress-container">
+                        <div class="progress-controls-group center-horizontal center-vertical">
+                            <div class="progress-text center-vertical">Uploading...</div>
+                            <div class="progress center-vertical">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="70"
+                                     aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                    <span class="sr-only">70% Complete</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="col-sm-6 grid-cell">
-                        <div class="item-container image-upload-container">
-                            <div class="image-upload-button center-vertical center-horizontal">
-                                <div class="icon plus-icon center-vertical center-horizontal"></div>
-                            </div>
+                <div class="grid-cell">
+                    <div class="item-container image-upload-container">
+                        <div class="image-upload-button center-vertical center-horizontal">
+                            <div class="icon plus-icon center-vertical center-horizontal"></div>
                         </div>
-                    </div>
-                    <div class="col-sm-6 grid-cell">
-
                     </div>
                 </div>
             </div>
         </div>
-
-
-
     </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Common JavaScript -->
+    <script src="./resources/js/components/jquery-2.1.4.min.js"></script>
+    <script src="./resources/js/components/bootstrap.min.js"></script>
+    <script src="./resources/js/site.js"></script>
 
-    <script src="./resources/js/jquery-2.1.4.min.js"></script>
-    <script src="./resources/js/bootstrap.min.js"></script>
+    <!-- Custom JavaScript for this page -->
+    <script src="./resources/js/components/image-manager.js"></script>
+    <script src="./resources/js/view-specific/property-image-upload.js"></script>
 </body>
 </html>

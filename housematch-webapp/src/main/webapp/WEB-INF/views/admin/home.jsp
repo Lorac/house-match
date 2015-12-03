@@ -7,8 +7,6 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
-<script src="/resources/js/home.js"></script>
-
 <title>HouseMatch - Administrator Home</title>
 </head>
 <body onload="javascript:adminInit()">
@@ -40,5 +38,7 @@
     
     <%@include file="/WEB-INF/includes/footer.jsp"%>
 
+	<!-- Custom JavaScript for this page -->
+	<script src="/resources/js/view-specific/home.js"></script>
 </body>
 </html>

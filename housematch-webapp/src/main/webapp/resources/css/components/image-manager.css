@@ -10,19 +10,19 @@
 }
 
 .plus-icon {
-    background-image: url('../img/plus-icon.svg');
+    background-image: url('../../img/image-manager/plus-icon.svg');
 }
 
 .delete-icon {
-    background-image: url('../img/trash-icon.svg');
+    background-image: url('../../img/image-manager/trash-icon.svg');
 }
 
 .reject-icon {
-    background-image: url('../img/cross-icon.svg');
+    background-image: url('../../img/image-manager/cross-icon.svg');
 }
 
 .accept-icon {
-    background-image: url('../img/checkmark-icon.svg');
+    background-image: url('../../img/image-manager/checkmark-icon.svg');
 }
 
 .image-manager {
@@ -32,9 +32,16 @@
     padding: 8px;
 }
 
+.image-manager .content {
+    width: 100%;
+    height:100%;
+}
+
     .image-manager .grid-cell {
+        width: 300px;
         height: 200px;
         padding: 8px;
+        float: left;
     }
 
         .image-manager .grid-cell .item-container {
@@ -43,6 +50,11 @@
             height: 100%;
             background-size: cover;
             background-position: center;
+        }
+
+        .image-manager .grid-cell .item-container.image-container .image {
+            width:100%;
+            height:100%;
         }
 
             .image-manager .grid-cell .item-container.image-upload-container {
@@ -63,12 +75,12 @@
                         background-size: cover;
                     }
 
-        .image-manager .grid-cell .item-container .progress-container {
+        .image-manager .grid-cell .item-container.progress-container .progress-controls-group {
             text-align:center;
             padding:10px;
         }
 
-        .image-manager .grid-cell .item-container .progress-container .progress {
+        .image-manager .grid-cell .item-container.progress-container .progress-controls-group .progress {
             margin-top:10px;
         }
 
@@ -108,10 +120,6 @@
                     opacity: 0.7;
                 }
 
-    .image-manager .row {
-        margin: 0px !important;
-    }
-
-    .image-manager .col-md-6 {
-        padding: 0px !important;
+    .image-manager .div-templates {
+        display:none;
     }
