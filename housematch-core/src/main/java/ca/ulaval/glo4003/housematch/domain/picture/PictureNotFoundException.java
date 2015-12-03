@@ -8,7 +8,7 @@ public class PictureNotFoundException extends Exception {
         super();
     }
 
-    public PictureNotFoundException(String message) {
+    public PictureNotFoundException(final String message) {
         super(message);
     }
 }

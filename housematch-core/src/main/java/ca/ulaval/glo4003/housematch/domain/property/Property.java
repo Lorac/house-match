@@ -3,11 +3,14 @@ package ca.ulaval.glo4003.housematch.domain.property;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.picture.Picture;
 
 public class Property extends PropertyObservable {
 
@@ -19,6 +22,7 @@ public class Property extends PropertyObservable {
     private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate = ZonedDateTime.now();
     private Integer viewCount = 0;
+    private Set<Picture> picturesOfTheProperty = new HashSet<>();
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
