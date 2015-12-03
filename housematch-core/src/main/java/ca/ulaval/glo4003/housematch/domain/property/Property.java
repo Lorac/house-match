@@ -11,6 +11,8 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.picture.Picture;
+import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
 
 public class Property extends PropertyObservable {
 
@@ -107,6 +109,25 @@ public class Property extends PropertyObservable {
             sellingPriceHistory.add(this.sellingPrice);
             this.sellingPrice = sellingPrice;
         }
+    }
+
+    public void addPictureToProperty(Picture picture) throws PictureAlreadyExistsException {
+        if (picturesOfTheProperty.contains(picture)) {
+            throw new PictureAlreadyExistsException();
+        }
+        picturesOfTheProperty.add(picture);
+    }
+
+    public void removePropertyPicture(Picture picture) throws PictureNotFoundException {
+        if (picturesOfTheProperty.contains(picture)) {
+            picturesOfTheProperty.remove(picture);
+        } else {
+            throw new PictureNotFoundException();
+        }
+    }
+
+    public Set<Picture> getPicturesOfProperty() {
+        return picturesOfTheProperty;
     }
 
     @Override
