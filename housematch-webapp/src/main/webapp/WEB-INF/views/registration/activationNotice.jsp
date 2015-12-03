@@ -6,10 +6,6 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
-<!-- Custom styles for this page -->
-<link href="/resources/css/login.css" rel="stylesheet">
-
-
 <title>HouseMatch - Administrator Home</title>
 </head>
 <body>

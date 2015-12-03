@@ -7,9 +7,6 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
-<!-- Custom styles for this page -->
-<link href="/resources/css/login.css" rel="stylesheet">
-
 <script src="/resources/js/home.js"></script>
 
 <title>HouseMatch - Administrator Home</title>

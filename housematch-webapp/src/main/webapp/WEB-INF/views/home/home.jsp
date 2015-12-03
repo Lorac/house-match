@@ -12,9 +12,7 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
-<!-- Custom styles for this page -->
-<link href="/resources/css/login.css" rel="stylesheet">
-
+<!-- Custom scripts for this page -->
 <script src="/resources/js/home.js"></script>
 
 <title>HouseMatch - Home</title>
