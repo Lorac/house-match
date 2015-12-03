@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.housematch.domain.picture;
 public enum PictureStatus {
     APPROVED("Approved"),
     REJECTED("Rejected"),
-    WAITING_FOR_MODERATION("Waiting for moderation");
+    WAITING_FOR_APPROVAL("Waiting for moderation");
 
     private final String status;
 

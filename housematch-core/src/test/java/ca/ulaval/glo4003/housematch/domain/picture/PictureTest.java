@@ -8,7 +8,7 @@ import org.junit.Test;
 public class PictureTest {
     private final static String SAMPLE_PATH = "sample/path/to/some/pretty/picture.jpg";
     private final static String ANOTHER_SAMPLE_PATH = "this/is/another/pretty/path/teehee.png";
-    private final static PictureStatus SAMPLE_STATUS = PictureStatus.WAITING_FOR_MODERATION;
+    private final static PictureStatus SAMPLE_STATUS = PictureStatus.WAITING_FOR_APPROVAL;
     private final static PictureStatus ANOTHER_SAMPLE_STATUS = PictureStatus.APPROVED;
     
     private Picture picture;
