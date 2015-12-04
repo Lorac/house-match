@@ -187,4 +187,6 @@ public class PictureServiceTest {
         pictureService.approvePicture(SAMPLE_HASH_CODE);
         verify(pictureMock, never()).changeStatus(PictureStatus.APPROVED);
     }
+    
+    
 }
