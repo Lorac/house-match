@@ -4,7 +4,7 @@ public class PropertyPhoto {
 
     private int hashCode;
     private String originalFileName;
-    private PropertyPhotoStatus status;
+    private PropertyPhotoStatus status = PropertyPhotoStatus.WAITING_FOR_APPROVAL;
 
     public PropertyPhoto(final int hashCode, final String originalFileName) {
         this.hashCode = hashCode;
@@ -25,6 +25,10 @@ public class PropertyPhoto {
 
     public void setStatus(PropertyPhotoStatus status) {
         this.status = status;
+    }
+
+    public Boolean isApproved() {
+        return status == PropertyPhotoStatus.APPROVED;
     }
 
     public void updateStatus(PropertyPhotoStatus status) {

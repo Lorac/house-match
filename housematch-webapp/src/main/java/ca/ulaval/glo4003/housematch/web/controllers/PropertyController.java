@@ -97,8 +97,9 @@ public class PropertyController extends BaseController {
     @RequestMapping(value = PROPERTY_UPDATE_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertyUpdateView(@PathVariable int propertyHashCode, ModelMap modelMap, HttpSession httpSession) {
         try {
+            User user = getUserFromHttpSession(httpSession);
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assemble(property, Optional.empty()));
+            modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assemble(property, Optional.of(user)));
             return new ModelAndView(PROPERTY_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();

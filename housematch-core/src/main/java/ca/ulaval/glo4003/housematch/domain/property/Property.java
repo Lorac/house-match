@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
@@ -88,6 +89,10 @@ public class Property extends PropertyObservable {
 
     public Set<PropertyPhoto> getPhotos() {
         return photos;
+    }
+
+    public Set<PropertyPhoto> getApprovedPhotos() {
+        return photos.stream().filter(p -> p.isApproved()).collect(Collectors.toSet());
     }
 
     public void setPhotos(Set<PropertyPhoto> photos) {

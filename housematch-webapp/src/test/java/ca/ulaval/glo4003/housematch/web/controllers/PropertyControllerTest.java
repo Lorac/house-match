@@ -137,7 +137,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyUpdateViewAccess() throws Exception {
         when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
         performGetRequest(samplePropertyUpdateUrl);
-        verify(propertyViewModelAssemblerMock).assemble(eq(propertyMock), eq(Optional.empty()));
+        verify(propertyViewModelAssemblerMock).assemble(eq(propertyMock), eq(Optional.of(userMock)));
     }
 
     @Test
