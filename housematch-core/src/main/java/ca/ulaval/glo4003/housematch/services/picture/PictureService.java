@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.services.picture;
 import ca.ulaval.glo4003.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureFactory;
+import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
@@ -41,15 +42,23 @@ public class PictureService {
         propertyService.updateProperty(property, property.getPropertyDetails(), property.getSellingPrice());
     }
     
-    public void removePictureFromProperty() {
+    public void removePictureFromProperty(Integer propertyHashCode, Integer pictureHashCode) throws PictureServiceException {
+        try {
+            Property property = propertyService.getPropertyByHashCode(propertyHashCode);
+            Picture picture = pictureRepository.getPictureByHashCode(pictureHashCode);
+            property.removePropertyPicture(picture);
+            pictureRepository.removePictureByHashCode(pictureHashCode);
+            propertyService.updateProperty(property, property.getPropertyDetails(), property.getSellingPrice());
+        } catch (PropertyNotFoundException | PictureNotFoundException | PropertyServiceException e) {
+            throw new PictureServiceException(e);
+        }
+    }
+    
+    public void approvePicture(Integer pictureHashCode) {
         //TODO
     }
     
-    public void approvePicture() {
-        //TODO
-    }
-    
-    public void rejectPicture() {
+    public void rejectPicture(Integer pictureHashCode) {
         //TODO
     }
 }

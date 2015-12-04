@@ -16,6 +16,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.picture.Picture;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureFactory;
+import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureRepository;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
@@ -75,7 +76,7 @@ public class PictureServiceTest {
     @Test
     public void addingAPictureToAPropertyPersistsThePicture() throws PictureServiceException, PictureAlreadyExistsException {
         pictureService.addPictureToProperty(SAMPLE_PATH, SAMPLE_HASH_CODE);
-        verify(pictureRepositoryMock).persist(pictureMock);
+        verify(pictureRepositoryMock).persist(any(Picture.class));
     }
     
     @Test
@@ -96,5 +97,47 @@ public class PictureServiceTest {
         pictureService.addPictureToProperty(SAMPLE_PATH, SAMPLE_HASH_CODE);
         verifyZeroInteractions(propertyMock);
         verify(propertyServiceMock, never()).updateProperty(any(Property.class), any(PropertyDetails.class), any(BigDecimal.class));
+    }
+    
+    @Test
+    public void removingAPictureFromAPropertyCallsThePropertyServiceToFetchTheProperty() throws PictureServiceException, PropertyNotFoundException {
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+        verify(propertyServiceMock).getPropertyByHashCode(any(Integer.class));
+    }
+    
+    @Test
+    public void removingAPictureFromAPropertyRemovesThePropertyFromThePictureRepository() throws PictureNotFoundException, PictureServiceException {
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+        verify(pictureRepositoryMock).removePictureByHashCode(SAMPLE_HASH_CODE);
+    }
+    
+    @Test
+    public void removingAPictureFromAPropertyCallsThePictureRemovalMethodOfTheProperty() throws PictureServiceException, PictureNotFoundException {
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+        verify(propertyMock).removePropertyPicture(any(Picture.class));
+    }
+    
+    @Test
+    public void removingAPictureFromAPropertyUpdatesTheChangesToThePropertyWithThePropertyServices() throws PictureServiceException, PropertyServiceException {
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+        verify(propertyServiceMock).updateProperty(any(Property.class), any(PropertyDetails.class), any(BigDecimal.class));
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void removingAPictureThatIsNotContainedInAPropertyThrowsAnException() throws PictureServiceException, PictureNotFoundException {
+        doThrow(new PictureNotFoundException()).when(propertyMock).removePropertyPicture(any(Picture.class));
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void removingAPictureThatDoesNotExistInThePictureRepositoryThrowsAnException() throws PictureServiceException, PictureNotFoundException {
+        doThrow(new PictureNotFoundException()).when(pictureRepositoryMock).getPictureByHashCode(any(Integer.class));
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void removingAPictureFromAPropertyThatDoesNotExistInThePropertyRepositoryThrowsAnException() throws PictureServiceException, PropertyNotFoundException {
+        doThrow(new PropertyNotFoundException()).when(propertyServiceMock).getPropertyByHashCode(any(Integer.class));
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
     }
 }
