@@ -1,0 +1,18 @@
+package ca.ulaval.glo4003.housematch.domain.picture;
+
+public enum PictureStatus {
+    APPROVED("Approved"),
+    REJECTED("Rejected"),
+    WAITING_FOR_APPROVAL("Waiting for moderation");
+
+    private final String status;
+
+    PictureStatus(final String status) {
+        this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return this.status;
+    }
+}
