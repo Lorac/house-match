@@ -5,7 +5,11 @@ function bodyOnLoad(propertyHashCode) {
 }
 
 function initPhotoManager(propertyHashCode) {
-    photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, "/seller/uploadPropertyPhoto/" + propertyHashCode, "/seller/downloadPropertyPhoto/", "/seller/downloadPropertyPhotoThumbnail/", "/seller/deletePropertyPhoto/");
+    var downloadBaseUrl = "/seller/downloadPropertyPhoto/" + propertyHashCode + "/";
+    var thumbnailDownloadBaseUrl = "/seller/downloadPropertyPhotoThumbnail/" + propertyHashCode + "/";
+    var deleteBaseUrl = "/seller/deletePropertyPhoto/" + propertyHashCode + "/";
+
+    photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, "/seller/uploadPropertyPhoto/" + propertyHashCode, downloadBaseUrl, thumbnailDownloadBaseUrl, deleteBaseUrl);
 }
 
 

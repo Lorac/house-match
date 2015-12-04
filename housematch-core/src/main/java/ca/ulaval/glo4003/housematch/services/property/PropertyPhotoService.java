@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoFactory;
@@ -14,10 +15,13 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 
 public class PropertyPhotoService {
 
+    private PropertyRepository propertyRepository;
     private PropertyPhotoRepository propertyPhotoRepository;
     private PropertyPhotoFactory propertyPhotoFactory;
 
-    public PropertyPhotoService(final PropertyPhotoRepository propertyPhotoRepository, final PropertyPhotoFactory propertyPhotoFactory) {
+    public PropertyPhotoService(final PropertyRepository propertyRepository, final PropertyPhotoRepository propertyPhotoRepository,
+            final PropertyPhotoFactory propertyPhotoFactory) {
+        this.propertyRepository = propertyRepository;
         this.propertyPhotoRepository = propertyPhotoRepository;
         this.propertyPhotoFactory = propertyPhotoFactory;
     }
@@ -25,42 +29,51 @@ public class PropertyPhotoService {
     public Integer addPropertyPhoto(Property property, byte[] fileBytes, String originalFileName) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes, originalFileName);
-            property.addPhoto(propertyPhoto);
             propertyPhotoRepository.persist(propertyPhoto, fileBytes);
+            property.addPhoto(propertyPhoto);
+            propertyRepository.update(property);
             return propertyPhoto.hashCode();
         } catch (PropertyPhotoAlreadyExistsException | IOException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }
 
-    public byte[] getPropertyPhotoData(int photoHashCode) throws PropertyPhotoServiceException, PropertyPhotoNotFoundException {
+    public byte[] getPropertyPhotoData(Property property, int photoHashCode) throws PropertyPhotoServiceException {
         try {
-            return Base64.encodeBase64(propertyPhotoRepository.getDataByHashCode(photoHashCode));
-        } catch (IOException e) {
+            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
+            return Base64.encodeBase64(propertyPhotoRepository.getPhotoData(propertyPhoto));
+        } catch (IOException | PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }
 
-    public byte[] getPropertyPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException, PropertyPhotoNotFoundException {
+    public byte[] getPropertyPhotoThumbnailData(Property property, int photoHashCode) throws PropertyPhotoServiceException {
         try {
-            return Base64.encodeBase64(propertyPhotoRepository.getThumbnailDataByHashCode(photoHashCode));
-        } catch (IOException e) {
+            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
+            return Base64.encodeBase64(propertyPhotoRepository.getThumbnailData(propertyPhoto));
+        } catch (IOException | PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }
 
-    public void deletePropertyPhoto(int photoHashCode) throws PropertyPhotoServiceException, PropertyPhotoNotFoundException {
+    public void deletePropertyPhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
         try {
-            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
+            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
             propertyPhotoRepository.delete(propertyPhoto);
-        } catch (IOException e) {
+            property.removePhoto(propertyPhoto);
+            propertyRepository.update(property);
+        } catch (IOException | PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }
 
-    public void approvePropertyPhoto(int photoHashCode) throws PropertyPhotoNotFoundException {
-        PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
-        propertyPhoto.updateStatus(PropertyPhotoStatus.APPROVED);
-        propertyPhotoRepository.update(propertyPhoto);
+    public void approvePropertyPhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+        try {
+            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
+            propertyPhoto.updateStatus(PropertyPhotoStatus.APPROVED);
+            propertyPhotoRepository.update(propertyPhoto);
+        } catch (PropertyPhotoNotFoundException e) {
+            throw new PropertyPhotoServiceException(e);
+        }
     }
 }

@@ -5,12 +5,14 @@ import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 
 public class Property extends PropertyObservable {
 
@@ -84,6 +86,14 @@ public class Property extends PropertyObservable {
         this.sellingPriceHistory = sellingPriceHistory;
     }
 
+    public Set<PropertyPhoto> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<PropertyPhoto> photos) {
+        this.photos = photos;
+    }
+
     public Integer incrementViewCount() {
         return ++viewCount;
     }
@@ -122,8 +132,12 @@ public class Property extends PropertyObservable {
         photos.remove(propertyPhoto);
     }
 
-    public Set<PropertyPhoto> getPhotos() {
-        return photos;
+    public PropertyPhoto getPhotoByHashCode(int hashCode) throws PropertyPhotoNotFoundException {
+        try {
+            return photos.stream().filter(p -> p.hashCode() == hashCode).findFirst().get();
+        } catch (NoSuchElementException e) {
+            throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hashcode '%s'.", hashCode));
+        }
     }
 
     @Override

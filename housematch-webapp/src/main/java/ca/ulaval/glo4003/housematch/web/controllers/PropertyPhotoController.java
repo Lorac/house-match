@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
-import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.services.property.PropertyPhotoService;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 
@@ -24,9 +23,9 @@ import ca.ulaval.glo4003.housematch.services.user.UserService;
 public class PropertyPhotoController extends BaseController {
 
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
-    private static final String PHOTO_DOWNLOAD_URL = "/seller/downloadPropertyPhoto/{photoHashCode}";
-    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/seller/downloadPropertyPhotoThumbnail/{photoHashCode}";
-    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{photoHashCode}";
+    private static final String PHOTO_DOWNLOAD_URL = "/seller/downloadPropertyPhoto/{propertyHashCode}/{photoHashCode}";
+    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/seller/downloadPropertyPhotoThumbnail/{propertyHashCode}/{photoHashCode}";
+    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
@@ -55,33 +54,26 @@ public class PropertyPhotoController extends BaseController {
     }
 
     @RequestMapping(value = PHOTO_DOWNLOAD_URL, method = RequestMethod.GET)
-    public final ResponseEntity<byte[]> downloadPropertyPhoto(@PathVariable int photoHashCode) throws Exception {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoData(photoHashCode), headers, HttpStatus.OK);
-        } catch (PropertyPhotoNotFoundException e) {
-            throw new ResourceNotFoundException();
-        }
+    public final ResponseEntity<byte[]> downloadPropertyPhoto(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
+            HttpSession httpSession) throws Exception {
+        Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+        return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoData(property, photoHashCode), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = PHOTO_THUMBNAIL_DOWNLOAD_URL, method = RequestMethod.GET)
-    public final ResponseEntity<byte[]> downloadPropertyPhotoThumbnail(@PathVariable int photoHashCode) throws Exception {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoThumbnailData(photoHashCode), headers, HttpStatus.OK);
-        } catch (PropertyPhotoNotFoundException e) {
-            throw new ResourceNotFoundException();
-        }
+    public final ResponseEntity<byte[]> downloadPropertyPhotoThumbnail(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
+            HttpSession httpSession) throws Exception {
+        Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+        return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoThumbnailData(property, photoHashCode), new HttpHeaders(),
+                HttpStatus.OK);
     }
 
     @RequestMapping(value = PHOTO_DELETE_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public final void deletePropertyPhotoThumbnail(@PathVariable int photoHashCode) throws Exception {
-        try {
-            propertyPhotoService.deletePropertyPhoto(photoHashCode);
-        } catch (PropertyPhotoNotFoundException e) {
-            throw new ResourceNotFoundException();
-        }
+    public final void deletePropertyPhotoThumbnail(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
+            HttpSession httpSession) throws Exception {
+        Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+        propertyPhotoService.deletePropertyPhoto(property, photoHashCode);
     }
 
 }

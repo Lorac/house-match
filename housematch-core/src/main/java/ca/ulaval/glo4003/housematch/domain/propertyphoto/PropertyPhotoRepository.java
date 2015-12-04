@@ -8,9 +8,9 @@ public interface PropertyPhotoRepository {
 
     PropertyPhoto getByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException;
 
-    byte[] getDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException;
+    byte[] getPhotoData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException;
 
-    byte[] getThumbnailDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException;
+    byte[] getThumbnailData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException;
 
     void delete(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException;
 

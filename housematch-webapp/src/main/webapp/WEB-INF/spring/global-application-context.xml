@@ -143,8 +143,9 @@
     </bean>
     
     <bean id="propertyPhotoService" class="ca.ulaval.glo4003.housematch.services.property.PropertyPhotoService">
-        <constructor-arg ref="propertyPhotoFactory" />
+        <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="xmlPropertyPhotoRepository" />
+        <constructor-arg ref="propertyPhotoFactory" />
     </bean>
     
     <bean id="userStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService">

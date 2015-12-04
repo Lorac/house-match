@@ -86,20 +86,20 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     }
 
     @Override
-    public byte[] getDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException {
+    public byte[] getPhotoData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
         try {
-            return fileUtilsWrapper.readByteArrayFromFile(getPhotoFileName(hashCode));
+            return fileUtilsWrapper.readByteArrayFromFile(getPhotoFileName(propertyPhoto.hashCode()));
         } catch (FileNotFoundException e) {
-            throw new PropertyPhotoNotFoundException(String.format("Cannot find property photo with hash code '%s'.", hashCode));
+            throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hash code '%s'.", propertyPhoto.hashCode()));
         }
     }
 
     @Override
-    public byte[] getThumbnailDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException {
+    public byte[] getThumbnailData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
         try {
-            return fileUtilsWrapper.readByteArrayFromFile(getThumbnailFileName(hashCode));
+            return fileUtilsWrapper.readByteArrayFromFile(getThumbnailFileName(propertyPhoto.hashCode()));
         } catch (FileNotFoundException e) {
-            throw new PropertyPhotoNotFoundException(String.format("Cannot find property photo with hash code '%s'.", hashCode));
+            throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hash code '%s'.", propertyPhoto.hashCode()));
         }
     }
 
@@ -130,5 +130,4 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
         xmlPropertyPhotoRootElement.setProperties(propertyPhotos.values());
         xmlRepositoryMarshaller.marshal(xmlPropertyPhotoRootElement);
     }
-
 }
