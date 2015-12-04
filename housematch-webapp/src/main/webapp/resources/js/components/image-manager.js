@@ -1,6 +1,11 @@
 
 function GridCell(element) {
     this.element = element;
+
+    this.getContainer = function() {
+        var cont = this.element.find(".item-container").first();
+        return this.element.find(".item-container").first();
+    }
 }
 
 ProgressContainer.prototype = new GridCell();
@@ -11,18 +16,12 @@ function ProgressContainer(element) {
 
 UploadContainer.prototype = new GridCell();
 UploadContainer.prototype.constructor = UploadContainer;
-function UploadContainer(element) {
-    this.element = element;
-    var onclick;
+function UploadContainer(element, onclick) {
+    GridCell.call(this, element);
 
-    function onclick(method) {
-        this.onclick = onclick;
-    }
-
-    element.click(function () {
-        this.onclick();
-    });
+    this.element.click({ param1: onclick }, onclick);
 }
+
 
 function ImageManager(element, uploadEnabled, reviewEnabled, deleteEnabled) {
     this.element = element;
@@ -43,13 +42,13 @@ function ImageManager(element, uploadEnabled, reviewEnabled, deleteEnabled) {
     }
 
     function initProgressContainerGridCell() {
-        progressContainerGridCell = new ProgressContainer(contentElement.find(".progress-container").first());
+        progressContainerGridCell = new ProgressContainer(contentElement.find(".progress-container").first().parent());
         progressContainerGridCell.element.hide();
     }
 
     function initUploadContainerGridCell() {
-        uploadContainerGridCell = new UploadContainer(contentElement.find(".upload-container").first());
-        uploadContainerGridCell.onclick = this.uploadButtonClicked;
+        var containerElement = contentElement.find(".upload-container").first().parent();
+        uploadContainerGridCell = new UploadContainer(containerElement, uploadButtonClicked);
         if (!uploadEnabled) {
             uploadContainerGridCell.element.hide();
         }
@@ -58,23 +57,24 @@ function ImageManager(element, uploadEnabled, reviewEnabled, deleteEnabled) {
     function addImageGridCell() {
         var gridCellElement = getElementTemplate("image-grid-cell-template")
         var gridCell = new GridCell(gridCellElement);
-        this.imageGridCells.push(gridCell);
+        imageGridCells.push(gridCell);
 
-        this.element.append(gridCellElement);
+        contentElement.append(gridCellElement);
     }
 
     function getElementTemplate(templateClassName) {
-        return this.element.find(".div-templates").first().find("." + templateClassName).first().children(":first");
-    }
-
-    function uploadButtonClicked() {
-        uploadContainerGridCell.element.hide();
-        progressContainerGridCell.element.show();
+        return element.find(".div-templates").first().find("." + templateClassName).first().children(":first");
     }
 
     function uploadCompleted() {
         progressContainerGridCell.element.hide();
         uploadContainerGridCell.element.show();
+    }
+
+    function uploadButtonClicked() {
+        //uploadContainerGridCell.element.hide();
+        //progressContainerGridCell.element.show();
+        addImageGridCell();
     }
 
 };

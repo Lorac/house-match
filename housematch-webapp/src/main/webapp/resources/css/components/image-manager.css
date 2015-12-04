@@ -32,10 +32,10 @@
     padding: 8px;
 }
 
-.image-manager .content {
-    width: 100%;
-    height:100%;
-}
+    .image-manager .content {
+        width: 100%;
+        height: 100%;
+    }
 
     .image-manager .grid-cell {
         width: 300px;
@@ -52,37 +52,40 @@
             background-position: center;
         }
 
-        .image-manager .grid-cell .item-container.image-container .image {
-            width:100%;
-            height:100%;
-        }
-
-            .image-manager .grid-cell .item-container.image-upload-container {
+            .image-manager .grid-cell .item-container.upload-container {
                 border-style: dashed;
                 border-width: 2px;
             }
 
-                .image-manager .grid-cell .item-container.image-upload-container .image-upload-button {
+                .image-manager .grid-cell .item-container.upload-container:hover {
+                    cursor: pointer;
+                }
+
+                .image-manager .grid-cell .item-container.upload-container .upload-button {
                     border-radius: 50%;
                     width: 60px;
                     height: 60px;
                     background-color: #CCC;
                 }
 
-                    .image-manager .grid-cell .item-container.image-upload-container .image-upload-button .icon {
-                        width: 35px;
-                        height: 35px;
-                        background-size: cover;
-                    }
+                .image-manager .grid-cell .item-container.upload-container:hover .upload-button {
+                    opacity: 0.7;
+                }
 
-        .image-manager .grid-cell .item-container.progress-container .progress-controls-group {
-            text-align:center;
-            padding:10px;
-        }
+                .image-manager .grid-cell .item-container.upload-container .upload-button .icon {
+                    width: 35px;
+                    height: 35px;
+                    background-size: cover;
+                }
 
-        .image-manager .grid-cell .item-container.progress-container .progress-controls-group .progress {
-            margin-top:10px;
-        }
+            .image-manager .grid-cell .item-container.progress-container .progress-controls-group {
+                text-align: center;
+                padding: 10px;
+            }
+
+                .image-manager .grid-cell .item-container.progress-container .progress-controls-group .progress {
+                    margin-top: 10px;
+                }
 
             .image-manager .grid-cell .item-container .action-button-container {
                 bottom: 15px;
@@ -112,14 +115,6 @@
                         background-size: cover;
                     }
 
-            .image-manager .grid-cell .item-container.image-upload-container:hover {
-                cursor: pointer;
-            }
-
-                .image-manager .grid-cell .item-container.image-upload-container:hover .image-upload-button {
-                    opacity: 0.7;
-                }
-
     .image-manager .div-templates {
-        display:none;
+        display: none;
     }
