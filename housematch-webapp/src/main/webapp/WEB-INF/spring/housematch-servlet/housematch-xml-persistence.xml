@@ -43,7 +43,7 @@
         <constructor-arg ref="xmlPropertyPhotoRepositoryMarshaller" />
         <constructor-arg ref="xmlPropertyPhotoAdapter" />
         <constructor-arg ref="resourceLoader" />
-        <constructor-arg ref="byteArraySerializer" />
+        <constructor-arg ref="fileUtilsWrapper" />
         <constructor-arg ref="thumbnailGenerator" />
     </bean>
 
@@ -73,7 +73,7 @@
 
     <bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.utils.ResourceLoader" />
 
-    <bean id="byteArraySerializer" class="ca.ulaval.glo4003.housematch.utils.ByteArraySerializer" />
+    <bean id="fileUtilsWrapper" class="ca.ulaval.glo4003.housematch.utils.FileUtilsWrapper" />
 
     <bean id="thumbnailGenerator" class="ca.ulaval.glo4003.housematch.utils.ThumbnailGenerator" />
 

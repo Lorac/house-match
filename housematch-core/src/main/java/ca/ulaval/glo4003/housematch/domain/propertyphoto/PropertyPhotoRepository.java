@@ -11,4 +11,6 @@ public interface PropertyPhotoRepository {
     byte[] getDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException;
 
     byte[] getThumbnailDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException;
+
+    void delete(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException;
 }

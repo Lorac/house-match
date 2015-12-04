@@ -8,17 +8,21 @@ import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-public class ByteArraySerializer {
+public class FileUtilsWrapper {
 
-    public void serializeByteArrayToFile(byte[] fileBytes, String fileName) throws IOException {
+    public void writeByteArrayToFile(byte[] fileBytes, String fileName) throws IOException {
         FileUtils.writeByteArrayToFile(new File(fileName), fileBytes);
     }
 
-    public byte[] unserializeFileToByteArray(String fileName) throws IOException {
+    public byte[] readByteArrayFromFile(String fileName) throws IOException {
         InputStream inputStream = new FileInputStream(fileName);
         byte[] data = IOUtils.toByteArray(inputStream);
         inputStream.close();
         return data;
+    }
+
+    public void delete(String fileName) throws IOException {
+        FileUtils.deleteQuietly(new File(fileName));
     }
 
 }

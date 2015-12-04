@@ -47,4 +47,13 @@ public class PropertyPhotoService {
             throw new PropertyPhotoServiceException(e);
         }
     }
+
+    public void deletePropertyPhoto(int photoHashCode) throws PropertyPhotoServiceException, PropertyPhotoNotFoundException {
+        try {
+            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
+            propertyPhotoRepository.delete(propertyPhoto);
+        } catch (IOException e) {
+            throw new PropertyPhotoServiceException(e);
+        }
+    }
 }

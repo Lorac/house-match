@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExi
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoRepository;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import ca.ulaval.glo4003.housematch.utils.ByteArraySerializer;
+import ca.ulaval.glo4003.housematch.utils.FileUtilsWrapper;
 import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
 import ca.ulaval.glo4003.housematch.utils.ThumbnailGenerator;
 
@@ -28,17 +28,17 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     private XmlRepositoryMarshaller<XmlPropertyPhotoRootElement> xmlRepositoryMarshaller;
     private XmlPropertyPhotoRootElement xmlPropertyPhotoRootElement;
     private ResourceLoader resourceLoader;
-    private ByteArraySerializer byteArraySerializer;
+    private FileUtilsWrapper fileUtilsWrapper;
     private ThumbnailGenerator thumbnailGenerator;
 
     private Map<Integer, PropertyPhoto> propertyPhotos = new ConcurrentHashMap<>();
 
     public XmlPropertyPhotoRepository(final XmlRepositoryMarshaller<XmlPropertyPhotoRootElement> xmlRepositoryMarshaller,
             final XmlPropertyPhotoAdapter xmlPropertyPhotoAdapter, final ResourceLoader resourceLoader,
-            final ByteArraySerializer byteArraySerializer, final ThumbnailGenerator thumbnailGenerator) throws FileNotFoundException {
+            final FileUtilsWrapper fileUtilsWrapper, final ThumbnailGenerator thumbnailGenerator) throws FileNotFoundException {
         this.resourceLoader = resourceLoader;
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
-        this.byteArraySerializer = byteArraySerializer;
+        this.fileUtilsWrapper = fileUtilsWrapper;
         this.thumbnailGenerator = thumbnailGenerator;
         initRepository(xmlPropertyPhotoAdapter);
     }
@@ -54,8 +54,7 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     @Override
     public void persist(PropertyPhoto propertyPhoto, byte[] fileBytes) throws PropertyPhotoAlreadyExistsException, IOException {
         if (propertyPhotos.containsValue(propertyPhoto)) {
-            throw new PropertyPhotoAlreadyExistsException(
-                    String.format("A photo with hash code '%d' already exists.", propertyPhoto.hashCode()));
+            throw new PropertyPhotoAlreadyExistsException(String.format("The specified photo already exists.", propertyPhoto.hashCode()));
         }
         propertyPhotos.put(propertyPhoto.hashCode(), propertyPhoto);
         saveExternalPhotoFiles(getPhotoFileName(propertyPhoto.hashCode()), getThumbnailFileName(propertyPhoto.hashCode()), fileBytes);
@@ -64,7 +63,7 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
 
     private void saveExternalPhotoFiles(String fileName, String thumbnailFileName, byte[] fileBytes)
             throws FileNotFoundException, IOException {
-        byteArraySerializer.serializeByteArrayToFile(fileBytes, fileName);
+        fileUtilsWrapper.writeByteArrayToFile(fileBytes, fileName);
         thumbnailGenerator.saveThumbnail(fileName, thumbnailFileName, THUMBNAIL_DIMENSION, THUMBNAIL_FILE_FORMAT_STRING);
     }
 
@@ -80,7 +79,7 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     @Override
     public byte[] getDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException {
         try {
-            return byteArraySerializer.unserializeFileToByteArray(getPhotoFileName(hashCode));
+            return fileUtilsWrapper.readByteArrayFromFile(getPhotoFileName(hashCode));
         } catch (FileNotFoundException e) {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find property photo with hash code '%s'.", hashCode));
         }
@@ -89,10 +88,20 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     @Override
     public byte[] getThumbnailDataByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException, IOException {
         try {
-            return byteArraySerializer.unserializeFileToByteArray(getThumbnailFileName(hashCode));
+            return fileUtilsWrapper.readByteArrayFromFile(getThumbnailFileName(hashCode));
         } catch (FileNotFoundException e) {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find property photo with hash code '%s'.", hashCode));
         }
+    }
+
+    @Override
+    public void delete(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
+        if (!propertyPhotos.containsValue(propertyPhoto)) {
+            throw new PropertyPhotoNotFoundException(String.format("Cannot find a photo with hash code '%d'.", propertyPhoto.hashCode()));
+        }
+        propertyPhotos.remove(propertyPhoto.hashCode());
+        fileUtilsWrapper.delete(getThumbnailFileName(propertyPhoto.hashCode()));
+        fileUtilsWrapper.delete(getPhotoFileName(propertyPhoto.hashCode()));
     }
 
     private String getThumbnailFileName(int hashCode) throws FileNotFoundException {

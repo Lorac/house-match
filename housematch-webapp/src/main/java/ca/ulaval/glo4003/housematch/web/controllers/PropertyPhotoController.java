@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -25,6 +26,7 @@ public class PropertyPhotoController extends BaseController {
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
     private static final String PHOTO_DOWNLOAD_URL = "/seller/downloadPropertyPhoto/{photoHashCode}";
     private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/seller/downloadPropertyPhotoThumbnail/{photoHashCode}";
+    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{photoHashCode}";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
@@ -35,13 +37,14 @@ public class PropertyPhotoController extends BaseController {
         // Required for Spring init
     }
 
-    public PropertyPhotoController(PropertyPhotoService propertyPhotoService, UserService userService) {
+    public PropertyPhotoController(final PropertyPhotoService propertyPhotoService, final UserService userService) {
         this.propertyPhotoService = propertyPhotoService;
         this.userService = userService;
     }
 
     @RequestMapping(value = PHOTO_UPLOAD_URL, method = RequestMethod.POST)
-    public final @ResponseBody String uploadPropertyPhoto(@PathVariable int propertyHashCode, MultipartFile file, HttpSession httpSession)
+    @ResponseBody
+    public final String uploadPropertyPhoto(@PathVariable int propertyHashCode, MultipartFile file, HttpSession httpSession)
             throws Exception {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
@@ -66,6 +69,16 @@ public class PropertyPhotoController extends BaseController {
         try {
             HttpHeaders headers = new HttpHeaders();
             return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoThumbnailData(photoHashCode), headers, HttpStatus.OK);
+        } catch (PropertyPhotoNotFoundException e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @RequestMapping(value = PHOTO_DELETE_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public final void deletePropertyPhotoThumbnail(@PathVariable int photoHashCode) throws Exception {
+        try {
+            propertyPhotoService.deletePropertyPhoto(photoHashCode);
         } catch (PropertyPhotoNotFoundException e) {
             throw new ResourceNotFoundException();
         }

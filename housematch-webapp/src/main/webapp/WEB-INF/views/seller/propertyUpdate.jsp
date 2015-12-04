@@ -50,13 +50,13 @@
                                             <img class="progress-wheel" src="/resources/img/photo-manager/spin-wheel.gif" />
                                         </div>
                                         <div class="action-button-container">
-                                            <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Delete photo">
+                                            <div class="action-button delete-button" data-toggle="tooltip" data-placement="bottom" title="Delete photo">
                                                 <div class="icon delete-icon center-vertical center-horizontal"></div>
                                             </div>
-                                            <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Reject photo">
+                                            <div class="action-button reject-button" data-toggle="tooltip" data-placement="bottom" title="Reject photo">
                                                 <div class="icon reject-icon center-vertical center-horizontal"></div>
                                             </div>
-                                            <div class="action-button" data-toggle="tooltip" data-placement="bottom" title="Accept photo">
+                                            <div class="action-button accept-button" data-toggle="tooltip" data-placement="bottom" title="Accept photo">
                                                 <div class="icon accept-icon center-vertical center-horizontal"></div>
                                             </div>
                                         </div>
