@@ -122,6 +122,10 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
         }
     }
 
+    this.addPhoto = function (photoHashCode) {
+        addPhotoGridCell(photoHashCode);
+    }
+
     function addPhotoGridCell(photoHashCode) {
         var photoGridCellElement = getElementTemplate("photo-grid-cell-template").clone();
         var photoGridCell = new PhotoGridCell(photoGridCellElement, thumbnailDownloadBaseUrl + photoHashCode, photoHashCode, reviewEnabled, deleteEnabled, onDeleteButtonClick);
@@ -184,4 +188,3 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
         uploadGridCell.show();
     }
 };
-

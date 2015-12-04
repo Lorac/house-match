@@ -1,15 +1,9 @@
-var photoManager
-
-function bodyOnLoad(propertyHashCode) {
-    initPhotoManager(propertyHashCode);
-}
-
-function initPhotoManager(propertyHashCode) {
+function createPhotoManager(propertyHashCode) {
     var downloadBaseUrl = "/seller/downloadPropertyPhoto/" + propertyHashCode + "/";
     var thumbnailDownloadBaseUrl = "/seller/downloadPropertyPhotoThumbnail/" + propertyHashCode + "/";
     var deleteBaseUrl = "/seller/deletePropertyPhoto/" + propertyHashCode + "/";
 
-    photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, "/seller/uploadPropertyPhoto/" + propertyHashCode, downloadBaseUrl, thumbnailDownloadBaseUrl, deleteBaseUrl);
+    return new PhotoManager($("#property-photo-manager"), true, false, true, "/seller/uploadPropertyPhoto/" + propertyHashCode, downloadBaseUrl, thumbnailDownloadBaseUrl, deleteBaseUrl);
 }
 
 

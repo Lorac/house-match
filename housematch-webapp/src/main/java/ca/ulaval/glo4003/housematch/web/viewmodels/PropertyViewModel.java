@@ -2,12 +2,14 @@ package ca.ulaval.glo4003.housematch.web.viewmodels;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.utils.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
@@ -25,6 +27,7 @@ public class PropertyViewModel extends ViewModel {
     private ZonedDateTime creationDate;
     private Integer viewCount;
     private Boolean propertyFavorited;
+    private Set<PropertyPhoto> photos;
 
     public PropertyViewModel() {
 
@@ -97,6 +100,14 @@ public class PropertyViewModel extends ViewModel {
 
     public void setPropertyFavorited(Boolean propertyFavorited) {
         this.propertyFavorited = propertyFavorited;
+    }
+
+    public Set<PropertyPhoto> getPhotos() {
+        return photos;
+    }
+
+    public void setPhotos(Set<PropertyPhoto> photos) {
+        this.photos = photos;
     }
 
 }

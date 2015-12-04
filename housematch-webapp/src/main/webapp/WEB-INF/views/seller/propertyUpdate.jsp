@@ -22,9 +22,18 @@
 <!-- Custom CSS for this page -->
 <link href="/resources/css/components/photo-manager.css" rel="stylesheet">
 
+<script>
+var bodyOnLoad = function() {
+    var photoManager = createPhotoManager(<%=request.getAttribute("propertyHashCode")%>);
+    <c:forEach var="photo" items="${property.photos}">
+    	photoManager.addPhoto(${photo.hashCode()});
+    </c:forEach>
+}
+</script>
+
 <title>HouseMatch - Edit Property</title>
 </head>
-<body onload="bodyOnLoad(<%=request.getAttribute("propertyHashCode")%>)">
+<body onload="bodyOnLoad()">
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
 
     <div class="container">
