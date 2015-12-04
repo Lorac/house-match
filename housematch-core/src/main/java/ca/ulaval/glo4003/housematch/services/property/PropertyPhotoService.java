@@ -16,12 +16,12 @@ public class PropertyPhotoService {
     private PropertyPhotoRepository propertyPhotoRepository;
     private PropertyPhotoFactory propertyPhotoFactory;
 
-    public PropertyPhotoService(PropertyPhotoRepository propertyPhotoRepository, PropertyPhotoFactory propertyPhotoFactory) {
+    public PropertyPhotoService(final PropertyPhotoRepository propertyPhotoRepository, final PropertyPhotoFactory propertyPhotoFactory) {
         this.propertyPhotoRepository = propertyPhotoRepository;
         this.propertyPhotoFactory = propertyPhotoFactory;
     }
 
-    public int addPropertyPhoto(Property property, byte[] fileBytes, String originalFileName) throws PropertyPhotoServiceException {
+    public Integer addPropertyPhoto(Property property, byte[] fileBytes, String originalFileName) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes, originalFileName);
             property.addPhoto(propertyPhoto);
@@ -35,6 +35,14 @@ public class PropertyPhotoService {
     public byte[] getPropertyPhotoData(int photoHashCode) throws PropertyPhotoServiceException, PropertyPhotoNotFoundException {
         try {
             return Base64.encodeBase64(propertyPhotoRepository.getDataByHashCode(photoHashCode));
+        } catch (IOException e) {
+            throw new PropertyPhotoServiceException(e);
+        }
+    }
+
+    public byte[] getPropertyPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException, PropertyPhotoNotFoundException {
+        try {
+            return Base64.encodeBase64(propertyPhotoRepository.getThumbnailDataByHashCode(photoHashCode));
         } catch (IOException e) {
             throw new PropertyPhotoServiceException(e);
         }

@@ -5,7 +5,7 @@ public class PropertyPhoto {
     private int hashCode;
     private String originalFileName;
 
-    public PropertyPhoto(int hashCode, String originalFileName) {
+    public PropertyPhoto(final int hashCode, final String originalFileName) {
         this.hashCode = hashCode;
         this.originalFileName = originalFileName;
     }

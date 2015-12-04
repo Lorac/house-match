@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +24,7 @@ public class PropertyPhotoController extends BaseController {
 
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
     private static final String PHOTO_DOWNLOAD_URL = "/seller/downloadPropertyPhoto/{photoHashCode}";
-    private static final String PHOTO_DOWNLOAD_BASE_URL = "/seller/downloadPropertyPhoto";
+    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/seller/downloadPropertyPhotoThumbnail/{photoHashCode}";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
@@ -46,8 +45,7 @@ public class PropertyPhotoController extends BaseController {
             throws Exception {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            int hashCode = propertyPhotoService.addPropertyPhoto(property, file.getBytes(), file.getOriginalFilename());
-            return String.format("%s/%d", PHOTO_DOWNLOAD_BASE_URL, hashCode);
+            return propertyPhotoService.addPropertyPhoto(property, file.getBytes(), file.getOriginalFilename()).toString();
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }
@@ -57,8 +55,17 @@ public class PropertyPhotoController extends BaseController {
     public final ResponseEntity<byte[]> downloadPropertyPhoto(@PathVariable int photoHashCode) throws Exception {
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoData(photoHashCode), headers, HttpStatus.OK);
+        } catch (PropertyPhotoNotFoundException e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @RequestMapping(value = PHOTO_THUMBNAIL_DOWNLOAD_URL, method = RequestMethod.GET)
+    public final ResponseEntity<byte[]> downloadPropertyPhotoThumbnail(@PathVariable int photoHashCode) throws Exception {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoThumbnailData(photoHashCode), headers, HttpStatus.OK);
         } catch (PropertyPhotoNotFoundException e) {
             throw new ResourceNotFoundException();
         }

@@ -21,12 +21,12 @@ function UploadGridCell(element, onclick) {
 
 PhotoGridCell.prototype = Object.create(GridCell.prototype);
 PhotoGridCell.prototype.constructor = PhotoGridCell;
-function PhotoGridCell(element, photoUrl) {
+function PhotoGridCell(element, thumbnailUrl) {
     GridCell.call(this, element);
     var thisAlias = this;
 
     showProgressControls();
-    executeAjaxCall("GET", photoUrl, null, downloadCompleted, void (0));
+    executeAjaxCall("GET", thumbnailUrl, null, downloadCompleted, void (0));
 
     function downloadCompleted(data) {
         hideProgressControls();
@@ -43,12 +43,14 @@ function PhotoGridCell(element, photoUrl) {
 }
 
 
-function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uploadUrl) {
+function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uploadUrl, downloadBaseUrl, thumbnailDownloadBaseUrl) {
     this.element = element;
     var uploadEnabled = uploadEnabled;
     var reviewEnabled = reviewEnabled;
     var deleteEnabled = deleteEnabled;
     var uploadUrl = uploadUrl;
+    var downloadBaseUrl = downloadBaseUrl;
+    var thumbnailDownloadBaseUrl = thumbnailDownloadBaseUrl;
 
     var contentElement = this.element.find(".content").first();
     var progressGridCell;
@@ -76,9 +78,9 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
         }
     }
 
-    function addPhotoGridCell(photoUrl) {
+    function addPhotoGridCell(relativeThumbnailUrl) {
         var photoGridCellElement = getElementTemplate("photo-grid-cell-template").clone();
-        var photoGridCell = new PhotoGridCell(photoGridCellElement, photoUrl);
+        var photoGridCell = new PhotoGridCell(photoGridCellElement, thumbnailDownloadBaseUrl + relativeThumbnailUrl);
 
         photoGridCells.push(photoGridCell);
         photoGridCellElement.insertBefore(progressGridCell.element);
