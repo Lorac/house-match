@@ -5,6 +5,7 @@ import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException
 import ca.ulaval.glo4003.housematch.domain.picture.PictureFactory;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureRepository;
+import ca.ulaval.glo4003.housematch.domain.picture.PictureStatus;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
@@ -54,8 +55,14 @@ public class PictureService {
         }
     }
     
-    public void approvePicture(Integer pictureHashCode) {
-        //TODO
+    public void approvePicture(Integer pictureHashCode) throws PictureServiceException {
+        try {
+            Picture picture = pictureRepository.getPictureByHashCode(pictureHashCode);
+            picture.changeStatus(PictureStatus.APPROVED);
+            pictureRepository.updatePicture(picture);
+        } catch (PictureNotFoundException e) {
+            throw new PictureServiceException(e);
+        }
     }
     
     public void rejectPicture(Integer pictureHashCode) {

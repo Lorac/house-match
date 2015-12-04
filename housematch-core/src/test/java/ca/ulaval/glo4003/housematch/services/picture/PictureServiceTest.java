@@ -18,6 +18,7 @@ import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException
 import ca.ulaval.glo4003.housematch.domain.picture.PictureFactory;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.picture.PictureRepository;
+import ca.ulaval.glo4003.housematch.domain.picture.PictureStatus;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
@@ -39,7 +40,7 @@ public class PictureServiceTest {
     private PictureService pictureService;
     
     @Before
-    public void init() throws PropertyNotFoundException {
+    public void init() throws PropertyNotFoundException, PictureNotFoundException {
         initMocks();
         initStubs();
         pictureService = new PictureService(pictureFactoryMock, pictureRepositoryMock, propertyServiceMock);
@@ -54,7 +55,8 @@ public class PictureServiceTest {
         propertyDetailsMock = mock(PropertyDetails.class);
     }
     
-    private void initStubs() throws PropertyNotFoundException {
+    private void initStubs() throws PropertyNotFoundException, PictureNotFoundException {
+        when(pictureRepositoryMock.getPictureByHashCode(any(Integer.class))).thenReturn(pictureMock);
         when(pictureFactoryMock.createPicture(any(String.class))).thenReturn(pictureMock);
         when(propertyServiceMock.getPropertyByHashCode(any(Integer.class))).thenReturn(propertyMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
@@ -139,5 +141,50 @@ public class PictureServiceTest {
     public void removingAPictureFromAPropertyThatDoesNotExistInThePropertyRepositoryThrowsAnException() throws PictureServiceException, PropertyNotFoundException {
         doThrow(new PropertyNotFoundException()).when(propertyServiceMock).getPropertyByHashCode(any(Integer.class));
         pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void removingAPictureAPictureFromAPropertyThatDoesNotContainThePictureThrowsAnException() throws PictureServiceException, PictureNotFoundException {
+        doThrow(new PictureNotFoundException()).when(propertyMock).removePropertyPicture(any(Picture.class));
+        pictureService.removePictureFromProperty(SAMPLE_HASH_CODE, SAMPLE_HASH_CODE);
+    }
+    
+    @Test
+    public void approvingAPictureFetchesThePictureInThePictureRepository() throws PictureNotFoundException, PictureServiceException {
+        pictureService.approvePicture(SAMPLE_HASH_CODE);
+        verify(pictureRepositoryMock).getPictureByHashCode(any(Integer.class));
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void approvingAPictureThatDoesNotExistInThePictureRepositoryThrowsAnException() throws PictureNotFoundException, PictureServiceException {
+        doThrow(new PictureNotFoundException()).when(pictureRepositoryMock).getPictureByHashCode(any(Integer.class));
+        pictureService.approvePicture(SAMPLE_HASH_CODE);
+        verify(pictureRepositoryMock).getPictureByHashCode(any(Integer.class));
+    }
+    
+    @Test
+    public void approvingAPictureUpdatesThePictureInThePictureRepository() throws PictureServiceException, PictureNotFoundException {
+        pictureService.approvePicture(SAMPLE_HASH_CODE);
+        verify(pictureRepositoryMock).updatePicture(any(Picture.class));
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void approvingAPictureThatDoesNotExistInThePictureRepositoryNeverCallsTheUpdateMethod() throws PictureServiceException, PictureNotFoundException {
+        doThrow(new PictureNotFoundException()).when(pictureRepositoryMock).getPictureByHashCode(any(Integer.class));
+        pictureService.approvePicture(SAMPLE_HASH_CODE);
+        verify(pictureRepositoryMock, never()).updatePicture(any(Picture.class));
+    }
+    
+    @Test
+    public void approvingAPictureChangesItsStatusToTheApprovedPictureStatus() throws PictureServiceException {
+        pictureService.approvePicture(SAMPLE_HASH_CODE);
+        verify(pictureMock).changeStatus(PictureStatus.APPROVED);
+    }
+    
+    @Test(expected=PictureServiceException.class)
+    public void approvingAPictureThatIsNotContainedInThePictureRepositoryNeverChangesTheStatusOfThePicture() throws PictureServiceException, PictureNotFoundException {
+        doThrow(new PictureNotFoundException()).when(pictureRepositoryMock).getPictureByHashCode(any(Integer.class));
+        pictureService.approvePicture(SAMPLE_HASH_CODE);
+        verify(pictureMock, never()).changeStatus(PictureStatus.APPROVED);
     }
 }
