@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.web.utils.DateFormatter;
+import ca.ulaval.glo4003.housematch.utils.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
 
@@ -24,7 +24,7 @@ public class PropertyViewModel extends ViewModel {
     private int hashCode;
     private ZonedDateTime creationDate;
     private Integer viewCount;
-    private Boolean propertyAddedToFavorites;
+    private Boolean propertyFavorited;
 
     public PropertyViewModel() {
 
@@ -76,7 +76,7 @@ public class PropertyViewModel extends ViewModel {
     }
 
     public String getCreationDate() {
-        return DateFormatter.parse(creationDate);
+        return DateFormatter.toShortDate(creationDate);
     }
 
     public void setCreationDate(ZonedDateTime creationDate) {
@@ -91,12 +91,12 @@ public class PropertyViewModel extends ViewModel {
         this.viewCount = viewCount;
     }
 
-    public Boolean isPropertyAddedToFavorites() {
-        return propertyAddedToFavorites;
+    public Boolean isPropertyFavorited() {
+        return propertyFavorited;
     }
 
-    public void setPropertyAddedToFavorites(Boolean propertyAddedToFavorites) {
-        this.propertyAddedToFavorites = propertyAddedToFavorites;
+    public void setPropertyFavorited(Boolean propertyFavorited) {
+        this.propertyFavorited = propertyFavorited;
     }
 
 }

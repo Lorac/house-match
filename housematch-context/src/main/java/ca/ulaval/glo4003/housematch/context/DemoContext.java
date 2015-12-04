@@ -1,5 +1,10 @@
 package ca.ulaval.glo4003.housematch.context;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+
 import ca.ulaval.glo4003.housematch.context.generators.RandomPropertyGenerator;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
@@ -10,11 +15,6 @@ import ca.ulaval.glo4003.housematch.domain.user.UserFactory;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 import ca.ulaval.glo4003.housematch.utils.RandomUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.IntStream;
 
 public class DemoContext extends ContextBase {
     private static final Integer PROPERTY_POOL_SIZE = 100;
@@ -35,7 +35,7 @@ public class DemoContext extends ContextBase {
 
     @Override
     protected void applyFillers() throws Exception {
-        User buyer1 = userFactory.createUser("buyer1", "buyer1@gmail.com", "1234", UserRole.BUYER);
+        User buyer1 = userFactory.createUser("buyer1", "o.robert@hotmail.com", "1234", UserRole.BUYER);
         User buyer2 = userFactory.createUser("buyer2", "buyer2@gmail.com", "1234", UserRole.BUYER);
         User seller1 = userFactory.createUser("seller1", "seller1@gmail.com", "1234", UserRole.SELLER);
         User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "1234", UserRole.SELLER);
@@ -60,8 +60,7 @@ public class DemoContext extends ContextBase {
     }
 
     private void favoriteProperties(User buyer, List<Property> propertyPool) {
-        IntStream.generate(() -> ThreadLocalRandom.current().nextInt(propertyPool.size()))
-                .limit(NUMBER_OF_FAVORITED_PROPERTIES)
+        IntStream.generate(() -> ThreadLocalRandom.current().nextInt(propertyPool.size())).limit(NUMBER_OF_FAVORITED_PROPERTIES)
                 .forEach(p -> buyer.addPropertyToFavorites(propertyPool.get(p)));
     }
 

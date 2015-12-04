@@ -12,12 +12,16 @@ import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.user.User;
@@ -42,6 +46,7 @@ public class XmlUserAdapterTest {
     private User userMock;
     private XmlUser xmlUserMock;
     private Property propertyMock;
+    private NotificationSettings notificationSettingsMock;
 
     private XmlUserAdapter xmlUserAdapter;
     private Set<Property> propertiesForSale = new HashSet<>();
@@ -50,6 +55,7 @@ public class XmlUserAdapterTest {
     private Set<Integer> purchasedPropertyHashCodes = new HashSet<>();
     private Set<Property> favoriteProperties = new HashSet<>();
     private Set<Integer> favoritePropertiesHashCodes = new HashSet<>();
+    private Queue<Notification> notificationsQueue = new ConcurrentLinkedQueue<>();
 
     @Before
     public void init() throws Exception {
@@ -62,6 +68,7 @@ public class XmlUserAdapterTest {
         userFactoryMock = mock(UserFactory.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
         propertyMock = mock(Property.class);
+        notificationSettingsMock = mock(NotificationSettings.class);
         initUserMock();
         initXmlUserMock();
     }
@@ -79,6 +86,8 @@ public class XmlUserAdapterTest {
         when(userMock.getPropertiesForSale()).thenReturn(propertiesForSale);
         when(userMock.getPurchasedProperties()).thenReturn(purchasedProperties);
         when(userMock.getFavoriteProperties()).thenReturn(favoriteProperties);
+        when(userMock.getNotificationSettings()).thenReturn(notificationSettingsMock);
+        when(userMock.getNotificationQueue()).thenReturn(notificationsQueue);
     }
 
     private void initXmlUserMock() {
@@ -94,6 +103,8 @@ public class XmlUserAdapterTest {
         xmlUserMock.propertiesForSale = propertyForSaleHashCodes;
         xmlUserMock.purchasedProperties = purchasedPropertyHashCodes;
         xmlUserMock.favoriteProperties = favoritePropertiesHashCodes;
+        xmlUserMock.notificationSettings = notificationSettingsMock;
+        xmlUserMock.notificationsQueue = notificationsQueue;
     }
 
     private void initStubs() {
@@ -111,6 +122,8 @@ public class XmlUserAdapterTest {
         assertEquals(userMock.isActivated(), xmlUserMock.activated);
         assertEquals(userMock.getLastLoginDate(), xmlUserMock.lastLoginDate);
         assertEquals(userMock.getStatus(), xmlUserMock.status);
+        assertEquals(userMock.getNotificationSettings(), xmlUserMock.notificationSettings);
+        assertEquals(userMock.getNotificationQueue(), xmlUserMock.notificationsQueue);
     }
 
     @Test
@@ -138,6 +151,8 @@ public class XmlUserAdapterTest {
         assertEquals(xmlUserMock.activated, userMock.isActivated());
         assertEquals(xmlUserMock.lastLoginDate, userMock.getLastLoginDate());
         assertEquals(xmlUserMock.status, userMock.getStatus());
+        assertEquals(xmlUserMock.notificationSettings, userMock.getNotificationSettings());
+        assertEquals(xmlUserMock.notificationsQueue, userMock.getNotificationQueue());
     }
 
     @Test

@@ -4,4 +4,6 @@ public interface PropertyObserver {
 
     void propertyStatusChanged(Property property, PropertyStatus newStatus);
 
+    void propertyDetailsChanged(Property property, PropertyDetails newPropertyDetails);
+
 }

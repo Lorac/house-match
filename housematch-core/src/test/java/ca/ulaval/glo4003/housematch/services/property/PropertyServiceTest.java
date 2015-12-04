@@ -64,8 +64,8 @@ public class PropertyServiceTest {
 
     private void initMocks() {
         propertyFactoryMock = mock(PropertyFactory.class);
-        userRepositoryMock = mock(UserRepository.class);
         propertyRepositoryMock = mock(PropertyRepository.class);
+        userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         addressMock = mock(Address.class);
         propertyCreationValidatorMock = mock(PropertyCreationValidator.class);
@@ -121,7 +121,7 @@ public class PropertyServiceTest {
     @Test
     public void updatingPropertySetsThePropertyDetailsOnThePropertyObject() throws Exception {
         propertyService.updateProperty(propertyMock, propertyDetailsMock, ANOTHER_SAMPLE_SELLING_PRICE);
-        verify(propertyMock).setPropertyDetails(propertyDetailsMock);
+        verify(propertyMock).updatePropertyDetails(propertyDetailsMock);
     }
 
     @Test

@@ -58,28 +58,28 @@ public class UserStatisticsServiceTest {
     }
 
     @Test
-    public void applyingBuyerStatusChangeToActiveIncrementsTheNumberOfActiveBuyers() {
+    public void processingBuyerStatusChangeToActiveIncrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
         userStatisticsService.applyUserStatusChangeToActive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS + 1);
     }
 
     @Test
-    public void applyingSellerStatusChangeToActiveIncrementsTheNumberOfActiveSellers() {
+    public void processingSellerStatusChangeToActiveIncrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
         userStatisticsService.applyUserStatusChangeToActive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS + 1);
     }
 
     @Test
-    public void applyingBuyerStatusChangeToInactiveDecrementsTheNumberOfActiveBuyers() {
+    public void processingBuyerStatusChangeToInactiveDecrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
         userStatisticsService.applyUserStatusChangeToInactive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS - 1);
     }
 
     @Test
-    public void applyingSellerStatusChangeToInactiveDecrementsTheNumberOfActiveSellers() {
+    public void processingSellerStatusChangeToInactiveDecrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
         userStatisticsService.applyUserStatusChangeToInactive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS - 1);

@@ -1,7 +1,11 @@
 package ca.ulaval.glo4003.housematch.services.user;
 
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.not;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -12,12 +16,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserAlreadyExistsException;
@@ -44,17 +51,19 @@ public class UserServiceTest {
     private UserActivationService userActivationServiceMock;
     private AddressValidator addressValidatorMock;
     private Address addressMock;
-
     private User userMock;
     private Property propertyMock;
+    private NotificationSettings notificationSettingsMock;
 
     private UserService userService;
+    private Set<Property> propertyList = new HashSet<Property>();
 
     @Before
     public void init() throws Exception {
         initMocks();
         initStubs();
         userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userRegistrationValidatorMock,
+        propertyList.add(propertyMock);
                 addressValidatorMock);
     }
 
@@ -63,6 +72,7 @@ public class UserServiceTest {
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         propertyMock = mock(Property.class);
+        notificationSettingsMock = mock(NotificationSettings.class);
         userActivationServiceMock = mock(UserActivationService.class);
         userRegistrationValidatorMock = mock(UserRegistrationValidator.class);
         addressValidatorMock = mock(AddressValidator.class);
@@ -72,6 +82,7 @@ public class UserServiceTest {
     private void initStubs() throws UserNotFoundException {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
+        when(userMock.getFavoriteProperties()).thenReturn(propertyList);
     }
 
     @Test
@@ -223,9 +234,42 @@ public class UserServiceTest {
     }
 
     @Test
-    public void gettingFavoritePropertiesRetrievesFavoritePropertiesFromUser() {
-        userService.getFavoriteProperties(userMock);
+    public void gettingFavoritePropertiesForSaleRetrievesFavoritePropertiesFromUser() {
+        userService.getFavoritePropertiesForSale(userMock);
         verify(userMock).getFavoriteProperties();
+    }
+
+    @Test
+    public void gettingFavoritePropertiesForSaleReturnsAPropertyWhenItIsForSale() {
+        when(propertyMock.isForSale()).thenReturn(true);
+        Set<Property> returnedProperties = userService.getFavoritePropertiesForSale(userMock);
+        assertThat(returnedProperties, hasItem(propertyMock));
+    }
+
+    @Test
+    public void gettingFavoritePropertiesForSaleDoesReturnsAPropertyWhenItIsNotForSale() {
+        when(propertyMock.isForSale()).thenReturn(false);
+        Set<Property> returnedProperties = userService.getFavoritePropertiesForSale(userMock);
+        assertThat(returnedProperties, not(hasItem(propertyMock)));
+    }
+
+    @Test
+    public void gettingUserNotificationSettingsReturnsTheUserNotificationSettingsFromTheUser() {
+        when(userMock.getNotificationSettings()).thenReturn(notificationSettingsMock);
+        NotificationSettings returnedNotificationSettings = userService.getUserNotificationSettings(userMock);
+        assertEquals(notificationSettingsMock, returnedNotificationSettings);
+    }
+
+    @Test
+    public void updatingTheUserNotificationSettingsUpdatesTheUserNotificationSettingsOfTheUser() {
+        userService.updateUserNotificationSettings(userMock, notificationSettingsMock);
+        verify(userMock).setNotificationSettings(notificationSettingsMock);
+    }
+
+    @Test
+    public void updatingTheUserNotificationSettingsUpdatesTheUserInRepository() {
+        userService.updateUserNotificationSettings(userMock, notificationSettingsMock);
+        verify(userRepositoryMock).update(userMock);
     }
 
     private void registerUser() throws UserServiceException {

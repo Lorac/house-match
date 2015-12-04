@@ -282,7 +282,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     @Test
     public void propertyControllerRetrievesFavoritePropertyListDuringFavoritePropertiesViewAccess() throws Exception {
         performGetRequest(PropertyController.FAVORITE_PROPERTIES_VIEW_URL);
-        verify(userServiceMock).getFavoriteProperties(userMock);
+        verify(userServiceMock).getFavoritePropertiesForSale(userMock);
     }
 
     @Test

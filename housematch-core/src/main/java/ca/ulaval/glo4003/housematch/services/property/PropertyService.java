@@ -60,7 +60,7 @@ public class PropertyService {
             throws PropertyServiceException {
         try {
             propertyUpdateValidator.validatePropertyUpdate(propertyDetails, sellingPrice);
-            property.setPropertyDetails(propertyDetails);
+            property.updatePropertyDetails(propertyDetails);
             property.updateSellingPrice(sellingPrice);
             propertyRepository.update(property);
         } catch (PropertyUpdateValidationException e) {
@@ -68,18 +68,13 @@ public class PropertyService {
         }
     }
 
-    public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
-        return propertyRepository.getByHashCode(propertyHashCode);
-    }
-
-    public void incrementPropertyViewCount(Property property) {
-        property.incrementViewCount();
-        propertyRepository.update(property);
-    }
-
     public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
         List<Property> properties = propertyRepository.getAll();
         return propertySorter.sort(properties, sortColumn, sortOrder);
+    }
+
+    public Property getPropertyByHashCode(int propertyHashCode) throws PropertyNotFoundException {
+        return propertyRepository.getByHashCode(propertyHashCode);
     }
 
     public List<Property> getMostPopularProperties(PropertyType propertyType, Integer limit) {
@@ -87,4 +82,10 @@ public class PropertyService {
         propertySorter.sort(properties, PropertySortColumn.VIEW_COUNT, SortOrder.DESCENDING);
         return properties.stream().limit(limit).collect(Collectors.toList());
     }
+
+    public void incrementPropertyViewCount(Property property) {
+        property.incrementViewCount();
+        propertyRepository.update(property);
+    }
+
 }

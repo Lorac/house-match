@@ -23,11 +23,11 @@ public class PropertyStatisticsService {
         numberOfPropertiesForSale = statisticFactory.createStatistic(NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, new HashMap<>());
     }
 
-    public void applyNewPropertyForSale(Property property) {
+    public void processNewPropertyForSale(Property property) {
         adjustNumberOfPropertiesForSale(property.getPropertyType(), 1);
     }
 
-    public void applyPropertySale(Property property) {
+    public void processPropertySale(Property property) {
         adjustNumberOfSoldPropertiesThisYear(1);
         adjustNumberOfPropertiesForSale(property.getPropertyType(), -1);
     }

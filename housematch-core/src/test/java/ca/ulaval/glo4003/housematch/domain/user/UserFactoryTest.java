@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,15 +23,25 @@ public class UserFactoryTest {
 
     private StringHasher stringHasherMock;
     private UserObserver userObserverMock;
+    private List<UserObserver> userObservers = new ArrayList<>();
 
     private UserFactory userFactory;
 
     @Before
     public void init() {
+        initMocks();
+        initStubs();
+        userObservers.add(userObserverMock);
+        userFactory = new UserFactory(stringHasherMock, userObservers);
+    }
+
+    private void initMocks() {
         stringHasherMock = mock(StringHasher.class);
         userObserverMock = mock(UserObserver.class);
+    }
+
+    private void initStubs() {
         when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
-        userFactory = new UserFactory(stringHasherMock, userObserverMock);
     }
 
     @Test

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.validator.routines.EmailValidator;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.user.InvalidPasswordException;
@@ -48,6 +49,10 @@ public class UserService {
         } catch (UserNotFoundException | InvalidPasswordException e) {
             throw new UserServiceException("Invalid username or password.", e);
         }
+    }
+
+    public List<User> getUsers() {
+        return userRepository.getAll();
     }
 
     public void registerUser(String username, String email, String password, UserRole role) throws UserServiceException {
@@ -101,7 +106,16 @@ public class UserService {
         userRepository.update(user);
     }
 
-    public Set<Property> getFavoriteProperties(User user) {
-        return user.getFavoriteProperties();
+    public Set<Property> getFavoritePropertiesForSale(User user) {
+        return user.getFavoriteProperties().stream().filter(p -> p.isForSale()).collect(Collectors.toSet());
+    }
+
+    public NotificationSettings getUserNotificationSettings(User user) {
+        return user.getNotificationSettings();
+    }
+
+    public void updateUserNotificationSettings(User user, NotificationSettings notificationSettings) {
+        user.setNotificationSettings(notificationSettings);
+        userRepository.update(user);
     }
 }

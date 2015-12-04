@@ -19,7 +19,7 @@
     <div class="container">
         <h1 class="center">Property Details</h1>
         
-        <c:if test="${property.isPropertyAddedToFavorites() == true}">
+        <c:if test="${property.isPropertyFavorited() == true}">
             <div id="favoriteCreationAlert" class="alert alert-info">
                 <span class="icon glyphicon glyphicon-star"></span>&nbsp;This property is in your favorites.
             </div>
@@ -281,8 +281,7 @@
         </div>
         <div class="form-group">
             <div class="row center">
-                <input tabindex="8" class="btn btn-primary btn-lg" onclick="window.history.back()" value="Back to Search Results">
-                <c:if test="${property.isPropertyAddedToFavorites() == false}">
+                <c:if test="${property.isPropertyFavorited() == false}">
                     <button id="addPropertiesToFavorite" tabindex="9" class="btn btn-success btn-lg" value="${property.hashCode}">
                         <span class="icon glyphicon glyphicon-star"></span>&nbsp;Add to Favorites
                     </button>
