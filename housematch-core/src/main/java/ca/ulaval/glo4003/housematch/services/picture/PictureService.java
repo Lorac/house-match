@@ -15,13 +15,14 @@ public class PictureService {
     private PictureFactory pictureFactory;
     private PictureRepository pictureRepository;
     private PropertyService propertyService;
-    
-    public PictureService(final PictureFactory pictureFactory, final PictureRepository pictureRepository, final PropertyService propertyService) {
+
+    public PictureService(final PictureFactory pictureFactory, final PictureRepository pictureRepository,
+            final PropertyService propertyService) {
         this.pictureFactory = pictureFactory;
         this.pictureRepository = pictureRepository;
         this.propertyService = propertyService;
     }
-    
+
     public void addPictureToProperty(String pathToPropertyPicture, Integer propertyHashCode) throws PictureServiceException {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
@@ -31,18 +32,19 @@ public class PictureService {
             throw new PictureServiceException(e);
         }
     }
-    
+
     private Picture createPicture(String pathToPicture) throws PictureAlreadyExistsException {
         Picture picture = pictureFactory.createPicture(pathToPicture);
         pictureRepository.persist(picture);
         return picture;
     }
-    
-    private void linkPictureToExistingProperty(Property property, Picture propertyPicture) throws PropertyServiceException, PictureAlreadyExistsException {
+
+    private void linkPictureToExistingProperty(Property property, Picture propertyPicture)
+            throws PropertyServiceException, PictureAlreadyExistsException {
         property.addPictureToProperty(propertyPicture);
         propertyService.updateProperty(property, property.getPropertyDetails(), property.getSellingPrice());
     }
-    
+
     public void removePictureFromProperty(Integer propertyHashCode, Integer pictureHashCode) throws PictureServiceException {
         try {
             Property property = propertyService.getPropertyByHashCode(propertyHashCode);
@@ -54,7 +56,7 @@ public class PictureService {
             throw new PictureServiceException(e);
         }
     }
-    
+
     public void approvePicture(Integer pictureHashCode) throws PictureServiceException {
         try {
             Picture picture = pictureRepository.getPictureByHashCode(pictureHashCode);
@@ -64,8 +66,8 @@ public class PictureService {
             throw new PictureServiceException(e);
         }
     }
-    
+
     public void rejectPicture(Integer pictureHashCode) {
-        //TODO
+        // TODO
     }
 }
