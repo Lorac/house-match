@@ -55,11 +55,11 @@ function ImageManager(element, uploadEnabled, reviewEnabled, deleteEnabled) {
     }
     
     function addImageGridCell() {
-        var gridCellElement = getElementTemplate("image-grid-cell-template")
+        var gridCellElement = getElementTemplate("image-grid-cell-template").clone();
         var gridCell = new GridCell(gridCellElement);
         imageGridCells.push(gridCell);
 
-        contentElement.append(gridCellElement);
+        gridCellElement.insertBefore(progressContainerGridCell.element);
     }
 
     function getElementTemplate(templateClassName) {
