@@ -145,12 +145,12 @@
     </bean>
 
     <bean id="propertyStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.PropertyStatisticsService">
+        <constructor-arg ref="statisticFactory" />
+    </bean>
+
     <bean id="notificationService" class="ca.ulaval.glo4003.housematch.services.notification.NotificationService">
         <constructor-arg ref="mailSender" />
         <constructor-arg ref="xmlUserRepository" />
-    </bean>
-
-        <constructor-arg ref="statisticFactory" />
     </bean>
 
     <!-- Assemblers -->

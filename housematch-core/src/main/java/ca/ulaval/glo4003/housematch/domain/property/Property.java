@@ -9,10 +9,6 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import ca.ulaval.glo4003.housematch.domain.address.Address;
-
 public class Property extends PropertyObservable {
 
     private PropertyType propertyType;

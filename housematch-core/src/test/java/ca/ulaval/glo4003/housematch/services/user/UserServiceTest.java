@@ -63,8 +63,8 @@ public class UserServiceTest {
         initMocks();
         initStubs();
         userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userRegistrationValidatorMock,
-        propertyList.add(propertyMock);
                 addressValidatorMock);
+        propertyList.add(propertyMock);
     }
 
     private void initMocks() throws UserNotFoundException {

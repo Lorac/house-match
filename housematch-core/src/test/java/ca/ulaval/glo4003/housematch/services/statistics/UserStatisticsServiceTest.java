@@ -15,7 +15,6 @@ import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
 import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
-import ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService;
 
 public class UserStatisticsServiceTest {
 
@@ -60,28 +59,28 @@ public class UserStatisticsServiceTest {
     @Test
     public void processingBuyerStatusChangeToActiveIncrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
-        userStatisticsService.applyUserStatusChangeToActive(userMock);
+        userStatisticsService.processUserStatusChangeToActive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS + 1);
     }
 
     @Test
     public void processingSellerStatusChangeToActiveIncrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
-        userStatisticsService.applyUserStatusChangeToActive(userMock);
+        userStatisticsService.processUserStatusChangeToActive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS + 1);
     }
 
     @Test
     public void processingBuyerStatusChangeToInactiveDecrementsTheNumberOfActiveBuyers() {
         when(userMock.hasRole(UserRole.BUYER)).thenReturn(Boolean.TRUE);
-        userStatisticsService.applyUserStatusChangeToInactive(userMock);
+        userStatisticsService.processUserStatusChangeToInactive(userMock);
         verify(numberOfActiveBuyersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_BUYERS - 1);
     }
 
     @Test
     public void processingSellerStatusChangeToInactiveDecrementsTheNumberOfActiveSellers() {
         when(userMock.hasRole(UserRole.SELLER)).thenReturn(Boolean.TRUE);
-        userStatisticsService.applyUserStatusChangeToInactive(userMock);
+        userStatisticsService.processUserStatusChangeToInactive(userMock);
         verify(numberOfActiveSellersStatMock).setValue(SAMPLE_NUMBER_OF_ACTIVER_SELLERS - 1);
     }
 
