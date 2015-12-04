@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -91,10 +92,6 @@ public class Property extends PropertyObservable {
         return photos;
     }
 
-    public Set<PropertyPhoto> getApprovedPhotos() {
-        return photos.stream().filter(p -> p.isApproved()).collect(Collectors.toSet());
-    }
-
     public void setPhotos(Set<PropertyPhoto> photos) {
         this.photos = photos;
     }
@@ -143,6 +140,14 @@ public class Property extends PropertyObservable {
         } catch (NoSuchElementException e) {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hashcode '%s'.", hashCode));
         }
+    }
+
+    public Set<PropertyPhoto> getApprovedPhotos() {
+        return photos.stream().filter(p -> p.isApproved()).collect(Collectors.toSet());
+    }
+
+    public Optional<PropertyPhoto> getMainPhoto() {
+        return photos.stream().findFirst(); // Temporarily return even if unapproved, for test purpose
     }
 
     @Override

@@ -109,3 +109,17 @@ body {
 .profileMenu .menuItem  .itemLabel {
     margin-top: 15px;
 }
+
+.property-thumbnail {
+    width:140px;
+    height:105px;
+    background-position:center;
+    background-repeat:no-repeat;
+    background-size:contain;
+    border:1px solid #ccc;
+	border-radius: 3px;
+}
+
+.property-thumbnail.generic {
+    opacity:0.5;
+}

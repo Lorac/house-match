@@ -18,6 +18,7 @@ public class PropertyViewModelAssembler {
         viewModel.setHashCode(property.hashCode());
         viewModel.setCreationDate(property.getCreationDate());
         viewModel.setViewCount(property.getViewCount());
+        viewModel.setMainPhoto(property.getMainPhoto().orElse(null));
         setViewModelPhotos(viewModel, property, user);
         setViewModelPropertyFavoritedFlag(viewModel, property, user);
         return viewModel;

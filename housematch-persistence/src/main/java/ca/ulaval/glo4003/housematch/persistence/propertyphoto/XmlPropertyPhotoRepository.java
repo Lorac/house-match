@@ -23,7 +23,7 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     private static final String PHOTO_DIRECTORY_NAME = "property-photos";
     private static final String THUMBNAIL_FILENAME_FORMAT_STRING = "%s_thumbnail.jpg";
     private static final String THUMBNAIL_FILE_FORMAT_STRING = "jpg";
-    private static final Dimension THUMBNAIL_DIMENSION = new Dimension(300, 200);
+    private static final Dimension THUMBNAIL_DIMENSION = new Dimension(280, 210);
 
     private XmlRepositoryMarshaller<XmlPropertyPhotoRootElement> xmlRepositoryMarshaller;
     private XmlPropertyPhotoRootElement xmlPropertyPhotoRootElement;

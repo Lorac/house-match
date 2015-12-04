@@ -28,6 +28,7 @@ public class PropertyViewModel extends ViewModel {
     private Integer viewCount;
     private Boolean propertyFavorited;
     private Set<PropertyPhoto> photos;
+    private PropertyPhoto mainPhoto;
 
     public PropertyViewModel() {
 
@@ -108,6 +109,14 @@ public class PropertyViewModel extends ViewModel {
 
     public void setPhotos(Set<PropertyPhoto> photos) {
         this.photos = photos;
+    }
+
+    public PropertyPhoto getMainPhoto() {
+        return mainPhoto;
+    }
+
+    public void setMainPhoto(PropertyPhoto mainPhoto) {
+        this.mainPhoto = mainPhoto;
     }
 
 }

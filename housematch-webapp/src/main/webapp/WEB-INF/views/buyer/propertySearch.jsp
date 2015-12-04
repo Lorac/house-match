@@ -4,6 +4,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController"%>
 <%@page import="ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn"%>
 <%@page import="ca.ulaval.glo4003.housematch.domain.SortOrder"%>
 
@@ -40,7 +41,17 @@
                         </thead>
                         <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}" varStatus="status">
                             <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}';">
-                                <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
+                                <td><c:choose>
+                                        <c:when test="${not empty propertyViewModel.mainPhoto}">
+                                            <div class="property-thumbnail dynamic-download"
+                                                data-thumbnail-download-url="<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL%>${propertyViewModel.hashCode()}/${propertyViewModel.mainPhoto.hashCode()}">
+                                            </div>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <div class="property-thumbnail generic"
+                                                style="background-image: url('/resources/img/generic-house-thumbnail.png')"></div>
+                                        </c:otherwise>
+                                    </c:choose></td>
                                 <td>${propertyViewModel.getHashCode()}</td>
                                 <td>${propertyViewModel.getAddress()}</td>
                                 <td>${propertyViewModel.getSellingPrice()}&nbsp;$</td>
@@ -58,5 +69,8 @@
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>
+
+    <!-- Custom JavaScript for this page -->
+    <script src="/resources/js/components/property-thumbnail-loader.js"></script>
 </body>
 </html>

@@ -22,10 +22,11 @@ import ca.ulaval.glo4003.housematch.services.user.UserService;
 @Controller
 public class PropertyPhotoController extends BaseController {
 
+    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
     private static final String PHOTO_DOWNLOAD_URL = "/user/downloadPropertyPhoto/{propertyHashCode}/{photoHashCode}";
     private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/{propertyHashCode}/{photoHashCode}";
-    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
+    public static final String PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
