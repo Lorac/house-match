@@ -17,6 +17,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
@@ -24,6 +25,8 @@ public class XmlPropertyRepositoryTest {
     private static final Integer SAMPLE_UNEXISTING_HASHCODE = 345435;
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.COMMERCIAL;
     private static final PropertyType ANOTHER_SAMPLE_PROPERTY_TYPE = PropertyType.LOT;
+    private static final PropertyStatus SAMPLE_PROPERTY_STATUS = PropertyStatus.FOR_SALE;
+    private static final PropertyStatus ANOTHER_SAMPLE_PROPERTY_STATUS = PropertyStatus.SOLD;
 
     private XmlRepositoryMarshaller<XmlPropertyRootElement> xmlRepositoryMarshallerMock;
     private XmlPropertyAdapter xmlPropertyAdapterMock;
@@ -53,6 +56,8 @@ public class XmlPropertyRepositoryTest {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlPropertyRootElementMock);
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
         when(anotherPropertyMock.getPropertyType()).thenReturn(ANOTHER_SAMPLE_PROPERTY_TYPE);
+        when(propertyMock.getStatus()).thenReturn(SAMPLE_PROPERTY_STATUS);
+        when(anotherPropertyMock.getStatus()).thenReturn(ANOTHER_SAMPLE_PROPERTY_STATUS);
     }
 
     @Test
@@ -105,13 +110,13 @@ public class XmlPropertyRepositoryTest {
     }
 
     @Test
-    public void gettingAllPropertiesGetsAllTheProperties() throws Exception {
+    public void gettingPropertiesByStatusGetsThePropertiesByStastus() throws Exception {
         xmlPropertyRepository.persist(propertyMock);
         xmlPropertyRepository.persist(anotherPropertyMock);
 
-        List<Property> properties = xmlPropertyRepository.getAll();
+        List<Property> properties = xmlPropertyRepository.getByStatus(SAMPLE_PROPERTY_STATUS);
 
-        assertThat(properties, containsInAnyOrder(propertyMock, anotherPropertyMock));
+        assertThat(properties, containsInAnyOrder(propertyMock));
     }
 
     @Test

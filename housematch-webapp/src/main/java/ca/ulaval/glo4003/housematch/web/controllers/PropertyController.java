@@ -119,15 +119,17 @@ public class PropertyController extends BaseController {
     }
 
     @RequestMapping(value = PROPERTIES_FOR_SALE_LIST_URL, method = RequestMethod.GET)
-    public final ModelAndView listPropertiesForSale() {
-        return new ModelAndView(PROPERTIES_FOR_SALE_LIST_VIEW_NAME);
+    public final ModelAndView listPropertiesForSale(ModelMap modelMap, HttpSession httpSession) {
+        Set<Property> properties = userService.getPropertiesForSale(getUserFromHttpSession(httpSession));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyCollection(properties));
+        return new ModelAndView(PROPERTIES_FOR_SALE_LIST_VIEW_NAME, modelMap);
     }
 
     @RequestMapping(value = PROPERTY_SEARCH_URL, method = RequestMethod.GET)
     public final ModelAndView displayPropertySearchView(ModelMap modelMap,
             @RequestParam(value = "sortColumn", defaultValue = "NONE") PropertySortColumn sortColumn,
             @RequestParam(value = "sortOrder", defaultValue = "NONE") SortOrder sortOrder) {
-        List<Property> properties = propertyService.getProperties(sortColumn, sortOrder);
+        List<Property> properties = propertyService.getPropertiesForSale(sortColumn, sortOrder);
         modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyCollection(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }

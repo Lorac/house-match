@@ -24,6 +24,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -78,7 +79,6 @@ public class PropertyServiceTest {
     private void initStubs() {
         when(propertyFactoryMock.createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class)))
                 .thenReturn(propertyMock);
-        when(propertyRepositoryMock.getAll()).thenReturn(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -144,22 +144,22 @@ public class PropertyServiceTest {
     }
 
     @Test
-    public void gettingPropertiesGetsAllPropertiesFromThePropertyRepository() {
-        propertyService.getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
-        verify(propertyRepositoryMock).getAll();
+    public void gettingPropertiesForSaleGetsThePropertiesByStatusFromThePropertyRepository() {
+        propertyService.getPropertiesForSale(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
+        verify(propertyRepositoryMock).getByStatus(PropertyStatus.FOR_SALE);
     }
 
     @Test
-    public void gettingPropertiesReturnsListContainingAllTheProperties() {
+    public void gettingPropertiesForSaleReturnsListContainingAllTheProperties() {
         when(propertySorterMock.sort(eq(SAMPLE_PROPERTY_LIST), any(PropertySortColumn.class), any(SortOrder.class)))
                 .thenReturn(SAMPLE_PROPERTY_LIST);
-        List<Property> returnedPropertyList = propertyService.getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
+        List<Property> returnedPropertyList = propertyService.getPropertiesForSale(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
         assertSame(SAMPLE_PROPERTY_LIST, returnedPropertyList);
     }
 
     @Test
-    public void gettingPropertiesSortsThePropertiesUsingThePropertySorter() {
-        propertyService.getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
+    public void gettingPropertiesForSaleSortsThePropertiesUsingThePropertySorter() {
+        propertyService.getPropertiesForSale(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
         verify(propertySorterMock).sort(SAMPLE_PROPERTY_LIST, SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
     }
 

@@ -40,18 +40,10 @@
                             </tr>
                         </thead>
                         <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}" varStatus="status">
-                            <tr onclick="document.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}';">
-                                <td><c:choose>
-                                        <c:when test="${not empty propertyViewModel.mainPhoto}">
-                                            <div class="property-thumbnail dynamic-download"
-                                                data-thumbnail-download-url="<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL%>${propertyViewModel.hashCode()}/${propertyViewModel.mainPhoto.hashCode()}">
-                                            </div>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <div class="property-thumbnail generic"
-                                                style="background-image: url('/resources/img/generic-house-thumbnail.png')"></div>
-                                        </c:otherwise>
-                                    </c:choose></td>
+                            <tr onclick="window.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}';">
+                                <td>
+                                    <%@include file="/WEB-INF/includes/propertyThumbnail.jsp"%>
+                                </td>
                                 <td>${propertyViewModel.getHashCode()}</td>
                                 <td>${propertyViewModel.getAddress()}</td>
                                 <td>${propertyViewModel.getSellingPrice()}&nbsp;$</td>

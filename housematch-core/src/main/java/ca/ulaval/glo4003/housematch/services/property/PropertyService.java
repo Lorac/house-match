@@ -14,6 +14,7 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySortColumn;
 import ca.ulaval.glo4003.housematch.domain.property.PropertySorter;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -68,8 +69,8 @@ public class PropertyService {
         }
     }
 
-    public List<Property> getProperties(PropertySortColumn sortColumn, SortOrder sortOrder) {
-        List<Property> properties = propertyRepository.getAll();
+    public List<Property> getPropertiesForSale(PropertySortColumn sortColumn, SortOrder sortOrder) {
+        List<Property> properties = propertyRepository.getByStatus(PropertyStatus.FOR_SALE);
         return propertySorter.sort(properties, sortColumn, sortOrder);
     }
 

@@ -66,6 +66,10 @@ public class UserService {
         }
     }
 
+    public Set<Property> getPropertiesForSale(User user) {
+        return user.getPropertiesForSale();
+    }
+
     public Property getPropertyForSaleByHashCode(User user, int propertyHashCode) throws PropertyNotFoundException {
         return user.getPropertyForSaleByHashCode(propertyHashCode);
     }

@@ -4,6 +4,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController"%>
 
 <html>
 <head>
@@ -16,7 +17,7 @@
     <div class="container">
         <h1 class="center">Properties for sale</h1>
         <c:choose>
-            <c:when test="${not empty user.propertiesForSale}">
+            <c:when test="${not empty propertyList.propertyViewModels}">
                 <table class="table table-hover align-middle clickable-rows">
                     <thead>
                         <tr>
@@ -26,13 +27,15 @@
                             <th>Selling Price</th>
                         </tr>
                     </thead>
-                    <c:forEach var="property" items="${user.propertiesForSale}">
+                    <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}">
                         <tr
-                            onclick="document.location = '<%=PropertyController.PROPERTY_UPDATE_BASE_URL + pageContext.getAttribute("property").hashCode()%>';">
-                            <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
-                            <td>${property.hashCode()}</td>
-                            <td>${property.address}</td>
-                            <td>${property.sellingPrice}&nbsp;$</td>
+                            onclick="window.location = '<%=PropertyController.PROPERTY_UPDATE_BASE_URL%>${propertyViewModel.hashCode}';">
+                            <td>
+                            <%@include file="/WEB-INF/includes/propertyThumbnail.jsp"%>
+                            </td>
+                            <td>${propertyViewModel.hashCode()}</td>
+                            <td>${propertyViewModel.address}</td>
+                            <td>${propertyViewModel.sellingPrice}&nbsp;$</td>
                         </tr>
                     </c:forEach>
                 </table>
@@ -47,5 +50,8 @@
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>
+    
+    <!-- Custom JavaScript for this page -->
+    <script src="/resources/js/components/property-thumbnail-loader.js"></script>
 </body>
 </html>

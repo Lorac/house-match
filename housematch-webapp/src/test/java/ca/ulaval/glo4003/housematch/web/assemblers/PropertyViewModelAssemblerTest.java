@@ -15,6 +15,7 @@ import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 
@@ -26,8 +27,9 @@ public class PropertyViewModelAssemblerTest {
     private static final Boolean SAMPLE_BOOLEAN = Boolean.TRUE;
 
     private Property propertyMock;
-    private User userMock;
+    private PropertyPhoto propertyPhotoMock;
     private PropertyDetails propertyDetailsMock;
+    private User userMock;
     private Address addressMock;
 
     private PropertyViewModelAssembler assembler;
@@ -41,8 +43,9 @@ public class PropertyViewModelAssemblerTest {
 
     private void initMocks() {
         propertyMock = mock(Property.class);
-        userMock = mock(User.class);
+        propertyPhotoMock = mock(PropertyPhoto.class);
         propertyDetailsMock = mock(PropertyDetails.class);
+        userMock = mock(User.class);
         addressMock = mock(Address.class);
     }
 
@@ -52,6 +55,7 @@ public class PropertyViewModelAssemblerTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
         when(propertyMock.getViewCount()).thenReturn(SAMPLE_VIEW_COUNT);
+        when(propertyMock.getMainPhoto()).thenReturn(Optional.of(propertyPhotoMock));
         when(userMock.isPropertyFavorited(propertyMock)).thenReturn(SAMPLE_BOOLEAN);
     }
 

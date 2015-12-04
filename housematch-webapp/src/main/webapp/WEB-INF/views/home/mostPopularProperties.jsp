@@ -4,6 +4,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController"%>
+
 <% pageContext.setAttribute("propertyTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyType.values()); %>
 
 
@@ -18,12 +20,14 @@
                     <th>Views</th>
                 </tr>
             </thead>
-            <c:forEach var="property" items="${propertyList.propertyViewModels}">
-                <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${property.hashCode}"'>
-                    <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
-                    <td>${property.address}</td>
-                    <td>${property.sellingPrice}&nbsp;$</td>
-                    <td>${property.viewCount}</td>
+            <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}">
+                <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}"'>
+                    <td>
+                    <%@include file="/WEB-INF/includes/propertyThumbnail.jsp"%>
+                    </td>
+                    <td>${propertyViewModel.address}</td>
+                    <td>${propertyViewModel.sellingPrice}&nbsp;$</td>
+                    <td>${propertyViewModel.viewCount}</td>
                 </tr>
             </c:forEach>
         </table>
@@ -32,3 +36,6 @@
         <p>There are no most visited properties for the selected category.</p>
     </c:otherwise>
 </c:choose>
+
+<!-- Custom JavaScript for this page -->
+<script src="/resources/js/components/property-thumbnail-loader.js"></script>

@@ -10,7 +10,7 @@ public interface PropertyRepository {
 
     void update(Property property);
 
-    List<Property> getAll();
+    List<Property> getByStatus(PropertyStatus propertyStatus);
 
     List<Property> getByType(PropertyType propertyType);
 }

@@ -45,7 +45,7 @@ public class BaseController {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public void resourceNotFoundExceptionHandler(HttpServletResponse response) {
-        response.setStatus(HttpStatus.NOT_FOUND.value());
+    public void resourceNotFoundExceptionHandler(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.NOT_FOUND.value(), "The specified resource could not be found.");
     }
 }

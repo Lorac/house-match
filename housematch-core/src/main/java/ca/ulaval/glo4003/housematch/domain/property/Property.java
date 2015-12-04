@@ -147,7 +147,7 @@ public class Property extends PropertyObservable {
     }
 
     public Optional<PropertyPhoto> getMainPhoto() {
-        return photos.stream().findFirst(); // Temporarily return even if unapproved, for test purpose
+        return getApprovedPhotos().stream().findFirst();
     }
 
     @Override

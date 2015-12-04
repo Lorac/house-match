@@ -1,6 +1,5 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +10,7 @@ import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 
@@ -63,8 +63,8 @@ public class XmlPropertyRepository implements PropertyRepository {
     }
 
     @Override
-    public List<Property> getAll() {
-        return new ArrayList<>(properties.values());
+    public List<Property> getByStatus(PropertyStatus propertyStatus) {
+        return properties.values().stream().filter(p -> p.getStatus().equals(propertyStatus)).collect(Collectors.toList());
     }
 
     @Override

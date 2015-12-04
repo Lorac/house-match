@@ -196,12 +196,12 @@ public class PropertyControllerTest extends BaseControllerTest {
 
         mockMvc.perform(getRequest);
 
-        verify(propertyServiceMock).getProperties(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
+        verify(propertyServiceMock).getPropertiesForSale(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
     }
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromThePropertiesDuringPropertySearchRequest() throws Exception {
-        when(propertyServiceMock.getProperties(any(PropertySortColumn.class), any(SortOrder.class))).thenReturn(SAMPLE_PROPERTY_LIST);
+        when(propertyServiceMock.getPropertiesForSale(any(PropertySortColumn.class), any(SortOrder.class))).thenReturn(SAMPLE_PROPERTY_LIST);
         performGetRequest(PropertyController.PROPERTY_SEARCH_URL);
         verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_LIST);
     }
