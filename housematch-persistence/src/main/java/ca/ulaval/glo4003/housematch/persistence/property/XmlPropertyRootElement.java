@@ -1,5 +1,6 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -12,7 +13,7 @@ import ca.ulaval.glo4003.housematch.domain.property.Property;
 @XmlRootElement(name = "housematch")
 public class XmlPropertyRootElement {
 
-    private Collection<Property> properties;
+    private Collection<Property> properties = new ArrayList<>();
 
     @XmlElementWrapper(name = "properties")
     @XmlElement(name = "property")

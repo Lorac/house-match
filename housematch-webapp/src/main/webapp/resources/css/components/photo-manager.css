@@ -1,0 +1,123 @@
+.center-vertical {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.center-horizontal {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.plus-icon {
+    background-image: url('/resources/img/photo-manager/plus-icon.svg');
+}
+
+.delete-icon {
+    background-image: url('/resources/img/photo-manager/trash-icon.svg');
+}
+
+.reject-icon {
+    background-image: url('/resources/img/photo-manager/cross-icon.svg');
+}
+
+.accept-icon {
+    background-image: url('/resources/img/photo-manager/checkmark-icon.svg');
+}
+
+.photo-manager {
+    width: 100%;
+    border: 1px solid #808080;
+    border-radius: 4px 4px;
+    padding: 8px;
+    overflow: hidden;
+}
+
+.photo-manager .content {
+    width: 100%;
+    height: auto;
+}
+
+.photo-manager .grid-cell {
+    width: 270px;
+    height: 200px;
+    padding: 8px;
+    float: left;
+}
+
+.photo-manager .grid-cell .item-container {
+    border: 1px solid #AAA;
+    border-radius: 4px 4px;
+    height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.photo-manager .grid-cell .item-container.upload-container {
+    border-style: dashed;
+    border-width: 2px;
+}
+
+.photo-manager .grid-cell .item-container.upload-container:hover {
+    cursor: pointer;
+}
+
+.photo-manager .grid-cell .item-container.upload-container .upload-button {
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background-color: #CCC;
+}
+
+.photo-manager .grid-cell .item-container.upload-container:hover .upload-button {
+    opacity: 0.7;
+}
+
+.photo-manager .grid-cell .item-container.upload-container .upload-button .icon {
+    width: 35px;
+    height: 35px;
+    background-size: cover;
+}
+
+.photo-manager .grid-cell .item-container .progress-controls {
+    text-align: center;
+    padding: 10px;
+}
+
+.photo-manager .grid-cell .item-container .progress-controls .progress-wheel {
+    margin-top: 10px;
+}
+
+.photo-manager .grid-cell .item-container .action-button-container {
+    bottom: 10px;
+    right: 10px;
+    position: absolute;
+}
+
+.photo-manager .grid-cell .item-container .action-button-container .action-button {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: #FFF;
+    float: right;
+    margin-left: 5px;
+    margin-right: 5px;
+    opacity: 0.8;
+}
+
+.photo-manager .grid-cell .item-container .action-button-container .action-button:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.photo-manager .grid-cell .item-container .action-button-container .action-button .icon {
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+}
+
+.photo-manager .div-templates {
+    display: none;
+}

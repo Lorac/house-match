@@ -22,7 +22,7 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-6">
-                                <a href="<%= LoginController.LOGIN_URL %>" id="login-form-link">Login</a>
+                                <a href="<%=LoginController.LOGIN_URL%>" id="login-form-link">Login</a>
                             </div>
                             <div class="col-xs-6">
                                 <a href="#" class="active" id="register-form-link">Register</a>
@@ -33,13 +33,14 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <form:form id="register-form" role="form" modelAttribute="<%= RegistrationFormViewModel.NAME %>" action="/register" method="POST">
-                                    
+                                <form:form id="register-form" role="form" modelAttribute="<%=RegistrationFormViewModel.NAME%>"
+                                    action="/register" method="POST">
+
                                     <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
-                                    
+
                                     <div class="form-group">
                                         <form:input type="text" path="username" class="form-control" minlength="3" maxlength="32"
-                                            tabindex="1" placeholder="Username" autofocus="true"/>
+                                            tabindex="1" placeholder="Username" autofocus="true" />
                                     </div>
                                     <div class="form-group">
                                         <form:input type="email" path="email" class="form-control" minlength="3" maxlength="128"
@@ -58,7 +59,7 @@
                                     <div class="form-group">
                                         <div class="row center">
                                             <input type="submit" name="register-submit" id="register-submit" tabindex="4"
-                                                    class="btn btn-primary btn-lg" value="Register Now">
+                                                class="btn btn-primary btn-lg" value="Register Now">
                                         </div>
                                     </div>
                                 </form:form>

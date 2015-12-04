@@ -8,15 +8,8 @@ function adminInit(userRole) {
 }
 
 function loadMostPopularProperties() {
-var propertyType = $( "select#propertyTypeSelector" ).val();
-$.ajax({
-        type: "GET",
-        url: "./mostPopularProperties",
-        data: { "propertyType": propertyType },
-        timeout: 15000,
-        success: mostPopularPropertiesLoadSuccessHandler,
-        error: mostPopularPropertiesLoadErrorHandler
-    });
+    var propertyType = $("select#propertyTypeSelector").val();
+    executeAjaxCall("GET", "./mostPopularProperties", { "propertyType": propertyType }, mostPopularPropertiesLoadSuccessHandler, mostPopularPropertiesLoadErrorHandler);
 }
 
 function mostPopularPropertiesLoadSuccessHandler(responseData, status) {

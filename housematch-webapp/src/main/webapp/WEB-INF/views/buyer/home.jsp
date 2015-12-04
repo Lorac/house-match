@@ -28,8 +28,7 @@
                 <div class="profileMenu">
                     <div class="row">
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=UserProfileController.USER_PROFILE_SETTINGS_URL%>"> <span
-                                class="icon glyphicon glyphicon-user"></span>
+                            <a href="<%=UserProfileController.USER_PROFILE_SETTINGS_URL%>"> <span class="icon glyphicon glyphicon-user"></span>
                                 <p class="itemLabel">Edit my profile</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
@@ -37,8 +36,7 @@
                                 <p class="itemLabel">Search properties for sale</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=PropertyController.FAVORITE_PROPERTIES_VIEW_URL%>">
-                                <span class="icon glyphicon glyphicon-star"></span>
+                            <a href="<%=PropertyController.FAVORITE_PROPERTIES_VIEW_URL%>"> <span class="icon glyphicon glyphicon-star"></span>
                                 <p class="itemLabel">My favorite properties</p>
                             </a>
                         </div>

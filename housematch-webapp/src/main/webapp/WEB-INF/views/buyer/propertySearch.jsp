@@ -28,12 +28,14 @@
                                 <th></th>
                                 <th>ID</th>
                                 <th>Address</th>
-                                <th style="min-width:100px;">
-                                    <span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
-                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>Price</th>
-                                <th>
-                                	<span class="glyphicon glyphicon-chevron-up" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
-                                    <span class="glyphicon glyphicon-chevron-down" onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>Date</th>
+                                <th style="min-width: 100px;"><span class="glyphicon glyphicon-chevron-up"
+                                    onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down"
+                                    onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.SELLING_PRICE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>Price</th>
+                                <th><span class="glyphicon glyphicon-chevron-up"
+                                    onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.ASCENDING%>';"></span>
+                                    <span class="glyphicon glyphicon-chevron-down"
+                                    onclick="document.location = '<%=PropertyController.PROPERTY_SEARCH_URL%>?sortColumn=<%=PropertySortColumn.CREATION_DATE%>&sortOrder=<%=SortOrder.DESCENDING%>';"></span>Date</th>
                             </tr>
                         </thead>
                         <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}" varStatus="status">

@@ -3,11 +3,14 @@ package ca.ulaval.glo4003.housematch.domain.property;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
 public class Property extends PropertyObservable {
 
@@ -16,6 +19,7 @@ public class Property extends PropertyObservable {
     private BigDecimal sellingPrice;
     private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
     private PropertyDetails propertyDetails;
+    private Set<PropertyPhoto> photos = new HashSet<>();
     private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate = ZonedDateTime.now();
     private Integer viewCount = 0;
@@ -108,6 +112,10 @@ public class Property extends PropertyObservable {
     public void updatePropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
         propertyDetailsChanged(this, propertyDetails);
+    }
+
+    public void addPhoto(PropertyPhoto propertyphoto) {
+        photos.add(propertyphoto);
     }
 
     @Override

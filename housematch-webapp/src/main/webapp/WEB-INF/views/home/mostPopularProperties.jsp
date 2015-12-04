@@ -4,7 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<%pageContext.setAttribute("propertyTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyType.values());%>
+<% pageContext.setAttribute("propertyTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyType.values()); %>
 
 
 <c:choose>
@@ -19,8 +19,7 @@
                 </tr>
             </thead>
             <c:forEach var="property" items="${propertyList.propertyViewModels}">
-                <tr
-                    onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${property.hashCode}"'>
+                <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${property.hashCode}"'>
                     <td><img src="http://place-hold.it/140x100" alt="Thumbnail"></td>
                     <td>${property.address}</td>
                     <td>${property.sellingPrice}&nbsp;$</td>

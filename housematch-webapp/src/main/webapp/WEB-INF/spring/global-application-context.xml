@@ -99,6 +99,8 @@
             </util:list>
         </constructor-arg>
     </bean>
+    
+    <bean id="propertyPhotoFactory" class="ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoFactory" />
 
     <bean id="persistencePropertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory">
         <constructor-arg>
@@ -139,7 +141,12 @@
         <constructor-arg ref="propertyUpdateValidator" />
         <constructor-arg ref="propertySorter" />
     </bean>
-
+    
+    <bean id="propertyPhotoService" class="ca.ulaval.glo4003.housematch.services.property.PropertyPhotoService">
+        <constructor-arg ref="propertyPhotoFactory" />
+        <constructor-arg ref="xmlPropertyPhotoRepository" />
+    </bean>
+    
     <bean id="userStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService">
         <constructor-arg ref="statisticFactory" />
     </bean>
@@ -183,6 +190,11 @@
         <constructor-arg ref="userService" />
         <constructor-arg ref="propertyViewModelAssembler" />
         <constructor-arg ref="propertyListViewModelAssembler" />
+    </bean>
+    
+    <bean id="propertyPhotoController" class="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController">
+        <constructor-arg ref="propertyPhotoService" />
+        <constructor-arg ref="userService" />
     </bean>
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController">

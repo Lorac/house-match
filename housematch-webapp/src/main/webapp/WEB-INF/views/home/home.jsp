@@ -4,9 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<%
-    pageContext.setAttribute("propertyTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyType.values());
-%>
+<% pageContext.setAttribute("propertyTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyType.values()); %>
 
 <html>
 <head>
@@ -28,7 +26,10 @@
                         </p>
                     </c:when>
                     <c:otherwise>
-                        <p>You are viewing this page as anonymous. <a href="/login">Login</a> or <a href="/register">register</a> to enhance your experience.</p>
+                        <p>
+                            You are viewing this page as anonymous. <a href="/login">Login</a> or <a href="/register">register</a> to
+                            enhance your experience.
+                        </p>
                     </c:otherwise>
                 </c:choose>
             </div>
@@ -58,8 +59,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div id="statisticsContainer" class="col-lg-12">
-                            </div>
+                            <div id="statisticsContainer" class="col-lg-12"></div>
                         </div>
                     </div>
                 </div>
@@ -68,8 +68,8 @@
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>
-	
-	<!-- Custom JavaScript for this page -->
-	<script src="/resources/js/view-specific/home.js"></script>
+
+    <!-- Custom JavaScript for this page -->
+    <script src="/resources/js/view-specific/home.js"></script>
 </body>
 </html>

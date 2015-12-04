@@ -37,6 +37,24 @@
         <constructor-arg ref="persistencePropertyFactory" />
     </bean>
 
+    <!-- Property Photos -->
+
+    <bean id="xmlPropertyPhotoRepository" class="ca.ulaval.glo4003.housematch.persistence.propertyphoto.XmlPropertyPhotoRepository">
+        <constructor-arg ref="xmlPropertyPhotoRepositoryMarshaller" />
+        <constructor-arg ref="xmlPropertyPhotoAdapter" />
+        <constructor-arg ref="resourceLoader" />
+    </bean>
+
+    <bean id="xmlPropertyPhotoRepositoryMarshaller" class="ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller">
+        <constructor-arg type="java.lang.Class" value="#{ T(ca.ulaval.glo4003.housematch.persistence.propertyphoto.XmlPropertyPhotoRootElement) }" />
+        <constructor-arg ref="resourceLoader" />
+        <constructor-arg type="java.lang.String" value="/data/housematch-property-photos.xml" />
+    </bean>
+
+    <bean id="xmlPropertyPhotoAdapter" class="ca.ulaval.glo4003.housematch.persistence.propertyphoto.XmlPropertyPhotoAdapter">
+        <constructor-arg ref="propertyPhotoFactory" />
+    </bean>
+
     <!-- Statistics -->
 
     <bean id="xmlStatisticsRepository" class="ca.ulaval.glo4003.housematch.persistence.statistics.XmlStatisticsRepository">

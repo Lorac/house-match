@@ -7,21 +7,19 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
-    <%@include file="/WEB-INF/includes/footer.jsp"%>
-	
 <title>HouseMatch - Home</title>
 </head>
 <body>
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <h1 class="center">Property Details</h1>
-        
+
         <c:if test="${property.isPropertyFavorited() == true}">
             <div id="favoriteCreationAlert" class="alert alert-info">
                 <span class="icon glyphicon glyphicon-star"></span>&nbsp;This property is in your favorites.
             </div>
         </c:if>
-        
+
         <div class="panel panel-default">
             <div class="panel-heading">
                 <h3 class="panel-title">Photos</h3>
@@ -270,7 +268,7 @@
                 </div>
             </div>
         </div>
-        <div id="favoriteCreationAlert" class="alert alert-success alert-dismissible" style="display:none" role="alert">
+        <div id="favoriteCreationAlert" class="alert alert-success alert-dismissible" style="display: none" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -286,10 +284,10 @@
             </div>
         </div>
     </div>
-	
-	<%@include file="/WEB-INF/includes/footer.jsp"%>
 
-	<!-- Custom JavaScript for this page -->
-	<script src="/resources/js/view-specific/property-details.js"></script>
+    <%@include file="/WEB-INF/includes/footer.jsp"%>
+
+    <!-- Custom JavaScript for this page -->
+    <script src="/resources/js/view-specific/property-details.js"></script>
 </body>
 </html>

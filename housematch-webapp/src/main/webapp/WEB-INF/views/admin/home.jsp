@@ -26,8 +26,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div id="statisticsContainer" class="col-lg-12">
-                                </div>
+                                <div id="statisticsContainer" class="col-lg-12"></div>
                             </div>
                         </div>
                     </div>
@@ -35,10 +34,10 @@
             </div>
         </div>
     </div>
-    
+
     <%@include file="/WEB-INF/includes/footer.jsp"%>
 
-	<!-- Custom JavaScript for this page -->
-	<script src="/resources/js/view-specific/home.js"></script>
+    <!-- Custom JavaScript for this page -->
+    <script src="/resources/js/view-specific/home.js"></script>
 </body>
 </html>

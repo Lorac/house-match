@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "housematch")
 public class XmlStatisticsRootElement {
 
-    private ConcurrentHashMap<String, Object> statistics;
+    private ConcurrentHashMap<String, Object> statistics = new ConcurrentHashMap<>();
 
     @XmlElementWrapper(name = "statistics")
     @XmlElement(name = "statistic")

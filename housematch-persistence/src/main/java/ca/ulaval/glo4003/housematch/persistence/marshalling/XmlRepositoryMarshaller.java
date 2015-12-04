@@ -59,4 +59,8 @@ public class XmlRepositoryMarshaller<T> extends XmlMarshaller<T> {
             throw new UncheckedIOException(String.format("An I/O exception occured while trying to write file '%s'.", resourceName), e);
         }
     }
+
+    public String getResourceName() {
+        return resourceName;
+    }
 }

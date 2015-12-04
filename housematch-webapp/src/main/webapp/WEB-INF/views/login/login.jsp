@@ -25,7 +25,7 @@
                                 <a href="#" class="active" id="login-form-link">Login</a>
                             </div>
                             <div class="col-xs-6">
-                                <a href="<%= RegistrationController.REGISTRATION_URL %>" id="register-form-link">Register</a>
+                                <a href="<%=RegistrationController.REGISTRATION_URL%>" id="register-form-link">Register</a>
                             </div>
                         </div>
                         <hr>
@@ -34,13 +34,13 @@
                         <div class="row">
                             <div class="col-lg-12">
 
-                                <form:form action="/login" id="login-form" modelAttribute="<%= LoginFormViewModel.NAME %>" method="POST">
-                                    
+                                <form:form action="/login" id="login-form" modelAttribute="<%=LoginFormViewModel.NAME%>" method="POST">
+
                                     <%@include file="/WEB-INF/includes/alertMessage.jsp"%>
-                                    
+
                                     <div class="form-group">
                                         <form:input id="username" name="username" class="form-control" minlength="3" maxlength="32"
-                                            tabindex="1" placeholder="Username" path="username" autofocus="true"/>
+                                            tabindex="1" placeholder="Username" path="username" autofocus="true" />
                                     </div>
                                     <div class="form-group">
                                         <form:input id="password" name="password" type="password" minlength="3" maxlength="32"
@@ -49,7 +49,7 @@
                                     <div class="form-group">
                                         <div class="row center">
                                             <input type="submit" name="login-submit" id="login-submit" tabindex="3"
-                                                    class="btn btn-primary btn-lg" value="Log In">
+                                                class="btn btn-primary btn-lg" value="Log In">
                                         </div>
                                     </div>
                                 </form:form>

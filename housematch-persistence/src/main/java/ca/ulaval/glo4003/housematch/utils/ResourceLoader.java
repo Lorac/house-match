@@ -36,7 +36,7 @@ public class ResourceLoader {
         return new File(resourceFilePath);
     }
 
-    private String getResourceFilePathFromClassPath(Object classObject, String resourceName) throws FileNotFoundException {
+    public String getResourceFilePathFromClassPath(Object classObject, String resourceName) throws FileNotFoundException {
         try {
             URL url = getResourceFromClassPath(classObject, resourceName);
             return url.toURI().getPath();

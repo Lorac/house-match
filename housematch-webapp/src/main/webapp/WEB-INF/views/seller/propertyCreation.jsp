@@ -58,8 +58,8 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2">Street Name:</label>
                         <div class="col-sm-10">
-                            <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="256" tabindex="4"
-                                placeholder="Street Name" />
+                            <form:input type="text" path="address.streetName" class="form-control" minlength="3" maxlength="256"
+                                tabindex="4" placeholder="Street Name" />
                         </div>
                     </div>
                     <div class="form-group">

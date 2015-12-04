@@ -1,17 +1,19 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
-import ca.ulaval.glo4003.housematch.domain.user.User;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.util.Collection;
+
+import ca.ulaval.glo4003.housematch.domain.user.User;
 
 @XmlRootElement(name = "housematch")
 public class XmlUserRootElement {
 
-    private Collection<User> users;
+    private Collection<User> users = new ArrayList<>();
 
     @XmlElementWrapper(name = "users")
     @XmlElement(name = "user")

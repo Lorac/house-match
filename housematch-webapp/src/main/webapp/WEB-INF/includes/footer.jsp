@@ -3,3 +3,7 @@
 
 <script src="/resources/js/components/jquery-2.1.4.min.js"></script>
 <script src="/resources/js/components/bootstrap.min.js"></script>
+
+<!-- Common JavaScript -->
+
+<script src="/resources/js/site.js"></script>

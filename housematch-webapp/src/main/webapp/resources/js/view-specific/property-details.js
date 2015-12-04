@@ -8,13 +8,7 @@ $(document).ready(function () {
 
 
 function addPropertiesToFavorite(propertyHashCode) {
-    $.ajax({
-        type: "POST",
-        url: "/buyer/addPropertyToFavorites/" + propertyHashCode,
-        timeout: 15000,
-        success: favoritePropertyCreationSuccessHandler,
-        error: favoritePropertyCreationErrorHandler
-    });
+    executeAjaxCall("POST", "/buyer/addPropertyToFavorites/" + propertyHashCode, null, favoritePropertyCreationSuccessHandler, favoritePropertyCreationErrorHandler);
 }
 
 function favoritePropertyCreationSuccessHandler(responseData, status) {
