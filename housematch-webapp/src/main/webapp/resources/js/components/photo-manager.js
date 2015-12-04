@@ -1,3 +1,10 @@
+function createPhotoManager(propertyHashCode, uploadEnabled, reviewEnabled, deleteEnabled) {
+    var downloadBaseUrl = "/user/downloadPropertyPhoto/" + propertyHashCode + "/";
+    var thumbnailDownloadBaseUrl = "/user/downloadPropertyPhotoThumbnail/" + propertyHashCode + "/";
+    var deleteBaseUrl = "/seller/deletePropertyPhoto/" + propertyHashCode + "/";
+
+    return new PhotoManager($("#property-photo-manager"), uploadEnabled, reviewEnabled, deleteEnabled, "/seller/uploadPropertyPhoto/" + propertyHashCode, downloadBaseUrl, thumbnailDownloadBaseUrl, deleteBaseUrl);
+}
 
 function Element(element) {
     this.element = element;
@@ -48,6 +55,7 @@ function PhotoGridCell(element, thumbnailUrl, photoHashCode, reviewEnabled, dele
     var acceptButtonElement = new ActionButton(element.find(".accept-button").first());
     var rejectButtonElement = new ActionButton(element.find(".reject-button").first());
 
+    this.show();
     showProgressControls();
     executeAjaxCall("GET", thumbnailUrl, null, downloadCompleted, void (0));
 
@@ -117,8 +125,8 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
     function initUploadGridCell() {
         var gridCellElement = contentElement.find(".upload-container").first().parent();
         uploadGridCell = new UploadGridCell(gridCellElement, onUploadButtonClick);
-        if (!uploadEnabled) {
-            uploadGridCell.hide();
+        if (uploadEnabled) {
+            uploadGridCell.show();
         }
     }
 

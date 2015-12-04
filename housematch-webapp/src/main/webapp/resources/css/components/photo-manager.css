@@ -43,6 +43,7 @@
     height: 200px;
     padding: 8px;
     float: left;
+    display: none;
 }
 
 .photo-manager .grid-cell .item-container {

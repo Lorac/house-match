@@ -23,8 +23,8 @@ import ca.ulaval.glo4003.housematch.services.user.UserService;
 public class PropertyPhotoController extends BaseController {
 
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
-    private static final String PHOTO_DOWNLOAD_URL = "/seller/downloadPropertyPhoto/{propertyHashCode}/{photoHashCode}";
-    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/seller/downloadPropertyPhotoThumbnail/{propertyHashCode}/{photoHashCode}";
+    private static final String PHOTO_DOWNLOAD_URL = "/user/downloadPropertyPhoto/{propertyHashCode}/{photoHashCode}";
+    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/{propertyHashCode}/{photoHashCode}";
     private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
 
     @Inject
@@ -54,18 +54,14 @@ public class PropertyPhotoController extends BaseController {
     }
 
     @RequestMapping(value = PHOTO_DOWNLOAD_URL, method = RequestMethod.GET)
-    public final ResponseEntity<byte[]> downloadPropertyPhoto(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
-            HttpSession httpSession) throws Exception {
-        Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-        return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoData(property, photoHashCode), new HttpHeaders(), HttpStatus.OK);
+    public final ResponseEntity<byte[]> downloadPropertyPhoto(@PathVariable int photoHashCode, HttpSession httpSession) throws Exception {
+        return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoData(photoHashCode), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = PHOTO_THUMBNAIL_DOWNLOAD_URL, method = RequestMethod.GET)
     public final ResponseEntity<byte[]> downloadPropertyPhotoThumbnail(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
             HttpSession httpSession) throws Exception {
-        Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-        return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoThumbnailData(property, photoHashCode), new HttpHeaders(),
-                HttpStatus.OK);
+        return new ResponseEntity<>(propertyPhotoService.getPropertyPhotoThumbnailData(photoHashCode), new HttpHeaders(), HttpStatus.OK);
     }
 
     @RequestMapping(value = PHOTO_DELETE_URL, method = RequestMethod.POST)

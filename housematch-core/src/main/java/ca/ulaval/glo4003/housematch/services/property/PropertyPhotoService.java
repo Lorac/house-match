@@ -38,18 +38,18 @@ public class PropertyPhotoService {
         }
     }
 
-    public byte[] getPropertyPhotoData(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+    public byte[] getPropertyPhotoData(int photoHashCode) throws PropertyPhotoServiceException {
         try {
-            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
+            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
             return Base64.encodeBase64(propertyPhotoRepository.getPhotoData(propertyPhoto));
         } catch (IOException | PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }
 
-    public byte[] getPropertyPhotoThumbnailData(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+    public byte[] getPropertyPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException {
         try {
-            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
+            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
             return Base64.encodeBase64(propertyPhotoRepository.getThumbnailData(propertyPhoto));
         } catch (IOException | PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);

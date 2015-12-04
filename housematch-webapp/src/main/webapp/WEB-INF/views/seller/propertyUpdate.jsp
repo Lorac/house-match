@@ -5,15 +5,9 @@
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
 <%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel"%>
 
-<%
-    pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values());
-%>
-<%
-    pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values());
-%>
-<%
-    pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values());
-%>
+<% pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values()); %>
+<% pageContext.setAttribute("propertyStyles", ca.ulaval.glo4003.housematch.domain.property.PropertyStyle.values()); %>
+<% pageContext.setAttribute("cardinalDirections", ca.ulaval.glo4003.housematch.domain.CardinalDirection.values()); %>
 
 <html>
 <head>
@@ -24,7 +18,7 @@
 
 <script>
 var bodyOnLoad = function() {
-    var photoManager = createPhotoManager(<%=request.getAttribute("propertyHashCode")%>);
+    var photoManager = createPhotoManager(<%=request.getAttribute("propertyHashCode")%>, true, false, true);
     <c:forEach var="photo" items="${property.photos}">
     	photoManager.addPhoto(${photo.hashCode()});
     </c:forEach>
@@ -50,47 +44,7 @@ var bodyOnLoad = function() {
                         Increase your chances by adding photos to your property. <b>Your photos will be reviewed before appearing on the
                             site.</b>
                     </p>
-                    <div id="property-photo-manager" class="photo-manager">
-                        <div class="div-templates">
-                            <div class="photo-grid-cell-template">
-                                <div class="grid-cell">
-                                    <div class="item-container photo-container">
-                                        <div class="progress-controls center-horizontal center-vertical" style="display:none">
-                                            <img class="progress-wheel" src="/resources/img/photo-manager/spin-wheel.gif" />
-                                        </div>
-                                        <div class="action-button-container">
-                                            <div class="action-button delete-button" data-toggle="tooltip" data-placement="bottom" title="Delete photo">
-                                                <div class="icon delete-icon center-vertical center-horizontal"></div>
-                                            </div>
-                                            <div class="action-button reject-button" data-toggle="tooltip" data-placement="bottom" title="Reject photo">
-                                                <div class="icon reject-icon center-vertical center-horizontal"></div>
-                                            </div>
-                                            <div class="action-button accept-button" data-toggle="tooltip" data-placement="bottom" title="Accept photo">
-                                                <div class="icon accept-icon center-vertical center-horizontal"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="content">
-                            <div class="grid-cell">
-                                <div class="item-container progress-container" style="display:none">
-                                    <div class="progress-controls center-horizontal center-vertical">
-                                        <div class="progress-text center-vertical">Uploading...</div>
-                                        <img class="progress-wheel" src="/resources/img/photo-manager/spin-wheel.gif" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="grid-cell">
-                                <div class="item-container upload-container">
-                                    <div class="upload-button center-vertical center-horizontal">
-                                        <div class="icon plus-icon center-vertical center-horizontal"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <%@include file="/WEB-INF/includes/photoManager.jsp"%>
                 </div>
             </div>
 
@@ -302,6 +256,5 @@ var bodyOnLoad = function() {
 
     <!-- Custom JavaScript for this page -->
     <script src="/resources/js/components/photo-manager.js"></script>
-    <script src="/resources/js/view-specific/property-photo-upload.js"></script>
 </body>
 </html>

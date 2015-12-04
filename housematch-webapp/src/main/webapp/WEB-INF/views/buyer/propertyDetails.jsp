@@ -7,9 +7,23 @@
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
+<!-- Custom CSS for this page -->
+<link href="/resources/css/components/photo-manager.css" rel="stylesheet">
+
+<script>
+var bodyOnLoad = function() {
+	<c:if test="${not empty property.photos}">
+        var photoManager = createPhotoManager(<%=request.getAttribute("propertyHashCode")%>, false, false, false);
+        <c:forEach var="photo" items="${property.photos}">
+            photoManager.addPhoto(${photo.hashCode()});
+        </c:forEach>
+    </c:if>
+}
+</script>
+
 <title>HouseMatch - Home</title>
 </head>
-<body>
+<body onload="bodyOnLoad()">
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
     <div class="container">
         <h1 class="center">Property Details</h1>
@@ -22,46 +36,17 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title">Photos</h3>
+                <h3 class="panel-title">Property Photos</h3>
             </div>
             <div class="panel-body">
-
-                <div id="imageCarousel" class="carousel slide" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li data-target="#imageCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#imageCarousel" data-slide-to="1"></li>
-                    </ol>
-                    <div class="carousel-inner" role="listbox">
-                        <div class="item active">
-                            <img src="http://place-hold.it/1200x256">
-
-                            <div class="container">
-                                <div class="carousel-caption">
-                                    <p>Photo 1</p>
-
-                                    <p>Feature coming soon.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item">
-                            <img src="http://place-hold.it/1200x256">
-
-                            <div class="container">
-                                <div class="carousel-caption">
-                                    <p>Photo 2</p>
-
-                                    <p>Feature coming soon.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="left carousel-control" href="#imageCarousel" role="button" data-slide="prev"> <span
-                        class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">Previous</span>
-                    </a> <a class="right carousel-control" href="#imageCarousel" role="button" data-slide="next"> <span
-                        class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">Next</span>
-                    </a>
-                </div>
-
+                <c:choose>
+                    <c:when test="${not empty property.photos}">
+                        <%@include file="/WEB-INF/includes/photoManager.jsp"%>
+                    </c:when>
+                    <c:otherwise>
+                        <p class="center">This property currently has no photos.</p>
+                    </c:otherwise>
+                </c:choose>
             </div>
         </div>
         <div class="panel panel-default">
@@ -289,5 +274,6 @@
 
     <!-- Custom JavaScript for this page -->
     <script src="/resources/js/view-specific/property-details.js"></script>
+    <script src="/resources/js/components/photo-manager.js"></script>
 </body>
 </html>

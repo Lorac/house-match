@@ -1,11 +1,10 @@
 $(document).ready(function () {
-    $('#addPropertiesToFavorite').one('click', function (ev) {
+    $('#addPropertiesToFavorite').click('click', function () {
         var hashCode = $(this).attr("value");
         addPropertiesToFavorite(hashCode);
         return false;
     });
 });
-
 
 function addPropertiesToFavorite(propertyHashCode) {
     executeAjaxCall("POST", "/buyer/addPropertyToFavorites/" + propertyHashCode, null, favoritePropertyCreationSuccessHandler, favoritePropertyCreationErrorHandler);
