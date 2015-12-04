@@ -10,6 +10,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExi
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoFactory;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoRepository;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 
 public class PropertyPhotoService {
 
@@ -55,5 +56,11 @@ public class PropertyPhotoService {
         } catch (IOException e) {
             throw new PropertyPhotoServiceException(e);
         }
+    }
+
+    public void approvePropertyPhoto(int photoHashCode) throws PropertyPhotoNotFoundException {
+        PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
+        propertyPhoto.updateStatus(PropertyPhotoStatus.APPROVED);
+        propertyPhotoRepository.update(propertyPhoto);
     }
 }

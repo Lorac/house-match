@@ -4,6 +4,7 @@ public class PropertyPhoto {
 
     private int hashCode;
     private String originalFileName;
+    private PropertyPhotoStatus status;
 
     public PropertyPhoto(final int hashCode, final String originalFileName) {
         this.hashCode = hashCode;
@@ -16,6 +17,18 @@ public class PropertyPhoto {
 
     public void setOriginalFileName(String originalFileName) {
         this.originalFileName = originalFileName;
+    }
+
+    public PropertyPhotoStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PropertyPhotoStatus status) {
+        this.status = status;
+    }
+
+    public void updateStatus(PropertyPhotoStatus status) {
+        this.status = status;
     }
 
     @Override

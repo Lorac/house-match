@@ -68,6 +68,15 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     }
 
     @Override
+    public void update(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException {
+        if (!propertyPhotos.containsValue(propertyPhoto)) {
+            throw new IllegalStateException("Update requested for an object that is not persisted.");
+        }
+
+        marshal();
+    }
+
+    @Override
     public PropertyPhoto getByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException {
         PropertyPhoto propertyPhoto = propertyPhotos.get(hashCode);
         if (propertyPhoto == null) {

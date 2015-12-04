@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.property;
 
 import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -19,9 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.picture.Picture;
-import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
 public class PropertyTest {
 
@@ -38,7 +37,7 @@ public class PropertyTest {
     private PropertyDetails propertyDetailsMock;
     private PropertyObserver propertyObserverMock;
     private Address addressMock;
-    private Picture pictureMock;
+    private PropertyPhoto propertyPhotoMock;
     private List<BigDecimal> sellingPriceHistory;
 
     @Before
@@ -53,7 +52,7 @@ public class PropertyTest {
         addressMock = mock(Address.class);
         propertyDetailsMock = mock(PropertyDetails.class);
         propertyObserverMock = mock(PropertyObserver.class);
-        pictureMock = mock(Picture.class);
+        propertyPhotoMock = mock(PropertyPhoto.class);
     }
 
     @Test
@@ -210,28 +209,11 @@ public class PropertyTest {
         property.updateSellingPrice(SAMPLE_SELLING_PRICE);
         assertThat(property.getSellingPriceHistory(), not(contains(SAMPLE_SELLING_PRICE)));
     }
-    
-    @Test
-    public void addingAPictureToThePropertyAddsAPictureToTheListOfPropertyPictures() throws Exception {
-        property.addPictureToProperty(pictureMock);
-        assertTrue(property.getPicturesOfProperty().contains(pictureMock));
-    }
-    
-    @Test(expected=PictureAlreadyExistsException.class)
-    public void addingAPictureAlreadyInThePropertyPictureListThrowsAnException() throws Exception {
-        property.addPictureToProperty(pictureMock);
-        property.addPictureToProperty(pictureMock);
-    }
-    
-    @Test
-    public void removingAPictureFromThePropertyRemovesThePictureFromThePropertyList() throws Exception {
-        property.addPictureToProperty(pictureMock);
-        property.removePropertyPicture(pictureMock);
-        assertFalse(property.getPicturesOfProperty().contains(pictureMock));
-    }
 
-    @Test(expected=PictureNotFoundException.class)
-    public void removingAPictureNotContainedInThePropertyPictureListThrowsAnException() throws Exception {
-        property.removePropertyPicture(pictureMock);
+    @Test
+    public void removingAPhotoFromThePropertyRemovesThePhotoFromThePropertyList() throws Exception {
+        property.addPhoto(propertyPhotoMock);
+        property.removePhoto(propertyPhotoMock);
+        assertThat(property.getPhotos(), not(hasItem(propertyPhotoMock)));
     }
 }

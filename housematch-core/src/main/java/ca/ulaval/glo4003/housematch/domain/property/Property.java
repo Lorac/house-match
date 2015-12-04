@@ -10,9 +10,7 @@ import java.util.Set;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
-import ca.ulaval.glo4003.housematch.domain.picture.Picture;
-import ca.ulaval.glo4003.housematch.domain.picture.PictureAlreadyExistsException;
-import ca.ulaval.glo4003.housematch.domain.picture.PictureNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
 public class Property extends PropertyObservable {
 
@@ -25,7 +23,6 @@ public class Property extends PropertyObservable {
     private PropertyStatus status = PropertyStatus.CREATED;
     private ZonedDateTime creationDate = ZonedDateTime.now();
     private Integer viewCount = 0;
-    private Set<Picture> picturesOfTheProperty = new HashSet<>();
 
     public Property(final PropertyType propertyType, final Address address, final BigDecimal sellingPrice,
             final PropertyDetails propertyDetails) {
@@ -112,32 +109,21 @@ public class Property extends PropertyObservable {
         }
     }
 
-    public void addPictureToProperty(Picture picture) throws PictureAlreadyExistsException {
-        if (picturesOfTheProperty.contains(picture)) {
-            throw new PictureAlreadyExistsException();
-        }
-        picturesOfTheProperty.add(picture);
-    }
-
-    public void removePropertyPicture(Picture picture) throws PictureNotFoundException {
-        if (picturesOfTheProperty.contains(picture)) {
-            picturesOfTheProperty.remove(picture);
-        } else {
-            throw new PictureNotFoundException();
-        }
-    }
-
-    public Set<Picture> getPicturesOfProperty() {
-        return picturesOfTheProperty;
-    }
-
     public void updatePropertyDetails(PropertyDetails propertyDetails) {
         this.propertyDetails = propertyDetails;
         propertyDetailsChanged(this, propertyDetails);
     }
 
-    public void addPhoto(PropertyPhoto propertyphoto) {
-        photos.add(propertyphoto);
+    public void addPhoto(PropertyPhoto propertyPhoto) {
+        photos.add(propertyPhoto);
+    }
+
+    public void removePhoto(PropertyPhoto propertyPhoto) {
+        photos.remove(propertyPhoto);
+    }
+
+    public Set<PropertyPhoto> getPhotos() {
+        return photos;
     }
 
     @Override
