@@ -18,6 +18,10 @@ body {
     text-align: center;
 }
 
+.container.medium {
+    max-width:750px;
+}
+
 .panel {
     border-color: #ccc;
     -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);

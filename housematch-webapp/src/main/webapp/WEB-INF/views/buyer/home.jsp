@@ -28,9 +28,9 @@
                 <div class="profileMenu">
                     <div class="row">
                         <div class="col-sm-4 menuItem">
-                            <a href="<%=UserProfileController.CONTACT_INFO_UPDATE_URL%>"> <span
-                                class="icon glyphicon glyphicon-envelope"></span>
-                                <p class="itemLabel">Update contact information</p></a>
+                            <a href="<%=UserProfileController.USER_PROFILE_SETTINGS_URL%>"> <span
+                                class="icon glyphicon glyphicon-user"></span>
+                                <p class="itemLabel">Edit my profile</p></a>
                         </div>
                         <div class="col-sm-4 menuItem">
                             <a href="<%=PropertyController.PROPERTY_SEARCH_URL%>"><span class="icon glyphicon glyphicon-search"></span>

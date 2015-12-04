@@ -16,15 +16,22 @@ public class PropertyObservableTest {
     private PropertyObservable propertyObservable;
 
     private Property propertyMock;
+    private PropertyDetails propertyDetailsMock;
     private PropertyObserver propertyObserverMock;
     private PropertyObserver anotherPropertyObserverMock;
 
     @Before
     public void init() {
-        propertyObserverMock = mock(PropertyObserver.class);
-        anotherPropertyObserverMock = mock(PropertyObserver.class);
+        initMocks();
         propertyObservable = new PropertyObservable();
         registerObservers();
+    }
+
+    private void initMocks() {
+        propertyMock = mock(Property.class);
+        propertyDetailsMock = mock(PropertyDetails.class);
+        propertyObserverMock = mock(PropertyObserver.class);
+        anotherPropertyObserverMock = mock(PropertyObserver.class);
     }
 
     private void registerObservers() {
@@ -43,6 +50,14 @@ public class PropertyObservableTest {
 
         verify(propertyObserverMock).propertyStatusChanged(propertyMock, SAMPLE_PROPERTY_STATUS);
         verify(anotherPropertyObserverMock).propertyStatusChanged(propertyMock, SAMPLE_PROPERTY_STATUS);
+    }
+
+    @Test
+    public void changingPropertyDetailsNotifiesAllTheObservers() {
+        propertyObservable.propertyDetailsChanged(propertyMock, propertyDetailsMock);
+
+        verify(propertyObserverMock).propertyDetailsChanged(propertyMock, propertyDetailsMock);
+        verify(anotherPropertyObserverMock).propertyDetailsChanged(propertyMock, propertyDetailsMock);
     }
 
     @Test

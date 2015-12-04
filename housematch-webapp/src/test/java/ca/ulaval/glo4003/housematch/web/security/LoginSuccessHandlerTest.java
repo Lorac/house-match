@@ -1,7 +1,7 @@
 package ca.ulaval.glo4003.housematch.web.security;
 
 import static org.junit.Assert.assertSame;
-import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -21,7 +21,6 @@ import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.web.controllers.BaseController;
 import ca.ulaval.glo4003.housematch.web.controllers.HomeController;
 import ca.ulaval.glo4003.housematch.web.controllers.RegistrationController;
-import ca.ulaval.glo4003.housematch.web.security.LoginSuccessHandler;
 
 public class LoginSuccessHandlerTest {
 
@@ -60,7 +59,7 @@ public class LoginSuccessHandlerTest {
     public void handlerDoesNotRedirectWhenHttpServletResponseIsCommitedOnLoginSuccess() throws Exception {
         when(httpServletResponseMock.isCommitted()).thenReturn(true);
         loginSuccessHandler.handle(httpServletRequestMock, httpServletResponseMock, authenticationMock);
-        verify(redirectStrategyMock, never()).sendRedirect(eq(httpServletRequestMock), eq(httpServletResponseMock), any(String.class));
+        verify(redirectStrategyMock, never()).sendRedirect(eq(httpServletRequestMock), eq(httpServletResponseMock), anyString());
     }
 
     @Test

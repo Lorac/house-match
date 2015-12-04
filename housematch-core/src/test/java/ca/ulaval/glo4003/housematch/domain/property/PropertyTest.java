@@ -172,6 +172,23 @@ public class PropertyTest {
     }
 
     @Test
+    public void updatingThePropertyDetailsUpdatesThePropertyDetails() {
+        property.updatePropertyDetails(propertyDetailsMock);
+        assertEquals(propertyDetailsMock, property.getPropertyDetails());
+    }
+
+    @Test
+    public void updatingThePropertyDetailsNotifiesTheObservers() {
+        property.updatePropertyDetails(propertyDetailsMock);
+        verify(propertyObserverMock).propertyDetailsChanged(property, propertyDetailsMock);
+    }
+
+    @Test
+    public void propertyToStringReturnsTheAddressString() {
+        assertEquals(addressMock.toString(), property.toString());
+    }
+
+    @Test
     public void updatingTheSellingPriceUpdatesTheSellingPrice() {
         property.updateSellingPrice(ANOTHER_SAMPLE_SELLING_PRICE);
         assertEquals(ANOTHER_SAMPLE_SELLING_PRICE, property.getSellingPrice());

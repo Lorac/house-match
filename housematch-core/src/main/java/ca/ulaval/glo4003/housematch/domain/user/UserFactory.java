@@ -1,20 +1,22 @@
 package ca.ulaval.glo4003.housematch.domain.user;
 
+import java.util.List;
+
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class UserFactory {
 
-    StringHasher stringHasher;
-    UserObserver sharedUserObserver;
+    private StringHasher stringHasher;
+    private List<UserObserver> sharedUserObservers;
 
-    public UserFactory(final StringHasher stringHasher, final UserObserver sharedUserObserver) {
+    public UserFactory(final StringHasher stringHasher, final List<UserObserver> sharedUserObservers) {
         this.stringHasher = stringHasher;
-        this.sharedUserObserver = sharedUserObserver;
+        this.sharedUserObservers = sharedUserObservers;
     }
 
     public User createUser(final String username, final String email, final String password, final UserRole role) {
         User user = new User(stringHasher, username, email, password, role);
-        user.registerObserver(sharedUserObserver);
+        user.registerObservers(sharedUserObservers);
         return user;
     }
 

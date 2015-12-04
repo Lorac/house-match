@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,14 +19,20 @@ public class PropertyFactoryTest {
 
     private Address addressMock;
     private PropertyObserver propertyObserverMock;
+    private List<PropertyObserver> propertyObservers = new ArrayList<>();
 
     private PropertyFactory propertyFactory;
 
     @Before
     public void init() {
+        initMocks();
+        propertyObservers.add(propertyObserverMock);
+        propertyFactory = new PropertyFactory(propertyObservers);
+    }
+
+    private void initMocks() {
         addressMock = mock(Address.class);
         propertyObserverMock = mock(PropertyObserver.class);
-        propertyFactory = new PropertyFactory(propertyObserverMock);
     }
 
     @Test

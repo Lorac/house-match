@@ -105,6 +105,11 @@ public class Property extends PropertyObservable {
         }
     }
 
+    public void updatePropertyDetails(PropertyDetails propertyDetails) {
+        this.propertyDetails = propertyDetails;
+        propertyDetailsChanged(this, propertyDetails);
+    }
+
     @Override
     public int hashCode() {
         return Math.abs(address.hashCode());
@@ -121,5 +126,10 @@ public class Property extends PropertyObservable {
 
         Property property = (Property) obj;
         return new EqualsBuilder().append(address, property.address).isEquals();
+    }
+
+    @Override
+    public String toString() {
+        return address.toString();
     }
 }

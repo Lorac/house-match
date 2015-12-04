@@ -19,7 +19,6 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 import ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics;
 import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
 import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
-import ca.ulaval.glo4003.housematch.services.statistics.PropertyStatisticsService;
 
 public class PropertyStatisticsServiceTest {
 
@@ -55,7 +54,7 @@ public class PropertyStatisticsServiceTest {
         when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsService.NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME), anyInt()))
                 .thenReturn(numberOfSoldPropertiesThisYearStatMock);
         when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsService.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME),
-                Matchers.<Map<PropertyType, Integer>> any())).thenReturn(numberOfPropertiesForSaleStatMock);
+                Matchers.<Map<PropertyType, Integer>>any())).thenReturn(numberOfPropertiesForSaleStatMock);
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
     }
 
@@ -66,20 +65,20 @@ public class PropertyStatisticsServiceTest {
     }
 
     @Test
-    public void applyingPropertySaleIncrementsTheNumberOfSoldPropertiesThisYear() {
-        propertyStatisticsService.applyPropertySale(propertyMock);
+    public void processingPropertySaleIncrementsTheNumberOfSoldPropertiesThisYear() {
+        propertyStatisticsService.processPropertySale(propertyMock);
         verify(numberOfSoldPropertiesThisYearStatMock).setValue(SAMPLE_NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR + 1);
     }
 
     @Test
-    public void applyingPropertySaleDecrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
-        propertyStatisticsService.applyPropertySale(propertyMock);
+    public void processingPropertySaleDecrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
+        propertyStatisticsService.processPropertySale(propertyMock);
         assertEquals(SAMPLE_NUMBER_OF_PROPERTIES_FOR_SALE - 1, (int) numberOfPropertiesForSale.get(propertyMock.getPropertyType()));
     }
 
     @Test
-    public void applyingNewPropertyForSaleIncrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
-        propertyStatisticsService.applyNewPropertyForSale(propertyMock);
+    public void processingNewPropertyForSaleIncrementsTheNumberOfPropertiesForSaleInTheCorrespondingCategory() {
+        propertyStatisticsService.processNewPropertyForSale(propertyMock);
         assertEquals(SAMPLE_NUMBER_OF_PROPERTIES_FOR_SALE + 1, (int) numberOfPropertiesForSale.get(propertyMock.getPropertyType()));
     }
 

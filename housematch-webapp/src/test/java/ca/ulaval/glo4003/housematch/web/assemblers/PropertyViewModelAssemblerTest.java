@@ -52,7 +52,7 @@ public class PropertyViewModelAssemblerTest {
         when(propertyMock.getSellingPrice()).thenReturn(SAMPLE_SELLING_PRICE);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
         when(propertyMock.getViewCount()).thenReturn(SAMPLE_VIEW_COUNT);
-        when(userMock.hasPropertyInFavorites(propertyMock)).thenReturn(SAMPLE_BOOLEAN);
+        when(userMock.isPropertyFavorited(propertyMock)).thenReturn(SAMPLE_BOOLEAN);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class PropertyViewModelAssemblerTest {
         assertSame(propertyDetailsMock, viewModel.getPropertyDetails());
         assertEquals(propertyMock.hashCode(), viewModel.getHashCode());
         assertEquals(SAMPLE_VIEW_COUNT, viewModel.getViewCount());
-        assertEquals(SAMPLE_BOOLEAN, viewModel.isPropertyAddedToFavorites());
+        assertEquals(SAMPLE_BOOLEAN, viewModel.isPropertyFavorited());
     }
 
 }

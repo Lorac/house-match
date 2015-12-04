@@ -1,17 +1,66 @@
-<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc"
-    xmlns:task="http://www.springframework.org/schema/task" xmlns="http://www.springframework.org/schema/beans"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns="http://www.springframework.org/schema/beans"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
-    <task:scheduler id="taskScheduler" pool-size="10" />
+    <!-- Task Scheduler -->
 
-    <task:scheduled-tasks scheduler="taskScheduler">
-        <task:scheduled ref="userStatusPolicyVerificationTask" method="run" fixed-rate="86400000" initial-delay="5000" />
-    </task:scheduled-tasks>
+    <bean id="taskScheduler" class="ca.ulaval.glo4003.housematch.taskscheduler.TaskScheduler">
+        <constructor-arg ref="scheduledThreadPoolExecutor" />
+        <constructor-arg>
+            <util:list>
+                <ref bean="userStatusPolicyVerificationTaskSchedule" />
+                <ref bean="dailyUserNotificationTaskSchedule" />
+                <ref bean="weeklyUserNotificationTaskSchedule" />
+            </util:list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="scheduledThreadPoolExecutor" class="java.util.concurrent.ScheduledThreadPoolExecutor">
+        <constructor-arg index="0" value="10" />
+    </bean>
+
+    <!-- Task Schedules -->
+
+    <bean id="userStatusPolicyVerificationTaskSchedule" class="ca.ulaval.glo4003.housematch.taskscheduler.TaskSchedule">
+        <constructor-arg ref="userStatusPolicyVerificationTask" />
+        <constructor-arg name="interval" value="24" />
+        <constructor-arg name="initialDelay" value="24" />
+        <constructor-arg name="timeUnit" value="HOURS" />
+    </bean>
+
+    <bean id="dailyUserNotificationTaskSchedule" class="ca.ulaval.glo4003.housematch.taskscheduler.TaskSchedule">
+        <constructor-arg ref="dailyUserNotificationTask" />
+        <constructor-arg name="interval" value="24" />
+        <constructor-arg name="initialDelay" value="24" />
+        <constructor-arg name="timeUnit" value="HOURS" />
+    </bean>
+
+    <bean id="weeklyUserNotificationTaskSchedule" class="ca.ulaval.glo4003.housematch.taskscheduler.TaskSchedule">
+        <constructor-arg ref="weeklyUserNotificationTask" />
+        <constructor-arg name="interval" value="7" />
+        <constructor-arg name="initialDelay" value="7" />
+        <constructor-arg name="timeUnit" value="DAYS" />
+    </bean>
+
+    <!-- Tasks -->
 
     <bean id="userStatusPolicyVerificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserStatusPolicyVerificationTask">
+        <constructor-arg ref="userService" />
+    </bean>
+
+    <bean id="dailyUserNotificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserNotificationTask">
+        <constructor-arg value="DAILY" />
+        <constructor-arg ref="notificationService" />
+        <constructor-arg ref="userService" />
+    </bean>
+
+    <bean id="weeklyUserNotificationTask" class="ca.ulaval.glo4003.housematch.tasks.UserNotificationTask">
+        <constructor-arg value="WEEKLY" />
+        <constructor-arg ref="notificationService" />
         <constructor-arg ref="userService" />
     </bean>
 

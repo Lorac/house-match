@@ -153,7 +153,7 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = FAVORITE_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayFavoriteProperties(HttpSession httpSession) {
-        Set<Property> favoriteProperties = userService.getFavoriteProperties(getUserFromHttpSession(httpSession));
+        Set<Property> favoriteProperties = userService.getFavoritePropertiesForSale(getUserFromHttpSession(httpSession));
         PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(favoriteProperties);
         return new ModelAndView(FAVORITE_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }

@@ -5,8 +5,10 @@ import ca.ulaval.glo4003.housematch.utils.Observable;
 public class PropertyObservable extends Observable<PropertyObserver> {
 
     public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
-        for (PropertyObserver observer : observers) {
-            observer.propertyStatusChanged(property, newStatus);
-        }
+        observers.stream().forEach(o -> o.propertyStatusChanged(property, newStatus));
+    }
+
+    public void propertyDetailsChanged(Property property, PropertyDetails newPropertyDetails) {
+        observers.stream().forEach(o -> o.propertyDetailsChanged(property, newPropertyDetails));
     }
 }

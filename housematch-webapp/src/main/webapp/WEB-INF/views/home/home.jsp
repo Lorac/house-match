@@ -28,7 +28,7 @@
                         </p>
                     </c:when>
                     <c:otherwise>
-                        <p>You are viewing this page as anonymous.</p>
+                        <p>You are viewing this page as anonymous. <a href="/login">Login</a> or <a href="/register">register</a> to enhance your experience.</p>
                     </c:otherwise>
                 </c:choose>
             </div>
