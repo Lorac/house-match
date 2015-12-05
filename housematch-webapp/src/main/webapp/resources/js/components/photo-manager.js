@@ -39,17 +39,18 @@ function UploadGridCell(element, onClick) {
 
 PhotoGridCell.prototype = Object.create(GridCell.prototype);
 PhotoGridCell.prototype.constructor = PhotoGridCell;
-function PhotoGridCell(element, photoHashCode, reviewEnabled, deleteEnabled, thumbnailDownloadUrl, acceptUrl, rejectUrl) {
+function PhotoGridCell(element, photoHashCode, reviewEnabled, deleteEnabled, thumbnailDownloadUrl, deleteUrl, approveUrl, rejectUrl) {
     GridCell.call(this, element);
     var thisAlias = this;
     this.photoHashCode = photoHashCode;
     var thumbnailDownloadUrl = thumbnailDownloadUrl;
-    var acceptUrl = acceptUrl;
-    var rejectUrl = rejectUrl;
+    this.approveUrl = approveUrl;
+    this.rejectUrl = rejectUrl;
+    this.deleteUrl = deleteUrl;
     var onDeleteButtonClick;
-    var onAcceptButtonClick;
+    var onApproveButtonClick;
     var onRejectButtonClick;
-    var acceptButtonElement;
+    var approveButtonElement;
     var rejectButtonElement;
     var deleteButtonElement;
 
@@ -72,12 +73,12 @@ function PhotoGridCell(element, photoHashCode, reviewEnabled, deleteEnabled, thu
     }
 
     function initActionButtons(elementGroup) {
-        rejectButtonElement = new ActionButton(elementGroup.find(".accept-button").first(), acceptButtonClicked);
-        acceptButtonElement = new ActionButton(elementGroup.find(".reject-button").first(), rejectButtonClicked);
+        rejectButtonElement = new ActionButton(elementGroup.find(".approve-button").first(), approveButtonClicked);
+        approveButtonElement = new ActionButton(elementGroup.find(".reject-button").first(), rejectButtonClicked);
         deleteButtonElement = new ActionButton(elementGroup.find(".delete-button").first(), deleteButtonClicked);
 
         if (!reviewEnabled) {
-            acceptButtonElement.hide();
+            approveButtonElement.hide();
             rejectButtonElement.hide();
         }
         if (!deleteEnabled) {
@@ -88,8 +89,8 @@ function PhotoGridCell(element, photoHashCode, reviewEnabled, deleteEnabled, thu
             thisAlias.onDeleteButtonClick(thisAlias);
         }
 
-        function acceptButtonClicked() {
-            thisAlias.onAcceptButtonClick(thisAlias);
+        function approveButtonClicked() {
+            thisAlias.onApproveButtonClick(thisAlias);
         }
 
         function rejectButtonClicked() {
@@ -139,21 +140,32 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
         }
     }
 
-    this.addPhoto = function (photoHashCode, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl) {
-        addPhotoGridCell(photoHashCode, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl);
+    this.addPhoto = function (photoHashCode, thumbnailDownloadUrl, deleteUrl, approveUrl, rejectUrl) {
+        addPhotoGridCell(photoHashCode, thumbnailDownloadUrl, deleteUrl, approveUrl, rejectUrl);
     }
 
-    function addPhotoGridCell(photoHashCode, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl) {
+    function addPhotoGridCell(photoHashCode, thumbnailDownloadUrl, deleteUrl, approveUrl, rejectUrl) {
         var photoGridCellElement = getElementTemplate("photo-grid-cell-template").clone();
-        var photoGridCell = new PhotoGridCell(photoGridCellElement, photoHashCode, reviewEnabled, deleteEnabled, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl);
+        var photoGridCell = new PhotoGridCell(photoGridCellElement, photoHashCode, reviewEnabled, deleteEnabled, thumbnailDownloadUrl, deleteUrl, approveUrl, rejectUrl);
         photoGridCell.onDeleteButtonClick = deleteButtonClicked;
-        photoGridCell.onAcceptButtonClick = acceptButtonClicked;
+        photoGridCell.onApproveButtonClick = approveButtonClicked;
         photoGridCell.onRejectButtonClick = rejectButtonClicked;
 
         photoGridCells[photoHashCode] = photoGridCell;
         photoGridCellElement.insertBefore(progressGridCell.element);
     }
 
+    function removePhotoGridCell(photoHashCode) {
+        photoGridCells[photoHashCode].remove();
+        delete photoGridCells[photoHashCode];
+        if (Object.keys(photoGridCells).length == 0 && !uploadEnabled) {
+            showEmptyPhotoListLabel();
+        }
+    }
+
+    function showEmptyPhotoListLabel() {
+        element.find(".empty-photo-list-label").first().show();
+    }
 
     function getElementTemplate(templateClassName) {
         return element.find(".div-templates").first().find("." + templateClassName).first().children(":first");
@@ -165,23 +177,23 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
 
     function deleteButtonClicked(photoGridCell) {
         executeAjaxFormDataUpload("POST", photoGridCell.deleteUrl, null, void (0), void (0));
-        photoGridCells[photoGridCell.photoHashCode].remove();
+        removePhotoGridCell(photoGridCell.photoHashCode);
     }
 
-    function acceptButtonClicked(photoGridCell) {
-        executeAjaxFormDataUpload("POST", photoGridCell.acceptUrl, null, void (0), void (0));
-        photoGridCells[photoGridCell.photoHashCode].remove();
+    function approveButtonClicked(photoGridCell) {
+        executeAjaxFormDataUpload("POST", photoGridCell.approveUrl, null, void (0), void (0));
+        removePhotoGridCell(photoGridCell.photoHashCode);
     }
 
     function rejectButtonClicked(photoGridCell) {
         executeAjaxFormDataUpload("POST", photoGridCell.rejectUrl, null, void (0), void (0));
-        photoGridCells[photoGridCell.photoHashCode].remove();
+        removePhotoGridCell(photoGridCell.photoHashCode);
     }
 
     function showFileSelectionDialog() {
         var input = $(document.createElement('input'));
         input.attr("type", "file");
-        input.attr("accept", "image/*");
+        input.attr("approve", "image/*");
         input.bind("change", onChange = function () {
             uploadPhoto(this.files[0]);
         });

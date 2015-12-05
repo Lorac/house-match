@@ -9,7 +9,7 @@ public class NotificationSettings {
 
     public NotificationSettings() {
         for (NotificationType notificationType : NotificationType.values()) {
-            notificationIntervals.put(notificationType, NotificationInterval.NEVER);
+            notificationIntervals.put(notificationType, notificationType.getDefaultNotificationInterval());
         }
     }
 

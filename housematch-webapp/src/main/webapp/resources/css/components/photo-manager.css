@@ -21,7 +21,7 @@
     background-image: url('/resources/img/photo-manager/cross-icon.svg');
 }
 
-.accept-icon {
+.approve-icon {
     background-image: url('/resources/img/photo-manager/checkmark-icon.svg');
 }
 
@@ -38,9 +38,13 @@
     height: auto;
 }
 
+.photo-manager .empty-photo-list-label {
+    display:none;
+}
+
 .photo-manager .grid-cell {
     width: 270px;
-    height: 202px;
+    height: 200px;
     padding: 8px;
     float: left;
     display: none;

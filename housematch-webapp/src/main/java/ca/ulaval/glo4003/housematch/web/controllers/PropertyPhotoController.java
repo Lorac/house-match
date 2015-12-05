@@ -21,10 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
-import ca.ulaval.glo4003.housematch.services.property.PropertyPhotoService;
+import ca.ulaval.glo4003.housematch.services.propertyphoto.PropertyPhotoService;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyPhotoListViewModelAssembler;
-import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyListViewModel;
+import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyPhotoListViewModel;
 
 @Controller
 public class PropertyPhotoController extends BaseController {
@@ -37,6 +37,10 @@ public class PropertyPhotoController extends BaseController {
     private static final String PHOTO_REVIEW_VIEW_NAME = "admin/propertyPhotoReview";
     public static final String PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/";
     public static final String PHOTO_REVIEW_URL = "/admin/propertyPhotoReview";
+    private static final String PHOTO_APPROVE_URL = "/admin/approvePropertyPhoto/{photoHashCode}";
+    public static final String PHOTO_APPROVE_BASE_URL = "/admin/approvePropertyPhoto/";
+    private static final String PHOTO_REJECT_URL = "/admin/rejectPropertyPhoto/{photoHashCode}";
+    public static final String PHOTO_REJECT_BASE_URL = "/admin/rejectPropertyPhoto/";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
@@ -79,14 +83,26 @@ public class PropertyPhotoController extends BaseController {
     public final void deletePropertyPhotoThumbnail(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
             HttpSession httpSession) throws Exception {
         Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-        propertyPhotoService.deletePhoto(property, photoHashCode);
+        propertyPhotoService.removePhoto(property, photoHashCode);
     }
 
     @RequestMapping(value = PHOTO_REVIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayPhotoReviewView(ModelMap modelMap) throws Exception {
         List<PropertyPhoto> propertyPhotos = propertyPhotoService.getPhotosWaitingForApproval();
-        modelMap.put(PropertyListViewModel.NAME, propertyPhotoListViewModelAssembler.assembleFromCollection(propertyPhotos));
+        modelMap.put(PropertyPhotoListViewModel.NAME, propertyPhotoListViewModelAssembler.assembleFromCollection(propertyPhotos));
         return new ModelAndView(PHOTO_REVIEW_VIEW_NAME, modelMap);
+    }
+
+    @RequestMapping(value = PHOTO_APPROVE_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public final void approvePhoto(@PathVariable int photoHashCode) throws Exception {
+        propertyPhotoService.approvePhoto(photoHashCode);
+    }
+
+    @RequestMapping(value = PHOTO_REJECT_URL, method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public final void rejectPhoto(@PathVariable int photoHashCode) throws Exception {
+        propertyPhotoService.rejectPhoto(photoHashCode);
     }
 
 }

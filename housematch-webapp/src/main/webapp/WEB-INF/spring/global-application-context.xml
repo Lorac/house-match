@@ -46,7 +46,6 @@
         <constructor-arg ref="propertyDetailsValidator" />
     </bean>
 
-
     <bean id="propertyDetailsValidator" class="ca.ulaval.glo4003.housematch.validators.property.PropertyDetailsValidator" />
 
     <bean id="addressValidator" class="ca.ulaval.glo4003.housematch.validators.address.AddressValidator" />
@@ -142,7 +141,7 @@
         <constructor-arg ref="propertySorter" />
     </bean>
     
-    <bean id="propertyPhotoService" class="ca.ulaval.glo4003.housematch.services.property.PropertyPhotoService">
+    <bean id="propertyPhotoService" class="ca.ulaval.glo4003.housematch.services.propertyphoto.PropertyPhotoService">
         <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="xmlPropertyPhotoRepository" />
         <constructor-arg ref="propertyPhotoFactory" />

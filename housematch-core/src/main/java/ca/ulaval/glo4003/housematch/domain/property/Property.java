@@ -128,10 +128,16 @@ public class Property extends PropertyObservable {
 
     public void addPhoto(PropertyPhoto propertyPhoto) {
         photos.add(propertyPhoto);
+        propertyPhoto.registerObserver(new PropertyPhotoStatusObserver(this));
     }
 
     public void removePhoto(PropertyPhoto propertyPhoto) {
         photos.remove(propertyPhoto);
+    }
+
+    public void rejectPhoto(PropertyPhoto propertyPhoto) {
+        removePhoto(propertyPhoto);
+        propertyPhotoRejected(this, propertyPhoto);
     }
 
     public PropertyPhoto getPhotoByHashCode(int hashCode) throws PropertyPhotoNotFoundException {

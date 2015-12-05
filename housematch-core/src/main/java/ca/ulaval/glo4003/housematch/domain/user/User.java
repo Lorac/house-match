@@ -173,6 +173,7 @@ public class User extends UserObservable {
     public void addPropertyForSale(Property property) {
         propertiesForSale.add(property);
         property.markForSale();
+        property.registerObserver(new UserPropertyForSaleObserver(this));
         applyUserStatusPolicy();
     }
 

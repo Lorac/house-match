@@ -19,10 +19,12 @@
 
 <script>
 var bodyOnLoad = function() {
-    var photoManager = new PhotoManager($("#property-photo-manager"), false, true, false);
-    <c:forEach var="photoViewModel" items="${propertyPhotoList.photos}">
-    	photoManager.addPhoto(${photoViewModel.hashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>${photoViewModel.hashCode}/", null, "<%= PropertyPhotoController.PHOTO_APPROVE_BASE_URL %>${photoViewModel.hashCode}/", "<%= PropertyPhotoController.PHOTO_REJECT_BASE_URL %>${photoViewModel.hashCode}/");
-    </c:forEach>
+	<c:if test="${not empty propertyPhotoList.propertyPhotoViewModels}">
+        var photoManager = new PhotoManager($("#property-photo-manager"), false, true, false);
+        <c:forEach var="propertyPhotoViewModel" items="${propertyPhotoList.propertyPhotoViewModels}">
+        	photoManager.addPhoto(${propertyPhotoViewModel.hashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>${propertyPhotoViewModel.hashCode}/", null, "<%= PropertyPhotoController.PHOTO_APPROVE_BASE_URL %>${propertyPhotoViewModel.hashCode}/", "<%= PropertyPhotoController.PHOTO_REJECT_BASE_URL %>${propertyPhotoViewModel.hashCode}/");
+        </c:forEach>
+    </c:if>
 }
 </script>
 
@@ -36,11 +38,11 @@ var bodyOnLoad = function() {
         
         <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Photos Waiting For Approval</h3>
+                    <h3 class="panel-title">Photos Pending Approval</h3>
                 </div>
                 <div class="panel-body">
                 <c:choose>
-                    <c:when test="${not empty propertyPhotoList.photos}">
+                    <c:when test="${not empty propertyPhotoList.propertyPhotoViewModels}">
                         <%@include file="/WEB-INF/includes/photoManager.jsp"%>
                     </c:when>
                     <c:otherwise>

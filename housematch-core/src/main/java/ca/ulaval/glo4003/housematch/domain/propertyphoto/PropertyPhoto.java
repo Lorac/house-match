@@ -1,6 +1,6 @@
 package ca.ulaval.glo4003.housematch.domain.propertyphoto;
 
-public class PropertyPhoto {
+public class PropertyPhoto extends PropertyPhotoObservable {
 
     private int hashCode;
     private String originalFileName;
@@ -33,6 +33,7 @@ public class PropertyPhoto {
 
     public void updateStatus(PropertyPhotoStatus status) {
         this.status = status;
+        propertyPhotoStatusChanged(this, status);
     }
 
     @Override
@@ -51,6 +52,11 @@ public class PropertyPhoto {
 
         PropertyPhoto propertyPhoto = (PropertyPhoto) obj;
         return propertyPhoto.hashCode() == this.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(hashCode);
     }
 
 }

@@ -7,6 +7,7 @@ import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyObserver;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
 public class UserFavoritePropertyObserver implements PropertyObserver {
 
@@ -38,6 +39,11 @@ public class UserFavoritePropertyObserver implements PropertyObserver {
         String eventDescription = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
         Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_MODIFIED, eventDescription);
         user.notify(notification);
+    }
+
+    @Override
+    public void propertyPhotoRejected(Property property, PropertyPhoto propertyPhoto) {
+        // Event intentionally ignored.
     }
 
 }

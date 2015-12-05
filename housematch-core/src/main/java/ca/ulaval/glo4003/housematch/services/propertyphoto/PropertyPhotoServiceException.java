@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services.property;
+package ca.ulaval.glo4003.housematch.services.propertyphoto;
 
 public class PropertyPhotoServiceException extends Exception {
 

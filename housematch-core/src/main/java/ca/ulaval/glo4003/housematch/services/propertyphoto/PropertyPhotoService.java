@@ -1,4 +1,4 @@
-package ca.ulaval.glo4003.housematch.services.property;
+package ca.ulaval.glo4003.housematch.services.propertyphoto;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,7 +48,7 @@ public class PropertyPhotoService {
         }
     }
 
-    public void deletePhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+    public void removePhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
             propertyPhotoRepository.delete(propertyPhoto);
@@ -59,12 +59,22 @@ public class PropertyPhotoService {
         }
     }
 
-    public void approvePhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+    public void approvePhoto(int photoHashCode) throws PropertyPhotoServiceException {
         try {
-            PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
+            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
             propertyPhoto.updateStatus(PropertyPhotoStatus.APPROVED);
             propertyPhotoRepository.update(propertyPhoto);
         } catch (PropertyPhotoNotFoundException e) {
+            throw new PropertyPhotoServiceException(e);
+        }
+    }
+
+    public void rejectPhoto(int photoHashCode) throws PropertyPhotoServiceException {
+        try {
+            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
+            propertyPhoto.updateStatus(PropertyPhotoStatus.REJECTED);
+            propertyPhotoRepository.delete(propertyPhoto);
+        } catch (PropertyPhotoNotFoundException | IOException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }
