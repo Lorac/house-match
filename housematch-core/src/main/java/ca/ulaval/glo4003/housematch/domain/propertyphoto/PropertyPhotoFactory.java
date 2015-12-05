@@ -4,12 +4,12 @@ import java.util.Arrays;
 
 public class PropertyPhotoFactory {
 
-    public PropertyPhoto createPropertyPhoto(int hashCode, String originalFileName) {
-        return new PropertyPhoto(hashCode, originalFileName);
+    public PropertyPhoto createPropertyPhoto(int hashCode) {
+        return new PropertyPhoto(hashCode);
     }
 
-    public PropertyPhoto createPropertyPhoto(byte[] fileBytes, String originalFileName) {
-        return new PropertyPhoto(Math.abs(Arrays.hashCode(fileBytes)), originalFileName);
+    public PropertyPhoto createPropertyPhoto(byte[] fileBytes) {
+        return new PropertyPhoto(Math.abs(Arrays.hashCode(fileBytes)));
     }
 
 }

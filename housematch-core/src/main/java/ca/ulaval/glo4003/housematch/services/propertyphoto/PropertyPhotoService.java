@@ -27,23 +27,23 @@ public class PropertyPhotoService {
         this.propertyPhotoFactory = propertyPhotoFactory;
     }
 
-    public Integer addPhoto(Property property, byte[] fileBytes, String originalFileName) throws PropertyPhotoServiceException {
-        try {
-            PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes, originalFileName);
-            propertyPhotoRepository.persist(propertyPhoto, fileBytes);
-            property.addPhoto(propertyPhoto);
-            propertyRepository.update(property);
-            return propertyPhoto.hashCode();
-        } catch (PropertyPhotoAlreadyExistsException | IOException e) {
-            throw new PropertyPhotoServiceException(e);
-        }
-    }
-
     public byte[] getPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
             return Base64.encodeBase64(propertyPhotoRepository.getThumbnailData(propertyPhoto));
         } catch (IOException | PropertyPhotoNotFoundException e) {
+            throw new PropertyPhotoServiceException(e);
+        }
+    }
+
+    public Integer addPhoto(Property property, byte[] fileBytes) throws PropertyPhotoServiceException {
+        try {
+            PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes);
+            propertyPhotoRepository.persist(propertyPhoto, fileBytes);
+            property.addPhoto(propertyPhoto);
+            propertyRepository.update(property);
+            return propertyPhoto.hashCode();
+        } catch (PropertyPhotoAlreadyExistsException | IOException e) {
             throw new PropertyPhotoServiceException(e);
         }
     }

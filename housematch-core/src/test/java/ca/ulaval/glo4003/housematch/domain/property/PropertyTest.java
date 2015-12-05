@@ -6,21 +6,27 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 
 public class PropertyTest {
 
@@ -38,7 +44,9 @@ public class PropertyTest {
     private PropertyObserver propertyObserverMock;
     private Address addressMock;
     private PropertyPhoto propertyPhotoMock;
-    private List<BigDecimal> sellingPriceHistory;
+    private PropertyPhoto anotherPropertyPhotoMock;
+    private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
+    private Set<PropertyPhoto> photos = new HashSet<>();
 
     @Before
     public void init() throws Exception {
@@ -46,6 +54,7 @@ public class PropertyTest {
         sellingPriceHistory = new ArrayList<>();
         property = new Property(SAMPLE_PROPERTY_TYPE, addressMock, SAMPLE_SELLING_PRICE, propertyDetailsMock);
         property.registerObserver(propertyObserverMock);
+        property.addPhoto(propertyPhotoMock);
     }
 
     private void initMocks() {
@@ -53,6 +62,7 @@ public class PropertyTest {
         propertyDetailsMock = mock(PropertyDetails.class);
         propertyObserverMock = mock(PropertyObserver.class);
         propertyPhotoMock = mock(PropertyPhoto.class);
+        anotherPropertyPhotoMock = mock(PropertyPhoto.class);
     }
 
     @Test
@@ -145,6 +155,12 @@ public class PropertyTest {
     }
 
     @Test
+    public void settingThePhotosSetsTheSpecifiedPhotos() {
+        property.setPhotos(photos);
+        assertEquals(photos, property.getPhotos());
+    }
+
+    @Test
     public void incrementingThePropetyViewCountIncrementsThePropertyViewCountByOne() {
         property.setViewCount(SAMPLE_VIEW_COUNT);
         int newViewCount = property.incrementViewCount();
@@ -211,9 +227,54 @@ public class PropertyTest {
     }
 
     @Test
-    public void removingAPhotoFromThePropertyRemovesThePhotoFromThePropertyList() throws Exception {
-        property.addPhoto(propertyPhotoMock);
+    public void removingPhotoRemovesThePhotoFromTheProperty() throws Exception {
         property.removePhoto(propertyPhotoMock);
         assertThat(property.getPhotos(), not(hasItem(propertyPhotoMock)));
+    }
+
+    @Test
+    public void rejectingPhotoRemovesThePhotoFromTheProperty() throws Exception {
+        property.removePhoto(propertyPhotoMock);
+        assertThat(property.getPhotos(), not(hasItem(propertyPhotoMock)));
+    }
+
+    @Test
+    public void rejectingPhotoNotifiesTheObservers() throws Exception {
+        property.rejectPhoto(propertyPhotoMock);
+        verify(propertyObserverMock).propertyPhotoRejected(property, propertyPhotoMock);
+    }
+
+    @Test
+    public void gettingPhotoByHashCodeReturnsThePhotoFromTheSpecifiedHashCode() throws Exception {
+        PropertyPhoto returnedPropertyPhoto = property.getPhotoByHashCode(propertyPhotoMock.hashCode());
+        assertSame(propertyPhotoMock, returnedPropertyPhoto);
+    }
+
+    @Test(expected = PropertyPhotoNotFoundException.class)
+    public void gettingPhotoByHashCodeThrowsPropertyPhotoNotFoundExceptionWhenTheSpecifiedPhotoDoesNotExist() throws Exception {
+        property.getPhotoByHashCode(anotherPropertyPhotoMock.hashCode());
+    }
+
+    @Test
+    public void gettingApprovedPhotosReturnsApprovedPhotos() {
+        when(propertyPhotoMock.isApproved()).thenReturn(true);
+        assertThat(property.getApprovedPhotos(), hasItem(propertyPhotoMock));
+    }
+
+    @Test
+    public void gettingApprovedPhotosDoesNotReturnUnapprovedPhotos() {
+        when(propertyPhotoMock.isApproved()).thenReturn(false);
+        assertThat(property.getApprovedPhotos(), not(hasItem(propertyPhotoMock)));
+    }
+
+    @Test
+    public void gettingMainPhotoReturnsTheFirstApprovedPhoto() {
+        when(propertyPhotoMock.isApproved()).thenReturn(false);
+        when(anotherPropertyPhotoMock.isApproved()).thenReturn(true);
+        property.addPhoto(anotherPropertyPhotoMock);
+
+        Optional<PropertyPhoto> photo = property.getMainPhoto();
+
+        assertSame(anotherPropertyPhotoMock, photo.get());
     }
 }

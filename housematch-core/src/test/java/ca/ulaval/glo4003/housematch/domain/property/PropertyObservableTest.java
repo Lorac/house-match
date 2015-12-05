@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
+
 public class PropertyObservableTest {
 
     private static final PropertyStatus SAMPLE_PROPERTY_STATUS = PropertyStatus.FOR_SALE;
@@ -16,6 +18,7 @@ public class PropertyObservableTest {
     private PropertyObservable propertyObservable;
 
     private Property propertyMock;
+    private PropertyPhoto propertyPhotoMock;
     private PropertyDetails propertyDetailsMock;
     private PropertyObserver propertyObserverMock;
     private PropertyObserver anotherPropertyObserverMock;
@@ -30,6 +33,7 @@ public class PropertyObservableTest {
     private void initMocks() {
         propertyMock = mock(Property.class);
         propertyDetailsMock = mock(PropertyDetails.class);
+        propertyPhotoMock = mock(PropertyPhoto.class);
         propertyObserverMock = mock(PropertyObserver.class);
         anotherPropertyObserverMock = mock(PropertyObserver.class);
     }
@@ -58,6 +62,14 @@ public class PropertyObservableTest {
 
         verify(propertyObserverMock).propertyDetailsChanged(propertyMock, propertyDetailsMock);
         verify(anotherPropertyObserverMock).propertyDetailsChanged(propertyMock, propertyDetailsMock);
+    }
+
+    @Test
+    public void rejectionOfPhotoNotifiesAllTheObservers() {
+        propertyObservable.propertyPhotoRejected(propertyMock, propertyPhotoMock);
+
+        verify(propertyObserverMock).propertyPhotoRejected(propertyMock, propertyPhotoMock);
+        verify(anotherPropertyObserverMock).propertyPhotoRejected(propertyMock, propertyPhotoMock);
     }
 
     @Test

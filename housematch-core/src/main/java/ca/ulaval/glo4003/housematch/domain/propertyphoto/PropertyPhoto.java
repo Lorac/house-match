@@ -3,20 +3,10 @@ package ca.ulaval.glo4003.housematch.domain.propertyphoto;
 public class PropertyPhoto extends PropertyPhotoObservable {
 
     private int hashCode;
-    private String originalFileName;
     private PropertyPhotoStatus status = PropertyPhotoStatus.WAITING_FOR_APPROVAL;
 
-    public PropertyPhoto(final int hashCode, final String originalFileName) {
+    public PropertyPhoto(final int hashCode) {
         this.hashCode = hashCode;
-        this.originalFileName = originalFileName;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
     }
 
     public PropertyPhotoStatus getStatus() {

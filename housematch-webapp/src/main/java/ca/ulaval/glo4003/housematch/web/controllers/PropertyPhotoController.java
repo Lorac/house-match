@@ -66,7 +66,7 @@ public class PropertyPhotoController extends BaseController {
             throws Exception {
         try {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-            return propertyPhotoService.addPhoto(property, file.getBytes(), file.getOriginalFilename()).toString();
+            return propertyPhotoService.addPhoto(property, file.getBytes()).toString();
         } catch (PropertyNotFoundException e) {
             throw new ResourceNotFoundException();
         }
