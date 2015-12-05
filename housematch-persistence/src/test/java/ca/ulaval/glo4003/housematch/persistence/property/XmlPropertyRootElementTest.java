@@ -14,7 +14,7 @@ import ca.ulaval.glo4003.housematch.domain.property.Property;
 public class XmlPropertyRootElementTest {
 
     private XmlPropertyRootElement xmlPropertyRootElement;
-    private List<Property> properties = new ArrayList<Property>();
+    private List<Property> properties = new ArrayList<>();
 
     @Before
     public void init() {
@@ -25,7 +25,7 @@ public class XmlPropertyRootElementTest {
     public void setingThePropertiesSetsTheProperties() {
         xmlPropertyRootElement.setProperties(properties);
 
-        Collection<Property> properties = xmlPropertyRootElement.getProperties();
-        assertSame(properties, properties);
+        Collection<Property> returnedProperties = xmlPropertyRootElement.getProperties();
+        assertSame(properties, returnedProperties);
     }
 }

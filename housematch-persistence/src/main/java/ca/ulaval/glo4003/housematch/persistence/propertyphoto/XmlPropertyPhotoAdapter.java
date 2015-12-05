@@ -10,12 +10,13 @@ public class XmlPropertyPhotoAdapter extends XmlAdapter<XmlPropertyPhoto, Proper
     private PropertyPhotoFactory propertyPhotoFactory;
 
     public XmlPropertyPhotoAdapter(final PropertyPhotoFactory propertyPhotoFactory) {
-        this.propertyPhotoFactory = propertyPhotoFactory;
+        this.propertyPhotoFactory = new PropertyPhotoFactory();
     }
 
     @Override
     public PropertyPhoto unmarshal(XmlPropertyPhoto xmlPropertyPhoto) throws Exception {
         PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(xmlPropertyPhoto.hashCode);
+        propertyPhoto.setStatus(xmlPropertyPhoto.status);
         return propertyPhoto;
     }
 
@@ -23,6 +24,7 @@ public class XmlPropertyPhotoAdapter extends XmlAdapter<XmlPropertyPhoto, Proper
     public XmlPropertyPhoto marshal(PropertyPhoto propertyPhoto) throws Exception {
         XmlPropertyPhoto xmlPropertyPhoto = new XmlPropertyPhoto();
         xmlPropertyPhoto.hashCode = propertyPhoto.hashCode();
+        xmlPropertyPhoto.status = propertyPhoto.getStatus();
         return xmlPropertyPhoto;
     }
 }

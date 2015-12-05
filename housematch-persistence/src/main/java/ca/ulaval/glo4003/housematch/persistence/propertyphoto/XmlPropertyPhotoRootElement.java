@@ -22,7 +22,7 @@ public class XmlPropertyPhotoRootElement {
         return this.propertyPhotos;
     }
 
-    public void setProperties(Collection<PropertyPhoto> propertyPhotos) {
+    public void setPropertyPhotos(Collection<PropertyPhoto> propertyPhotos) {
         this.propertyPhotos = propertyPhotos;
     }
 }

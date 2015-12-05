@@ -126,7 +126,7 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     }
 
     private void marshal() {
-        xmlPropertyPhotoRootElement.setProperties(propertyPhotos.values());
+        xmlPropertyPhotoRootElement.setPropertyPhotos(propertyPhotos.values());
         xmlRepositoryMarshaller.marshal(xmlPropertyPhotoRootElement);
     }
 }

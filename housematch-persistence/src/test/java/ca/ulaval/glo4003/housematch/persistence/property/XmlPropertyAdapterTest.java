@@ -25,15 +25,15 @@ public class XmlPropertyAdapterTest {
     private static final PropertyType SAMPLE_PROPERTY_TYPE = PropertyType.SINGLE_FAMILY_HOME;
     private static final PropertyStatus SAMPLE_PROPERTY_STATUS = PropertyStatus.FOR_SALE;
     private static final BigDecimal SAMPLE_SELLING_PRICE = BigDecimal.valueOf(523.5);
+    private static final ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
 
     private PropertyFactory propertyFactoryMock;
     private Property propertyMock;
     private Address addressMock;
     private PropertyDetails propertyDetailsMock;
     private XmlProperty xmlPropertyMock;
-    private ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
-    private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
 
+    private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
     private XmlPropertyAdapter xmlPropertyAdapter;
 
     @Before
