@@ -46,12 +46,16 @@ public class UserProfileControllerTest extends BaseControllerTest {
     @Before
     public void init() throws Exception {
         super.init();
-        userServiceMock = mock(UserService.class);
-        notificationSettingsConverterMock = mock(NotificationSettingsConverter.class);
-        notificationSettingsMock = mock(NotificationSettings.class);
+        initMocks();
 
         userProfileController = new UserProfileController(userServiceMock, notificationSettingsConverterMock);
         mockMvc = MockMvcBuilders.standaloneSetup(userProfileController).setViewResolvers(viewResolver).build();
+    }
+
+    private void initMocks() {
+        userServiceMock = mock(UserService.class);
+        notificationSettingsConverterMock = mock(NotificationSettingsConverter.class);
+        notificationSettingsMock = mock(NotificationSettings.class);
     }
 
     @Test

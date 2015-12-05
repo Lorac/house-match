@@ -3,6 +3,7 @@ package ca.ulaval.glo4003.housematch.web.controllers;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 import org.junit.Before;
 import org.springframework.http.MediaType;
@@ -14,7 +15,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import ca.ulaval.glo4003.housematch.domain.user.User;
-import ca.ulaval.glo4003.housematch.web.controllers.HomeController;
 
 public class BaseControllerTest {
 
@@ -53,6 +53,14 @@ public class BaseControllerTest {
     protected ResultActions performGetRequest(String url) throws Exception {
         MockHttpServletRequestBuilder getRequest = buildDefaultGetRequest(url);
         return mockMvc.perform(getRequest);
+    }
+
+    protected ResultActions performPostRequest(String url) throws Exception {
+        MockHttpServletRequestBuilder postRequest = post(url);
+        postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
+        postRequest.session(mockHttpSession);
+
+        return mockMvc.perform(postRequest);
     }
 
     protected MockHttpServletRequestBuilder buildDefaultGetRequest(String url) {

@@ -27,6 +27,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 public class PropertyPhotoServiceTest {
 
     private static final int SAMPLE_HASH_CODE = 22;
+    private static final byte[] SAMPLE_BYTES = new byte[3];
 
     private PropertyRepository propertyRepositoryMock;
     private PropertyPhotoRepository propertyPhotoRepositoryMock;
@@ -34,7 +35,6 @@ public class PropertyPhotoServiceTest {
     private PropertyPhoto propertyPhotoMock;
     private Property propertyMock;
 
-    private byte[] fileBytes;
     List<PropertyPhoto> photos = new ArrayList<>();
 
     private PropertyPhotoService propertyPhotoService;
@@ -55,7 +55,7 @@ public class PropertyPhotoServiceTest {
     }
 
     private void initStubs() throws Exception {
-        when(propertyPhotoFactoryMock.createPropertyPhoto(fileBytes)).thenReturn(propertyPhotoMock);
+        when(propertyPhotoFactoryMock.createPropertyPhoto(SAMPLE_BYTES)).thenReturn(propertyPhotoMock);
         when(propertyPhotoRepositoryMock.getByHashCode(SAMPLE_HASH_CODE)).thenReturn(propertyPhotoMock);
         when(propertyMock.getPhotoByHashCode(SAMPLE_HASH_CODE)).thenReturn(propertyPhotoMock);
     }
@@ -86,44 +86,44 @@ public class PropertyPhotoServiceTest {
 
     @Test
     public void addingPhotoCreatesPhotoFromThePropertyPhotoFactory() throws Exception {
-        propertyPhotoService.addPhoto(propertyMock, fileBytes);
-        verify(propertyPhotoFactoryMock).createPropertyPhoto(fileBytes);
+        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
+        verify(propertyPhotoFactoryMock).createPropertyPhoto(SAMPLE_BYTES);
     }
 
     @Test
     public void addingPhotoPersistsPhotoToPropertyPhotoRepository() throws Exception {
-        propertyPhotoService.addPhoto(propertyMock, fileBytes);
-        verify(propertyPhotoRepositoryMock).persist(propertyPhotoMock, fileBytes);
+        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
+        verify(propertyPhotoRepositoryMock).persist(propertyPhotoMock, SAMPLE_BYTES);
     }
 
     @Test
     public void addingPhotoAddsPhotoToProperty() throws Exception {
-        propertyPhotoService.addPhoto(propertyMock, fileBytes);
+        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
         verify(propertyMock).addPhoto(propertyPhotoMock);
     }
 
     @Test
     public void addingPhotoUpdatesPhotoToPropertyRepository() throws Exception {
-        propertyPhotoService.addPhoto(propertyMock, fileBytes);
+        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
         verify(propertyRepositoryMock).update(propertyMock);
     }
 
     @Test
     public void addingPhotoReturnsThePropertyHashCode() throws Exception {
-        int returnedHashCode = propertyPhotoService.addPhoto(propertyMock, fileBytes);
+        int returnedHashCode = propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
         assertEquals(propertyPhotoMock.hashCode(), returnedHashCode);
     }
 
     @Test(expected = PropertyPhotoServiceException.class)
     public void addingPhotoThrowsPropertyPhotoServiceExceptionOnPropertyPhotoAlreadyExistsException() throws Exception {
-        doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoRepositoryMock).persist(propertyPhotoMock, fileBytes);
-        propertyPhotoService.addPhoto(propertyMock, fileBytes);
+        doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoRepositoryMock).persist(propertyPhotoMock, SAMPLE_BYTES);
+        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
     }
 
     @Test(expected = PropertyPhotoServiceException.class)
     public void addingPhotoThrowsPropertyPhotoServiceExceptionOnIOException() throws Exception {
-        doThrow(new IOException()).when(propertyPhotoRepositoryMock).persist(propertyPhotoMock, fileBytes);
-        propertyPhotoService.addPhoto(propertyMock, fileBytes);
+        doThrow(new IOException()).when(propertyPhotoRepositoryMock).persist(propertyPhotoMock, SAMPLE_BYTES);
+        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
     }
 
     @Test

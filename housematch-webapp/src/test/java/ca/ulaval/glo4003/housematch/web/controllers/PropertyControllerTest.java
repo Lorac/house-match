@@ -10,7 +10,6 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,7 +24,6 @@ import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -62,15 +60,19 @@ public class PropertyControllerTest extends BaseControllerTest {
     private UserService userServiceMock;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
     private PropertyListViewModelAssembler propertyListViewModelAssemblerMock;
+
     private PropertyController propertyController;
+
     private String samplePropertyUpdateUrl;
+    private String samplePropertyViewUrl;
+    private String samplePropertyFavoritingUrl;
 
     @Before
     public void init() throws Exception {
         super.init();
         initMocks();
         initStubs();
-        samplePropertyUpdateUrl = PropertyController.PROPERTY_UPDATE_BASE_URL + propertyMock.hashCode();
+        initSampleUrls();
         propertyController = new PropertyController(propertyServiceMock, userServiceMock, propertyViewModelAssemblerMock,
                 propertyListViewModelAssemblerMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyController).setViewResolvers(viewResolver).build();
@@ -88,6 +90,12 @@ public class PropertyControllerTest extends BaseControllerTest {
         when(propertyServiceMock.createProperty(any(), any(), any(), any())).thenReturn(propertyMock);
     }
 
+    private void initSampleUrls() {
+        samplePropertyUpdateUrl = PropertyController.PROPERTY_UPDATE_BASE_URL + propertyMock.hashCode();
+        samplePropertyViewUrl = PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode();
+        samplePropertyFavoritingUrl = PropertyController.PROPERTY_FAVORITING_BASE_URL + propertyMock.hashCode();
+    }
+
     @Test
     public void propertyControllerRendersPropertyCreationView() throws Exception {
         ResultActions results = performGetRequest(PropertyController.PROPERTY_CREATION_URL);
@@ -98,13 +106,13 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerRedirectsToPropertyUpdatePageUponSucessfulPropertyCreation() throws Exception {
-        ResultActions results = postPropertyCreationForm();
+        ResultActions results = performPostRequest(PropertyController.PROPERTY_CREATION_URL);
         results.andExpect(status().is3xxRedirection()).andExpect(redirectedUrl(samplePropertyUpdateUrl));
     }
 
     @Test
     public void propertyControllerCreatesPropertyDuringPropertyCreation() throws Exception {
-        postPropertyCreationForm();
+        performPostRequest(PropertyController.PROPERTY_CREATION_URL);
         verify(propertyServiceMock).createProperty(any(PropertyType.class), any(Address.class), any(BigDecimal.class), eq(userMock));
     }
 
@@ -113,7 +121,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).createProperty(any(PropertyType.class), any(Address.class),
                 any(BigDecimal.class), eq(userMock));
 
-        ResultActions results = postPropertyCreationForm();
+        ResultActions results = performPostRequest(PropertyController.PROPERTY_CREATION_URL);
 
         results.andExpect(view().name(PropertyController.PROPERTY_CREATION_VIEW_NAME));
         results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
@@ -149,7 +157,7 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerRendersPropertyUpdateConfirmationViewUponSuccessfulPropertyUpdate() throws Exception {
-        ResultActions results = postPropertyUpdateForm();
+        ResultActions results = performPostRequest(samplePropertyUpdateUrl);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(PropertyController.PROPERTY_UPDATE_CONFIRMATION_VIEW_NAME));
@@ -158,7 +166,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     @Test
     public void propertyControllerUpdatesThePropertyDuringPropertyUpdate() throws Exception {
         when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
-        postPropertyUpdateForm();
+        performPostRequest(samplePropertyUpdateUrl);
         verify(propertyServiceMock).updateProperty(eq(propertyMock), any(PropertyDetails.class), any(BigDecimal.class));
     }
 
@@ -166,7 +174,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerRendersAlertMessageOnPropertyServiceExceptionDuringPropertyUpdate() throws Exception {
         doThrow(new PropertyServiceException()).when(propertyServiceMock).updateProperty(anyObject(), anyObject(), anyObject());
 
-        ResultActions results = postPropertyUpdateForm();
+        ResultActions results = performPostRequest(samplePropertyUpdateUrl);
 
         results.andExpect(view().name(PropertyController.PROPERTY_UPDATE_VIEW_NAME));
         results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
@@ -201,14 +209,15 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromThePropertiesDuringPropertySearchRequest() throws Exception {
-        when(propertyServiceMock.getPropertiesForSale(any(PropertySortColumn.class), any(SortOrder.class))).thenReturn(SAMPLE_PROPERTY_LIST);
+        when(propertyServiceMock.getPropertiesForSale(any(PropertySortColumn.class), any(SortOrder.class)))
+                .thenReturn(SAMPLE_PROPERTY_LIST);
         performGetRequest(PropertyController.PROPERTY_SEARCH_URL);
         verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
     public void propertyControllerRendersPropertyView() throws Exception {
-        ResultActions results = performPropertyGetRequest();
+        ResultActions results = performGetRequest(samplePropertyViewUrl);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(PropertyController.PROPERTY_VIEW_NAME));
@@ -216,28 +225,28 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerGetsPropertyUsingTheSpecifiedHashCodeDuringPropertyViewAccess() throws Exception {
-        performPropertyGetRequest();
+        performGetRequest(samplePropertyViewUrl);
         verify(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
     }
 
     @Test
     public void propertyControllerAssemblesTheViewModelFromThePropertyDuringPropertyViewAccess() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
-        performPropertyGetRequest();
+        performGetRequest(samplePropertyViewUrl);
         verify(propertyViewModelAssemblerMock).assemble(eq(propertyMock), eq(Optional.ofNullable(userMock)));
     }
 
     @Test
     public void propertyControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringPropertyViewAccess() throws Exception {
         doThrow(new PropertyNotFoundException()).when(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
-        ResultActions results = performPropertyGetRequest();
+        ResultActions results = performGetRequest(samplePropertyViewUrl);
         results.andExpect(status().isNotFound());
     }
 
     @Test
     public void propertyControllerIncrementsThePropertyViewCountDuringPropertyViewAccess() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
-        performPropertyGetRequest();
+        performGetRequest(samplePropertyViewUrl);
         verify(propertyServiceMock).incrementPropertyViewCount(propertyMock);
     }
 
@@ -294,52 +303,20 @@ public class PropertyControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyControllerGetsPropertyFromPropertyServiceUsingTheSpecifiedHashCodeDuringPropertyFavoriting() throws Exception {
-        performPropertyFavoritingRequest();
+        performPostRequest(samplePropertyFavoritingUrl);
         verify(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
     }
 
     @Test
     public void propertyControllerAddsTheSpecifiedPropertyToFavoritePropertiesOfUserDuringPropertyFavoriting() throws Exception {
         when(propertyServiceMock.getPropertyByHashCode(propertyMock.hashCode())).thenReturn(propertyMock);
-        performPropertyFavoritingRequest();
+        performPostRequest(samplePropertyFavoritingUrl);
         verify(userServiceMock).addFavoritePropertyToUser(userMock, propertyMock);
     }
 
     @Test
     public void propertyControllerReturnsOkHttpStatusOnSuccessfulPropertyFavoriting() throws Exception {
-        ResultActions results = performPropertyFavoritingRequest();
+        ResultActions results = performPostRequest(samplePropertyFavoritingUrl);
         results.andExpect(status().isOk());
-    }
-
-    private ResultActions postPropertyCreationForm() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_CREATION_URL)
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED);
-        postRequest = buildPropertyCreationFormParams(postRequest);
-
-        return mockMvc.perform(postRequest);
-    }
-
-    private MockHttpServletRequestBuilder buildPropertyCreationFormParams(MockHttpServletRequestBuilder postRequest) {
-        return postRequest.session(mockHttpSession);
-    }
-
-    private ResultActions postPropertyUpdateForm() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post(samplePropertyUpdateUrl);
-        postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
-        postRequest.session(mockHttpSession);
-
-        return mockMvc.perform(postRequest);
-    }
-
-    private ResultActions performPropertyFavoritingRequest() throws Exception {
-        MockHttpServletRequestBuilder postRequest = post(PropertyController.PROPERTY_FAVORITING_BASE_URL + propertyMock.hashCode());
-        postRequest.contentType(MediaType.APPLICATION_FORM_URLENCODED);
-        postRequest.session(mockHttpSession);
-
-        return mockMvc.perform(postRequest);
-    }
-
-    private ResultActions performPropertyGetRequest() throws Exception {
-        return performGetRequest(PropertyController.PROPERTY_VIEW_BASE_URL + propertyMock.hashCode());
     }
 }

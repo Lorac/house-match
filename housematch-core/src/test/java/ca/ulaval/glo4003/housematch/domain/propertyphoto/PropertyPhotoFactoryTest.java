@@ -10,8 +10,8 @@ import org.junit.Test;
 public class PropertyPhotoFactoryTest {
 
     private static final int SAMPLE_HASH_CODE = 2342;
+    private static final byte[] SAMPLE_BYTES = new byte[3];
 
-    private byte[] fileBytes;
     private PropertyPhotoFactory propertyPhotoFactory;
 
     @Before
@@ -27,7 +27,7 @@ public class PropertyPhotoFactoryTest {
 
     @Test
     public void propertyPhotoFactoryCreatesThePropertyPhotoWithHashCodeCalculatedFromTheSpecifiedFileBytes() {
-        PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes);
-        assertEquals(Math.abs(Arrays.hashCode(fileBytes)), propertyPhoto.hashCode());
+        PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(SAMPLE_BYTES);
+        assertEquals(Math.abs(Arrays.hashCode(SAMPLE_BYTES)), propertyPhoto.hashCode());
     }
 }

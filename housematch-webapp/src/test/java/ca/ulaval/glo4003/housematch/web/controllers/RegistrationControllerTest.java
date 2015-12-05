@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,8 +24,6 @@ import ca.ulaval.glo4003.housematch.services.user.UserActivationService;
 import ca.ulaval.glo4003.housematch.services.user.UserActivationServiceException;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.services.user.UserServiceException;
-import ca.ulaval.glo4003.housematch.web.controllers.LoginController;
-import ca.ulaval.glo4003.housematch.web.controllers.RegistrationController;
 import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageType;
 import ca.ulaval.glo4003.housematch.web.viewmodels.AlertMessageViewModel;
 import ca.ulaval.glo4003.housematch.web.viewmodels.EmailReconfirmFormViewModel;
@@ -48,13 +45,24 @@ public class RegistrationControllerTest extends BaseControllerTest {
     private UserActivationService userActivationServiceMock;
     private RegistrationController registrationController;
 
+    private String sampleActivationUrl;
+
     @Before
     public void init() throws Exception {
         super.init();
-        userServiceMock = mock(UserService.class);
-        userActivationServiceMock = mock(UserActivationService.class);
+        initMocks();
+        initSampleUrls();
         registrationController = new RegistrationController(userServiceMock, userActivationServiceMock);
         mockMvc = MockMvcBuilders.standaloneSetup(registrationController).setViewResolvers(viewResolver).build();
+    }
+
+    private void initMocks() {
+        userServiceMock = mock(UserService.class);
+        userActivationServiceMock = mock(UserActivationService.class);
+    }
+
+    private void initSampleUrls() {
+        sampleActivationUrl = RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_CODE;
     }
 
     @Test
@@ -142,14 +150,14 @@ public class RegistrationControllerTest extends BaseControllerTest {
 
     @Test
     public void registrationControllerActivatesTheUserDuringActivation() throws Exception {
-        performActivationRequest();
+        performGetRequest(sampleActivationUrl);
 
         verify(userActivationServiceMock).completeActivation(SAMPLE_ACTIVATION_CODE);
     }
 
     @Test
     public void registrationControllerRendersLoginViewUponSuccessfulActivation() throws Exception {
-        ResultActions results = performActivationRequest();
+        ResultActions results = performGetRequest(sampleActivationUrl);
 
         results.andExpect(status().isOk());
         results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
@@ -159,7 +167,7 @@ public class RegistrationControllerTest extends BaseControllerTest {
     public void registrationControllerRendersAlertMessageOnUserActivationServiceExceptionDuringActivation() throws Exception {
         doThrow(new UserActivationServiceException()).when(userActivationServiceMock).completeActivation(SAMPLE_ACTIVATION_CODE);
 
-        ResultActions results = performActivationRequest();
+        ResultActions results = performGetRequest(sampleActivationUrl);
 
         results.andExpect(view().name(LoginController.LOGIN_VIEW_NAME));
         results.andExpect(model().attribute(AlertMessageViewModel.NAME, hasProperty("messageType", is(AlertMessageType.ERROR))));
@@ -185,12 +193,5 @@ public class RegistrationControllerTest extends BaseControllerTest {
         postRequest.sessionAttr(RegistrationController.USER_ATTRIBUTE_NAME, userMock);
 
         return mockMvc.perform(postRequest);
-    }
-
-    private ResultActions performActivationRequest() throws Exception {
-        MockHttpServletRequestBuilder getRequest = get(RegistrationController.ACTIVATION_BASE_URL + SAMPLE_ACTIVATION_CODE);
-        getRequest.accept(MediaType.ALL);
-
-        return mockMvc.perform(getRequest);
     }
 }

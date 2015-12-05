@@ -29,18 +29,20 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyPhotoListViewModel;
 @Controller
 public class PropertyPhotoController extends BaseController {
 
-    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
     public static final String PHOTO_DELETE_BASE_URL = "/seller/deletePropertyPhoto/";
-    private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
     public static final String PHOTO_UPLOAD_BASE_URL = "/seller/uploadPropertyPhoto/";
-    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/{photoHashCode}";
-    private static final String PHOTO_REVIEW_VIEW_NAME = "admin/propertyPhotoReview";
     public static final String PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/";
     public static final String PHOTO_REVIEW_URL = "/admin/propertyPhotoReview";
-    private static final String PHOTO_APPROVE_URL = "/admin/approvePropertyPhoto/{photoHashCode}";
     public static final String PHOTO_APPROVE_BASE_URL = "/admin/approvePropertyPhoto/";
-    private static final String PHOTO_REJECT_URL = "/admin/rejectPropertyPhoto/{photoHashCode}";
     public static final String PHOTO_REJECT_BASE_URL = "/admin/rejectPropertyPhoto/";
+
+    private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
+    private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
+    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/{photoHashCode}";
+    private static final String PHOTO_APPROVE_URL = "/admin/approvePropertyPhoto/{photoHashCode}";
+    private static final String PHOTO_REJECT_URL = "/admin/rejectPropertyPhoto/{photoHashCode}";
+
+    static final String PHOTO_REVIEW_VIEW_NAME = "admin/propertyPhotoReview";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
