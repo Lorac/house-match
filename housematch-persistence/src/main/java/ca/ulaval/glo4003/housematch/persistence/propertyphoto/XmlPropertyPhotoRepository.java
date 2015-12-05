@@ -4,8 +4,10 @@ import java.awt.Dimension;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -13,6 +15,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoRepository;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
 import ca.ulaval.glo4003.housematch.utils.FileUtilsWrapper;
 import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
@@ -86,12 +89,8 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     }
 
     @Override
-    public byte[] getPhotoData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
-        try {
-            return fileUtilsWrapper.readByteArrayFromFile(getPhotoFileName(propertyPhoto.hashCode()));
-        } catch (FileNotFoundException e) {
-            throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hash code '%s'.", propertyPhoto.hashCode()));
-        }
+    public List<PropertyPhoto> getByStatus(PropertyPhotoStatus propertyPhotoStatus) {
+        return propertyPhotos.values().stream().filter(p -> p.getStatus().equals(propertyPhotoStatus)).collect(Collectors.toList());
     }
 
     @Override

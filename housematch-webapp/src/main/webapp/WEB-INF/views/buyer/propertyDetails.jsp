@@ -3,6 +3,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController"%>
+
 <html>
 <head>
 <%@include file="/WEB-INF/includes/header.jsp"%>
@@ -13,9 +15,9 @@
 <script>
 var bodyOnLoad = function() {
 	<c:if test="${not empty property.photos}">
-        var photoManager = createPhotoManager(<%=request.getAttribute("propertyHashCode")%>, false, false, false);
+        var photoManager = new PhotoManager($("#property-photo-manager"), false, false, false);
         <c:forEach var="photo" items="${property.photos}">
-            photoManager.addPhoto(${photo.hashCode()});
+            photoManager.addPhoto(${photo.hashCode()}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>${photo.hashCode()}/");
         </c:forEach>
     </c:if>
 }

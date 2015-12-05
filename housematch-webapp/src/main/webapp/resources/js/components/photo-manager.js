@@ -1,11 +1,3 @@
-function createPhotoManager(propertyHashCode, uploadEnabled, reviewEnabled, deleteEnabled) {
-    var downloadBaseUrl = "/user/downloadPropertyPhoto/" + propertyHashCode + "/";
-    var thumbnailDownloadBaseUrl = "/user/downloadPropertyPhotoThumbnail/" + propertyHashCode + "/";
-    var deleteBaseUrl = "/seller/deletePropertyPhoto/" + propertyHashCode + "/";
-
-    return new PhotoManager($("#property-photo-manager"), uploadEnabled, reviewEnabled, deleteEnabled, "/seller/uploadPropertyPhoto/" + propertyHashCode, downloadBaseUrl, thumbnailDownloadBaseUrl, deleteBaseUrl);
-}
-
 function Element(element) {
     this.element = element;
 }
@@ -47,17 +39,23 @@ function UploadGridCell(element, onClick) {
 
 PhotoGridCell.prototype = Object.create(GridCell.prototype);
 PhotoGridCell.prototype.constructor = PhotoGridCell;
-function PhotoGridCell(element, thumbnailUrl, photoHashCode, reviewEnabled, deleteEnabled, onDeleteButtonClick) {
+function PhotoGridCell(element, photoHashCode, reviewEnabled, deleteEnabled, thumbnailDownloadUrl, acceptUrl, rejectUrl) {
     GridCell.call(this, element);
     var thisAlias = this;
-    var photoHashCode = photoHashCode;
-    var deleteButtonElement = new ActionButton(element.find(".delete-button").first());
-    var acceptButtonElement = new ActionButton(element.find(".accept-button").first());
-    var rejectButtonElement = new ActionButton(element.find(".reject-button").first());
+    this.photoHashCode = photoHashCode;
+    var thumbnailDownloadUrl = thumbnailDownloadUrl;
+    var acceptUrl = acceptUrl;
+    var rejectUrl = rejectUrl;
+    var onDeleteButtonClick;
+    var onAcceptButtonClick;
+    var onRejectButtonClick;
+    var acceptButtonElement;
+    var rejectButtonElement;
+    var deleteButtonElement;
 
     this.show();
     showProgressControls();
-    executeAjaxCall("GET", thumbnailUrl, null, downloadCompleted, void (0));
+    executeAjaxCall("GET", thumbnailDownloadUrl, null, downloadCompleted, void (0));
 
     function downloadCompleted(data) {
         hideProgressControls();
@@ -74,9 +72,9 @@ function PhotoGridCell(element, thumbnailUrl, photoHashCode, reviewEnabled, dele
     }
 
     function initActionButtons(elementGroup) {
-        var deleteButtonElement = new ActionButton(elementGroup.find(".delete-button").first(), function () { onDeleteButtonClick(photoHashCode); });
-        var acceptButtonElement = new ActionButton(elementGroup.find(".accept-button").first(), void (0));
-        var rejectButtonElement = new ActionButton(elementGroup.find(".reject-button").first(), void (0));
+        rejectButtonElement = new ActionButton(elementGroup.find(".accept-button").first(), acceptButtonClicked);
+        acceptButtonElement = new ActionButton(elementGroup.find(".reject-button").first(), rejectButtonClicked);
+        deleteButtonElement = new ActionButton(elementGroup.find(".delete-button").first(), deleteButtonClicked);
 
         if (!reviewEnabled) {
             acceptButtonElement.hide();
@@ -84,6 +82,18 @@ function PhotoGridCell(element, thumbnailUrl, photoHashCode, reviewEnabled, dele
         }
         if (!deleteEnabled) {
             deleteButtonElement.hide();
+        }
+
+        function deleteButtonClicked() {
+            thisAlias.onDeleteButtonClick(thisAlias);
+        }
+
+        function acceptButtonClicked() {
+            thisAlias.onAcceptButtonClick(thisAlias);
+        }
+
+        function rejectButtonClicked() {
+            thisAlias.onRejectButtonClick(thisAlias);
         }
     }
 }
@@ -95,15 +105,14 @@ function ActionButton(element, onClick) {
     this.element.click(onClick);
 }
 
-function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uploadUrl, downloadBaseUrl, thumbnailDownloadBaseUrl, deleteBaseUrl) {
+function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uploadUrl, defaultThumbnailDownloadBaseUrl, defaultDeleteBaseUrl) {
     this.element = element;
     var uploadEnabled = uploadEnabled;
     var reviewEnabled = reviewEnabled;
     var deleteEnabled = deleteEnabled;
     var uploadUrl = uploadUrl;
-    var downloadBaseUrl = downloadBaseUrl;
-    var thumbnailDownloadBaseUrl = thumbnailDownloadBaseUrl;
-    var deleteBaseUrl = deleteBaseUrl;
+    var defaultThumbnailDownloadBaseUrl = defaultThumbnailDownloadBaseUrl;
+    var defaultDeleteBaseUrl = defaultDeleteBaseUrl;
 
     var contentElement = this.element.find(".content").first();
     var progressGridCell;
@@ -130,13 +139,16 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
         }
     }
 
-    this.addPhoto = function (photoHashCode) {
-        addPhotoGridCell(photoHashCode);
+    this.addPhoto = function (photoHashCode, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl) {
+        addPhotoGridCell(photoHashCode, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl);
     }
 
-    function addPhotoGridCell(photoHashCode) {
+    function addPhotoGridCell(photoHashCode, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl) {
         var photoGridCellElement = getElementTemplate("photo-grid-cell-template").clone();
-        var photoGridCell = new PhotoGridCell(photoGridCellElement, thumbnailDownloadBaseUrl + photoHashCode, photoHashCode, reviewEnabled, deleteEnabled, onDeleteButtonClick);
+        var photoGridCell = new PhotoGridCell(photoGridCellElement, photoHashCode, reviewEnabled, deleteEnabled, thumbnailDownloadUrl, deleteUrl, acceptUrl, rejectUrl);
+        photoGridCell.onDeleteButtonClick = deleteButtonClicked;
+        photoGridCell.onAcceptButtonClick = acceptButtonClicked;
+        photoGridCell.onRejectButtonClick = rejectButtonClicked;
 
         photoGridCells[photoHashCode] = photoGridCell;
         photoGridCellElement.insertBefore(progressGridCell.element);
@@ -151,9 +163,19 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
         showFileSelectionDialog();
     }
 
-    function onDeleteButtonClick(photoHashCode) {
-        executeAjaxFormDataUpload("POST", deleteBaseUrl + photoHashCode, null, void (0), void (0));
-        photoGridCells[photoHashCode].remove();
+    function deleteButtonClicked(photoGridCell) {
+        executeAjaxFormDataUpload("POST", photoGridCell.deleteUrl, null, void (0), void (0));
+        photoGridCells[photoGridCell.photoHashCode].remove();
+    }
+
+    function acceptButtonClicked(photoGridCell) {
+        executeAjaxFormDataUpload("POST", photoGridCell.acceptUrl, null, void (0), void (0));
+        photoGridCells[photoGridCell.photoHashCode].remove();
+    }
+
+    function rejectButtonClicked(photoGridCell) {
+        executeAjaxFormDataUpload("POST", photoGridCell.rejectUrl, null, void (0), void (0));
+        photoGridCells[photoGridCell.photoHashCode].remove();
     }
 
     function showFileSelectionDialog() {
@@ -179,7 +201,7 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
 
     function uploadCompleted(photoHashCode) {
         hideProgressControls();
-        addPhotoGridCell(photoHashCode);
+        addPhotoGridCell(photoHashCode, defaultThumbnailDownloadBaseUrl + photoHashCode, defaultDeleteBaseUrl + photoHashCode);
     }
 
     function uploadFailed(xmlHttpRequest, textStatus, errorThrown) {

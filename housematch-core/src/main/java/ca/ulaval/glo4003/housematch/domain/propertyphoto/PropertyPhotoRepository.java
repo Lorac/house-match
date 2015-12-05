@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.domain.propertyphoto;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface PropertyPhotoRepository {
 
@@ -8,7 +9,7 @@ public interface PropertyPhotoRepository {
 
     PropertyPhoto getByHashCode(Integer hashCode) throws PropertyPhotoNotFoundException;
 
-    byte[] getPhotoData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException;
+    List<PropertyPhoto> getByStatus(PropertyPhotoStatus propertyPhotoStatus);
 
     byte[] getThumbnailData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException;
 

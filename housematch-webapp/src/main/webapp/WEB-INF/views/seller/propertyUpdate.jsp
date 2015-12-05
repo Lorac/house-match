@@ -3,6 +3,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
+<%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController"%>
 <%@page import="ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel"%>
 
 <% pageContext.setAttribute("propertyOwnershipTypes", ca.ulaval.glo4003.housematch.domain.property.PropertyOwnershipType.values()); %>
@@ -18,9 +19,14 @@
 
 <script>
 var bodyOnLoad = function() {
-    var photoManager = createPhotoManager(<%=request.getAttribute("propertyHashCode")%>, true, false, true);
+	var uploadUrl = "<%=PropertyPhotoController.PHOTO_UPLOAD_BASE_URL %>${property.hashCode}";
+	var defaultThumbnailDownloadBaseUrl = "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>";
+	var defaultDeleteBaseUrl = "<%=PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${property.hashCode}/";
+
+	var photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, uploadUrl, defaultThumbnailDownloadBaseUrl, defaultDeleteBaseUrl);
+    
     <c:forEach var="photo" items="${property.photos}">
-    	photoManager.addPhoto(${photo.hashCode()});
+    	photoManager.addPhoto(${photo.hashCode()}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>${photo.hashCode()}/", "<%= PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${property.hashCode}/${photo.hashCode()}/");
     </c:forEach>
 }
 </script>

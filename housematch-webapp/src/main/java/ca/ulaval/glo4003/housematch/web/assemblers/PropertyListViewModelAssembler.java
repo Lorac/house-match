@@ -16,16 +16,16 @@ public class PropertyListViewModelAssembler {
         this.propertyViewModelAssembler = propertyViewModelAssembler;
     }
 
-    public PropertyListViewModel assembleFromPropertyCollection(Collection<Property> propertyList) {
+    public PropertyListViewModel assembleFromPropertyCollection(Collection<Property> propertyCollection) {
         PropertyListViewModel propertyListViewModel = new PropertyListViewModel();
-        List<PropertyViewModel> propertyViewModelList = assemblePropertyViewModelListFromPropertyCollection(propertyList);
+        List<PropertyViewModel> propertyViewModelList = assemblePropertyViewModelListFromPropertyCollection(propertyCollection);
         propertyListViewModel.setPropertyViewModels(propertyViewModelList);
         return propertyListViewModel;
     }
 
-    private List<PropertyViewModel> assemblePropertyViewModelListFromPropertyCollection(Collection<Property> propertyList) {
+    private List<PropertyViewModel> assemblePropertyViewModelListFromPropertyCollection(Collection<Property> propertyCollection) {
         List<PropertyViewModel> propertyViewModelList = new ArrayList<>();
-        for (Property property : propertyList) {
+        for (Property property : propertyCollection) {
             propertyViewModelList.add(propertyViewModelAssembler.assemble(property, Optional.empty()));
         }
         return propertyViewModelList;

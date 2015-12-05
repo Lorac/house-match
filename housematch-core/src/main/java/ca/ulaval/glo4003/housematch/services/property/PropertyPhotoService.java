@@ -1,6 +1,7 @@
 package ca.ulaval.glo4003.housematch.services.property;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -26,7 +27,7 @@ public class PropertyPhotoService {
         this.propertyPhotoFactory = propertyPhotoFactory;
     }
 
-    public Integer addPropertyPhoto(Property property, byte[] fileBytes, String originalFileName) throws PropertyPhotoServiceException {
+    public Integer addPhoto(Property property, byte[] fileBytes, String originalFileName) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes, originalFileName);
             propertyPhotoRepository.persist(propertyPhoto, fileBytes);
@@ -38,16 +39,7 @@ public class PropertyPhotoService {
         }
     }
 
-    public byte[] getPropertyPhotoData(int photoHashCode) throws PropertyPhotoServiceException {
-        try {
-            PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
-            return Base64.encodeBase64(propertyPhotoRepository.getPhotoData(propertyPhoto));
-        } catch (IOException | PropertyPhotoNotFoundException e) {
-            throw new PropertyPhotoServiceException(e);
-        }
-    }
-
-    public byte[] getPropertyPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException {
+    public byte[] getPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
             return Base64.encodeBase64(propertyPhotoRepository.getThumbnailData(propertyPhoto));
@@ -56,7 +48,7 @@ public class PropertyPhotoService {
         }
     }
 
-    public void deletePropertyPhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+    public void deletePhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
             propertyPhotoRepository.delete(propertyPhoto);
@@ -67,7 +59,7 @@ public class PropertyPhotoService {
         }
     }
 
-    public void approvePropertyPhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
+    public void approvePhoto(Property property, int photoHashCode) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = property.getPhotoByHashCode(photoHashCode);
             propertyPhoto.updateStatus(PropertyPhotoStatus.APPROVED);
@@ -75,5 +67,9 @@ public class PropertyPhotoService {
         } catch (PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);
         }
+    }
+
+    public List<PropertyPhoto> getPhotosWaitingForApproval() {
+        return propertyPhotoRepository.getByStatus(PropertyPhotoStatus.WAITING_FOR_APPROVAL);
     }
 }

@@ -168,6 +168,12 @@
     <bean id="propertyListViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyListViewModelAssembler">
         <constructor-arg ref="propertyViewModelAssembler" />
     </bean>
+    
+    <bean id="propertyPhotoViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyPhotoViewModelAssembler" />
+
+    <bean id="propertyPhotoListViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyPhotoListViewModelAssembler">
+        <constructor-arg ref="propertyPhotoViewModelAssembler" />
+    </bean>
 
     <bean id="statisticsViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.StatisticsViewModelAssembler" />
 
@@ -196,6 +202,7 @@
     <bean id="propertyPhotoController" class="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController">
         <constructor-arg ref="propertyPhotoService" />
         <constructor-arg ref="userService" />
+        <constructor-arg ref="propertyPhotoListViewModelAssembler" />
     </bean>
 
     <bean id="userProfileController" class="ca.ulaval.glo4003.housematch.web.controllers.UserProfileController">

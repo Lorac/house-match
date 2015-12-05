@@ -30,10 +30,6 @@ public class PropertyViewModel extends ViewModel {
     private Set<PropertyPhoto> photos;
     private PropertyPhoto mainPhoto;
 
-    public PropertyViewModel() {
-
-    }
-
     @Override
     public String getName() {
         return NAME;
