@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
@@ -26,7 +27,9 @@ public class PropertyPhotoController extends BaseController {
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
     private static final String PHOTO_DOWNLOAD_URL = "/user/downloadPropertyPhoto/{propertyHashCode}/{photoHashCode}";
     private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/{propertyHashCode}/{photoHashCode}";
+    private static final String PHOTO_REVIEW_VIEW_NAME = "admin/propertyPhotoReview";
     public static final String PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/";
+    public static final String PHOTO_REVIEW_URL = "/admin/propertyPhotoReview";
 
     @Inject
     private PropertyPhotoService propertyPhotoService;
@@ -71,6 +74,11 @@ public class PropertyPhotoController extends BaseController {
             HttpSession httpSession) throws Exception {
         Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
         propertyPhotoService.deletePropertyPhoto(property, photoHashCode);
+    }
+
+    @RequestMapping(value = PHOTO_REVIEW_URL, method = RequestMethod.GET)
+    public final ModelAndView deletePropertyPhotoThumbnail() throws Exception {
+        return new ModelAndView(PHOTO_REVIEW_VIEW_NAME);
     }
 
 }
