@@ -20,10 +20,10 @@
 <script>
 var bodyOnLoad = function() {
 	var uploadUrl = "<%=PropertyPhotoController.PHOTO_UPLOAD_BASE_URL %>${property.hashCode}";
-	var defaultThumbnailDownloadBaseUrl = "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>";
+	var defaultThumbnailBaseUrl = "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>";
 	var defaultDeleteBaseUrl = "<%=PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${property.hashCode}/";
 
-	var photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, uploadUrl, defaultThumbnailDownloadBaseUrl, defaultDeleteBaseUrl);
+	var photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, uploadUrl, defaultThumbnailBaseUrl, defaultDeleteBaseUrl);
     
     <c:forEach var="photo" items="${property.photos}">
     	photoManager.addPhoto(${photo.hashCode()}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${photo.hashCode()}/", "<%= PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${property.hashCode}/${photo.hashCode()}/");

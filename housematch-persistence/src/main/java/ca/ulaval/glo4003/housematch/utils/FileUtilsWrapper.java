@@ -21,7 +21,7 @@ public class FileUtilsWrapper {
         return data;
     }
 
-    public void delete(String fileName) throws IOException {
+    public void deleteFile(String fileName) throws IOException {
         FileUtils.deleteQuietly(new File(fileName));
     }
 

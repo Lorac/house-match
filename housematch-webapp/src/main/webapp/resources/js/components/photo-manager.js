@@ -101,13 +101,13 @@ function ActionButton(element, onClick) {
     this.element.click(onClick);
 }
 
-function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uploadUrl, defaultThumbnailDownloadBaseUrl, defaultDeleteBaseUrl) {
+function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uploadUrl, defaultThumbnailBaseUrl, defaultDeleteBaseUrl) {
     this.element = element;
     var uploadEnabled = uploadEnabled;
     var reviewEnabled = reviewEnabled;
     var deleteEnabled = deleteEnabled;
     var uploadUrl = uploadUrl;
-    var defaultThumbnailDownloadBaseUrl = defaultThumbnailDownloadBaseUrl;
+    var defaultThumbnailBaseUrl = defaultThumbnailBaseUrl;
     var defaultDeleteBaseUrl = defaultDeleteBaseUrl;
 
     var contentElement = this.element.find(".content").first();
@@ -208,7 +208,7 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
 
     function uploadCompleted(photoHashCode) {
         hideProgressControls();
-        addPhotoGridCell(photoHashCode, defaultThumbnailDownloadBaseUrl + photoHashCode, defaultDeleteBaseUrl + photoHashCode);
+        addPhotoGridCell(photoHashCode, defaultThumbnailBaseUrl + photoHashCode, defaultDeleteBaseUrl + photoHashCode);
     }
 
     function uploadFailed(xmlHttpRequest, textStatus, errorThrown) {

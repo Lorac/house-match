@@ -108,8 +108,8 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find a photo with hash code '%d'.", propertyPhoto.hashCode()));
         }
         propertyPhotos.remove(propertyPhoto.hashCode());
-        fileUtilsWrapper.delete(getThumbnailFileName(propertyPhoto.hashCode()));
-        fileUtilsWrapper.delete(getPhotoFileName(propertyPhoto.hashCode()));
+        fileUtilsWrapper.deleteFile(getThumbnailFileName(propertyPhoto.hashCode()));
+        fileUtilsWrapper.deleteFile(getPhotoFileName(propertyPhoto.hashCode()));
     }
 
     private String getThumbnailFileName(int hashCode) throws FileNotFoundException {

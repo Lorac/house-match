@@ -173,7 +173,7 @@ public class XmlPropertyPhotoRepositoryTest {
     public void deletingPhotoDeletesFileFromFileSystem() throws Exception {
         xmlPropertyPhotoRepository.persist(propertyPhotoMock, SAMPLE_BYTES);
         xmlPropertyPhotoRepository.delete(propertyPhotoMock);
-        verify(fileUtilsWrapperMock, times(2)).delete(anyString());
+        verify(fileUtilsWrapperMock, times(2)).deleteFile(anyString());
     }
 
 }
