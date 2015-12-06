@@ -54,9 +54,9 @@ public class XmlPropertyRepositoryTest {
 
     private void initStubs() {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlPropertyRootElementMock);
-        when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
-        when(anotherPropertyMock.getPropertyType()).thenReturn(ANOTHER_SAMPLE_PROPERTY_TYPE);
-        when(propertyMock.getStatus()).thenReturn(SAMPLE_PROPERTY_STATUS);
+        when(propertyMock.isOfType(SAMPLE_PROPERTY_TYPE)).thenReturn(true);
+        when(anotherPropertyMock.isOfType(ANOTHER_SAMPLE_PROPERTY_TYPE)).thenReturn(true);
+        when(propertyMock.hasStatus(SAMPLE_PROPERTY_STATUS)).thenReturn(true);
         when(anotherPropertyMock.getStatus()).thenReturn(ANOTHER_SAMPLE_PROPERTY_STATUS);
     }
 
