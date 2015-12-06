@@ -153,8 +153,8 @@ public class PropertyServiceTest {
     public void gettingPropertiesForSaleReturnsListContainingAllTheProperties() {
         when(propertySorterMock.sort(eq(SAMPLE_PROPERTY_LIST), any(PropertySortColumn.class), any(SortOrder.class)))
                 .thenReturn(SAMPLE_PROPERTY_LIST);
-        List<Property> returnedPropertyList = propertyService.getPropertiesForSale(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
-        assertSame(SAMPLE_PROPERTY_LIST, returnedPropertyList);
+        List<Property> returnedPropertiest = propertyService.getPropertiesForSale(SAMPLE_PROPERTY_SORT_COLUMN, SAMPLE_SORT_ORDER);
+        assertSame(SAMPLE_PROPERTY_LIST, returnedPropertiest);
     }
 
     @Test

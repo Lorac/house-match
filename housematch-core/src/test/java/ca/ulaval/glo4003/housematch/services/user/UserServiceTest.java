@@ -56,7 +56,7 @@ public class UserServiceTest {
     private NotificationSettings notificationSettingsMock;
 
     private UserService userService;
-    private Set<Property> propertyList = new HashSet<Property>();
+    private Set<Property> properties = new HashSet<Property>();
 
     @Before
     public void init() throws Exception {
@@ -64,7 +64,7 @@ public class UserServiceTest {
         initStubs();
         userService = new UserService(userFactoryMock, userRepositoryMock, userActivationServiceMock, userRegistrationValidatorMock,
                 addressValidatorMock);
-        propertyList.add(propertyMock);
+        properties.add(propertyMock);
     }
 
     private void initMocks() throws UserNotFoundException {
@@ -82,7 +82,7 @@ public class UserServiceTest {
     private void initStubs() throws UserNotFoundException {
         when(userFactoryMock.createUser(anyString(), anyString(), anyString(), any(UserRole.class))).thenReturn(userMock);
         when(userRepositoryMock.getByUsername(SAMPLE_USERNAME)).thenReturn(userMock);
-        when(userMock.getFavoriteProperties()).thenReturn(propertyList);
+        when(userMock.getFavoriteProperties()).thenReturn(properties);
     }
 
     @Test
@@ -198,6 +198,13 @@ public class UserServiceTest {
     public void updatingUserContactInformationsThrowsUserServiceExceptionOnAddressValidationException() throws Exception {
         doThrow(new AddressValidationException()).when(addressValidatorMock).validateAddress(addressMock);
         userService.updateUserContactInformation(userMock, addressMock, SAMPLE_EMAIL);
+    }
+
+    @Test
+    public void gettingPropertiesorSaleReturnsThePropertiesForSaleOfTheUser() throws Exception {
+        when(userMock.getPropertiesForSale()).thenReturn(properties);
+        Set<Property> returnedProperties = userService.getPropertiesForSale(userMock);
+        assertSame(properties, returnedProperties);
     }
 
     @Test

@@ -62,15 +62,15 @@ public class PropertySorterTest {
 
     @Test
     public void sortingtPropertiesWithNoSortColumnSpecifiedDoesNotSortTheProperties() {
-        List<Property> initialPropertyList = new ArrayList<>(properties);
-        List<Property> returnedPropertyList = propertySorter.sort(properties, PropertySortColumn.NONE, SortOrder.ASCENDING);
-        assertEquals(initialPropertyList, returnedPropertyList);
+        List<Property> initialProperties = new ArrayList<>(properties);
+        List<Property> returnedProperties = propertySorter.sort(properties, PropertySortColumn.NONE, SortOrder.ASCENDING);
+        assertEquals(initialProperties, returnedProperties);
     }
 
     @Test
     public void sortingtPropertiesWithNoOrderSpecifiedDoesNotSortTheProperties() {
-        List<Property> initialPropertyList = new ArrayList<>(properties);
-        List<Property> returnedPropertyList = propertySorter.sort(properties, SAMPLE_PROPERTY_SORT_COLUMN, SortOrder.NONE);
-        assertEquals(initialPropertyList, returnedPropertyList);
+        List<Property> initialProperties = new ArrayList<>(properties);
+        List<Property> returnedProperties = propertySorter.sort(properties, SAMPLE_PROPERTY_SORT_COLUMN, SortOrder.NONE);
+        assertEquals(initialProperties, returnedProperties);
     }
 }

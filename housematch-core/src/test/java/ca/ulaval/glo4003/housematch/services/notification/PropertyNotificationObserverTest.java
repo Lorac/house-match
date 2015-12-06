@@ -50,7 +50,7 @@ public class PropertyNotificationObserverTest {
     }
 
     @Test
-    public void propertyStatusChangedToAnotherStatusThanForSaleDoesNotCreateAnyNotification() {
+    public void propertyStatusChangedToStatusOtherThanForSaleDoesNotCreateAnyNotification() {
         propertyNotificationObserver.propertyStatusChanged(propertyMock, PropertyStatus.SOLD);
         verify(notificationServiceMock, never()).notifyAllUsers(notificationMock);
     }

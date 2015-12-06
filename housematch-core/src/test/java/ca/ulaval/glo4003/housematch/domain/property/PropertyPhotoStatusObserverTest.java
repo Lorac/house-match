@@ -31,7 +31,7 @@ public class PropertyPhotoStatusObserverTest {
     }
 
     @Test
-    public void propertyPhotoStatusChangeToAnotherStatusThanRejectedDoesNotCallPhotoRejectionOnProperty() {
+    public void propertyPhotoStatusChangeToStatusOtherThanRejectedDoesNotCallPhotoRejectionOnProperty() {
         propertyPhotoStatusObserver.propertyPhotoStatusChanged(propertyPhotoMock, PropertyPhotoStatus.APPROVED);
         verify(propertyMock, never()).rejectPhoto(propertyPhotoMock);
     }
