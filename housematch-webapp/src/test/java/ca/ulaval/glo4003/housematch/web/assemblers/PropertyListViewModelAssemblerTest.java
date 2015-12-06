@@ -20,14 +20,14 @@ public class PropertyListViewModelAssemblerTest {
 
     private PropertyListViewModelAssembler propertyListViewModelAssembler;
     private PropertyViewModelAssembler propertyViewModelAssemblerMock;
-    private Collection<Property> propertyCollection = new ArrayList<>();
+    private Collection<Property> properties = new ArrayList<>();
     private PropertyViewModel propertyViewModelMock;
     private Property propertyMock;
 
     @Before
     public void init() {
         initMocks();
-        propertyCollection.add(propertyMock);
+        properties.add(propertyMock);
         propertyListViewModelAssembler = new PropertyListViewModelAssembler(propertyViewModelAssemblerMock);
     }
 
@@ -38,9 +38,9 @@ public class PropertyListViewModelAssemblerTest {
     }
 
     @Test
-    public void assemblesTheViewModelFromTheSpecifiedPropertyList() {
+    public void assemblesTheViewModelFromTheSpecifiedProperties() {
         when(propertyViewModelAssemblerMock.assemble(propertyMock, Optional.empty())).thenReturn(propertyViewModelMock);
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(propertyCollection);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assemble(properties);
         assertThat(viewModel.getPropertyViewModels(), contains(propertyViewModelMock));
     }
 }

@@ -5,9 +5,8 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,14 +30,14 @@ public class PropertyPhotoController extends BaseController {
 
     public static final String PHOTO_DELETE_BASE_URL = "/seller/deletePropertyPhoto/";
     public static final String PHOTO_UPLOAD_BASE_URL = "/seller/uploadPropertyPhoto/";
-    public static final String PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/";
+    public static final String PHOTO_THUMBNAIL_BASE_URL = "/user/downloadPropertyPhotoThumbnail/";
     public static final String PHOTO_REVIEW_URL = "/admin/propertyPhotoReview";
     public static final String PHOTO_APPROVE_BASE_URL = "/admin/approvePropertyPhoto/";
     public static final String PHOTO_REJECT_BASE_URL = "/admin/rejectPropertyPhoto/";
 
     private static final String PHOTO_DELETE_URL = "/seller/deletePropertyPhoto/{propertyHashCode}/{photoHashCode}";
     private static final String PHOTO_UPLOAD_URL = "/seller/uploadPropertyPhoto/{propertyHashCode}";
-    private static final String PHOTO_THUMBNAIL_DOWNLOAD_URL = "/user/downloadPropertyPhotoThumbnail/{photoHashCode}";
+    private static final String PHOTO_THUMBNAIL_URL = "/user/downloadPropertyPhotoThumbnail/{photoHashCode}";
     private static final String PHOTO_APPROVE_URL = "/admin/approvePropertyPhoto/{photoHashCode}";
     private static final String PHOTO_REJECT_URL = "/admin/rejectPropertyPhoto/{photoHashCode}";
 
@@ -74,10 +73,10 @@ public class PropertyPhotoController extends BaseController {
         }
     }
 
-    @RequestMapping(value = PHOTO_THUMBNAIL_DOWNLOAD_URL, method = RequestMethod.GET)
-    public final ResponseEntity<byte[]> downloadPropertyPhotoThumbnail(@PathVariable int photoHashCode, HttpSession httpSession)
-            throws Exception {
-        return new ResponseEntity<>(propertyPhotoService.getPhotoThumbnailData(photoHashCode), new HttpHeaders(), HttpStatus.OK);
+    @RequestMapping(value = PHOTO_THUMBNAIL_URL, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public final byte[] downloadPropertyPhotoThumbnail(@PathVariable int photoHashCode) throws Exception {
+        return propertyPhotoService.getPhotoThumbnailData(photoHashCode);
     }
 
     @RequestMapping(value = PHOTO_DELETE_URL, method = RequestMethod.POST)
@@ -91,7 +90,7 @@ public class PropertyPhotoController extends BaseController {
     @RequestMapping(value = PHOTO_REVIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayPhotoReviewView(ModelMap modelMap) throws Exception {
         List<PropertyPhoto> propertyPhotos = propertyPhotoService.getPhotosWaitingForApproval();
-        modelMap.put(PropertyPhotoListViewModel.NAME, propertyPhotoListViewModelAssembler.assembleFromCollection(propertyPhotos));
+        modelMap.put(PropertyPhotoListViewModel.NAME, propertyPhotoListViewModelAssembler.assemble(propertyPhotos));
         return new ModelAndView(PHOTO_REVIEW_VIEW_NAME, modelMap);
     }
 

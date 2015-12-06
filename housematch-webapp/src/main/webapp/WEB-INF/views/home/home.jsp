@@ -42,7 +42,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-6">View the most popular properties:</label>
                         <div class="col-sm-6">
-                            <select id="propertyTypeSelector" class="form-control" onchange="javascript:showMostPopularProperties()">
+                            <select id="propertyTypeSelector" class="form-control" onchange="javascript:loadMostPopularProperties()">
                                 <c:forEach var="propertyType" items="${propertyTypes}" varStatus="count">
                                     <option value="${propertyType}" ${count.index == 0 ? 'selected' : ''}>${propertyType.displayName}</option>
                                 </c:forEach>

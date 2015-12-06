@@ -22,7 +22,7 @@ var bodyOnLoad = function() {
 	<c:if test="${not empty propertyPhotoList.propertyPhotoViewModels}">
         var photoManager = new PhotoManager($("#property-photo-manager"), false, true, false);
         <c:forEach var="propertyPhotoViewModel" items="${propertyPhotoList.propertyPhotoViewModels}">
-        	photoManager.addPhoto(${propertyPhotoViewModel.hashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>${propertyPhotoViewModel.hashCode}/", null, "<%= PropertyPhotoController.PHOTO_APPROVE_BASE_URL %>${propertyPhotoViewModel.hashCode}/", "<%= PropertyPhotoController.PHOTO_REJECT_BASE_URL %>${propertyPhotoViewModel.hashCode}/");
+        	photoManager.addPhoto(${propertyPhotoViewModel.hashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${propertyPhotoViewModel.hashCode}/", null, "<%= PropertyPhotoController.PHOTO_APPROVE_BASE_URL %>${propertyPhotoViewModel.hashCode}/", "<%= PropertyPhotoController.PHOTO_REJECT_BASE_URL %>${propertyPhotoViewModel.hashCode}/");
         </c:forEach>
     </c:if>
 }

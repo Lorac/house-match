@@ -1,7 +1,7 @@
 <c:choose>
     <c:when test="${not empty propertyViewModel.mainPhoto}">
-        <div class="property-thumbnail dynamic-download"
-            data-thumbnail-download-url="<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL%>${propertyViewModel.mainPhoto.hashCode()}">
+        <div class="property-thumbnail"
+            style='background-image:url("<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL%>${propertyViewModel.mainPhoto.hashCode()}")'>
         </div>
     </c:when>
     <c:otherwise>

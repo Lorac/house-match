@@ -100,7 +100,15 @@ public class Property extends PropertyObservable {
         return ++viewCount;
     }
 
-    public boolean isForSale() {
+    public Boolean hasStatus(PropertyStatus status) {
+        return status.equals(this.status);
+    }
+
+    public Boolean isOfType(PropertyType propertyType) {
+        return propertyType.equals(this.propertyType);
+    }
+
+    public Boolean isForSale() {
         return status == PropertyStatus.FOR_SALE;
     }
 

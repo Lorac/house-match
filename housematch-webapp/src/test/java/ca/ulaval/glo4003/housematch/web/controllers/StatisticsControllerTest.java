@@ -60,6 +60,6 @@ public class StatisticsControllerTest extends BaseControllerTest {
 
         performGetRequest(StatisticsController.STATISTICS_URL);
 
-        verify(statisticsViewModelAssemblerMock).assembleFromStatistics(propertyStatisticsMock, userStatisticsMock);
+        verify(statisticsViewModelAssemblerMock).assemble(propertyStatisticsMock, userStatisticsMock);
     }
 }

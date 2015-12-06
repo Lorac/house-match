@@ -64,12 +64,12 @@ public class XmlPropertyRepository implements PropertyRepository {
 
     @Override
     public List<Property> getByStatus(PropertyStatus propertyStatus) {
-        return properties.values().stream().filter(p -> p.getStatus().equals(propertyStatus)).collect(Collectors.toList());
+        return properties.values().stream().filter(p -> p.hasStatus(propertyStatus)).collect(Collectors.toList());
     }
 
     @Override
     public List<Property> getByType(PropertyType propertyType) {
-        return properties.values().stream().filter(p -> p.getPropertyType().equals(propertyType)).collect(Collectors.toList());
+        return properties.values().stream().filter(p -> p.isOfType(propertyType)).collect(Collectors.toList());
     }
 
     private void marshal() {

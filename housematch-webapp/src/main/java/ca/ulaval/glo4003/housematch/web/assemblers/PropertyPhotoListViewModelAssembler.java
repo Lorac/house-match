@@ -16,20 +16,20 @@ public class PropertyPhotoListViewModelAssembler {
         this.propertyPhotoViewModelAssembler = propertyPhotoViewModelAssembler;
     }
 
-    public PropertyPhotoListViewModel assembleFromCollection(Collection<PropertyPhoto> propertyPhotoCollection) {
+    public PropertyPhotoListViewModel assemble(Collection<PropertyPhoto> propertyPhotos) {
         PropertyPhotoListViewModel propertyPhotoListViewModel = new PropertyPhotoListViewModel();
-        List<PropertyPhotoViewModel> propertyPhotoViewModelList = assemblePropertyPhotoViewModelListFromCollection(propertyPhotoCollection);
-        propertyPhotoListViewModel.setPropertyPhotoViewModels(propertyPhotoViewModelList);
+        List<PropertyPhotoViewModel> propertyPhotoViewModels = assemblePropertyPhotoViewModels(propertyPhotos);
+        propertyPhotoListViewModel.setPropertyPhotoViewModels(propertyPhotoViewModels);
         return propertyPhotoListViewModel;
     }
 
-    private List<PropertyPhotoViewModel> assemblePropertyPhotoViewModelListFromCollection(
-            Collection<PropertyPhoto> propertyPhotoCollection) {
-        List<PropertyPhotoViewModel> propertyPhotoViewModelList = new ArrayList<>();
-        for (PropertyPhoto propertyPhoto : propertyPhotoCollection) {
-            propertyPhotoViewModelList.add(propertyPhotoViewModelAssembler.assemble(propertyPhoto));
+    private List<PropertyPhotoViewModel> assemblePropertyPhotoViewModels(
+            Collection<PropertyPhoto> propertyPhotos) {
+        List<PropertyPhotoViewModel> propertyPhotoViewModels = new ArrayList<>();
+        for (PropertyPhoto propertyPhoto : propertyPhotos) {
+            propertyPhotoViewModels.add(propertyPhotoViewModelAssembler.assemble(propertyPhoto));
         }
-        return propertyPhotoViewModelList;
+        return propertyPhotoViewModels;
     }
 
 }

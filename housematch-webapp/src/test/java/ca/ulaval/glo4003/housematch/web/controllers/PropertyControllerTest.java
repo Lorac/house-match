@@ -212,7 +212,7 @@ public class PropertyControllerTest extends BaseControllerTest {
         when(propertyServiceMock.getPropertiesForSale(any(PropertySortColumn.class), any(SortOrder.class)))
                 .thenReturn(SAMPLE_PROPERTY_LIST);
         performGetRequest(PropertyController.PROPERTY_SEARCH_URL);
-        verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_LIST);
+        verify(propertyListViewModelAssemblerMock).assemble(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -277,7 +277,7 @@ public class PropertyControllerTest extends BaseControllerTest {
 
         mockMvc.perform(getRequest);
 
-        verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_LIST);
+        verify(propertyListViewModelAssemblerMock).assemble(SAMPLE_PROPERTY_LIST);
     }
 
     @Test
@@ -298,7 +298,7 @@ public class PropertyControllerTest extends BaseControllerTest {
     public void propertyControllerAssemblesTheViewModelFromTheFavoritePropertyListDuringPropertiesViewAccess() throws Exception {
         when(userMock.getFavoriteProperties()).thenReturn(SAMPLE_PROPERTY_SET);
         performGetRequest(PropertyController.FAVORITE_PROPERTIES_VIEW_URL);
-        verify(propertyListViewModelAssemblerMock).assembleFromPropertyCollection(SAMPLE_PROPERTY_SET);
+        verify(propertyListViewModelAssemblerMock).assemble(SAMPLE_PROPERTY_SET);
     }
 
     @Test

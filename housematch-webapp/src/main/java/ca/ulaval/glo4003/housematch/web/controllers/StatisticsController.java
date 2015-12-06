@@ -40,7 +40,7 @@ public class StatisticsController {
 
     @RequestMapping(value = STATISTICS_URL, method = RequestMethod.GET)
     private ModelAndView displayStatisticsView(HttpSession httpSession, ModelMap modelMap) {
-        StatisticsViewModel viewModel = statisticsViewModelAssembler.assembleFromStatistics(propertyStatisticsService.getStatistics(),
+        StatisticsViewModel viewModel = statisticsViewModelAssembler.assemble(propertyStatisticsService.getStatistics(),
                 userStatisticsService.getStatistics());
         return new ModelAndView(STATISTICS_VIEW_NAME, StatisticsViewModel.NAME, viewModel);
     }

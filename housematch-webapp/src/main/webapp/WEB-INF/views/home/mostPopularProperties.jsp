@@ -36,6 +36,3 @@
         <p>There are no most visited properties for the selected category.</p>
     </c:otherwise>
 </c:choose>
-
-<!-- Custom JavaScript for this page -->
-<script src="/resources/js/components/property-thumbnail-loader.js"></script>

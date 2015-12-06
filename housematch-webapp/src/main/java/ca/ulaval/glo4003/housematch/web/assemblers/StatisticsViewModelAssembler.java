@@ -6,7 +6,7 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.StatisticsViewModel;
 
 public class StatisticsViewModelAssembler {
 
-    public StatisticsViewModel assembleFromStatistics(PropertyStatistics propertyStatistics, UserStatistics userStatistics) {
+    public StatisticsViewModel assemble(PropertyStatistics propertyStatistics, UserStatistics userStatistics) {
         StatisticsViewModel statisticsViewModel = new StatisticsViewModel();
         statisticsViewModel.setPropertyStatistics(propertyStatistics);
         statisticsViewModel.setUserStatistics(userStatistics);

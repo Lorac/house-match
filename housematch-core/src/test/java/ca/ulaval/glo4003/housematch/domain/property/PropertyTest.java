@@ -115,6 +115,16 @@ public class PropertyTest {
     }
 
     @Test
+    public void checkingIfPropertyIsOfTheSpecifiedTypeReturnsTrueWhenItIsOfTheSpecifiedType() {
+        assertTrue(property.isOfType(SAMPLE_PROPERTY_TYPE));
+    }
+
+    @Test
+    public void checkingIfPropertyIsOfTheSpecifiedTypeReturnsFalseWhenItIsNotOfTheSpecifiedType() {
+        assertFalse(property.isOfType(ANOTHER_SAMPLE_PROPERTY_TYPE));
+    }
+
+    @Test
     public void gettingTheAddressGetsTheAddress() {
         assertEquals(addressMock, property.getAddress());
     }
@@ -134,6 +144,17 @@ public class PropertyTest {
     public void settingTheStatusSetsTheSpecifiedStatus() {
         property.setStatus(SAMPLE_STATUS);
         assertEquals(SAMPLE_STATUS, property.getStatus());
+    }
+
+    @Test
+    public void checkingIfPropertyHasTheSpecifiedStatusReturnsTrueWhenItHasTheSpecifiedStatus() {
+        property.setStatus(SAMPLE_STATUS);
+        assertTrue(property.hasStatus(SAMPLE_STATUS));
+    }
+
+    @Test
+    public void checkingIfPropertyHasTheSpecifiedStatusReturnsFalseWhenItHasNotTheSpecifiedStatus() {
+        assertFalse(property.hasStatus(SAMPLE_STATUS));
     }
 
     @Test

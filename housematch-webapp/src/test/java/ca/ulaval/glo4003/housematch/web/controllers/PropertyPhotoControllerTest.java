@@ -45,7 +45,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     private PropertyPhotoController propertyPhotoController;
     private List<PropertyPhoto> propertyPhotos = new ArrayList<>();
     private String samplePhotoDeleteUrl;
-    private String sampleThumbnailDownloadUrl;
+    private String sampleThumbnailUrl;
     private String sampleApproveUrl;
     private String sampleRejectUrl;
 
@@ -77,7 +77,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
 
     private void initSampleUrls() {
         samplePhotoDeleteUrl = PropertyPhotoController.PHOTO_DELETE_BASE_URL + propertyMock.hashCode() + "/" + SAMPLE_PHOTO_HASH_CODE;
-        sampleThumbnailDownloadUrl = PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL + SAMPLE_PHOTO_HASH_CODE;
+        sampleThumbnailUrl = PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL + SAMPLE_PHOTO_HASH_CODE;
         sampleApproveUrl = PropertyPhotoController.PHOTO_APPROVE_BASE_URL + SAMPLE_PHOTO_HASH_CODE;
         sampleRejectUrl = PropertyPhotoController.PHOTO_REJECT_BASE_URL + SAMPLE_PHOTO_HASH_CODE;
     }
@@ -108,14 +108,14 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
 
     @Test
     public void propertyPhotoControllerRetrievesThePhotoThumbnailDataDuringPhotoThumbnailDownloadRequest() throws Exception {
-        performGetRequest(sampleThumbnailDownloadUrl);
+        performGetRequest(sampleThumbnailUrl);
         verify(propertyPhotoServiceMock).getPhotoThumbnailData(SAMPLE_PHOTO_HASH_CODE);
     }
 
     @Test
     public void propertyPhotoControllerReturnsPhotoThumbnailDataDuringPhotoThumbnailDownloadRequest() throws Exception {
         when(propertyPhotoServiceMock.getPhotoThumbnailData(SAMPLE_PHOTO_HASH_CODE)).thenReturn(SAMPLE_BYTES);
-        ResultActions results = performGetRequest(sampleThumbnailDownloadUrl);
+        ResultActions results = performGetRequest(sampleThumbnailUrl);
         results.andExpect(content().bytes(SAMPLE_BYTES));
     }
 
@@ -156,7 +156,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     public void propertyPhotoControllerAssemblesThePhotoListViewModelUsingTheAssemblerDuringPhotoReviewRequest() throws Exception {
         when(propertyPhotoServiceMock.getPhotosWaitingForApproval()).thenReturn(propertyPhotos);
         performGetRequest(PropertyPhotoController.PHOTO_REVIEW_URL);
-        verify(propertyPhotoListViewModelAssemblerMock).assembleFromCollection(propertyPhotos);
+        verify(propertyPhotoListViewModelAssemblerMock).assemble(propertyPhotos);
     }
 
     @Test

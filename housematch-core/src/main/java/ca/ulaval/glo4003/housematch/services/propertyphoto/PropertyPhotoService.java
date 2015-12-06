@@ -3,8 +3,6 @@ package ca.ulaval.glo4003.housematch.services.propertyphoto;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
-
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
@@ -30,7 +28,7 @@ public class PropertyPhotoService {
     public byte[] getPhotoThumbnailData(int photoHashCode) throws PropertyPhotoServiceException {
         try {
             PropertyPhoto propertyPhoto = propertyPhotoRepository.getByHashCode(photoHashCode);
-            return Base64.encodeBase64(propertyPhotoRepository.getThumbnailData(propertyPhoto));
+            return propertyPhotoRepository.getThumbnailData(propertyPhoto);
         } catch (IOException | PropertyPhotoNotFoundException e) {
             throw new PropertyPhotoServiceException(e);
         }

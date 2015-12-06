@@ -19,14 +19,14 @@ public class PropertyPhotoListViewModelAssemblerTest {
 
     private PropertyPhotoListViewModelAssembler propertyPhotoListViewModelAssembler;
     private PropertyPhotoViewModelAssembler propertyPhotoViewModelAssemblerMock;
-    private Collection<PropertyPhoto> propertyPhotoCollection = new ArrayList<>();
+    private Collection<PropertyPhoto> propertyPhotos = new ArrayList<>();
     private PropertyPhotoViewModel propertyPhotoViewModelMock;
     private PropertyPhoto propertyPhotoMock;
 
     @Before
     public void init() {
         initMocks();
-        propertyPhotoCollection.add(propertyPhotoMock);
+        propertyPhotos.add(propertyPhotoMock);
         propertyPhotoListViewModelAssembler = new PropertyPhotoListViewModelAssembler(propertyPhotoViewModelAssemblerMock);
     }
 
@@ -37,9 +37,9 @@ public class PropertyPhotoListViewModelAssemblerTest {
     }
 
     @Test
-    public void assemblesTheViewModelFromTheSpecifiedPropertyPhotoList() {
+    public void assemblesTheViewModelFromTheSpecifiedPropertyPhotos() {
         when(propertyPhotoViewModelAssemblerMock.assemble(propertyPhotoMock)).thenReturn(propertyPhotoViewModelMock);
-        PropertyPhotoListViewModel viewModel = propertyPhotoListViewModelAssembler.assembleFromCollection(propertyPhotoCollection);
+        PropertyPhotoListViewModel viewModel = propertyPhotoListViewModelAssembler.assemble(propertyPhotos);
         assertThat(viewModel.getPropertyPhotoViewModels(), contains(propertyPhotoViewModelMock));
     }
 }

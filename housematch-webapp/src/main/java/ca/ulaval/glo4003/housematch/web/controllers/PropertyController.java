@@ -121,7 +121,7 @@ public class PropertyController extends BaseController {
     @RequestMapping(value = PROPERTIES_FOR_SALE_LIST_URL, method = RequestMethod.GET)
     public final ModelAndView listPropertiesForSale(ModelMap modelMap, HttpSession httpSession) {
         Set<Property> properties = userService.getPropertiesForSale(getUserFromHttpSession(httpSession));
-        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyCollection(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assemble(properties));
         return new ModelAndView(PROPERTIES_FOR_SALE_LIST_VIEW_NAME, modelMap);
     }
 
@@ -130,7 +130,7 @@ public class PropertyController extends BaseController {
             @RequestParam(value = "sortColumn", defaultValue = "NONE") PropertySortColumn sortColumn,
             @RequestParam(value = "sortOrder", defaultValue = "NONE") SortOrder sortOrder) {
         List<Property> properties = propertyService.getPropertiesForSale(sortColumn, sortOrder);
-        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assembleFromPropertyCollection(properties));
+        modelMap.put(PropertyListViewModel.NAME, propertyListViewModelAssembler.assemble(properties));
         return new ModelAndView(PROPERTY_SEARCH_VIEW_NAME, modelMap);
     }
 
@@ -150,14 +150,14 @@ public class PropertyController extends BaseController {
     @RequestMapping(value = MOST_POPULAR_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayMostPopularProperties(@RequestParam("propertyType") PropertyType propertyType) {
         List<Property> properties = propertyService.getMostPopularProperties(propertyType, MOST_POPULAR_PROPERTIES_DISPLAY_LIMIT);
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(properties);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assemble(properties);
         return new ModelAndView(MOST_POPULAR_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 
     @RequestMapping(value = FAVORITE_PROPERTIES_VIEW_URL, method = RequestMethod.GET)
     public final ModelAndView displayFavoriteProperties(HttpSession httpSession) {
         Set<Property> favoriteProperties = userService.getFavoritePropertiesForSale(getUserFromHttpSession(httpSession));
-        PropertyListViewModel viewModel = propertyListViewModelAssembler.assembleFromPropertyCollection(favoriteProperties);
+        PropertyListViewModel viewModel = propertyListViewModelAssembler.assemble(favoriteProperties);
         return new ModelAndView(FAVORITE_PROPERTIES_VIEW_NAME, PropertyListViewModel.NAME, viewModel);
     }
 

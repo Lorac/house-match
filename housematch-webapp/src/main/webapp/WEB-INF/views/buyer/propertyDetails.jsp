@@ -17,7 +17,7 @@ var bodyOnLoad = function() {
 	<c:if test="${not empty property.photos}">
         var photoManager = new PhotoManager($("#property-photo-manager"), false, false, false);
         <c:forEach var="photo" items="${property.photos}">
-            photoManager.addPhoto(${photo.hashCode()}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_DOWNLOAD_URL %>${photo.hashCode()}/");
+            photoManager.addPhoto(${photo.hashCode()}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${photo.hashCode()}/");
         </c:forEach>
     </c:if>
 }

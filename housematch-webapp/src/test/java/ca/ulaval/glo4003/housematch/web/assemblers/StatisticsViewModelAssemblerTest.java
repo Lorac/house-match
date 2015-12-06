@@ -30,7 +30,7 @@ public class StatisticsViewModelAssemblerTest {
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedProperty() {
-        StatisticsViewModel viewModel = assembler.assembleFromStatistics(propertyStatisticsMock, userStatisticsMock);
+        StatisticsViewModel viewModel = assembler.assemble(propertyStatisticsMock, userStatisticsMock);
 
         assertSame(propertyStatisticsMock, viewModel.getPropertyStatistics());
         assertSame(userStatisticsMock, viewModel.getUserStatistics());

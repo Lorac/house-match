@@ -61,8 +61,5 @@
     </div>
 
     <%@include file="/WEB-INF/includes/footer.jsp"%>
-
-    <!-- Custom JavaScript for this page -->
-    <script src="/resources/js/components/property-thumbnail-loader.js"></script>
 </body>
 </html>
