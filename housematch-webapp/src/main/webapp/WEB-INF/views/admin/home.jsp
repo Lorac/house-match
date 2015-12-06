@@ -1,7 +1,7 @@
-<%@ page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyController"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <%@page import="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController"%>
 
