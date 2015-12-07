@@ -102,7 +102,7 @@ public class PropertyController extends BaseController {
             modelMap.put(PropertyViewModel.NAME, propertyViewModelAssembler.assemble(property, Optional.of(user)));
             return new ModelAndView(PROPERTY_UPDATE_VIEW_NAME);
         } catch (PropertyNotFoundException e) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(e);
         }
     }
 
@@ -143,7 +143,7 @@ public class PropertyController extends BaseController {
             return new ModelAndView(PROPERTY_VIEW_NAME, PropertyViewModel.NAME,
                     propertyViewModelAssembler.assemble(property, Optional.ofNullable(user)));
         } catch (PropertyNotFoundException e) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(e);
         }
     }
 
@@ -163,9 +163,12 @@ public class PropertyController extends BaseController {
 
     @RequestMapping(value = PROPERTY_FAVORITING_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public final void addPropertyToFavorites(@PathVariable int propertyHashCode, HttpSession httpSession) throws Exception {
-        Property property = propertyService.getPropertyByHashCode(propertyHashCode);
-        User user = getUserFromHttpSession(httpSession);
-        userService.addFavoritePropertyToUser(user, property);
+    public final void addPropertyToFavorites(@PathVariable int propertyHashCode, HttpSession httpSession) {
+        try {
+            Property property = propertyService.getPropertyByHashCode(propertyHashCode);
+            userService.addFavoritePropertyToUser(getUserFromHttpSession(httpSession), property);
+        } catch (PropertyNotFoundException e) {
+            throw new ResourceNotFoundException(e);
+        }
     }
 }

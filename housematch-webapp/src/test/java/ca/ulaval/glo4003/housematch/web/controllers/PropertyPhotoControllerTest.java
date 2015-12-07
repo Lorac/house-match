@@ -22,6 +22,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.services.property.PropertyService;
 import ca.ulaval.glo4003.housematch.services.propertyphoto.PropertyPhotoService;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
@@ -101,8 +103,15 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     }
 
     @Test(expected = ResourceNotFoundException.class)
-    public void propertyPhotoControllerReturnsHttpStatusNotFoundOnInvalidHashCodeDuringPhotoUploadRequest() throws Exception {
+    public void propertyPhotoControllerReturnsNotFoundHttpStatusOnInvalidHashCodeDuringPhotoUploadRequest() throws Exception {
         doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
+        propertyPhotoController.uploadPropertyPhoto(propertyMock.hashCode(), multipartFileMock, mockHttpSession);
+    }
+
+    @Test(expected = ResourceConflictException.class)
+    public void propertyPhotoControllerReturnsConflictHttpStatusOnPropertyPhotoAlreadyExistsExceptionDuringPhotoUploadRequest()
+            throws Exception {
+        doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES);
         propertyPhotoController.uploadPropertyPhoto(propertyMock.hashCode(), multipartFileMock, mockHttpSession);
     }
 
@@ -120,6 +129,14 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     }
 
     @Test
+    public void propertyPhotoControllerReturnsNotFoundHttpStatusOnPropertyPhotoNotFoundExceptionDuringPhotoThumbnailDownloadRequest()
+            throws Exception {
+        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoServiceMock).getPhotoThumbnailData(SAMPLE_PHOTO_HASH_CODE);
+        ResultActions results = performGetRequest(sampleThumbnailUrl);
+        results.andExpect(status().isNotFound());
+    }
+
+    @Test
     public void propertyPhotoControllerRetrievesPropertyForSaleFromPropertyServiceDuringPhotoDeleteRequest() throws Exception {
         performPostRequest(samplePhotoDeleteUrl);
         verify(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
@@ -132,9 +149,24 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyPhotoControllerReturnsHttpOkStatusUponSuccessfulPhotoDeleteRequest() throws Exception {
+    public void propertyPhotoControllerReturnsOkHttpStatusUponSuccessfulPhotoDeleteRequest() throws Exception {
         ResultActions results = performPostRequest(samplePhotoDeleteUrl);
         results.andExpect(status().isOk());
+    }
+
+    @Test
+    public void propertyPhotoControllerReturnsNotFoundHttpStatusOnPropertyNotFoundExceptionDuringPhotoDeleteRequest() throws Exception {
+        doThrow(new PropertyNotFoundException()).when(userServiceMock).getPropertyForSaleByHashCode(userMock, propertyMock.hashCode());
+        ResultActions results = performPostRequest(samplePhotoDeleteUrl);
+        results.andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void propertyPhotoControllerReturnsNotFoundHttpStatusOnPropertyPhotoNotFoundExceptionDuringPhotoDeleteRequest()
+            throws Exception {
+        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoServiceMock).removePhoto(propertyMock, SAMPLE_PHOTO_HASH_CODE);
+        ResultActions results = performPostRequest(samplePhotoDeleteUrl);
+        results.andExpect(status().isNotFound());
     }
 
     @Test
@@ -166,9 +198,17 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyPhotoControllerReturnsHttpOkStatusUponSuccessfulPhotoApprovalRequest() throws Exception {
+    public void propertyPhotoControllerReturnsOkHttpStatusUponSuccessfulPhotoApprovalRequest() throws Exception {
         ResultActions results = performPostRequest(sampleApproveUrl);
         results.andExpect(status().isOk());
+    }
+
+    @Test
+    public void propertyPhotoControllerReturnsNotFoundHttpStatusOnPropertyPhotoNotFoundExceptionDuringPhotoApprovalRequest()
+            throws Exception {
+        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoServiceMock).approvePhoto(SAMPLE_PHOTO_HASH_CODE);
+        ResultActions results = performPostRequest(sampleApproveUrl);
+        results.andExpect(status().isNotFound());
     }
 
     @Test
@@ -178,8 +218,16 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     }
 
     @Test
-    public void propertyPhotoControllerReturnsHttpOkStatusUponSuccessfulPhotoRejectionRequest() throws Exception {
+    public void propertyPhotoControllerReturnsOkHttpStatusUponSuccessfulPhotoRejectionRequest() throws Exception {
         ResultActions results = performPostRequest(sampleRejectUrl);
         results.andExpect(status().isOk());
+    }
+
+    @Test
+    public void propertyPhotoControllerReturnsNotFoundHttpStatusOnPropertyPhotoNotFoundExceptionDuringPhotoRejectionRequest()
+            throws Exception {
+        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoServiceMock).rejectPhoto(SAMPLE_PHOTO_HASH_CODE);
+        ResultActions results = performPostRequest(sampleRejectUrl);
+        results.andExpect(status().isNotFound());
     }
 }

@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExistsException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.services.propertyphoto.PropertyPhotoService;
 import ca.ulaval.glo4003.housematch.services.user.UserService;
 import ca.ulaval.glo4003.housematch.web.assemblers.PropertyPhotoListViewModelAssembler;
@@ -69,22 +71,32 @@ public class PropertyPhotoController extends BaseController {
             Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
             return propertyPhotoService.addPhoto(property, file.getBytes()).toString();
         } catch (PropertyNotFoundException e) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(e);
+        } catch (PropertyPhotoAlreadyExistsException e) {
+            throw new ResourceConflictException(e);
         }
     }
 
     @RequestMapping(value = PHOTO_THUMBNAIL_URL, method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
     @ResponseBody
     public final byte[] downloadPropertyPhotoThumbnail(@PathVariable int photoHashCode) throws Exception {
-        return propertyPhotoService.getPhotoThumbnailData(photoHashCode);
+        try {
+            return propertyPhotoService.getPhotoThumbnailData(photoHashCode);
+        } catch (PropertyPhotoNotFoundException e) {
+            throw new ResourceNotFoundException(e);
+        }
     }
 
     @RequestMapping(value = PHOTO_DELETE_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public final void deletePropertyPhotoThumbnail(@PathVariable int propertyHashCode, @PathVariable int photoHashCode,
             HttpSession httpSession) throws Exception {
-        Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
-        propertyPhotoService.removePhoto(property, photoHashCode);
+        try {
+            Property property = userService.getPropertyForSaleByHashCode(getUserFromHttpSession(httpSession), propertyHashCode);
+            propertyPhotoService.removePhoto(property, photoHashCode);
+        } catch (PropertyNotFoundException | PropertyPhotoNotFoundException e) {
+            throw new ResourceNotFoundException(e);
+        }
     }
 
     @RequestMapping(value = PHOTO_REVIEW_URL, method = RequestMethod.GET)
@@ -96,14 +108,22 @@ public class PropertyPhotoController extends BaseController {
 
     @RequestMapping(value = PHOTO_APPROVE_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    public final void approvePhoto(@PathVariable int photoHashCode) throws Exception {
-        propertyPhotoService.approvePhoto(photoHashCode);
+    public final void approvePhoto(@PathVariable int photoHashCode) {
+        try {
+            propertyPhotoService.approvePhoto(photoHashCode);
+        } catch (PropertyPhotoNotFoundException e) {
+            throw new ResourceNotFoundException(e);
+        }
     }
 
     @RequestMapping(value = PHOTO_REJECT_URL, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public final void rejectPhoto(@PathVariable int photoHashCode) throws Exception {
-        propertyPhotoService.rejectPhoto(photoHashCode);
+        try {
+            propertyPhotoService.rejectPhoto(photoHashCode);
+        } catch (PropertyPhotoNotFoundException e) {
+            throw new ResourceNotFoundException(e);
+        }
     }
 
 }

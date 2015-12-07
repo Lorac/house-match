@@ -48,4 +48,9 @@ public class BaseController {
     public void resourceNotFoundExceptionHandler(HttpServletResponse response) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value(), "The specified resource could not be found.");
     }
+
+    @ExceptionHandler(ResourceConflictException.class)
+    public void resourceConflictExceptionHandler(HttpServletResponse response) throws IOException {
+        response.sendError(HttpStatus.CONFLICT.value(), "The specified resource already exists.");
+    }
 }

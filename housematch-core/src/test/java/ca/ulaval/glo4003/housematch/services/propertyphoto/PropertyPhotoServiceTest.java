@@ -18,9 +18,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyRepository;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
-import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExistsException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoFactory;
-import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoRepository;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 
@@ -67,15 +65,9 @@ public class PropertyPhotoServiceTest {
     }
 
     @Test
-    public void gettingPhotoThumbnailDataGetsThumbnailDataFromThePropertyPhotoRepositor() throws Exception {
+    public void gettingPhotoThumbnailDataGetsThumbnailDataFromThePropertyPhotoRepository() throws Exception {
         propertyPhotoService.getPhotoThumbnailData(SAMPLE_HASH_CODE);
         verify(propertyPhotoRepositoryMock).getThumbnailData(propertyPhotoMock);
-    }
-
-    @Test(expected = PropertyPhotoServiceException.class)
-    public void gettingPhotoThrowsPropertyPhotoServiceExceptionOnPropertyPhotoNotFoundExistsException() throws Exception {
-        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoRepositoryMock).getByHashCode(SAMPLE_HASH_CODE);
-        propertyPhotoService.getPhotoThumbnailData(SAMPLE_HASH_CODE);
     }
 
     @Test(expected = PropertyPhotoServiceException.class)
@@ -115,12 +107,6 @@ public class PropertyPhotoServiceTest {
     }
 
     @Test(expected = PropertyPhotoServiceException.class)
-    public void addingPhotoThrowsPropertyPhotoServiceExceptionOnPropertyPhotoAlreadyExistsException() throws Exception {
-        doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoRepositoryMock).persist(propertyPhotoMock, SAMPLE_BYTES);
-        propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
-    }
-
-    @Test(expected = PropertyPhotoServiceException.class)
     public void addingPhotoThrowsPropertyPhotoServiceExceptionOnIOException() throws Exception {
         doThrow(new IOException()).when(propertyPhotoRepositoryMock).persist(propertyPhotoMock, SAMPLE_BYTES);
         propertyPhotoService.addPhoto(propertyMock, SAMPLE_BYTES);
@@ -151,12 +137,6 @@ public class PropertyPhotoServiceTest {
     }
 
     @Test(expected = PropertyPhotoServiceException.class)
-    public void removingPhotoThrowsPropertyPhotoServiceExceptionOnPropertyPhotoNotFoundExistsException() throws Exception {
-        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoRepositoryMock).delete(propertyPhotoMock);
-        propertyPhotoService.removePhoto(propertyMock, SAMPLE_HASH_CODE);
-    }
-
-    @Test(expected = PropertyPhotoServiceException.class)
     public void removingPhotoThrowsPropertyPhotoServiceExceptionOnIOException() throws Exception {
         doThrow(new IOException()).when(propertyPhotoRepositoryMock).delete(propertyPhotoMock);
         propertyPhotoService.removePhoto(propertyMock, SAMPLE_HASH_CODE);
@@ -180,12 +160,6 @@ public class PropertyPhotoServiceTest {
         verify(propertyPhotoRepositoryMock).update(propertyPhotoMock);
     }
 
-    @Test(expected = PropertyPhotoServiceException.class)
-    public void approvingPhotoThrowsPropertyPhotoServiceExceptionOnPropertyPhotoNotFoundException() throws Exception {
-        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoRepositoryMock).getByHashCode(SAMPLE_HASH_CODE);
-        propertyPhotoService.approvePhoto(SAMPLE_HASH_CODE);
-    }
-
     @Test
     public void rejectingPhotoGetsThePhotoFromThePropertyPhotoRepository() throws Exception {
         propertyPhotoService.rejectPhoto(SAMPLE_HASH_CODE);
@@ -205,9 +179,10 @@ public class PropertyPhotoServiceTest {
     }
 
     @Test(expected = PropertyPhotoServiceException.class)
-    public void rejectingPhotoThrowsPropertyPhotoServiceExceptionOnPropertyPhotoNotFoundException() throws Exception {
-        doThrow(new PropertyPhotoNotFoundException()).when(propertyPhotoRepositoryMock).getByHashCode(SAMPLE_HASH_CODE);
+    public void rejectingPhotoThrowsPropertyPhotoServiceExceptionOnIOException() throws Exception {
+        doThrow(new IOException()).when(propertyPhotoRepositoryMock).delete(propertyPhotoMock);
         propertyPhotoService.rejectPhoto(SAMPLE_HASH_CODE);
+        verify(propertyPhotoRepositoryMock).delete(propertyPhotoMock);
     }
 
     @Test

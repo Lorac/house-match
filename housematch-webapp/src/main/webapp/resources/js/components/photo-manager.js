@@ -212,15 +212,19 @@ function PhotoManager(element, uploadEnabled, reviewEnabled, deleteEnabled, uplo
     function executeAjaxUploadQuery(file, photoGridCell) {
         var formData = new FormData();
         formData.append("file", file);
-        executeAjaxFormDataUpload("POST", uploadUrl, formData, function(photoHashCode) {uploadCompleted(photoHashCode, photoGridCell);},  function(xmlHttpRequest, textStatus, errorThrown) {uploadFailed(photoGridCell, errorThrown);});
+        executeAjaxFormDataUpload("POST", uploadUrl, formData, function(photoHashCode) {uploadCompleted(photoHashCode, photoGridCell);},  function(xmlHttpRequest, textStatus, errorThrown) {uploadFailed(photoGridCell, textStatus, errorThrown);});
     }
 
     function uploadCompleted(photoHashCode, photoGridCell) {
         photoGridCell.showPhoto(photoHashCode, defaultThumbnailBaseUrl + photoHashCode, defaultDeleteBaseUrl + photoHashCode);
     }
     
-    function uploadFailed(photoGridCell, errorThrown) {
+    function uploadFailed(photoGridCell, textStatus, errorThrown) {
     	removePhotoGridCell(photoGridCell);
-    	alert("Upload failed: " + errorThrown);
+		if (errorThrown == "Conflict") {
+	    	alert("Upload failed (" + textStatus + "): The photo already exists.");
+		} else {
+			alert("Upload failed: " + errorThrown );
+		}
     }
 };

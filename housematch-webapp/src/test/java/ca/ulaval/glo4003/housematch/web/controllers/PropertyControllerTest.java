@@ -319,4 +319,11 @@ public class PropertyControllerTest extends BaseControllerTest {
         ResultActions results = performPostRequest(samplePropertyFavoritingUrl);
         results.andExpect(status().isOk());
     }
+
+    @Test
+    public void propertyControllerReturnsNotFoundHttpStatusOnPropertyNotFoundExceptionDuringPropertyFavoriting() throws Exception {
+        doThrow(new PropertyNotFoundException()).when(propertyServiceMock).getPropertyByHashCode(propertyMock.hashCode());
+        ResultActions results = performPostRequest(samplePropertyFavoritingUrl);
+        results.andExpect(status().isNotFound());
+    }
 }
