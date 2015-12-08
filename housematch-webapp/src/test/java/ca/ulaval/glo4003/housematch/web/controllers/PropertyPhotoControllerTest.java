@@ -74,7 +74,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     private void initStubs() throws Exception {
         when(propertyServiceMock.createProperty(any(), any(), any(), any())).thenReturn(propertyMock);
         when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
-        when(propertyPhotoServiceMock.addPhoto(propertyMock, SAMPLE_BYTES, SAMPLE_FILE_NAME)).thenReturn(SAMPLE_PHOTO_HASH_CODE);
+        when(propertyPhotoServiceMock.addPhoto(propertyMock, SAMPLE_BYTES, SAMPLE_ORIGINAL_FILE_NAME)).thenReturn(SAMPLE_PHOTO_HASH_CODE);
     }
 
     private void initSampleUrls() {
@@ -93,7 +93,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     @Test
     public void propertyPhotoControllerAddsThePhotoUsingThePropertyPhotoServiceDuringPhotoUploadRequest() throws Exception {
         propertyPhotoController.uploadPropertyPhoto(propertyMock.hashCode(), multipartFileMock, mockHttpSession);
-        verify(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES, SAMPLE_FILE_NAME);
+        verify(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES, SAMPLE_ORIGINAL_FILE_NAME);
     }
 
     @Test
@@ -112,7 +112,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     public void propertyPhotoControllerReturnsConflictHttpStatusOnPropertyPhotoAlreadyExistsExceptionDuringPhotoUploadRequest()
             throws Exception {
         doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES,
-                SAMPLE_FILE_NAME);
+                SAMPLE_ORIGINAL_FILE_NAME);
         propertyPhotoController.uploadPropertyPhoto(propertyMock.hashCode(), multipartFileMock, mockHttpSession);
     }
 
