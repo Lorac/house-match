@@ -8,10 +8,6 @@ public class UserActivationServiceException extends Exception {
         super();
     }
 
-    public UserActivationServiceException(final Exception e) {
-        super(e.getMessage(), e);
-    }
-
     public UserActivationServiceException(final String message) {
         super(message);
     }

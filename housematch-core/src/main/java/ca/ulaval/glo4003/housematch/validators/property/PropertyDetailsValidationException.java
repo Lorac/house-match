@@ -12,7 +12,4 @@ public class PropertyDetailsValidationException extends Exception {
         super(message);
     }
 
-    public PropertyDetailsValidationException(final String message, final Exception e) {
-        super(message, e);
-    }
 }

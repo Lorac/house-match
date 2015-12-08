@@ -12,8 +12,4 @@ public class PropertyPhotoServiceException extends Exception {
         super(e.getMessage(), e);
     }
 
-    public PropertyPhotoServiceException(final String message, final Exception e) {
-        super(message, e);
-    }
-
 }

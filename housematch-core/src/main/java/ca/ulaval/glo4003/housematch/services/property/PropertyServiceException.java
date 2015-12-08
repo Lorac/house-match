@@ -12,8 +12,4 @@ public class PropertyServiceException extends Exception {
         super(e.getMessage(), e);
     }
 
-    public PropertyServiceException(final String message, final Exception e) {
-        super(message, e);
-    }
-
 }

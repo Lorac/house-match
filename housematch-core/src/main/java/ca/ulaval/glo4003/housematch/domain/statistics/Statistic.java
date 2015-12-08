@@ -2,9 +2,9 @@ package ca.ulaval.glo4003.housematch.domain.statistics;
 
 public class Statistic<T> {
 
-    protected String statisticName;
-    protected T value;
-    protected StatisticsRepository statisticsRepository;
+    private String statisticName;
+    private T value;
+    private StatisticsRepository statisticsRepository;
 
     @SuppressWarnings("unchecked")
     public Statistic(final String statisticName, final T initialValue, final StatisticsRepository statisticsRepository) {
