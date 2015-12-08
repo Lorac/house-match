@@ -35,6 +35,15 @@ public class DemoContext extends ContextBase {
 
     @Override
     protected void applyFillers() throws Exception {
+        if (!userRepository.isEmpty() || !userRepository.isEmpty()) {
+            System.out.println("Repositories are not empty: Skipping demo context repository filling.");
+            return;
+        }
+
+        fillRepositories();
+    }
+
+    private void fillRepositories() throws PropertyAlreadyExistsException, UserAlreadyExistsException {
         User buyer1 = userFactory.createUser("buyer1", "o.robert@hotmail.com", "1234", UserRole.BUYER);
         User buyer2 = userFactory.createUser("buyer2", "buyer2@gmail.com", "1234", UserRole.BUYER);
         User seller1 = userFactory.createUser("seller1", "o.robert@hotmail.com", "1234", UserRole.SELLER);

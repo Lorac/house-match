@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -129,4 +131,14 @@ public class XmlPropertyRepositoryTest {
         assertThat(properties, containsInAnyOrder(propertyMock));
     }
 
+    @Test
+    public void checkingIfRepositoryIsEmptyReturnsTrueWhenRepositoryIsEmpty() {
+        assertTrue(xmlPropertyRepository.isEmpty());
+    }
+
+    @Test
+    public void checkingIfRepositoryIsEmptyReturnsFalseWhenRepositoryIsNotEmpty() throws Exception {
+        xmlPropertyRepository.persist(propertyMock);
+        assertFalse(xmlPropertyRepository.isEmpty());
+    }
 }

@@ -1,8 +1,10 @@
 package ca.ulaval.glo4003.housematch.persistence.user;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyCollectionOf;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -126,5 +128,16 @@ public class XmlUserRepositoryTest {
         List<User> users = xmlUserRepository.getAll();
 
         assertThat(users, containsInAnyOrder(userMock, anotherUserMock));
+    }
+
+    @Test
+    public void checkingIfRepositoryIsEmptyReturnsTrueWhenRepositoryIsEmpty() {
+        assertTrue(xmlUserRepository.isEmpty());
+    }
+
+    @Test
+    public void checkingIfRepositoryIsEmptyReturnsFalseWhenRepositoryIsNotEmpty() throws Exception {
+        xmlUserRepository.persist(userMock);
+        assertFalse(xmlUserRepository.isEmpty());
     }
 }

@@ -13,4 +13,6 @@ public interface PropertyRepository {
     List<Property> getByStatus(PropertyStatus propertyStatus);
 
     List<Property> getByType(PropertyType propertyType);
+
+    Boolean isEmpty();
 }

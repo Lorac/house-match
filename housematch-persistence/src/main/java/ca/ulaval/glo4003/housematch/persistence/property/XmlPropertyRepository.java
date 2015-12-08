@@ -72,8 +72,14 @@ public class XmlPropertyRepository implements PropertyRepository {
         return properties.values().stream().filter(p -> p.isOfType(propertyType)).collect(Collectors.toList());
     }
 
+    @Override
+    public Boolean isEmpty() {
+        return properties.isEmpty();
+    }
+
     private void marshal() {
         xmlPropertyRootElement.setProperties(properties.values());
         xmlRepositoryMarshaller.marshal(xmlPropertyRootElement);
     }
+
 }
