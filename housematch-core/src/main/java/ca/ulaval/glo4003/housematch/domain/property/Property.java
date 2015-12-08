@@ -160,6 +160,14 @@ public class Property extends PropertyObservable implements PropertyPhotoObserve
     public Optional<PropertyPhoto> getMainPhoto() {
         return getApprovedPhotos().stream().findFirst();
     }
+    
+    @Override
+    public void propertyPhotoStatusChanged(Object sender, PropertyPhotoStatus newStatus) {
+        if (newStatus == PropertyPhotoStatus.REJECTED) {
+            removePhoto((PropertyPhoto) sender);
+            propertyPhotoRejected(this, (PropertyPhoto) sender);
+        }
+    }
 
     @Override
     public int hashCode() {
@@ -182,13 +190,5 @@ public class Property extends PropertyObservable implements PropertyPhotoObserve
     @Override
     public String toString() {
         return address.toString();
-    }
-
-    @Override
-    public void propertyPhotoStatusChanged(Object sender, PropertyPhotoStatus newStatus) {
-        if (newStatus == PropertyPhotoStatus.REJECTED) {
-            removePhoto((PropertyPhoto) sender);
-            propertyPhotoRejected(this, (PropertyPhoto) sender);
-        }
     }
 }

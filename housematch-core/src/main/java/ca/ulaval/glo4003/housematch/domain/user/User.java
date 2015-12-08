@@ -24,10 +24,6 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable implements PropertyObserver {
-    private static final String FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION = "The details of a property you favorited (%s) have changed.";
-    private static final String PROPERTY_PHOTO_REJECTED_EVENT_DESCRIPTION
-        = "The photo '%s' of your property for sale (%s) has been rejected.";
-
     static final Integer INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
     private NotificationFactory notificationFactory;
@@ -166,6 +162,10 @@ public class User extends UserObservable implements PropertyObserver {
         return this.role.equals(role);
     }
 
+    public boolean usernameEquals(String username) {
+        return this.username.equalsIgnoreCase(username);
+    }
+
     public void validatePassword(String password) throws InvalidPasswordException {
         if (!this.passwordHash.equals(stringHasher.hash(password))) {
             throw new InvalidPasswordException("Password does not match.");
@@ -246,6 +246,27 @@ public class User extends UserObservable implements PropertyObserver {
     }
 
     @Override
+    public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
+        Property property = (Property) sender;
+        String eventDescription = String.format("The details of a property you favorited (%s) have changed.", property.toString());
+        Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_MODIFIED, eventDescription);
+        notify(notification);
+    }
+
+    @Override
+    public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
+        String eventDescription = String.format("The photo '%s' of your property for sale (%s) has been rejected.",
+                propertyPhoto.toString(), ((Property) sender).toString());
+        Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, eventDescription);
+        notify(notification);
+    }
+
+    @Override
+    public void propertyStatusChanged(Object sender, PropertyStatus newStatus) {
+        // Event intentionally ignored.
+    }
+
+    @Override
     public int hashCode() {
         return username.toLowerCase().hashCode();
     }
@@ -263,28 +284,4 @@ public class User extends UserObservable implements PropertyObserver {
         return new EqualsBuilder().append(username.toLowerCase(), user.getUsername().toLowerCase()).isEquals();
     }
 
-    public boolean usernameEquals(String username) {
-        return this.username.equalsIgnoreCase(username);
-    }
-
-    @Override
-    public void propertyStatusChanged(Object sender, PropertyStatus newStatus) {
-        // Event intentionally ignored.
-    }
-
-    @Override
-    public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
-        Property property = (Property) sender;
-        String eventDescription = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
-        Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_MODIFIED, eventDescription);
-        notify(notification);
-    }
-
-    @Override
-    public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
-        Property property = (Property) sender;
-        String eventDescription = String.format(PROPERTY_PHOTO_REJECTED_EVENT_DESCRIPTION, propertyPhoto.toString(), property.toString());
-        Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, eventDescription);
-        notify(notification);
-    }
 }
