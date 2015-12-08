@@ -25,7 +25,8 @@ import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable implements PropertyObserver {
     private static final String FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION = "The details of a property you favorited (%s) have changed.";
-    private static final String PROPERTY_PHOTO_REJECTED_EVENT_DESCRIPTION = "The photo '%s' of your property for sale (%s) has been rejected.";
+    private static final String PROPERTY_PHOTO_REJECTED_EVENT_DESCRIPTION
+        = "The photo '%s' of your property for sale (%s) has been rejected.";
 
     static final Integer INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
