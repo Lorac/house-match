@@ -14,7 +14,7 @@ public class PropertyViewModelAssembler {
 
     private PropertyPhotoViewModelAssembler propertyPhotoViewModelAssembler;
 
-    public PropertyViewModelAssembler(PropertyPhotoViewModelAssembler propertyPhotoViewModelAssembler) {
+    public PropertyViewModelAssembler(final PropertyPhotoViewModelAssembler propertyPhotoViewModelAssembler) {
         this.propertyPhotoViewModelAssembler = propertyPhotoViewModelAssembler;
     }
 
