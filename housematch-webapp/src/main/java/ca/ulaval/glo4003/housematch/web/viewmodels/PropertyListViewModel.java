@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PropertyListViewModel extends ViewModel {
 
-    public static final String NAME = "propertyList";
+    public static final String NAME = "propertyListViewModel";
 
     private List<PropertyViewModel> propertyViewModels;
 

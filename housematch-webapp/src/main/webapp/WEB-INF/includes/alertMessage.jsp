@@ -7,13 +7,13 @@
     </div>
 </c:if>
 
-<c:if test="${not empty alertMessage.message}">
+<c:if test="${not empty alertMessageViewModel.message}">
 	<c:choose>
-		<c:when test="${alertMessage.messageType == 'ERROR'}">
-			<div class="alert alert-danger">${alertMessage.message}</div>
+		<c:when test="${alertMessageViewModel.messageType == 'ERROR'}">
+			<div class="alert alert-danger">${alertMessageViewModel.message}</div>
 		</c:when>
-		<c:when test="${alertMessage.messageType == 'SUCCESS'}">
-			<div class="alert alert-success">${alertMessage.message}</div>
+		<c:when test="${alertMessageViewModel.messageType == 'SUCCESS'}">
+			<div class="alert alert-success">${alertMessageViewModel.message}</div>
 		</c:when>
 	</c:choose>
 </c:if>

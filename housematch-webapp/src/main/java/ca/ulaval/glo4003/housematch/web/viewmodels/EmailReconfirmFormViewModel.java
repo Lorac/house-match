@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 public final class EmailReconfirmFormViewModel extends ViewModel {
 
-    public static final String NAME = "emailReconfirmForm";
+    public static final String NAME = "emailReconfirmFormViewModel";
 
     @NotNull
     private String email;

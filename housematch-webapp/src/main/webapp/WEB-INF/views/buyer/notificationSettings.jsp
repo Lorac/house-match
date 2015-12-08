@@ -44,7 +44,7 @@
                             <form:select path="propertyPutUpForSaleNotificationInterval" class="form-control" tabindex="1">
                                 <c:forEach var="notificationInterval" items="${notificationIntervals}">
                                     <option value="${notificationInterval}"
-                                        ${notificationInterval == notificationSettingsForm.propertyPutUpForSaleNotificationInterval ? 'selected' : ''}>${notificationInterval.displayName}</option>
+                                        ${notificationInterval == notificationSettingsFormViewModel.propertyPutUpForSaleNotificationInterval ? 'selected' : ''}>${notificationInterval.displayName}</option>
                                 </c:forEach>
                             </form:select>
                         </div>
@@ -55,7 +55,7 @@
                             <form:select path="favoritePropertyModificationNotificationInterval" class="form-control" tabindex="1">
                                 <c:forEach var="notificationInterval" items="${notificationIntervals}">
                                     <option value="${notificationInterval}"
-                                        ${notificationInterval == notificationSettingsForm.favoritePropertyModificationNotificationInterval ? 'selected' : ''}>${notificationInterval.displayName}</option>
+                                        ${notificationInterval == notificationSettingsFormViewModel.favoritePropertyModificationNotificationInterval ? 'selected' : ''}>${notificationInterval.displayName}</option>
                                 </c:forEach>
                             </form:select>
                         </div>

@@ -3,7 +3,7 @@ package ca.ulaval.glo4003.housematch.web.viewmodels;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
 
 public class NotificationSettingsFormViewModel extends ViewModel {
-    public static final String NAME = "notificationSettingsForm";
+    public static final String NAME = "notificationSettingsFormViewModel";
 
     private NotificationInterval propertyPutUpForSaleNotificationInterval;
     private NotificationInterval favoritePropertyModificationNotificationInterval;

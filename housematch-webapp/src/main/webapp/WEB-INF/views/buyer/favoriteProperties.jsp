@@ -17,7 +17,7 @@
     <div class="container">
         <h1 class="center">Favorite Properties</h1>
         <c:choose>
-            <c:when test="${not empty propertyList.propertyViewModels}">
+            <c:when test="${not empty propertyListViewModel.propertyViewModels}">
                 <table class="table table-hover align-middle clickable-rows">
                     <thead>
                         <tr>
@@ -27,12 +27,12 @@
                             <th>Selling Price</th>
                         </tr>
                     </thead>
-                    <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}">
-                        <tr onclick="window.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}'">
+                    <c:forEach var="propertyViewModel" items="${propertyListViewModel.propertyViewModels}">
+                        <tr onclick="window.location = '<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.propertyHashCode}'">
                             <td>
                             <%@include file="/WEB-INF/includes/propertyThumbnail.jsp"%>
                             </td>
-                            <td>${propertyViewModel.hashCode}</td>
+                            <td>${propertyViewModel.propertyHashCode}</td>
                             <td>${propertyViewModel.address}</td>
                             <td>${propertyViewModel.sellingPrice}&nbsp;$</td>
                         </tr>

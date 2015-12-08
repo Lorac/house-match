@@ -19,14 +19,14 @@
 
 <script>
 var bodyOnLoad = function() {
-	var uploadUrl = "<%=PropertyPhotoController.PHOTO_UPLOAD_BASE_URL %>${property.hashCode}";
+	var uploadUrl = "<%=PropertyPhotoController.PHOTO_UPLOAD_BASE_URL %>${propertyViewModel.propertyHashCode}";
 	var defaultThumbnailBaseUrl = "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>";
-	var defaultDeleteBaseUrl = "<%=PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${property.hashCode}/";
+	var defaultDeleteBaseUrl = "<%=PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${propertyViewModel.propertyHashCode}/";
 
 	var photoManager = new PhotoManager($("#property-photo-manager"), true, false, true, uploadUrl, defaultThumbnailBaseUrl, defaultDeleteBaseUrl);
     
-    <c:forEach var="photo" items="${property.photos}">
-    	photoManager.addPhoto(${photo.hashCode()}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${photo.hashCode()}/", "<%= PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${property.hashCode}/${photo.hashCode()}/");
+    <c:forEach var="photoViewModel" items="${propertyViewModel.photoViewModels}">
+    	photoManager.addPhoto(${photoViewModel.photoHashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${photoViewModel.photoHashCode}/", "<%= PropertyPhotoController.PHOTO_DELETE_BASE_URL %>${propertyViewModel.propertyHashCode}/${photoViewModel.photoHashCode}/");
     </c:forEach>
 }
 </script>

@@ -7,7 +7,7 @@ import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 
 public class StatisticsViewModel extends ViewModel {
 
-    public static final String NAME = "statistics";
+    public static final String NAME = "statisticsViewModel";
 
     @NotNull
     private PropertyStatistics propertyStatistics;

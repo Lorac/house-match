@@ -98,7 +98,7 @@
             </util:list>
         </constructor-arg>
     </bean>
-    
+
     <bean id="propertyPhotoFactory" class="ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoFactory" />
 
     <bean id="persistencePropertyFactory" class="ca.ulaval.glo4003.housematch.domain.property.PropertyFactory">
@@ -140,13 +140,13 @@
         <constructor-arg ref="propertyUpdateValidator" />
         <constructor-arg ref="propertySorter" />
     </bean>
-    
+
     <bean id="propertyPhotoService" class="ca.ulaval.glo4003.housematch.services.propertyphoto.PropertyPhotoService">
         <constructor-arg ref="xmlPropertyRepository" />
         <constructor-arg ref="xmlPropertyPhotoRepository" />
         <constructor-arg ref="propertyPhotoFactory" />
     </bean>
-    
+
     <bean id="userStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService">
         <constructor-arg ref="statisticFactory" />
     </bean>
@@ -162,12 +162,14 @@
 
     <!-- Assemblers -->
 
-    <bean id="propertyViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler" />
+    <bean id="propertyViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyViewModelAssembler">
+        <constructor-arg ref="propertyPhotoViewModelAssembler" />
+    </bean>
 
     <bean id="propertyListViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyListViewModelAssembler">
         <constructor-arg ref="propertyViewModelAssembler" />
     </bean>
-    
+
     <bean id="propertyPhotoViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyPhotoViewModelAssembler" />
 
     <bean id="propertyPhotoListViewModelAssembler" class="ca.ulaval.glo4003.housematch.web.assemblers.PropertyPhotoListViewModelAssembler">
@@ -197,7 +199,7 @@
         <constructor-arg ref="propertyViewModelAssembler" />
         <constructor-arg ref="propertyListViewModelAssembler" />
     </bean>
-    
+
     <bean id="propertyPhotoController" class="ca.ulaval.glo4003.housematch.web.controllers.PropertyPhotoController">
         <constructor-arg ref="propertyPhotoService" />
         <constructor-arg ref="userService" />

@@ -19,10 +19,10 @@
 
 <script>
 var bodyOnLoad = function() {
-	<c:if test="${not empty propertyPhotoList.propertyPhotoViewModels}">
+	<c:if test="${not empty propertyPhotoListViewModel.propertyPhotoViewModels}">
         var photoManager = new PhotoManager($("#property-photo-manager"), false, true, false);
-        <c:forEach var="propertyPhotoViewModel" items="${propertyPhotoList.propertyPhotoViewModels}">
-        	photoManager.addPhoto(${propertyPhotoViewModel.hashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${propertyPhotoViewModel.hashCode}/", null, "<%= PropertyPhotoController.PHOTO_APPROVE_BASE_URL %>${propertyPhotoViewModel.hashCode}/", "<%= PropertyPhotoController.PHOTO_REJECT_BASE_URL %>${propertyPhotoViewModel.hashCode}/");
+        <c:forEach var="propertyPhotoViewModel" items="${propertyPhotoListViewModel.propertyPhotoViewModels}">
+        	photoManager.addPhoto(${propertyPhotoViewModel.photoHashCode}, "<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL %>${propertyPhotoViewModel.photoHashCode}/", null, "<%= PropertyPhotoController.PHOTO_APPROVE_BASE_URL %>${propertyPhotoViewModel.photoHashCode}/", "<%= PropertyPhotoController.PHOTO_REJECT_BASE_URL %>${propertyPhotoViewModel.photoHashCode}/");
         </c:forEach>
     </c:if>
 }
@@ -42,7 +42,7 @@ var bodyOnLoad = function() {
                 </div>
                 <div class="panel-body">
                 <c:choose>
-                    <c:when test="${not empty propertyPhotoList.propertyPhotoViewModels}">
+                    <c:when test="${not empty propertyPhotoListViewModel.propertyPhotoViewModels}">
                         <%@include file="/WEB-INF/includes/photoManager.jsp"%>
                     </c:when>
                     <c:otherwise>

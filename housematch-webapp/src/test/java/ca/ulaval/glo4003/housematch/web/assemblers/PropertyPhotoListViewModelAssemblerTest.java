@@ -1,12 +1,12 @@
 package ca.ulaval.glo4003.housematch.web.assemblers;
 
-import static org.hamcrest.Matchers.contains;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,11 +17,12 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyPhotoViewModel;
 
 public class PropertyPhotoListViewModelAssemblerTest {
 
-    private PropertyPhotoListViewModelAssembler propertyPhotoListViewModelAssembler;
     private PropertyPhotoViewModelAssembler propertyPhotoViewModelAssemblerMock;
-    private Collection<PropertyPhoto> propertyPhotos = new ArrayList<>();
-    private PropertyPhotoViewModel propertyPhotoViewModelMock;
     private PropertyPhoto propertyPhotoMock;
+
+    private Collection<PropertyPhoto> propertyPhotos = new ArrayList<>();
+    private List<PropertyPhotoViewModel> propertyPhotoViewModels = new ArrayList<>();
+    private PropertyPhotoListViewModelAssembler propertyPhotoListViewModelAssembler;
 
     @Before
     public void init() {
@@ -32,14 +33,13 @@ public class PropertyPhotoListViewModelAssemblerTest {
 
     private void initMocks() {
         propertyPhotoMock = mock(PropertyPhoto.class);
-        propertyPhotoViewModelMock = mock(PropertyPhotoViewModel.class);
         propertyPhotoViewModelAssemblerMock = mock(PropertyPhotoViewModelAssembler.class);
     }
 
     @Test
     public void assemblesTheViewModelFromTheSpecifiedPropertyPhotos() {
-        when(propertyPhotoViewModelAssemblerMock.assemble(propertyPhotoMock)).thenReturn(propertyPhotoViewModelMock);
+        when(propertyPhotoViewModelAssemblerMock.assemble(propertyPhotos)).thenReturn(propertyPhotoViewModels);
         PropertyPhotoListViewModel viewModel = propertyPhotoListViewModelAssembler.assemble(propertyPhotos);
-        assertThat(viewModel.getPropertyPhotoViewModels(), contains(propertyPhotoViewModelMock));
+        assertSame(viewModel.getPropertyPhotoViewModels(), propertyPhotoViewModels);
     }
 }

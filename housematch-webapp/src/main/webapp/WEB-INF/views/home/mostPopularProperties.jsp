@@ -10,7 +10,7 @@
 
 
 <c:choose>
-    <c:when test="${not empty propertyList.propertyViewModels}">
+    <c:when test="${not empty propertyListViewModel.propertyViewModels}">
         <table class="table table-hover align-middle clickable-rows">
             <thead>
                 <tr>
@@ -20,8 +20,8 @@
                     <th>Views</th>
                 </tr>
             </thead>
-            <c:forEach var="propertyViewModel" items="${propertyList.propertyViewModels}">
-                <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.hashCode}"'>
+            <c:forEach var="propertyViewModel" items="${propertyListViewModel.propertyViewModels}">
+                <tr onclick='window.location = "<%=PropertyController.PROPERTY_VIEW_BASE_URL%>${propertyViewModel.propertyHashCode}"'>
                     <td>
                     <%@include file="/WEB-INF/includes/propertyThumbnail.jsp"%>
                     </td>

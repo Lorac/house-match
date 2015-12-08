@@ -2,21 +2,21 @@ package ca.ulaval.glo4003.housematch.web.viewmodels;
 
 public class PropertyPhotoViewModel extends ViewModel {
 
-    public static final String NAME = "propertyPhoto";
+    public static final String NAME = "propertyPhotoViewModel";
 
-    private int hashCode;
+    private int photoHashCode;
 
     @Override
     public String getName() {
         return NAME;
     }
 
-    public int getHashCode() {
-        return hashCode;
+    public int getPhotoHashCode() {
+        return photoHashCode;
     }
 
-    public void setHashCode(int hashCode) {
-        this.hashCode = hashCode;
+    public void setHashCode(int photoHashCode) {
+        this.photoHashCode = photoHashCode;
     }
 
 }

@@ -1,7 +1,7 @@
 <c:choose>
-    <c:when test="${not empty propertyViewModel.mainPhoto}">
+    <c:when test="${not empty propertyViewModel.mainPhotoViewModel}">
         <div class="property-thumbnail"
-            style='background-image:url("<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL%>${propertyViewModel.mainPhoto.hashCode()}")'>
+            style='background-image:url("<%=PropertyPhotoController.PHOTO_THUMBNAIL_BASE_URL%>${propertyViewModel.mainPhotoViewModel.photoHashCode}")'>
         </div>
     </c:when>
     <c:otherwise>

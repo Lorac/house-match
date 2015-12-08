@@ -2,19 +2,18 @@ package ca.ulaval.glo4003.housematch.web.viewmodels;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.Set;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
-import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.utils.DateFormatter;
 
 public class PropertyViewModel extends ViewModel {
 
-    public static final String NAME = "property";
+    public static final String NAME = "propertyViewModel";
 
     @NotNull
     private PropertyType propertyType;
@@ -23,12 +22,12 @@ public class PropertyViewModel extends ViewModel {
     @NotNull
     private BigDecimal sellingPrice;
     private PropertyDetails propertyDetails;
-    private int hashCode;
+    private int propertyHashCode;
     private ZonedDateTime creationDate;
     private Integer viewCount;
     private Boolean propertyFavorited;
-    private Set<PropertyPhoto> photos;
-    private PropertyPhoto mainPhoto;
+    private List<PropertyPhotoViewModel> photoViewModels;
+    private PropertyPhotoViewModel mainPhotoViewModel;
 
     @Override
     public String getName() {
@@ -67,12 +66,12 @@ public class PropertyViewModel extends ViewModel {
         this.propertyDetails = propertyDetails;
     }
 
-    public int getHashCode() {
-        return hashCode;
+    public int getPropertyHashCode() {
+        return propertyHashCode;
     }
 
-    public void setHashCode(int hashCode) {
-        this.hashCode = hashCode;
+    public void setPropertyHashCode(int propertyHashCode) {
+        this.propertyHashCode = propertyHashCode;
     }
 
     public String getCreationDate() {
@@ -99,20 +98,20 @@ public class PropertyViewModel extends ViewModel {
         this.propertyFavorited = propertyFavorited;
     }
 
-    public Set<PropertyPhoto> getPhotos() {
-        return photos;
+    public List<PropertyPhotoViewModel> getPhotoViewModels() {
+        return photoViewModels;
     }
 
-    public void setPhotos(Set<PropertyPhoto> photos) {
-        this.photos = photos;
+    public void setPhotoViewModels(List<PropertyPhotoViewModel> photos) {
+        this.photoViewModels = photos;
     }
 
-    public PropertyPhoto getMainPhoto() {
-        return mainPhoto;
+    public PropertyPhotoViewModel getMainPhotoViewModel() {
+        return mainPhotoViewModel;
     }
 
-    public void setMainPhoto(PropertyPhoto mainPhoto) {
-        this.mainPhoto = mainPhoto;
+    public void setMainPhotoViewModel(PropertyPhotoViewModel mainPhoto) {
+        this.mainPhotoViewModel = mainPhoto;
     }
 
 }

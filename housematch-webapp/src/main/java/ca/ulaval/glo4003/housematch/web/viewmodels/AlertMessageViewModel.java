@@ -2,7 +2,7 @@ package ca.ulaval.glo4003.housematch.web.viewmodels;
 
 public class AlertMessageViewModel extends ViewModel {
 
-    public static final String NAME = "alertMessage";
+    public static final String NAME = "alertMessageViewModel";
 
     private String message;
     private AlertMessageType messageType;

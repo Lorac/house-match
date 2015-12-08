@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 public final class LoginFormViewModel extends ViewModel {
 
-    public static final String NAME = "loginForm";
+    public static final String NAME = "loginFormViewModel";
 
     @NotNull
     private String username;
