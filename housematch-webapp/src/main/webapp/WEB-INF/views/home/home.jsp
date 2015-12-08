@@ -27,7 +27,7 @@
                     </c:when>
                     <c:otherwise>
                         <p>
-                            You are viewing this page as anonymous. <a href="/login">Login</a> or <a href="/register">register</a> to
+                            You are not currently logged in. <a href="/login">Login</a> or <a href="/register">register</a> to
                             enhance your experience.
                         </p>
                     </c:otherwise>

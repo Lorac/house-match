@@ -15,7 +15,7 @@
 <body>
     <c:set var="loginLinkActive" value="active" scope="request" />
     <jsp:include page="/WEB-INF/includes/navigationBar.jsp" />
-    <div class="container">
+    <div class="container transparent">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel">

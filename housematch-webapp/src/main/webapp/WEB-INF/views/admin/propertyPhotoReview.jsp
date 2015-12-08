@@ -15,7 +15,7 @@
 <%@include file="/WEB-INF/includes/header.jsp"%>
 
 <!-- Custom CSS for this page -->
-<link href="/resources/css/components/photo-manager.css" rel="stylesheet">
+<link href="/resources/css/photo-manager.css" rel="stylesheet">
 
 <script>
 var bodyOnLoad = function() {
@@ -57,6 +57,6 @@ var bodyOnLoad = function() {
     <%@include file="/WEB-INF/includes/footer.jsp"%>
 
     <!-- Custom JavaScript for this page -->
-    <script src="/resources/js/components/photo-manager.js"></script>
+    <script src="/resources/js/photo-manager.js"></script>
 </body>
 </html>
