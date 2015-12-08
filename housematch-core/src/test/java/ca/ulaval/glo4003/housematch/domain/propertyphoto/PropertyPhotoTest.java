@@ -34,6 +34,12 @@ public class PropertyPhotoTest {
     }
 
     @Test
+    public void settingTheOriginalFileNameSetsTheOriginalFileName() {
+        propertyPhoto.setOriginalFileName(SAMPLE_FILE_NAME);
+        assertEquals(SAMPLE_FILE_NAME, propertyPhoto.getOriginalFileName());
+    }
+
+    @Test
     public void photoIsNotApprovedOnCreation() {
         assertFalse(propertyPhoto.isApproved());
     }
@@ -68,7 +74,7 @@ public class PropertyPhotoTest {
     }
 
     @Test
-    public void photosWithTHeSameHashCodeShouldBeConsideredAsEquals() {
+    public void photosWithTheSameHashCodeShouldBeConsideredAsEquals() {
         PropertyPhoto anotherPropertyPhoto = new PropertyPhoto(SAMPLE_HASH_CODE, SAMPLE_FILE_NAME);
         assertEquals(propertyPhoto, anotherPropertyPhoto);
     }

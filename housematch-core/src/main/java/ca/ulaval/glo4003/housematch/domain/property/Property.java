@@ -160,7 +160,7 @@ public class Property extends PropertyObservable implements PropertyPhotoObserve
     public Optional<PropertyPhoto> getMainPhoto() {
         return getApprovedPhotos().stream().findFirst();
     }
-    
+
     @Override
     public void propertyPhotoStatusChanged(Object sender, PropertyPhotoStatus newStatus) {
         if (newStatus == PropertyPhotoStatus.REJECTED) {
