@@ -70,7 +70,7 @@
         <constructor-arg ref="notificationService" />
     </bean>
 
-    <bean id="propertyNotificationObserver" class="ca.ulaval.glo4003.housematch.services.notification.PropertyNotificationObserver">
+    <bean id="propertyStatusObserver" class="ca.ulaval.glo4003.housematch.services.notification.PropertyStatusObserver">
         <constructor-arg ref="notificationService" />
         <constructor-arg ref="notificationFactory" />
     </bean>
@@ -78,6 +78,7 @@
     <!-- Factories -->
 
     <bean id="domainUserFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory">
+        <constructor-arg ref="notificationFactory" />
         <constructor-arg ref="stringHasher" />
         <constructor-arg>
             <util:list>
@@ -88,6 +89,7 @@
     </bean>
 
     <bean id="persistenceUserFactory" class="ca.ulaval.glo4003.housematch.domain.user.UserFactory">
+        <constructor-arg ref="notificationFactory" />
         <constructor-arg ref="stringHasher" />
         <constructor-arg>
             <util:list />
@@ -98,7 +100,7 @@
         <constructor-arg>
             <util:list>
                 <ref bean="propertyStatisticsObserver" />
-                <ref bean="propertyNotificationObserver" />
+                <ref bean="propertyStatusObserver" />
             </util:list>
         </constructor-arg>
     </bean>

@@ -14,20 +14,20 @@ public class UserStatisticsObserver implements UserObserver {
     }
 
     @Override
-    public void userStatusChanged(User user, UserStatus newStatus) {
+    public void userStatusChanged(Object sender, UserStatus newStatus) {
         switch (newStatus) {
         case ACTIVE:
-            userStatisticsService.processUserStatusChangeToActive(user);
+            userStatisticsService.processUserStatusChangeToActive((User) sender);
             break;
         case INACTIVE:
-            userStatisticsService.processUserStatusChangeToInactive(user);
+            userStatisticsService.processUserStatusChangeToInactive((User) sender);
             break;
         default:
         }
     }
 
     @Override
-    public void userNotificationQueued(User user, Notification notification) {
+    public void userNotificationQueued(Object sender, Notification notification) {
         // Event intentionally ignored.
     }
 }

@@ -10,6 +10,7 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +28,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 
 public class PropertyTest {
 
@@ -248,6 +250,11 @@ public class PropertyTest {
     }
 
     @Test
+    public void addingPhotoRegisterItselfToThePropertyPhotoAsAnObserver() {
+        verify(propertyPhotoMock).registerObserver(property);
+    }
+
+    @Test
     public void removingPhotoRemovesThePhotoFromTheProperty() throws Exception {
         property.removePhoto(propertyPhotoMock);
         assertThat(property.getPhotos(), not(hasItem(propertyPhotoMock)));
@@ -257,12 +264,6 @@ public class PropertyTest {
     public void rejectingPhotoRemovesThePhotoFromTheProperty() throws Exception {
         property.removePhoto(propertyPhotoMock);
         assertThat(property.getPhotos(), not(hasItem(propertyPhotoMock)));
-    }
-
-    @Test
-    public void rejectingPhotoNotifiesTheObservers() throws Exception {
-        property.rejectPhoto(propertyPhotoMock);
-        verify(propertyObserverMock).propertyPhotoRejected(property, propertyPhotoMock);
     }
 
     @Test
@@ -297,5 +298,17 @@ public class PropertyTest {
         Optional<PropertyPhoto> photo = property.getMainPhoto();
 
         assertSame(anotherPropertyPhotoMock, photo.get());
+    }
+
+    @Test
+    public void propertyPhotoStatusChangeNotifiesTheObserversWhenChangedToRejected() throws Exception {
+        property.propertyPhotoStatusChanged(propertyPhotoMock, PropertyPhotoStatus.REJECTED);
+        verify(propertyObserverMock).propertyPhotoRejected(property, propertyPhotoMock);
+    }
+
+    @Test
+    public void propertyPhotoStatusChangeDoesNotNotifyTheObserversWhenChangedToOtherThanRejected() throws Exception {
+        property.propertyPhotoStatusChanged(propertyPhotoMock, PropertyPhotoStatus.APPROVED);
+        verify(propertyObserverMock, never()).propertyPhotoRejected(property, propertyPhotoMock);
     }
 }

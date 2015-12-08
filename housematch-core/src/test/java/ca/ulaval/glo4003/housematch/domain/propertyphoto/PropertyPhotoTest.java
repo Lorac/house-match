@@ -10,8 +10,6 @@ import static org.mockito.Mockito.verify;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.ulaval.glo4003.housematch.domain.property.PropertyPhotoStatusObserver;
-
 public class PropertyPhotoTest {
 
     private static final int SAMPLE_HASH_CODE = 2342;
@@ -19,13 +17,13 @@ public class PropertyPhotoTest {
     private static final PropertyPhotoStatus SAMPLE_PHOTO_STATUS = PropertyPhotoStatus.REJECTED;
 
     private PropertyPhoto propertyPhoto;
-    private PropertyPhotoStatusObserver propertyPhotoStatusObserverMock;
+    private PropertyPhotoObserver propertyPhotoObserverMock;
 
     @Before
     public void init() {
-        propertyPhotoStatusObserverMock = mock(PropertyPhotoStatusObserver.class);
+        propertyPhotoObserverMock = mock(PropertyPhotoObserver.class);
         propertyPhoto = new PropertyPhoto(SAMPLE_HASH_CODE);
-        propertyPhoto.registerObserver(propertyPhotoStatusObserverMock);
+        propertyPhoto.registerObserver(propertyPhotoObserverMock);
     }
 
     @Test
@@ -60,7 +58,7 @@ public class PropertyPhotoTest {
     @Test
     public void updatingTheStatusNotifiesTheObservers() {
         propertyPhoto.updateStatus(SAMPLE_PHOTO_STATUS);
-        verify(propertyPhotoStatusObserverMock).propertyPhotoStatusChanged(propertyPhoto, SAMPLE_PHOTO_STATUS);
+        verify(propertyPhotoObserverMock).propertyPhotoStatusChanged(propertyPhoto, SAMPLE_PHOTO_STATUS);
     }
 
     @Test

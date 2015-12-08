@@ -9,22 +9,22 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyObserver;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
-public class PropertyNotificationObserver implements PropertyObserver {
+public class PropertyStatusObserver implements PropertyObserver {
 
     private static final String PROPERTY_PUT_UP_FOR_SALE_EVENT_DESCRIPTION = "A new property has been put up for sale: %s.";
 
     private NotificationService notificationService;
     private NotificationFactory notificationFactory;
 
-    public PropertyNotificationObserver(final NotificationService notificationService, final NotificationFactory notificationFactory) {
+    public PropertyStatusObserver(final NotificationService notificationService, final NotificationFactory notificationFactory) {
         this.notificationService = notificationService;
         this.notificationFactory = notificationFactory;
     }
 
     @Override
-    public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
+    public void propertyStatusChanged(Object sender, PropertyStatus newStatus) {
         if (newStatus == PropertyStatus.FOR_SALE) {
-            Notification notification = createPropertyPutUpForSaleNotification(property);
+            Notification notification = createPropertyPutUpForSaleNotification((Property) sender);
             notificationService.notifyAllUsers(notification);
         }
     }
@@ -35,12 +35,12 @@ public class PropertyNotificationObserver implements PropertyObserver {
     }
 
     @Override
-    public void propertyDetailsChanged(Property property, PropertyDetails newPropertyDetails) {
+    public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
         // Event intentionally ignored.
     }
 
     @Override
-    public void propertyPhotoRejected(Property property, PropertyPhoto propertyPhoto) {
+    public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
         // Event intentionally ignored.
     }
 

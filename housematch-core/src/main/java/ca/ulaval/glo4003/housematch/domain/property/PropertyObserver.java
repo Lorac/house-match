@@ -4,10 +4,10 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
 public interface PropertyObserver {
 
-    void propertyStatusChanged(Property property, PropertyStatus newStatus);
+    void propertyStatusChanged(Object sender, PropertyStatus newStatus);
 
-    void propertyDetailsChanged(Property property, PropertyDetails newPropertyDetails);
+    void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails);
 
-    void propertyPhotoRejected(Property property, PropertyPhoto propertyPhoto);
+    void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto);
 
 }

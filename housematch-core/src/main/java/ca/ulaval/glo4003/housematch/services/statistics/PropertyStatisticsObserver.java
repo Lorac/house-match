@@ -15,25 +15,25 @@ public class PropertyStatisticsObserver implements PropertyObserver {
     }
 
     @Override
-    public void propertyStatusChanged(Property property, PropertyStatus newStatus) {
+    public void propertyStatusChanged(Object sender, PropertyStatus newStatus) {
         switch (newStatus) {
         case FOR_SALE:
-            propertyStatisticsService.processNewPropertyForSale(property);
+            propertyStatisticsService.processNewPropertyForSale((Property) sender);
             break;
         case SOLD:
-            propertyStatisticsService.processPropertySale(property);
+            propertyStatisticsService.processPropertySale((Property) sender);
             break;
         default:
         }
     }
 
     @Override
-    public void propertyDetailsChanged(Property property, PropertyDetails newPropertyDetails) {
+    public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
         // Event intentionally ignored.
     }
 
     @Override
-    public void propertyPhotoRejected(Property property, PropertyPhoto propertyPhoto) {
+    public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
         // Event intentionally ignored.
     }
 

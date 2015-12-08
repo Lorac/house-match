@@ -14,13 +14,13 @@ public class UserNotificationObserver implements UserObserver {
     }
 
     @Override
-    public void userStatusChanged(User user, UserStatus newStatus) {
+    public void userStatusChanged(Object sender, UserStatus newStatus) {
         // Event intentionally ignored.
     }
 
     @Override
-    public void userNotificationQueued(User user, Notification notification) {
-        notificationService.processQueuedUserNotification(user, notification);
+    public void userNotificationQueued(Object sender, Notification notification) {
+        notificationService.processQueuedUserNotification((User) sender, notification);
     }
 
 }

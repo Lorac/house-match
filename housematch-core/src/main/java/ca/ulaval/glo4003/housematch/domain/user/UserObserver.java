@@ -4,8 +4,8 @@ import ca.ulaval.glo4003.housematch.domain.notification.Notification;
 
 public interface UserObserver {
 
-    void userStatusChanged(User user, UserStatus newStatus);
+    void userStatusChanged(Object sender, UserStatus newStatus);
 
-    void userNotificationQueued(User user, Notification notification);
+    void userNotificationQueued(Object sender, Notification notification);
 
 }

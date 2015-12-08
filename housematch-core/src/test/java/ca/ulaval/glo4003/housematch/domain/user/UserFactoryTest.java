@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class UserFactoryTest {
@@ -21,6 +22,7 @@ public class UserFactoryTest {
     private static final String SAMPLE_PASSWORD_HASH = "asd098fsdfgw4";
     private static final UserRole SAMPLE_ROLE = UserRole.BUYER;
 
+    private NotificationFactory notificationFactoryMock;
     private StringHasher stringHasherMock;
     private UserObserver userObserverMock;
     private List<UserObserver> userObservers = new ArrayList<>();
@@ -32,7 +34,7 @@ public class UserFactoryTest {
         initMocks();
         initStubs();
         userObservers.add(userObserverMock);
-        userFactory = new UserFactory(stringHasherMock, userObservers);
+        userFactory = new UserFactory(notificationFactoryMock, stringHasherMock, userObservers);
     }
 
     private void initMocks() {

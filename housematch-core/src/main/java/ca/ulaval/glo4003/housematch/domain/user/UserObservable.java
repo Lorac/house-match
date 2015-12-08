@@ -5,11 +5,11 @@ import ca.ulaval.glo4003.housematch.utils.Observable;
 
 public class UserObservable extends Observable<UserObserver> {
 
-    public void userStatusChanged(User user, UserStatus newStatus) {
-        observers.stream().forEach(o -> o.userStatusChanged(user, newStatus));
+    public void userStatusChanged(Object sender, UserStatus newStatus) {
+        observers.stream().forEach(o -> o.userStatusChanged(sender, newStatus));
     }
 
-    public void userNotificationQueued(User user, Notification notification) {
-        observers.stream().forEach(o -> o.userNotificationQueued(user, notification));
+    public void userNotificationQueued(Object sender, Notification notification) {
+        observers.stream().forEach(o -> o.userNotificationQueued(sender, notification));
     }
 }

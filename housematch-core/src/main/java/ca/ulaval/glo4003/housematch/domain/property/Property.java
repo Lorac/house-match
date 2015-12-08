@@ -15,8 +15,10 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoObserver;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 
-public class Property extends PropertyObservable {
+public class Property extends PropertyObservable implements PropertyPhotoObserver {
 
     private PropertyType propertyType;
     private Address address;
@@ -136,16 +138,11 @@ public class Property extends PropertyObservable {
 
     public void addPhoto(PropertyPhoto propertyPhoto) {
         photos.add(propertyPhoto);
-        propertyPhoto.registerObserver(new PropertyPhotoStatusObserver(this));
+        propertyPhoto.registerObserver(this);
     }
 
     public void removePhoto(PropertyPhoto propertyPhoto) {
         photos.remove(propertyPhoto);
-    }
-
-    public void rejectPhoto(PropertyPhoto propertyPhoto) {
-        removePhoto(propertyPhoto);
-        propertyPhotoRejected(this, propertyPhoto);
     }
 
     public PropertyPhoto getPhotoByHashCode(int hashCode) throws PropertyPhotoNotFoundException {
@@ -185,5 +182,13 @@ public class Property extends PropertyObservable {
     @Override
     public String toString() {
         return address.toString();
+    }
+
+    @Override
+    public void propertyPhotoStatusChanged(Object sender, PropertyPhotoStatus newStatus) {
+        if (newStatus == PropertyPhotoStatus.REJECTED) {
+            removePhoto((PropertyPhoto) sender);
+            propertyPhotoRejected(this, (PropertyPhoto) sender);
+        }
     }
 }

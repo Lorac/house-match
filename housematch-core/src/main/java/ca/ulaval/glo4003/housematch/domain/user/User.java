@@ -12,15 +12,26 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyObserver;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
-public class User extends UserObservable {
+public class User extends UserObservable implements PropertyObserver {
+    private static final String FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION = "The details of a property you favorited (%s) have changed.";
+    private static final String PROPERTY_PHOTO_REJECTED_EVENT_DESCRIPTION = "The photo '%s' of your property for sale (%s) has been rejected.";
+
     static final Integer INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
+    private NotificationFactory notificationFactory;
     private StringHasher stringHasher;
+
     private String username;
     private String email;
     private String passwordHash;
@@ -36,7 +47,9 @@ public class User extends UserObservable {
     private NotificationSettings notificationSettings = new NotificationSettings();
     private Address address;
 
-    public User(final StringHasher stringHasher, final String username, final String email, final String password, final UserRole role) {
+    public User(final NotificationFactory notificationFactory, final StringHasher stringHasher, final String username, final String email,
+            final String password, final UserRole role) {
+        this.notificationFactory = notificationFactory;
         this.stringHasher = stringHasher;
         this.username = username;
         this.email = email;
@@ -173,7 +186,7 @@ public class User extends UserObservable {
     public void addPropertyForSale(Property property) {
         propertiesForSale.add(property);
         property.markForSale();
-        property.registerObserver(new UserPropertyForSaleObserver(this));
+        property.registerObserver(this);
         applyUserStatusPolicy();
     }
 
@@ -187,7 +200,7 @@ public class User extends UserObservable {
 
     public void addPropertyToFavorites(Property property) {
         favoriteProperties.add(property);
-        property.registerObserver(new UserFavoritePropertyObserver(this));
+        property.registerObserver(this);
     }
 
     public Boolean isPropertyFavorited(Property property) {
@@ -251,5 +264,26 @@ public class User extends UserObservable {
 
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
+    }
+
+    @Override
+    public void propertyStatusChanged(Object sender, PropertyStatus newStatus) {
+        // Event intentionally ignored.
+    }
+
+    @Override
+    public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
+        Property property = (Property) sender;
+        String eventDescription = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
+        Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_MODIFIED, eventDescription);
+        notify(notification);
+    }
+
+    @Override
+    public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
+        Property property = (Property) sender;
+        String eventDescription = String.format(PROPERTY_PHOTO_REJECTED_EVENT_DESCRIPTION, propertyPhoto.toString(), property.toString());
+        Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, eventDescription);
+        notify(notification);
     }
 }

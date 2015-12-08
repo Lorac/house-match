@@ -16,20 +16,20 @@ import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 
-public class PropertyNotificationObserverTest {
+public class PropertyStatusObserverTest {
 
     private Property propertyMock;
     private Notification notificationMock;
     private NotificationFactory notificationFactoryMock;
     private NotificationService notificationServiceMock;
 
-    private PropertyNotificationObserver propertyNotificationObserver;
+    private PropertyStatusObserver propertyStatusObserver;
 
     @Before
     public void init() {
         initMocks();
         initStubs();
-        propertyNotificationObserver = new PropertyNotificationObserver(notificationServiceMock, notificationFactoryMock);
+        propertyStatusObserver = new PropertyStatusObserver(notificationServiceMock, notificationFactoryMock);
     }
 
     private void initMocks() {
@@ -45,13 +45,13 @@ public class PropertyNotificationObserverTest {
 
     @Test
     public void propertyStatusChangedToForSaleStatusNotifiesAllTheUsersUsingTheNotificationService() {
-        propertyNotificationObserver.propertyStatusChanged(propertyMock, PropertyStatus.FOR_SALE);
+        propertyStatusObserver.propertyStatusChanged(propertyMock, PropertyStatus.FOR_SALE);
         verify(notificationServiceMock).notifyAllUsers(notificationMock);
     }
 
     @Test
     public void propertyStatusChangedToStatusOtherThanForSaleDoesNotCreateAnyNotification() {
-        propertyNotificationObserver.propertyStatusChanged(propertyMock, PropertyStatus.SOLD);
+        propertyStatusObserver.propertyStatusChanged(propertyMock, PropertyStatus.SOLD);
         verify(notificationServiceMock, never()).notifyAllUsers(notificationMock);
     }
 

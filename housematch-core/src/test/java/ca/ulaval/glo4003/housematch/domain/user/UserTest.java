@@ -11,6 +11,8 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -24,14 +26,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Matchers;
 
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
+import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyNotFoundException;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class UserTest {
@@ -54,9 +58,12 @@ public class UserTest {
 
     private Address addressMock;
     private StringHasher stringHasherMock;
+    private PropertyDetails propertyDetailsMock;
+    private PropertyPhoto propertyPhotoMock;
     private Property propertyMock;
     private UserObserver userObserverMock;
     private NotificationSettings notificationSettingsMock;
+    private NotificationFactory notificationFactoryMock;
     private Notification notificationMock;
 
     private Set<Property> properties = new HashSet<>();
@@ -75,22 +82,27 @@ public class UserTest {
     private void initMocks() {
         stringHasherMock = mock(StringHasher.class);
         propertyMock = mock(Property.class);
+        propertyPhotoMock = mock(PropertyPhoto.class);
+        propertyDetailsMock = mock(PropertyDetails.class);
         userObserverMock = mock(UserObserver.class);
         addressMock = mock(Address.class);
         notificationSettingsMock = mock(NotificationSettings.class);
+        notificationFactoryMock = mock(NotificationFactory.class);
         notificationMock = mock(Notification.class);
     }
 
     private void initStubs() {
+        when(notificationFactoryMock.createNotification(any(NotificationType.class), anyString())).thenReturn(notificationMock);
+        when(notificationSettingsMock.isNotificationEnabled(any(NotificationType.class))).thenReturn(true);
         when(stringHasherMock.hash(SAMPLE_PASSWORD)).thenReturn(SAMPLE_PASSWORD_HASH);
         when(notificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
     }
 
     private void createUsers() {
-        buyer = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.BUYER);
+        buyer = new User(notificationFactoryMock, stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.BUYER);
         buyer.setLastLoginDate(ZonedDateTime.now().minusMonths(User.INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS - 1));
-        seller = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.SELLER);
-        user = new User(stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        seller = new User(notificationFactoryMock, stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, UserRole.SELLER);
+        user = new User(notificationFactoryMock, stringHasherMock, SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         user.registerObserver(userObserverMock);
         user.setNotificationSettings(notificationSettingsMock);
         user.setNotificationQueue(notificationQueue);
@@ -98,33 +110,36 @@ public class UserTest {
 
     @Test
     public void usersWithTheSameUsernameShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD_HASH,
-                ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL,
+                ANOTHER_SAMPLE_PASSWORD_HASH, ANOTHER_SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
     @Test
     public void usersWithDifferentUsernamesShouldBeConsideredAsDifferent() throws Exception {
-        User anotherUser = new User(stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+                SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
     }
 
     @Test
     public void usersWithTheSameUsernameShouldHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD_HASH,
-                ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL,
+                ANOTHER_SAMPLE_PASSWORD_HASH, ANOTHER_SAMPLE_ROLE);
         assertEquals(user.hashCode(), anotherUser.hashCode());
     }
 
     @Test
     public void usersWithDifferentUsernamesShouldNotHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+                SAMPLE_ROLE);
         assertNotEquals(user.hashCode(), anotherUser.hashCode());
     }
 
     @Test
     public void usersHavingDifferentUsernameCapitalizationShouldBeConsideredAsEqual() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+                SAMPLE_ROLE);
         assertTrue(user.equals(anotherUser));
     }
 
@@ -140,20 +155,22 @@ public class UserTest {
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithTheSameUsernameAsEqual() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL, ANOTHER_SAMPLE_PASSWORD_HASH,
-                ANOTHER_SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, SAMPLE_USERNAME, ANOTHER_SAMPLE_EMAIL,
+                ANOTHER_SAMPLE_PASSWORD_HASH, ANOTHER_SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithDifferentUsernameAsDifferent() throws Exception {
-        User anotherUser = new User(stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+                SAMPLE_ROLE);
         assertFalse(user.usernameEquals(anotherUser.getUsername()));
     }
 
     @Test
     public void usernameComparisonShouldConsiderUsersHavingDifferentUsernameCapitalizationAsEqual() throws Exception {
-        User anotherUser = new User(stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
+        User anotherUser = new User(notificationFactoryMock, stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
+                SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
     }
 
@@ -345,9 +362,9 @@ public class UserTest {
     }
 
     @Test
-    public void addingPropertyToFavoriteRegistersANewUserFavoritePropertyObserverToTheProperty() {
+    public void addingPropertyToFavoriteRegistersItselfToThePropertyAsAnObserver() {
         user.addPropertyToFavorites(propertyMock);
-        verify(propertyMock).registerObserver(Matchers.any(UserFavoritePropertyObserver.class));
+        verify(propertyMock).registerObserver(user);
     }
 
     @Test
@@ -365,7 +382,6 @@ public class UserTest {
 
     @Test
     public void notifyingTheUserWithNotificationAddsTheSpecifiedNotificationToTheQueue() {
-        when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
         user.notify(notificationMock);
         assertThat(notificationQueue, hasItem(notificationMock));
     }
@@ -379,8 +395,19 @@ public class UserTest {
 
     @Test
     public void notifyingTheUserWithNotificationNotifiesTheObservers() {
-        when(notificationSettingsMock.isNotificationEnabled(SAMPLE_NOTIFICATION_TYPE)).thenReturn(true);
         user.notify(notificationMock);
+        verify(userObserverMock).userNotificationQueued(user, notificationMock);
+    }
+
+    @Test
+    public void propertyDetailsChangeNotifiesTheObservers() throws Exception {
+        user.propertyDetailsChanged(propertyMock, propertyDetailsMock);
+        verify(userObserverMock).userNotificationQueued(user, notificationMock);
+    }
+
+    @Test
+    public void propertyPhotoRejectionNotifiesTheObservers() throws Exception {
+        user.propertyPhotoRejected(propertyMock, propertyPhotoMock);
         verify(userObserverMock).userNotificationQueued(user, notificationMock);
     }
 
