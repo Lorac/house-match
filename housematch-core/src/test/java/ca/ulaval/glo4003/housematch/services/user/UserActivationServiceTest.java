@@ -23,8 +23,10 @@ public class UserActivationServiceTest {
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final String SAMPLE_EMAIL = "test@test.com";
     private static final String SAMPLE_INVALID_EMAIL = "asd@asd<!";
+    private static final String SAMPLE_ACTIVATION_URI = "http://www.test.com";
 
     private UserRepository userRepositoryMock;
+    private UserActivationUriGenerator userActivationUriGeneratorMock;
     private MailSender mailSenderMock;
     private User userMock;
 
@@ -34,16 +36,18 @@ public class UserActivationServiceTest {
     public void init() throws Exception {
         initMocks();
         initStubs();
-        userActivationService = new UserActivationService(mailSenderMock, userRepositoryMock);
+        userActivationService = new UserActivationService(mailSenderMock, userRepositoryMock, userActivationUriGeneratorMock);
     }
 
     private void initMocks() throws Exception {
+        userActivationUriGeneratorMock = mock(UserActivationUriGenerator.class);
         userRepositoryMock = mock(UserRepository.class);
         userMock = mock(User.class);
         mailSenderMock = mock(MailSender.class);
     }
 
     private void initStubs() throws UserNotFoundException {
+        when(userActivationUriGeneratorMock.generateActivationUri(userMock)).thenReturn(SAMPLE_ACTIVATION_URI);
         when(userRepositoryMock.getByActivationCode(SAMPLE_ACTIVATION_CODE)).thenReturn(userMock);
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
     }
@@ -55,9 +59,15 @@ public class UserActivationServiceTest {
     }
 
     @Test
-    public void beginningTheActivationSendsTheActivationLink() throws Exception {
+    public void beginningTheActivationSendsTheActivationMail() throws Exception {
         userActivationService.beginActivation(userMock);
         verify(mailSenderMock).sendAsync(anyString(), anyString(), eq(SAMPLE_EMAIL));
+    }
+
+    @Test
+    public void beginningTheActivationGeneratesTheActivationUriFromTheUriGenerator() throws Exception {
+        userActivationService.beginActivation(userMock);
+        verify(userActivationUriGeneratorMock).generateActivationUri(userMock);
     }
 
     @Test(expected = UserActivationServiceException.class)

@@ -12,17 +12,19 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 
 public class UserActivationService {
 
-    private static final String ACTIVATION_BASE_URL = "http://localhost:8080/activation/";
-    private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s%s\">"
+    private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s\">"
             + "activating your account</a>.";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
 
     private UserRepository userRepository;
+    private UserActivationUriGenerator userActivationUriGenerator;
     private MailSender mailSender;
 
-    public UserActivationService(final MailSender mailSender, final UserRepository userRepository) {
+    public UserActivationService(final MailSender mailSender, final UserRepository userRepository,
+            final UserActivationUriGenerator userActivationUriGenerator) {
         this.mailSender = mailSender;
         this.userRepository = userRepository;
+        this.userActivationUriGenerator = userActivationUriGenerator;
     }
 
     public void beginActivation(User user) throws UserActivationServiceException {
@@ -32,8 +34,8 @@ public class UserActivationService {
 
     private void sendActivationMail(User user) throws UserActivationServiceException {
         try {
-            mailSender.sendAsync(ACTIVATION_EMAIL_SUBJECT,
-                    String.format(ACTIVATION_EMAIL_BODY, ACTIVATION_BASE_URL, user.getActivationCode()), user.getEmail());
+            String activationUri = userActivationUriGenerator.generateActivationUri(user);
+            mailSender.sendAsync(ACTIVATION_EMAIL_SUBJECT, String.format(ACTIVATION_EMAIL_BODY, activationUri), user.getEmail());
         } catch (MailSendException e) {
             throw new UserActivationServiceException(
                     String.format("Could not send the activation mail. Make sure '%s' is a valid email address.", user.getEmail()), e);

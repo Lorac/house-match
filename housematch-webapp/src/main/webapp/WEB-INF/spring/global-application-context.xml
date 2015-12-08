@@ -34,6 +34,10 @@
 
     <bean id="stringHasher" class="ca.ulaval.glo4003.housematch.utils.StringHasher" />
 
+    <!-- URI Generators -->
+    
+    <bean id="userActivationUrlGenerator" class="ca.ulaval.glo4003.housematch.web.urlgenerators.UserActivationUrlGenerator" />
+
     <!-- Validators -->
 
     <bean id="userRegistrationValidator" class="ca.ulaval.glo4003.housematch.validators.user.UserRegistrationValidator" />
@@ -130,6 +134,7 @@
     <bean id="userActivationService" class="ca.ulaval.glo4003.housematch.services.user.UserActivationService">
         <constructor-arg ref="xmlUserRepository" />
         <constructor-arg ref="mailSender" />
+        <constructor-arg ref="userActivationUrlGenerator" />
     </bean>
 
     <bean id="propertyService" class="ca.ulaval.glo4003.housematch.services.property.PropertyService">

@@ -29,11 +29,12 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.RegistrationFormViewModel;
 public class RegistrationController extends BaseController {
 
     public static final String REGISTRATION_URL = "/register";
+    public static final String ACTIVATION_BASE_URL = "/activation/";
+    public static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
+
     static final String REGISTRATION_VIEW_NAME = "registration/registration";
-    static final String ACTIVATION_BASE_URL = "/activation/";
     static final String ACTIVATION_URL = "/activation/{activationCode}";
     static final String ACTIVATION_NOTICE_VIEW_NAME = "registration/activationNotice";
-    public static final String EMAIL_RECONFIRM_URL = "/emailReconfirm";
     static final String EMAIL_RECONFIRM_VIEW_NAME = "registration/emailReconfirm";
 
     @Inject
