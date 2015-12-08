@@ -12,6 +12,7 @@ import org.junit.Test;
 
 public class PropertyPhotoTest {
 
+    private static final String SAMPLE_FILE_NAME = "test.jpg";
     private static final int SAMPLE_HASH_CODE = 2342;
     private static final int ANOTHER_SAMPLE_HASH_CODE = 23422;
     private static final PropertyPhotoStatus SAMPLE_PHOTO_STATUS = PropertyPhotoStatus.REJECTED;
@@ -22,7 +23,7 @@ public class PropertyPhotoTest {
     @Before
     public void init() {
         propertyPhotoObserverMock = mock(PropertyPhotoObserver.class);
-        propertyPhoto = new PropertyPhoto(SAMPLE_HASH_CODE);
+        propertyPhoto = new PropertyPhoto(SAMPLE_HASH_CODE, SAMPLE_FILE_NAME);
         propertyPhoto.registerObserver(propertyPhotoObserverMock);
     }
 
@@ -68,13 +69,13 @@ public class PropertyPhotoTest {
 
     @Test
     public void photosWithTHeSameHashCodeShouldBeConsideredAsEquals() {
-        PropertyPhoto anotherPropertyPhoto = new PropertyPhoto(SAMPLE_HASH_CODE);
+        PropertyPhoto anotherPropertyPhoto = new PropertyPhoto(SAMPLE_HASH_CODE, SAMPLE_FILE_NAME);
         assertEquals(propertyPhoto, anotherPropertyPhoto);
     }
 
     @Test
     public void photosWithDifferentHashCodesShouldBeConsideredAsDifferent() {
-        PropertyPhoto anotherPropertyPhoto = new PropertyPhoto(ANOTHER_SAMPLE_HASH_CODE);
+        PropertyPhoto anotherPropertyPhoto = new PropertyPhoto(ANOTHER_SAMPLE_HASH_CODE, SAMPLE_FILE_NAME);
         assertNotEquals(propertyPhoto, anotherPropertyPhoto);
     }
 }

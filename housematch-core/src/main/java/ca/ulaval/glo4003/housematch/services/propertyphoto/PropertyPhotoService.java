@@ -34,9 +34,10 @@ public class PropertyPhotoService {
         }
     }
 
-    public Integer addPhoto(Property property, byte[] fileBytes) throws PropertyPhotoServiceException, PropertyPhotoAlreadyExistsException {
+    public Integer addPhoto(Property property, byte[] fileBytes, String originalFileName)
+            throws PropertyPhotoServiceException, PropertyPhotoAlreadyExistsException {
         try {
-            PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes);
+            PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(fileBytes, originalFileName);
             propertyPhotoRepository.persist(propertyPhoto, fileBytes);
             property.addPhoto(propertyPhoto);
             propertyRepository.update(property);
@@ -74,6 +75,6 @@ public class PropertyPhotoService {
     }
 
     public List<PropertyPhoto> getPhotosWaitingForApproval() {
-        return propertyPhotoRepository.getByStatus(PropertyPhotoStatus.WAITING_FOR_APPROVAL);
+        return propertyPhotoRepository.getByStatus(PropertyPhotoStatus.PENDING_APPROVAL);
     }
 }

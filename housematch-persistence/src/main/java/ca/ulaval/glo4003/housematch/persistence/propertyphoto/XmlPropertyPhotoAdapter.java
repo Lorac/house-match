@@ -15,7 +15,8 @@ public class XmlPropertyPhotoAdapter extends XmlAdapter<XmlPropertyPhoto, Proper
 
     @Override
     public PropertyPhoto unmarshal(XmlPropertyPhoto xmlPropertyPhoto) throws Exception {
-        PropertyPhoto propertyPhoto = propertyPhotoFactory.createPropertyPhoto(xmlPropertyPhoto.hashCode);
+        PropertyPhoto propertyPhoto =
+                propertyPhotoFactory.createPropertyPhoto(xmlPropertyPhoto.hashCode, xmlPropertyPhoto.originalFileName);
         propertyPhoto.setStatus(xmlPropertyPhoto.status);
         return propertyPhoto;
     }
@@ -25,6 +26,7 @@ public class XmlPropertyPhotoAdapter extends XmlAdapter<XmlPropertyPhoto, Proper
         XmlPropertyPhoto xmlPropertyPhoto = new XmlPropertyPhoto();
         xmlPropertyPhoto.hashCode = propertyPhoto.hashCode();
         xmlPropertyPhoto.status = propertyPhoto.getStatus();
+        xmlPropertyPhoto.originalFileName = propertyPhoto.getOriginalFileName();
         return xmlPropertyPhoto;
     }
 }

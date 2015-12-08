@@ -57,8 +57,8 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
         initMocks();
         initStubs();
         initSampleUrls();
-        propertyPhotoController = new PropertyPhotoController(propertyPhotoServiceMock, userServiceMock,
-                propertyPhotoListViewModelAssemblerMock);
+        propertyPhotoController =
+                new PropertyPhotoController(propertyPhotoServiceMock, userServiceMock, propertyPhotoListViewModelAssemblerMock);
         mockMvc = MockMvcBuilders.standaloneSetup(propertyPhotoController).setViewResolvers(viewResolver).build();
     }
 
@@ -74,7 +74,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     private void initStubs() throws Exception {
         when(propertyServiceMock.createProperty(any(), any(), any(), any())).thenReturn(propertyMock);
         when(userServiceMock.getPropertyForSaleByHashCode(userMock, propertyMock.hashCode())).thenReturn(propertyMock);
-        when(propertyPhotoServiceMock.addPhoto(propertyMock, SAMPLE_BYTES)).thenReturn(SAMPLE_PHOTO_HASH_CODE);
+        when(propertyPhotoServiceMock.addPhoto(propertyMock, SAMPLE_BYTES, SAMPLE_FILE_NAME)).thenReturn(SAMPLE_PHOTO_HASH_CODE);
     }
 
     private void initSampleUrls() {
@@ -93,7 +93,7 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     @Test
     public void propertyPhotoControllerAddsThePhotoUsingThePropertyPhotoServiceDuringPhotoUploadRequest() throws Exception {
         propertyPhotoController.uploadPropertyPhoto(propertyMock.hashCode(), multipartFileMock, mockHttpSession);
-        verify(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES);
+        verify(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES, SAMPLE_FILE_NAME);
     }
 
     @Test
@@ -111,7 +111,8 @@ public class PropertyPhotoControllerTest extends BaseControllerTest {
     @Test(expected = ResourceConflictException.class)
     public void propertyPhotoControllerReturnsConflictHttpStatusOnPropertyPhotoAlreadyExistsExceptionDuringPhotoUploadRequest()
             throws Exception {
-        doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES);
+        doThrow(new PropertyPhotoAlreadyExistsException()).when(propertyPhotoServiceMock).addPhoto(propertyMock, SAMPLE_BYTES,
+                SAMPLE_FILE_NAME);
         propertyPhotoController.uploadPropertyPhoto(propertyMock.hashCode(), multipartFileMock, mockHttpSession);
     }
 

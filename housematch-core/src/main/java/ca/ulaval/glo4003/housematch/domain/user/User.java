@@ -256,7 +256,7 @@ public class User extends UserObservable implements PropertyObserver {
     @Override
     public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
         String eventDescription = String.format("The photo '%s' of your property for sale (%s) has been rejected.",
-                propertyPhoto.toString(), ((Property) sender).toString());
+                propertyPhoto.getOriginalFileName(), ((Property) sender).toString());
         Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, eventDescription);
         notify(notification);
     }

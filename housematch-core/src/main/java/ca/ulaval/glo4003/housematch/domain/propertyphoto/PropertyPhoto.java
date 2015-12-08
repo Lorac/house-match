@@ -3,10 +3,12 @@ package ca.ulaval.glo4003.housematch.domain.propertyphoto;
 public class PropertyPhoto extends PropertyPhotoObservable {
 
     private int hashCode;
-    private PropertyPhotoStatus status = PropertyPhotoStatus.WAITING_FOR_APPROVAL;
+    private PropertyPhotoStatus status = PropertyPhotoStatus.PENDING_APPROVAL;
+    private String originalFileName;
 
-    public PropertyPhoto(final int hashCode) {
+    public PropertyPhoto(final int hashCode, final String originalFileName) {
         this.hashCode = hashCode;
+        this.originalFileName = originalFileName;
     }
 
     public PropertyPhotoStatus getStatus() {
@@ -15,6 +17,14 @@ public class PropertyPhoto extends PropertyPhotoObservable {
 
     public void setStatus(PropertyPhotoStatus status) {
         this.status = status;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
     }
 
     public Boolean isApproved() {
@@ -42,11 +52,6 @@ public class PropertyPhoto extends PropertyPhotoObservable {
 
         PropertyPhoto propertyPhoto = (PropertyPhoto) obj;
         return propertyPhoto.hashCode() == this.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return String.valueOf(hashCode);
     }
 
 }

@@ -13,6 +13,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 
 public class XmlPropertyPhotoAdapterTest {
 
+    private static final String SAMPLE_FILE_NAME = "test.txt";
     private static final PropertyPhotoStatus SAMPLE_PROPERTY_PHOTO_STATUS = PropertyPhotoStatus.APPROVED;
     private static final int SAMPLE_HASH_CODE = 3434;
 
@@ -47,7 +48,7 @@ public class XmlPropertyPhotoAdapterTest {
     }
 
     private void initStubs() {
-        when(propertyPhotoFactoryMock.createPropertyPhoto(SAMPLE_HASH_CODE)).thenReturn(propertyPhotoMock);
+        when(propertyPhotoFactoryMock.createPropertyPhoto(SAMPLE_HASH_CODE, SAMPLE_FILE_NAME)).thenReturn(propertyPhotoMock);
     }
 
     @Test
@@ -56,6 +57,7 @@ public class XmlPropertyPhotoAdapterTest {
 
         assertEquals(propertyPhotoMock.hashCode(), xmlPropertyPhotoMock.hashCode);
         assertEquals(propertyPhotoMock.getStatus(), xmlPropertyPhotoMock.status);
+        assertEquals(propertyPhotoMock.getOriginalFileName(), xmlPropertyPhotoMock.originalFileName);
     }
 
     @Test
@@ -64,5 +66,6 @@ public class XmlPropertyPhotoAdapterTest {
 
         assertEquals(xmlPropertyPhotoMock.hashCode, propertyPhotoMock.hashCode());
         assertEquals(xmlPropertyPhotoMock.status, propertyPhotoMock.getStatus());
+        assertEquals(xmlPropertyPhotoMock.originalFileName, propertyPhotoMock.getOriginalFileName());
     }
 }

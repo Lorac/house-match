@@ -94,15 +94,6 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     }
 
     @Override
-    public byte[] getThumbnailData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
-        try {
-            return fileUtilsWrapper.readByteArrayFromFile(getThumbnailFileName(propertyPhoto.hashCode()));
-        } catch (FileNotFoundException e) {
-            throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hash code '%s'.", propertyPhoto.hashCode()));
-        }
-    }
-
-    @Override
     public void delete(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
         if (!propertyPhotos.containsValue(propertyPhoto)) {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find a photo with hash code '%d'.", propertyPhoto.hashCode()));
@@ -110,6 +101,15 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
         propertyPhotos.remove(propertyPhoto.hashCode());
         fileUtilsWrapper.deleteFile(getThumbnailFileName(propertyPhoto.hashCode()));
         fileUtilsWrapper.deleteFile(getPhotoFileName(propertyPhoto.hashCode()));
+    }
+
+    @Override
+    public byte[] getThumbnailData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
+        try {
+            return fileUtilsWrapper.readByteArrayFromFile(getThumbnailFileName(propertyPhoto.hashCode()));
+        } catch (FileNotFoundException e) {
+            throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hash code '%s'.", propertyPhoto.hashCode()));
+        }
     }
 
     private String getThumbnailFileName(int hashCode) throws FileNotFoundException {

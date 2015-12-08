@@ -9,5 +9,6 @@ public class XmlPropertyPhoto {
 
     public int hashCode;
     public PropertyPhotoStatus status;
+    public String originalFileName;
 
 }

@@ -46,7 +46,7 @@ var bodyOnLoad = function() {
                         <%@include file="/WEB-INF/includes/photoManager.jsp"%>
                     </c:when>
                     <c:otherwise>
-                        <p class="center">There are currently no photos waiting for approval.</p>
+                        <p class="center">There are currently no photos pending approval.</p>
                     </c:otherwise>
                 </c:choose>
                 </div>
