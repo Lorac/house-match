@@ -20,7 +20,6 @@ import org.mockito.InOrder;
 
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
-import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRepository;
@@ -39,7 +38,6 @@ public class NotificationServiceTest {
     private MailSender mailSenderMock;
     private Notification notificationMock;
     private Notification anotherNotificationMock;
-    private NotificationSettings notificationSettingsMock;
     private UserRepository userRepositoryMock;
 
     Queue<Notification> notificationQueue = new ConcurrentLinkedQueue<>();
@@ -60,14 +58,13 @@ public class NotificationServiceTest {
         mailSenderMock = mock(MailSender.class);
         notificationMock = mock(Notification.class);
         anotherNotificationMock = mock(Notification.class);
-        notificationSettingsMock = mock(NotificationSettings.class);
         userRepositoryMock = mock(UserRepository.class);
     }
 
     private void initStubs() {
         when(userMock.getNotificationQueue()).thenReturn(notificationQueue);
         when(userMock.getEmail()).thenReturn(SAMPLE_EMAIL);
-        when(userMock.getNotificationSettings()).thenReturn(notificationSettingsMock);
+        when(userMock.notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, NotificationInterval.IMMEDIATELY)).thenReturn(true);
         when(notificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
         when(notificationMock.toString()).thenReturn(SAMPLE_NOTIFICATION_STRING);
         when(anotherNotificationMock.getType()).thenReturn(SAMPLE_NOTIFICATION_TYPE);
@@ -82,8 +79,6 @@ public class NotificationServiceTest {
 
     @Test
     public void processingQueuedNotificationSendsAnEmailContainingTheNotificationDescriptionToTheSpecifiedUser() {
-        when(notificationSettingsMock.notificationIntervalEquals(eq(SAMPLE_NOTIFICATION_TYPE), eq(NotificationInterval.IMMEDIATELY)))
-                .thenReturn(true);
         notificationService.processQueuedUserNotification(userMock, notificationMock);
         verify(mailSenderMock).sendAsync(anyString(), eq(SAMPLE_NOTIFICATION_STRING), eq(SAMPLE_EMAIL));
     }
@@ -96,8 +91,7 @@ public class NotificationServiceTest {
 
     @Test
     public void processingQueuedNotificationDoesNotSendAnEmailWhenTheNotificationIntervalSettingOfUserIsNotSetToImmediately() {
-        when(notificationSettingsMock.notificationIntervalEquals(eq(SAMPLE_NOTIFICATION_TYPE), eq(NotificationInterval.IMMEDIATELY)))
-                .thenReturn(false);
+        when(userMock.notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, NotificationInterval.IMMEDIATELY)).thenReturn(false);
         notificationService.processQueuedUserNotification(userMock, notificationMock);
         verify(mailSenderMock, never()).sendAsync(anyString(), anyString(), anyString());
     }

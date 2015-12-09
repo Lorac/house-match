@@ -30,6 +30,7 @@ import org.junit.Test;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -55,6 +56,7 @@ public class UserTest {
     private static final Object SAMPLE_OBJECT = new Object();
     private static final UUID SAMPLE_ACTIVATION_CODE = UUID.randomUUID();
     private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.PROPERTY_PUT_UP_FOR_SALE;
+    private static final NotificationInterval SAMPLE_NOTIFICATION_INTERVAL = NotificationInterval.DAILY;
 
     private Address addressMock;
     private StringHasher stringHasherMock;
@@ -117,8 +119,8 @@ public class UserTest {
 
     @Test
     public void usersWithDifferentUsernamesShouldBeConsideredAsDifferent() throws Exception {
-        User anotherUser = new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
-                SAMPLE_ROLE);
+        User anotherUser =
+                new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.equals(anotherUser));
     }
 
@@ -131,8 +133,8 @@ public class UserTest {
 
     @Test
     public void usersWithDifferentUsernamesShouldNotHaveTheSameHashCode() throws Exception {
-        User anotherUser = new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
-                SAMPLE_ROLE);
+        User anotherUser =
+                new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertNotEquals(user.hashCode(), anotherUser.hashCode());
     }
 
@@ -162,8 +164,8 @@ public class UserTest {
 
     @Test
     public void usernameComparisonShouldConsiderUsersWithDifferentUsernameAsDifferent() throws Exception {
-        User anotherUser = new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
-                SAMPLE_ROLE);
+        User anotherUser =
+                new User(notificationFactoryMock, stringHasherMock, ANOTHER_SAMPLE_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD, SAMPLE_ROLE);
         assertFalse(user.usernameEquals(anotherUser.getUsername()));
     }
 
@@ -172,6 +174,12 @@ public class UserTest {
         User anotherUser = new User(notificationFactoryMock, stringHasherMock, SAMPLE_CAPITALIZED_USERNAME, SAMPLE_EMAIL, SAMPLE_PASSWORD,
                 SAMPLE_ROLE);
         assertTrue(user.usernameEquals(anotherUser.getUsername()));
+    }
+
+    @Test
+    public void comparingNotificationIntervalsComparesTheIntervalFromTheNotificationSettings() {
+        user.notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, SAMPLE_NOTIFICATION_INTERVAL);
+        verify(notificationSettingsMock).notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, SAMPLE_NOTIFICATION_INTERVAL);
     }
 
     @Test

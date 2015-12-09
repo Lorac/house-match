@@ -13,6 +13,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import ca.ulaval.glo4003.housematch.domain.address.Address;
 import ca.ulaval.glo4003.housematch.domain.notification.Notification;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationFactory;
+import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.property.Property;
@@ -164,6 +165,10 @@ public class User extends UserObservable implements PropertyObserver {
 
     public boolean usernameEquals(String username) {
         return this.username.equalsIgnoreCase(username);
+    }
+
+    public Boolean notificationIntervalEquals(NotificationType notificationType, NotificationInterval notificationInterval) {
+        return notificationSettings.notificationIntervalEquals(notificationType, notificationInterval);
     }
 
     public void validatePassword(String password) throws InvalidPasswordException {

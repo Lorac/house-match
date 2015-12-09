@@ -23,7 +23,7 @@ public class NotificationService {
     }
 
     public void processQueuedUserNotification(User user, Notification notification) {
-        if (user.getNotificationSettings().notificationIntervalEquals(notification.getType(), NotificationInterval.IMMEDIATELY)) {
+        if (user.notificationIntervalEquals(notification.getType(), NotificationInterval.IMMEDIATELY)) {
             processUserNotificationQueue(user, notification.getType());
         }
         userRepository.update(user);

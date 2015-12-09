@@ -28,7 +28,7 @@ public class UserNotificationTask implements Runnable {
 
     private void processScheduledUserNotifications(User user) {
         for (NotificationType notificationType : NotificationType.values()) {
-            if (user.getNotificationSettings().notificationIntervalEquals(notificationType, notificationInterval)) {
+            if (user.notificationIntervalEquals(notificationType, notificationInterval)) {
                 notificationService.processUserNotificationQueue(user, notificationType);
             }
         }

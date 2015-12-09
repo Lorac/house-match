@@ -11,7 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationInterval;
-import ca.ulaval.glo4003.housematch.domain.notification.NotificationSettings;
 import ca.ulaval.glo4003.housematch.domain.notification.NotificationType;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.services.notification.NotificationService;
@@ -23,7 +22,6 @@ public class UserNotificationTaskTest {
     private static final NotificationInterval SAMPLE_NOTIFICATION_INTERVAL = NotificationInterval.DAILY;
 
     private NotificationService notificationServiceMock;
-    private NotificationSettings notificationSettingsMock;
     private UserService userServiceMock;
     private User userMock;
 
@@ -42,17 +40,15 @@ public class UserNotificationTaskTest {
         userMock = mock(User.class);
         userServiceMock = mock(UserService.class);
         notificationServiceMock = mock(NotificationService.class);
-        notificationSettingsMock = mock(NotificationSettings.class);
     }
 
     private void initStubs() {
         when(userServiceMock.getUsers()).thenReturn(users);
-        when(userMock.getNotificationSettings()).thenReturn(notificationSettingsMock);
     }
 
     @Test
     public void runningTheTaskCallsTheNotificationServiceWhenUserNotificationIntervalSettingMatchesTheIntervalSettingOfTheTask() {
-        when(notificationSettingsMock.notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, SAMPLE_NOTIFICATION_INTERVAL)).thenReturn(true);
+        when(userMock.notificationIntervalEquals(SAMPLE_NOTIFICATION_TYPE, SAMPLE_NOTIFICATION_INTERVAL)).thenReturn(true);
         userNotificationTask.run();
         verify(notificationServiceMock).processUserNotificationQueue(userMock, SAMPLE_NOTIFICATION_TYPE);
     }
