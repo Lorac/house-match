@@ -10,14 +10,21 @@ public class UserStatisticsService {
 
     static final String NUMBER_OF_ACTIVE_BUYERS_STAT_NAME = "NumberOfActiveBuyers";
     static final String NUMBER_OF_ACTIVE_SELLERS_STAT_NAME = "NumberOfActiveSellers";
-    private static final Integer DEFAULT_INT_VALUE = 0;
+    private static final Integer DEFAULT_VALUE = 0;
 
-    private Statistic<Integer> numberOfActiveBuyers;
-    private Statistic<Integer> numberOfActiveSellers;
+    private Statistic<Integer> numberOfActiveBuyersStat;
+    private Statistic<Integer> numberOfActiveSellersStat;
 
     public UserStatisticsService(final StatisticFactory statisticFactory) {
-        numberOfActiveBuyers = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, DEFAULT_INT_VALUE);
-        numberOfActiveSellers = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_INT_VALUE);
+        numberOfActiveBuyersStat = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, DEFAULT_VALUE);
+        numberOfActiveSellersStat = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_VALUE);
+    }
+
+    public UserStatistics getStatistics() {
+        UserStatistics userStatistics = new UserStatistics();
+        userStatistics.setNumberOfActiveBuyers(numberOfActiveBuyersStat.getValue());
+        userStatistics.setNumberOfActiveSellers(numberOfActiveSellersStat.getValue());
+        return userStatistics;
     }
 
     public void processUserStatusChangeToActive(User user) {
@@ -37,17 +44,10 @@ public class UserStatisticsService {
     }
 
     private synchronized void adjustNumberOfActiveBuyers(Integer value) {
-        numberOfActiveBuyers.setValue(numberOfActiveBuyers.getValue() + value);
+        numberOfActiveBuyersStat.setValue(numberOfActiveBuyersStat.getValue() + value);
     }
 
     private synchronized void adjustNumberOfActiveSellers(Integer value) {
-        numberOfActiveSellers.setValue(numberOfActiveSellers.getValue() + value);
-    }
-
-    public UserStatistics getStatistics() {
-        UserStatistics userStatistics = new UserStatistics();
-        userStatistics.setNumberOfActiveBuyers(numberOfActiveBuyers.getValue());
-        userStatistics.setNumberOfActiveSellers(numberOfActiveSellers.getValue());
-        return userStatistics;
+        numberOfActiveSellersStat.setValue(numberOfActiveSellersStat.getValue() + value);
     }
 }

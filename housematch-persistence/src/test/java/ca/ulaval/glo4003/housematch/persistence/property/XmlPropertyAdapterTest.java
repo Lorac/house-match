@@ -1,14 +1,20 @@
 package ca.ulaval.glo4003.housematch.persistence.property;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +25,8 @@ import ca.ulaval.glo4003.housematch.domain.property.PropertyDetails;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyFactory;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyStatus;
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
+import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoRepository;
 
 public class XmlPropertyAdapterTest {
 
@@ -28,24 +36,30 @@ public class XmlPropertyAdapterTest {
     private static final ZonedDateTime SAMPLE_DATE = ZonedDateTime.now();
 
     private PropertyFactory propertyFactoryMock;
+    private PropertyPhotoRepository propertyPhotoRepositoryMock;
+    private PropertyPhoto propertyPhotoMock;
     private Property propertyMock;
     private Address addressMock;
     private PropertyDetails propertyDetailsMock;
     private XmlProperty xmlPropertyMock;
 
-    private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
     private XmlPropertyAdapter xmlPropertyAdapter;
+    private List<BigDecimal> sellingPriceHistory = new ArrayList<>();
+    private Set<PropertyPhoto> propertyPhotos = new HashSet<>();
+    private Set<Integer> propertyPhotoHashCodes = new HashSet<>();
 
     @Before
     public void init() throws Exception {
         initMocks();
         initStubs();
-        xmlPropertyAdapter = new XmlPropertyAdapter(propertyFactoryMock);
+        xmlPropertyAdapter = new XmlPropertyAdapter(propertyFactoryMock, propertyPhotoRepositoryMock);
     }
 
     private void initMocks() {
         propertyFactoryMock = mock(PropertyFactory.class);
         propertyDetailsMock = mock(PropertyDetails.class);
+        propertyPhotoRepositoryMock = mock(PropertyPhotoRepository.class);
+        propertyPhotoMock = mock(PropertyPhoto.class);
         addressMock = mock(Address.class);
         initPropertyMock();
         initXmlPropertyMock();
@@ -60,6 +74,7 @@ public class XmlPropertyAdapterTest {
         when(propertyMock.getAddress()).thenReturn(addressMock);
         when(propertyMock.getPropertyDetails()).thenReturn(propertyDetailsMock);
         when(propertyMock.getCreationDate()).thenReturn(SAMPLE_DATE);
+        when(propertyMock.getPhotos()).thenReturn(propertyPhotos);
     }
 
     private void initXmlPropertyMock() {
@@ -71,6 +86,7 @@ public class XmlPropertyAdapterTest {
         xmlPropertyMock.address = addressMock;
         xmlPropertyMock.propertyDetails = propertyDetailsMock;
         xmlPropertyMock.creationDate = SAMPLE_DATE;
+        xmlPropertyMock.photos = propertyPhotoHashCodes;
     }
 
     private void initStubs() {
@@ -92,6 +108,13 @@ public class XmlPropertyAdapterTest {
     }
 
     @Test
+    public void propertyPhotosAreMarshalledAsReferenceDuringMarshalling() throws Exception {
+        propertyPhotos.add(propertyPhotoMock);
+        XmlProperty xmlProperty = xmlPropertyAdapter.marshal(propertyMock);
+        assertThat(xmlProperty.photos, contains(propertyPhotoMock.hashCode()));
+    }
+
+    @Test
     public void xmlPropertyAttributesAreConvertedDuringUnmarshalling() throws Exception {
         xmlPropertyAdapter.unmarshal(xmlPropertyMock);
 
@@ -102,5 +125,16 @@ public class XmlPropertyAdapterTest {
         assertEquals(xmlPropertyMock.sellingPriceHistory, propertyMock.getSellingPriceHistory());
         assertEquals(xmlPropertyMock.propertyDetails, propertyMock.getPropertyDetails());
         assertEquals(xmlPropertyMock.creationDate, propertyMock.getCreationDate());
+    }
+
+    @Test
+    public void propertyPhotosAreDereferencedDuringUnmarshalling() throws Exception {
+        when(propertyPhotoRepositoryMock.getByHashCode(propertyPhotoMock.hashCode())).thenReturn(propertyPhotoMock);
+        propertyPhotos.add(propertyPhotoMock);
+        propertyPhotoHashCodes.add(propertyPhotoMock.hashCode());
+
+        xmlPropertyAdapter.unmarshal(xmlPropertyMock);
+
+        verify(propertyMock).setPhotos(eq(propertyPhotos));
     }
 }

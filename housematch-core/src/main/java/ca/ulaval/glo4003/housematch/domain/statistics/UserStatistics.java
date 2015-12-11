@@ -2,8 +2,8 @@ package ca.ulaval.glo4003.housematch.domain.statistics;
 
 public class UserStatistics {
 
-    private Integer numberOfActiveBuyers;
-    private Integer numberOfActiveSellers;
+    private Integer numberOfActiveBuyers = 0;
+    private Integer numberOfActiveSellers = 0;
 
     public Integer getNumberOfActiveBuyers() {
         return numberOfActiveBuyers;

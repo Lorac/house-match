@@ -25,6 +25,9 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable implements PropertyObserver {
+
+    private static final String FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION = "The details of a property you favorited (%s) have changed.";
+    private static final String PHOTO_REJECTED_EVENT_DESCRIPTION = "The photo '%s' of your property for sale (%s) has been rejected.";
     static final Integer INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
     private NotificationFactory notificationFactory;
@@ -99,8 +102,9 @@ public class User extends UserObservable implements PropertyObserver {
         return propertiesForSale;
     }
 
-    public void setPropertiesForSale(Set<Property> properties) {
-        propertiesForSale = properties;
+    public void setPropertiesForSale(Set<Property> propertiesForSale) {
+        this.propertiesForSale = propertiesForSale;
+        this.propertiesForSale.stream().forEach(p -> p.registerObserver(this));
     }
 
     public Set<Property> getPurchasedProperties() {
@@ -117,6 +121,7 @@ public class User extends UserObservable implements PropertyObserver {
 
     public void setFavoriteProperties(Set<Property> favoriteProperties) {
         this.favoriteProperties = favoriteProperties;
+        this.favoriteProperties.stream().forEach(p -> p.registerObserver(this));
     }
 
     public NotificationSettings getNotificationSettings() {
@@ -253,17 +258,21 @@ public class User extends UserObservable implements PropertyObserver {
     @Override
     public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
         Property property = (Property) sender;
-        String eventDescription = String.format("The details of a property you favorited (%s) have changed.", property.toString());
-        Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_MODIFIED, eventDescription);
-        notify(notification);
+        if (favoriteProperties.contains(property)) {
+            String description = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
+            Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_CHANGED, description);
+            notify(notification);
+        }
     }
 
     @Override
-    public void propertyPhotoRejected(Object sender, PropertyPhoto propertyPhoto) {
-        String eventDescription = String.format("The photo '%s' of your property for sale (%s) has been rejected.",
-                propertyPhoto.getOriginalFileName(), ((Property) sender).toString());
-        Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, eventDescription);
-        notify(notification);
+    public void propertyPhotoRejected(Object sender, PropertyPhoto photo) {
+        Property property = (Property) sender;
+        if (propertiesForSale.contains(property)) {
+            String description = String.format(PHOTO_REJECTED_EVENT_DESCRIPTION, photo.getOriginalFileName(), property.toString());
+            Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, description);
+            notify(notification);
+        }
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.junit.Test;
 
 public class NotificationFactoryTest {
 
-    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_MODIFIED;
+    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_CHANGED;
     private static final String SAMPLE_EVENT_DESCRIPTION = "eventDescription";
 
     private NotificationFactory notificationFactory;

@@ -35,7 +35,7 @@ public class NotificationSettingsConverterTest {
     private void initStubs() {
         when(notificationSettingsMock.getNotificationInterval(NotificationType.PROPERTY_PUT_UP_FOR_SALE))
                 .thenReturn(SAMPLE_NOTIFICATION_INTERVAL);
-        when(notificationSettingsMock.getNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFIED))
+        when(notificationSettingsMock.getNotificationInterval(NotificationType.FAVORITE_PROPERTY_CHANGED))
                 .thenReturn(SAMPLE_NOTIFICATION_INTERVAL);
 
         when(notificationSettingsFormViewModelMock.getFavoritePropertyModificationNotificationInterval())

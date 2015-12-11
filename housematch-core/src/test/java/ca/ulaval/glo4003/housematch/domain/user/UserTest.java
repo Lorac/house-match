@@ -14,6 +14,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -408,15 +409,29 @@ public class UserTest {
     }
 
     @Test
-    public void propertyDetailsChangeNotifiesTheObservers() throws Exception {
+    public void favoritePropertyDetailsChangeNotifiesTheObservers() throws Exception {
+        user.addPropertyToFavorites(propertyMock);
         user.propertyDetailsChanged(propertyMock, propertyDetailsMock);
         verify(userObserverMock).userNotificationQueued(user, notificationMock);
     }
 
     @Test
-    public void propertyPhotoRejectionNotifiesTheObservers() throws Exception {
+    public void propertyDetailsChangeDoesNotNotifyTheObserversWhenThePropertyIsNotAFavoriteProperty() throws Exception {
+        user.propertyDetailsChanged(propertyMock, propertyDetailsMock);
+        verify(userObserverMock, never()).userNotificationQueued(user, notificationMock);
+    }
+
+    @Test
+    public void photoRejectionOfAPropertyForSaleNotifiesTheObservers() throws Exception {
+        user.addPropertyForSale(propertyMock);
         user.propertyPhotoRejected(propertyMock, propertyPhotoMock);
         verify(userObserverMock).userNotificationQueued(user, notificationMock);
+    }
+
+    @Test
+    public void photoRejectionOfAPropertyDoesNotNotifyTheObserversWhenThePropertyIsNotAPropertyForSale() throws Exception {
+        user.propertyPhotoRejected(propertyMock, propertyPhotoMock);
+        verify(userObserverMock, never()).userNotificationQueued(user, notificationMock);
     }
 
 }

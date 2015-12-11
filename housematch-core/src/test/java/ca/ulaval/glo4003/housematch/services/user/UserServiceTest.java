@@ -15,6 +15,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -56,6 +57,7 @@ public class UserServiceTest {
     private NotificationSettings notificationSettingsMock;
 
     private UserService userService;
+    private List<User> users = new ArrayList<>();
     private Set<Property> properties = new HashSet<Property>();
 
     @Before
@@ -107,6 +109,13 @@ public class UserServiceTest {
     public void gettingUserByLoginCredentialsThrowsUserServiceExceptionOnUserNotFoundException() throws Exception {
         doThrow(new UserNotFoundException()).when(userRepositoryMock).getByUsername(SAMPLE_USERNAME);
         userService.getUserByLoginCredentials(SAMPLE_USERNAME, SAMPLE_PASSWORD);
+    }
+
+    @Test
+    public void gettingUsersGetsAlltheUsersFromTheRepository() {
+        when(userRepositoryMock.getAll()).thenReturn(users);
+        List<User> returnedUsers = userService.getUsers();
+        assertSame(users, returnedUsers);
     }
 
     @Test

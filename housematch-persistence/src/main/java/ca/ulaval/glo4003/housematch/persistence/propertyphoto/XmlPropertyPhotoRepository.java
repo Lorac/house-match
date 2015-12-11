@@ -17,7 +17,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundEx
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoRepository;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import ca.ulaval.glo4003.housematch.utils.FileUtilsWrapper;
+import ca.ulaval.glo4003.housematch.utils.IOWrapper;
 import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
 import ca.ulaval.glo4003.housematch.utils.ThumbnailGenerator;
 
@@ -31,17 +31,17 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
     private XmlRepositoryMarshaller<XmlPropertyPhotoRootElement> xmlRepositoryMarshaller;
     private XmlPropertyPhotoRootElement xmlPropertyPhotoRootElement;
     private ResourceLoader resourceLoader;
-    private FileUtilsWrapper fileUtilsWrapper;
+    private IOWrapper ioWrapper;
     private ThumbnailGenerator thumbnailGenerator;
 
     private Map<Integer, PropertyPhoto> propertyPhotos = new ConcurrentHashMap<>();
 
     public XmlPropertyPhotoRepository(final XmlRepositoryMarshaller<XmlPropertyPhotoRootElement> xmlRepositoryMarshaller,
-            final XmlPropertyPhotoAdapter xmlPropertyPhotoAdapter, final ResourceLoader resourceLoader,
-            final FileUtilsWrapper fileUtilsWrapper, final ThumbnailGenerator thumbnailGenerator) throws FileNotFoundException {
+            final XmlPropertyPhotoAdapter xmlPropertyPhotoAdapter, final ResourceLoader resourceLoader, final IOWrapper ioWrapper,
+            final ThumbnailGenerator thumbnailGenerator) throws FileNotFoundException {
         this.resourceLoader = resourceLoader;
         this.xmlRepositoryMarshaller = xmlRepositoryMarshaller;
-        this.fileUtilsWrapper = fileUtilsWrapper;
+        this.ioWrapper = ioWrapper;
         this.thumbnailGenerator = thumbnailGenerator;
         initRepository(xmlPropertyPhotoAdapter);
     }
@@ -66,7 +66,7 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
 
     private void saveExternalPhotoFiles(String fileName, String thumbnailFileName, byte[] fileBytes)
             throws FileNotFoundException, IOException {
-        fileUtilsWrapper.writeByteArrayToFile(fileBytes, fileName);
+        ioWrapper.writeByteArrayToFile(fileBytes, fileName);
         thumbnailGenerator.saveThumbnail(fileName, thumbnailFileName, THUMBNAIL_DIMENSION, THUMBNAIL_FILE_FORMAT_STRING);
     }
 
@@ -75,7 +75,6 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
         if (!propertyPhotos.containsValue(propertyPhoto)) {
             throw new IllegalStateException("Update requested for an object that is not persisted.");
         }
-
         marshal();
     }
 
@@ -99,14 +98,15 @@ public class XmlPropertyPhotoRepository implements PropertyPhotoRepository {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find a photo with hash code '%d'.", propertyPhoto.hashCode()));
         }
         propertyPhotos.remove(propertyPhoto.hashCode());
-        fileUtilsWrapper.deleteFile(getThumbnailFileName(propertyPhoto.hashCode()));
-        fileUtilsWrapper.deleteFile(getPhotoFileName(propertyPhoto.hashCode()));
+        ioWrapper.deleteFile(getThumbnailFileName(propertyPhoto.hashCode()));
+        ioWrapper.deleteFile(getPhotoFileName(propertyPhoto.hashCode()));
+        marshal();
     }
 
     @Override
     public byte[] getThumbnailData(PropertyPhoto propertyPhoto) throws PropertyPhotoNotFoundException, IOException {
         try {
-            return fileUtilsWrapper.readByteArrayFromFile(getThumbnailFileName(propertyPhoto.hashCode()));
+            return ioWrapper.readByteArrayFromFile(getThumbnailFileName(propertyPhoto.hashCode()));
         } catch (FileNotFoundException e) {
             throw new PropertyPhotoNotFoundException(String.format("Cannot find photo with hash code '%s'.", propertyPhoto.hashCode()));
         }

@@ -27,7 +27,7 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoAlreadyExi
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoNotFoundException;
 import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhotoStatus;
 import ca.ulaval.glo4003.housematch.persistence.marshalling.XmlRepositoryMarshaller;
-import ca.ulaval.glo4003.housematch.utils.FileUtilsWrapper;
+import ca.ulaval.glo4003.housematch.utils.IOWrapper;
 import ca.ulaval.glo4003.housematch.utils.ResourceLoader;
 import ca.ulaval.glo4003.housematch.utils.ThumbnailGenerator;
 
@@ -43,7 +43,7 @@ public class XmlPropertyPhotoRepositoryTest {
     private PropertyPhoto propertyPhotoMock;
     private PropertyPhoto anotherPropertyPhotoMock;
     private ResourceLoader resourceLoaderMock;
-    private FileUtilsWrapper fileUtilsWrapperMock;
+    private IOWrapper ioWrapperMock;
     private ThumbnailGenerator thumbnailGeneratorMock;
 
     private XmlPropertyPhotoRepository xmlPropertyPhotoRepository;
@@ -53,7 +53,7 @@ public class XmlPropertyPhotoRepositoryTest {
         initMocks();
         initStubs();
         xmlPropertyPhotoRepository = new XmlPropertyPhotoRepository(xmlRepositoryMarshallerMock, xmlPropertyPhotoAdapterMock,
-                resourceLoaderMock, fileUtilsWrapperMock, thumbnailGeneratorMock);
+                resourceLoaderMock, ioWrapperMock, thumbnailGeneratorMock);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,13 +64,13 @@ public class XmlPropertyPhotoRepositoryTest {
         xmlPropertyPhotoRootElementMock = mock(XmlPropertyPhotoRootElement.class);
         xmlRepositoryMarshallerMock = mock(XmlRepositoryMarshaller.class);
         resourceLoaderMock = mock(ResourceLoader.class);
-        fileUtilsWrapperMock = mock(FileUtilsWrapper.class);
+        ioWrapperMock = mock(IOWrapper.class);
         thumbnailGeneratorMock = mock(ThumbnailGenerator.class);
     }
 
     private void initStubs() throws Exception, IOException {
         when(xmlRepositoryMarshallerMock.unmarshal()).thenReturn(xmlPropertyPhotoRootElementMock);
-        when(fileUtilsWrapperMock.readByteArrayFromFile(anyString())).thenReturn(SAMPLE_BYTES);
+        when(ioWrapperMock.readByteArrayFromFile(anyString())).thenReturn(SAMPLE_BYTES);
         when(propertyPhotoMock.getStatus()).thenReturn(SAMPLE_PROPERTY_PHOTO_STATUS);
         when(anotherPropertyPhotoMock.getStatus()).thenReturn(ANOTHER_SAMPLE_PROPERTY_PHOTO_STATUS);
     }
@@ -100,7 +100,7 @@ public class XmlPropertyPhotoRepositoryTest {
     @Test
     public void persistingPhotoWritesByteArrayToFile() throws Exception {
         xmlPropertyPhotoRepository.persist(propertyPhotoMock, SAMPLE_BYTES);
-        verify(fileUtilsWrapperMock).writeByteArrayToFile(eq(SAMPLE_BYTES), anyString());
+        verify(ioWrapperMock).writeByteArrayToFile(eq(SAMPLE_BYTES), anyString());
     }
 
     @Test
@@ -147,7 +147,7 @@ public class XmlPropertyPhotoRepositoryTest {
 
     @Test(expected = PropertyPhotoNotFoundException.class)
     public void gettingThumbnailDataThrowsPropertyPhotoNotFoundExceptionOnFileNotFoundException() throws Exception {
-        doThrow(new FileNotFoundException()).when(fileUtilsWrapperMock).readByteArrayFromFile(anyString());
+        doThrow(new FileNotFoundException()).when(ioWrapperMock).readByteArrayFromFile(anyString());
         xmlPropertyPhotoRepository.getThumbnailData(propertyPhotoMock);
     }
 
@@ -164,6 +164,13 @@ public class XmlPropertyPhotoRepositoryTest {
         }
     }
 
+    @Test
+    public void deletingPhotoMarshallsTheRepository() throws Exception {
+        xmlPropertyPhotoRepository.persist(propertyPhotoMock, SAMPLE_BYTES);
+        xmlPropertyPhotoRepository.delete(propertyPhotoMock);
+        verify(xmlRepositoryMarshallerMock, times(2)).marshal(xmlPropertyPhotoRootElementMock);
+    }
+
     @Test(expected = PropertyPhotoNotFoundException.class)
     public void deletingNonExistingPhotoThrowsPropertyPhotoNotFoundException() throws Exception {
         xmlPropertyPhotoRepository.delete(propertyPhotoMock);
@@ -173,7 +180,7 @@ public class XmlPropertyPhotoRepositoryTest {
     public void deletingPhotoDeletesFileFromFileSystem() throws Exception {
         xmlPropertyPhotoRepository.persist(propertyPhotoMock, SAMPLE_BYTES);
         xmlPropertyPhotoRepository.delete(propertyPhotoMock);
-        verify(fileUtilsWrapperMock, times(2)).deleteFile(anyString());
+        verify(ioWrapperMock, times(2)).deleteFile(anyString());
     }
 
 }

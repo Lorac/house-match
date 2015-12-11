@@ -35,6 +35,7 @@
 
     <bean id="xmlPropertyAdapter" class="ca.ulaval.glo4003.housematch.persistence.property.XmlPropertyAdapter">
         <constructor-arg ref="persistencePropertyFactory" />
+        <constructor-arg ref="xmlPropertyPhotoRepository" />
     </bean>
 
     <!-- Property Photos -->
@@ -43,7 +44,7 @@
         <constructor-arg ref="xmlPropertyPhotoRepositoryMarshaller" />
         <constructor-arg ref="xmlPropertyPhotoAdapter" />
         <constructor-arg ref="resourceLoader" />
-        <constructor-arg ref="fileUtilsWrapper" />
+        <constructor-arg ref="ioUtilsWrapper" />
         <constructor-arg ref="thumbnailGenerator" />
     </bean>
 
@@ -73,7 +74,7 @@
 
     <bean id="resourceLoader" class="ca.ulaval.glo4003.housematch.utils.ResourceLoader" />
 
-    <bean id="fileUtilsWrapper" class="ca.ulaval.glo4003.housematch.utils.FileUtilsWrapper" />
+    <bean id="ioUtilsWrapper" class="ca.ulaval.glo4003.housematch.utils.IOWrapper" />
 
     <bean id="thumbnailGenerator" class="ca.ulaval.glo4003.housematch.utils.ThumbnailGenerator" />
 

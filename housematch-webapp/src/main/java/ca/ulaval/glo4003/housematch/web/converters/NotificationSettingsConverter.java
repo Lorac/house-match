@@ -11,7 +11,7 @@ public class NotificationSettingsConverter {
         viewModel.setPropertyPutUpForSaleNotificationInterval(
                 notificationSettings.getNotificationInterval(NotificationType.PROPERTY_PUT_UP_FOR_SALE));
         viewModel.setFavoritePropertyModificationNotificationInterval(
-                notificationSettings.getNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFIED));
+                notificationSettings.getNotificationInterval(NotificationType.FAVORITE_PROPERTY_CHANGED));
         return viewModel;
     }
 
@@ -19,7 +19,7 @@ public class NotificationSettingsConverter {
         NotificationSettings notificationSettings = new NotificationSettings();
         notificationSettings.setNotificationInterval(NotificationType.PROPERTY_PUT_UP_FOR_SALE,
                 viewModel.getPropertyPutUpForSaleNotificationInterval());
-        notificationSettings.setNotificationInterval(NotificationType.FAVORITE_PROPERTY_MODIFIED,
+        notificationSettings.setNotificationInterval(NotificationType.FAVORITE_PROPERTY_CHANGED,
                 viewModel.getFavoritePropertyModificationNotificationInterval());
         return notificationSettings;
     }

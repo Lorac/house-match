@@ -8,7 +8,7 @@ import java.io.InputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-public class FileUtilsWrapper {
+public class IOWrapper {
 
     public void writeByteArrayToFile(byte[] fileBytes, String fileName) throws IOException {
         FileUtils.writeByteArrayToFile(new File(fileName), fileBytes);

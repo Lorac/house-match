@@ -18,7 +18,7 @@ import ca.ulaval.glo4003.housematch.services.user.UserService;
 
 public class UserNotificationTaskTest {
 
-    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_MODIFIED;
+    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_CHANGED;
     private static final NotificationInterval SAMPLE_NOTIFICATION_INTERVAL = NotificationInterval.DAILY;
 
     private NotificationService notificationServiceMock;

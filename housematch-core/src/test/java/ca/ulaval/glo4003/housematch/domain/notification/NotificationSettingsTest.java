@@ -12,7 +12,7 @@ import org.junit.Test;
 
 public class NotificationSettingsTest {
 
-    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_MODIFIED;
+    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_CHANGED;
 
     private Map<NotificationType, NotificationInterval> notificationIntervals = new HashMap<>();
 

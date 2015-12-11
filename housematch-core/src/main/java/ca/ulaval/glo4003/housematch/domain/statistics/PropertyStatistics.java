@@ -1,13 +1,14 @@
 package ca.ulaval.glo4003.housematch.domain.statistics;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import ca.ulaval.glo4003.housematch.domain.property.PropertyType;
 
 public class PropertyStatistics {
 
-    private Integer numberOfSoldPropertiesThisYear;
-    private Map<PropertyType, Integer> numberOfPropertiesForSale;
+    private Integer numberOfSoldPropertiesThisYear = 0;
+    private Map<PropertyType, Integer> numberOfPropertiesForSale = new HashMap<>();
 
     public Integer getNumberOfSoldPropertiesThisYear() {
         return numberOfSoldPropertiesThisYear;
@@ -21,7 +22,7 @@ public class PropertyStatistics {
         return numberOfPropertiesForSale;
     }
 
-    public void setNumberOfPropertiesForSale(Map<PropertyType, Integer> numberOfPropertiesForSale) {
-        this.numberOfPropertiesForSale = numberOfPropertiesForSale;
+    public void setNumberOfPropertiesForSale(PropertyType propertyType, Integer value) {
+        this.numberOfPropertiesForSale.put(propertyType, value);
     }
 }

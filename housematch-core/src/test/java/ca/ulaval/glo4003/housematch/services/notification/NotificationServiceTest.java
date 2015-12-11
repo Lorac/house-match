@@ -27,7 +27,7 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 
 public class NotificationServiceTest {
 
-    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_MODIFIED;
+    private static final NotificationType SAMPLE_NOTIFICATION_TYPE = NotificationType.FAVORITE_PROPERTY_CHANGED;
     private static final NotificationType ANOTHER_SAMPLE_NOTIFICATION_TYPE = NotificationType.PROPERTY_PUT_UP_FOR_SALE;
     private static final String SAMPLE_NOTIFICATION_STRING = "sampleString1";
     private static final String ANOTHER_SAMPLE_NOTIFICATION_STRING = "sampleString2";
