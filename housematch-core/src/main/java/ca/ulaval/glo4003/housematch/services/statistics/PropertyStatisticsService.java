@@ -23,13 +23,13 @@ public class PropertyStatisticsService {
 
     public PropertyStatisticsService(final StatisticFactory statisticFactory) {
         this.statisticFactory = statisticFactory;
-        initStats();
+        initStatistics();
     }
 
-    public void initStats() {
+    public void initStatistics() {
         numberOfSoldPropertiesThisYearStat = statisticFactory.createStatistic(NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME, DEFAULT_VALUE);
         for (PropertyType propertyType : PropertyType.values()) {
-            Statistic<Integer> statistic = statisticFactory.createStatistic(getPropertyTypeStatName(propertyType), DEFAULT_VALUE);
+            Statistic<Integer> statistic = statisticFactory.createStatistic(getPropertiesForSaleStatName(propertyType), DEFAULT_VALUE);
             numberOfPropertiesForSaleStat.put(propertyType, statistic);
         }
     }
@@ -60,7 +60,7 @@ public class PropertyStatisticsService {
         numberOfPropertiesForSaleStat.get(propertyType).setValue(numberOfPropertiesForSaleStat.get(propertyType).getValue() + value);
     }
 
-    private String getPropertyTypeStatName(PropertyType propertyType) {
+    private String getPropertiesForSaleStatName(PropertyType propertyType) {
         return String.format("%s_%s", NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, propertyType.name());
     }
 

@@ -52,7 +52,7 @@ public class PropertyStatisticsServiceTest {
         when(statisticFactoryMock.createStatistic(anyString(), anyInt())).thenReturn(statMock);
         when(statisticFactoryMock.createStatistic(eq(PropertyStatisticsService.NUMBER_OF_SOLD_PROPERTIES_THIS_YEAR_STAT_NAME), anyInt()))
                 .thenReturn(numberOfSoldPropertiesThisYearStatMock);
-        when(statisticFactoryMock.createStatistic(eq(getPropertyTypeStatName(SAMPLE_PROPERTY_TYPE)), anyInt()))
+        when(statisticFactoryMock.createStatistic(eq(getPropertiesForSaleStatName(SAMPLE_PROPERTY_TYPE)), anyInt()))
                 .thenReturn(numberOfPropertiesForSaleStatMock);
         when(propertyMock.getPropertyType()).thenReturn(SAMPLE_PROPERTY_TYPE);
     }
@@ -89,7 +89,7 @@ public class PropertyStatisticsServiceTest {
                 propertyStatistics.getNumberOfPropertiesForSale().get(propertyMock.getPropertyType()));
     }
 
-    private String getPropertyTypeStatName(PropertyType propertyType) {
+    private String getPropertiesForSaleStatName(PropertyType propertyType) {
         return String.format("%s_%s", PropertyStatisticsService.NUMBER_OF_PROPERTIES_FOR_SALE_STAT_NAME, propertyType.name());
     }
 }
