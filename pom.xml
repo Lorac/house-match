@@ -4,7 +4,7 @@
     <groupId>ca.ulaval.glo4003</groupId>
     <artifactId>HouseMatch</artifactId>
     <packaging>pom</packaging>
-    <version>v0.4</version>
+    <version>0.5-SNAPSHOT</version>
     <modules>
         <module>housematch-core</module>
         <module>housematch-webapp</module>
@@ -27,7 +27,7 @@
         <url>https://gitlab.com/GLO-4003/house-match</url>
         <connection>scm:git:git@gitlab.com:GLO-4003/house-match.git</connection>
         <developerConnection>scm:git:git@gitlab.com:GLO-4003/house-match.git</developerConnection>
-        <tag>v0.4</tag>
+        <tag>0.1</tag>
     </scm>
 
     <developers>

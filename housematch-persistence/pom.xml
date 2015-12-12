@@ -3,7 +3,7 @@
     <parent>
         <groupId>ca.ulaval.glo4003</groupId>
         <artifactId>HouseMatch</artifactId>
-        <version>v0.4</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
 
     <artifactId>housematch-persistence</artifactId>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
             <artifactId>housematch-core</artifactId>
-            <version>v0.4</version>
+            <version>0.5-SNAPSHOT</version>
         </dependency>
 
         <!-- XML Binding Components -->

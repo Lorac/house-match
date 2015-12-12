@@ -3,7 +3,7 @@
     <parent>
         <artifactId>HouseMatch</artifactId>
         <groupId>ca.ulaval.glo4003</groupId>
-        <version>v0.4</version>
+        <version>0.5-SNAPSHOT</version>
     </parent>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>ca.ulaval.glo4003</groupId>
             <artifactId>housematch-emailer</artifactId>
-            <version>v0.4</version>
+            <version>0.5-SNAPSHOT</version>
         </dependency>
 
         <!-- Encoding/Decoding Components -->
