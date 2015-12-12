@@ -61,4 +61,9 @@ public class PropertyPhoto extends PropertyPhotoObservable {
         return propertyPhoto.hashCode() == this.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return originalFileName;
+    }
+
 }

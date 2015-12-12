@@ -11,8 +11,6 @@ import ca.ulaval.glo4003.housematch.domain.propertyphoto.PropertyPhoto;
 
 public class PropertyStatusObserver implements PropertyObserver {
 
-    private static final String PROPERTY_PUT_UP_FOR_SALE_EVENT_DESCRIPTION = "A new property has been put up for sale: %s.";
-
     private NotificationService notificationService;
     private NotificationFactory notificationFactory;
 
@@ -30,8 +28,8 @@ public class PropertyStatusObserver implements PropertyObserver {
     }
 
     private Notification createPropertyPutUpForSaleNotification(Property property) {
-        String eventDescription = String.format(PROPERTY_PUT_UP_FOR_SALE_EVENT_DESCRIPTION, property.toString());
-        return notificationFactory.createNotification(NotificationType.PROPERTY_PUT_UP_FOR_SALE, eventDescription);
+        String notificationDescription = NotificationType.PROPERTY_PUT_UP_FOR_SALE.formatDescription(property);
+        return notificationFactory.createNotification(NotificationType.PROPERTY_PUT_UP_FOR_SALE, notificationDescription);
     }
 
     @Override

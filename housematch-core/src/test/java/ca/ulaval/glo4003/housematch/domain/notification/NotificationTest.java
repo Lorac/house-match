@@ -24,6 +24,6 @@ public class NotificationTest {
 
     @Test
     public void gettingTheEventDescriptionGetsTheEventDescription() {
-        assertEquals(SAMPLE_EVENT_DESCRIPTION, notification.getEventDescription());
+        assertEquals(SAMPLE_EVENT_DESCRIPTION, notification.getDescription());
     }
 }

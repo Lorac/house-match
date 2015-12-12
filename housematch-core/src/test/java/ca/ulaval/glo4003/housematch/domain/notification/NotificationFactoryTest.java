@@ -22,6 +22,6 @@ public class NotificationFactoryTest {
         Notification notification = notificationFactory.createNotification(SAMPLE_NOTIFICATION_TYPE, SAMPLE_EVENT_DESCRIPTION);
 
         assertEquals(SAMPLE_NOTIFICATION_TYPE, notification.getType());
-        assertEquals(SAMPLE_EVENT_DESCRIPTION, notification.getEventDescription());
+        assertEquals(SAMPLE_EVENT_DESCRIPTION, notification.getDescription());
     }
 }

@@ -26,8 +26,6 @@ import ca.ulaval.glo4003.housematch.utils.StringHasher;
 
 public class User extends UserObservable implements PropertyObserver {
 
-    private static final String FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION = "The details of a property you favorited (%s) have changed.";
-    private static final String PHOTO_REJECTED_EVENT_DESCRIPTION = "The photo '%s' of your property for sale (%s) has been rejected.";
     static final Integer INACTIVITY_TIMEOUT_PERIOD_IN_MONTHS = 6;
 
     private NotificationFactory notificationFactory;
@@ -259,7 +257,7 @@ public class User extends UserObservable implements PropertyObserver {
     public void propertyDetailsChanged(Object sender, PropertyDetails newPropertyDetails) {
         Property property = (Property) sender;
         if (favoriteProperties.contains(property)) {
-            String description = String.format(FAVORITE_PROPERTY_CHANGED_EVENT_DESCRIPTION, property.toString());
+            String description = NotificationType.FAVORITE_PROPERTY_CHANGED.formatDescription(property);
             Notification notification = notificationFactory.createNotification(NotificationType.FAVORITE_PROPERTY_CHANGED, description);
             notify(notification);
         }
@@ -269,7 +267,7 @@ public class User extends UserObservable implements PropertyObserver {
     public void propertyPhotoRejected(Object sender, PropertyPhoto photo) {
         Property property = (Property) sender;
         if (propertiesForSale.contains(property)) {
-            String description = String.format(PHOTO_REJECTED_EVENT_DESCRIPTION, photo.getOriginalFileName(), property.toString());
+            String description = NotificationType.PROPERTY_PHOTO_REJECTED.formatDescription(photo, property);
             Notification notification = notificationFactory.createNotification(NotificationType.PROPERTY_PHOTO_REJECTED, description);
             notify(notification);
         }
