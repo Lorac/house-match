@@ -23,6 +23,8 @@ public class XmlProperty {
     public PropertyType propertyType;
     public Address address;
     public BigDecimal sellingPrice;
+    @XmlElementWrapper(name = "sellingPriceHistory")
+    @XmlElement(name = "historyEntry")
     public List<BigDecimal> sellingPriceHistory = new ArrayList<>();
     public PropertyDetails propertyDetails;
     public Integer viewCount;

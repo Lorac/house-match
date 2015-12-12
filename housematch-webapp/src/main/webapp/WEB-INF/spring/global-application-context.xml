@@ -6,6 +6,8 @@
     <import resource="housematch-servlet/housematch-xml-persistence.xml" />
     <import resource="housematch-servlet/housematch-tasks.xml" />
 
+    <bean id="contextRefreshApplicationListener" class="ca.ulaval.glo4003.housematch.web.ContextRefreshApplicationListener" />
+
     <!-- Email -->
 
     <bean name="emailProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
