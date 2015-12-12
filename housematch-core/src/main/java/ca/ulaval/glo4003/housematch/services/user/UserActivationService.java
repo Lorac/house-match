@@ -12,8 +12,7 @@ import ca.ulaval.glo4003.housematch.email.MailSender;
 
 public class UserActivationService {
 
-    private static final String ACTIVATION_EMAIL_BODY = "Complete your HouseMatch registration by <a href=\"%s\">"
-            + "activating your account</a>.";
+    private static final String ACTIVATION_EMAIL_BODY = "Complete your registration by <a href=\"%s\"> activating your account</a>.";
     private static final String ACTIVATION_EMAIL_SUBJECT = "Activate your account";
 
     private UserRepository userRepository;

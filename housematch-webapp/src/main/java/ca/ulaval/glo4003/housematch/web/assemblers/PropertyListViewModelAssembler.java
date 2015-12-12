@@ -10,7 +10,7 @@ import ca.ulaval.glo4003.housematch.web.viewmodels.PropertyViewModel;
 
 public class PropertyListViewModelAssembler {
 
-    PropertyViewModelAssembler propertyViewModelAssembler;
+    private PropertyViewModelAssembler propertyViewModelAssembler;
 
     public PropertyListViewModelAssembler(final PropertyViewModelAssembler propertyViewModelAssembler) {
         this.propertyViewModelAssembler = propertyViewModelAssembler;
