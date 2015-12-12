@@ -9,19 +9,19 @@
     <div class="form-group">
         <label class="col-sm-9 control-label">Number of Active Buyers:</label>
         <div class="col-sm-3">
-            <p class="control-label">${statisticsViewModel.userStatistics.numberOfActiveBuyers}</p>
+            <p class="control-label">${statisticsViewModel.numberOfActiveBuyers}</p>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-9 control-label">Number of Active Sellers:</label>
         <div class="col-sm-3">
-            <p class="control-label">${statisticsViewModel.userStatistics.numberOfActiveSellers}</p>
+            <p class="control-label">${statisticsViewModel.numberOfActiveSellers}</p>
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-9 control-label">Number of Properties Sold This Year:</label>
         <div class="col-sm-3">
-            <p class="control-label">${statisticsViewModel.propertyStatistics.numberOfSoldPropertiesThisYear}</p>
+            <p class="control-label">${statisticsViewModel.numberOfSoldPropertiesThisYear}</p>
         </div>
     </div>
     <label class="control-label">Number of Properties For Sale:</label>
@@ -29,8 +29,8 @@
         <div class="row">
             <p class="control-label col-sm-12">${propertyType.displayName}:&nbsp;
                 <c:choose>
-                    <c:when test="${not empty statisticsViewModel.propertyStatistics.numberOfPropertiesForSale[propertyType]}">
-                                                      ${statisticsViewModel.propertyStatistics.numberOfPropertiesForSale[propertyType]}
+                    <c:when test="${not empty statisticsViewModel.numberOfPropertiesForSale[propertyType]}">
+                                                      ${statisticsViewModel.numberOfPropertiesForSale[propertyType]}
                                                     </c:when>
                     <c:otherwise>0</c:otherwise>
                 </c:choose>

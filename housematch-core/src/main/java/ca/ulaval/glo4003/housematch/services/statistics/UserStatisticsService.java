@@ -1,29 +1,18 @@
 package ca.ulaval.glo4003.housematch.services.statistics;
 
-import ca.ulaval.glo4003.housematch.domain.statistics.Statistic;
-import ca.ulaval.glo4003.housematch.domain.statistics.StatisticFactory;
 import ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics;
 import ca.ulaval.glo4003.housematch.domain.user.User;
 import ca.ulaval.glo4003.housematch.domain.user.UserRole;
 
 public class UserStatisticsService {
 
-    static final String NUMBER_OF_ACTIVE_BUYERS_STAT_NAME = "NumberOfActiveBuyers";
-    static final String NUMBER_OF_ACTIVE_SELLERS_STAT_NAME = "NumberOfActiveSellers";
-    private static final Integer DEFAULT_VALUE = 0;
+    private UserStatistics userStatistics;
 
-    private Statistic<Integer> numberOfActiveBuyersStat;
-    private Statistic<Integer> numberOfActiveSellersStat;
-
-    public UserStatisticsService(final StatisticFactory statisticFactory) {
-        numberOfActiveBuyersStat = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_BUYERS_STAT_NAME, DEFAULT_VALUE);
-        numberOfActiveSellersStat = statisticFactory.createStatistic(NUMBER_OF_ACTIVE_SELLERS_STAT_NAME, DEFAULT_VALUE);
+    public UserStatisticsService(final UserStatistics userStatistics) {
+        this.userStatistics = userStatistics;
     }
 
     public UserStatistics getStatistics() {
-        UserStatistics userStatistics = new UserStatistics();
-        userStatistics.setNumberOfActiveBuyers(numberOfActiveBuyersStat.getValue());
-        userStatistics.setNumberOfActiveSellers(numberOfActiveSellersStat.getValue());
         return userStatistics;
     }
 
@@ -44,10 +33,10 @@ public class UserStatisticsService {
     }
 
     private synchronized void adjustNumberOfActiveBuyers(Integer value) {
-        numberOfActiveBuyersStat.setValue(numberOfActiveBuyersStat.getValue() + value);
+        userStatistics.setNumberOfActiveBuyers(userStatistics.getNumberOfActiveBuyers() + value);
     }
 
     private synchronized void adjustNumberOfActiveSellers(Integer value) {
-        numberOfActiveSellersStat.setValue(numberOfActiveSellersStat.getValue() + value);
+        userStatistics.setNumberOfActiveSellers(userStatistics.getNumberOfActiveSellers() + value);
     }
 }

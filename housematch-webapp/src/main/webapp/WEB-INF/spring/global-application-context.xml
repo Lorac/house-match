@@ -76,6 +76,16 @@
         <constructor-arg ref="notificationService" />
         <constructor-arg ref="notificationFactory" />
     </bean>
+    
+    <!-- Statistics -->
+    
+    <bean id="propertyStatistics" class="ca.ulaval.glo4003.housematch.domain.statistics.PropertyStatistics">
+        <constructor-arg ref="statisticFactory" />
+    </bean>
+    
+    <bean id="userStatistics" class="ca.ulaval.glo4003.housematch.domain.statistics.UserStatistics">
+        <constructor-arg ref="statisticFactory" />
+    </bean>
 
     <!-- Factories -->
 
@@ -157,11 +167,11 @@
     </bean>
 
     <bean id="userStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.UserStatisticsService">
-        <constructor-arg ref="statisticFactory" />
+        <constructor-arg ref="userStatistics" />
     </bean>
 
     <bean id="propertyStatisticsService" class="ca.ulaval.glo4003.housematch.services.statistics.PropertyStatisticsService">
-        <constructor-arg ref="statisticFactory" />
+        <constructor-arg ref="propertyStatistics" />
     </bean>
 
     <bean id="notificationService" class="ca.ulaval.glo4003.housematch.services.notification.NotificationService">
