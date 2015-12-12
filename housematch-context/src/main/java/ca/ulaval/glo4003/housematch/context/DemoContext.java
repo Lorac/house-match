@@ -44,9 +44,9 @@ public class DemoContext extends ContextBase {
     }
 
     private void fill() throws PropertyAlreadyExistsException, UserAlreadyExistsException {
-        User buyer1 = userFactory.createUser("buyer1", "o.robert@hotmail.com", "1234", UserRole.BUYER);
+        User buyer1 = userFactory.createUser("buyer1", "buyer1@gmail.com", "1234", UserRole.BUYER);
         User buyer2 = userFactory.createUser("buyer2", "buyer2@gmail.com", "1234", UserRole.BUYER);
-        User seller1 = userFactory.createUser("seller1", "o.robert@hotmail.com", "1234", UserRole.SELLER);
+        User seller1 = userFactory.createUser("seller1", "seller1@gmail.com", "1234", UserRole.SELLER);
         User seller2 = userFactory.createUser("seller2", "seller2@gmail.com", "1234", UserRole.SELLER);
         User admin1 = userFactory.createUser("admin1", "admin1@gmail.com", "1234", UserRole.ADMINISTRATOR);
 

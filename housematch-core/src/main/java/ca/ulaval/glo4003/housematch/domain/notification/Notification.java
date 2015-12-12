@@ -7,12 +7,12 @@ import ca.ulaval.glo4003.housematch.utils.DateFormatter;
 public class Notification {
 
     private NotificationType type;
-    private String notificationDescription;
+    private String description;
     private ZonedDateTime creationDate = ZonedDateTime.now();
 
-    public Notification(final NotificationType notificationType, final String notificationDescription) {
+    public Notification(final NotificationType notificationType, final String description) {
         this.type = notificationType;
-        this.notificationDescription = notificationDescription;
+        this.description = description;
     }
 
     public NotificationType getType() {
@@ -20,7 +20,7 @@ public class Notification {
     }
 
     public String getDescription() {
-        return notificationDescription;
+        return description;
     }
 
     public ZonedDateTime getCreationDate() {
@@ -29,6 +29,6 @@ public class Notification {
 
     @Override
     public String toString() {
-        return String.format("%s: %s\r\n", DateFormatter.toShortDateTime(creationDate), notificationDescription);
+        return String.format("%s: %s\r\n", DateFormatter.toShortDateTime(creationDate), description);
     }
 }
