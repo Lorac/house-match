@@ -1,5 +1,5 @@
 # Buy or Sell your house
-[![build status](https://ci.gitlab.com/projects/7180/status.png?ref=master)](https://ci.gitlab.com/projects/7180?ref=master)
+[![Build Status](https://travis-ci.org/Lorac/house-match.svg?branch=master)](https://travis-ci.org/Lorac/house-match)
 Run with 
 ```
 mvn install tomcat7:run
